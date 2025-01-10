@@ -18,6 +18,6 @@ const center: [number, number] = [47.41322, -1.219482];
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>
