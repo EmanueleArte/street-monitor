@@ -132,3 +132,4 @@ dist
 # Other
 .DS_Store
 .idea/
+.package-lock.json
