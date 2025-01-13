@@ -4,6 +4,7 @@
   "email": "john.doe@example.com",
   "password": "securepassword123",
   "username": "johndoe",
+  "reputation": 5,
   "favorite_spots": [
     {
       "label": "Central Park",
