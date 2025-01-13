@@ -18,6 +18,6 @@ router.route('/:id/notifications')
     .post(controller.addNotification)
 
 router.route('/:id/notifications/:nid')
-    // .delete(controller.deleteNotification)
+    .delete(controller.deleteNotification)
 
 export default router

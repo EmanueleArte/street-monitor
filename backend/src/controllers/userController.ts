@@ -65,3 +65,22 @@ export const listNotifications = (req: Request, res: Response) => {
             res.status(500).send(err);
         })
 }
+
+export const deleteNotification = (req: Request, res: Response) => {
+    userModel.findOneAndUpdate(
+        {
+            username: req.params.id,
+            'notifications._id': req.params.nid
+        },
+        { $set: { 'notifications.$.read': true } },
+        { new: true })
+        .then((doc: IUser | null) => {
+            if (!doc) {
+                return res.status(404).send('User not found');
+            }
+            res.json(doc.notifications);
+        })
+        .catch((err: Error) => {
+            res.status(500).send(err);
+        })
+}
