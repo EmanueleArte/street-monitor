@@ -12,6 +12,12 @@ router.route('/')
 router.route('/:id')
     .get(controller.getUserByUsername)
     .put(controller.updateUser)
-    // .delete(controller.deleteMovie)
+
+router.route('/:id/notifications')
+    .post(controller.addNotification)
+
+router.route('/:id/notifications/:nid')
+    // .get(controller.getNotification)
+    // .delete(controller.deleteNotification)
 
 export default router
