@@ -114,3 +114,22 @@ export const listFavoriteSpots = (req: Request, res: Response) => {
             res.status(500).send(err);
         })
 }
+
+export const deleteFavoriteSpot = (req: Request, res: Response) => {
+    userModel.findOneAndUpdate(
+        {
+            username: req.params.id,
+            'favorite_spots._id': req.params.fid
+        },
+        { $pull: { favorite_spots: { _id: req.params.fid } } },
+        { new: true })
+        .then((doc: IUser | null) => {
+            if (!doc) {
+                return res.status(404).send('User not found');
+            }
+            res.json(doc.favorite_spots);
+        })
+        .catch((err: Error) => {
+            res.status(500).send(err);
+        })
+}

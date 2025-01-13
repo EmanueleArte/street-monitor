@@ -22,7 +22,6 @@ router.route('/:id/favorites')
     .post(controller.addFavoriteSpot)
 
 router.route('/:id/favorites/:fid')
-    // .get(controller.getFavoriteSpot)
-    // .delete(controller.deleteFavoriteSpot)
+    .delete(controller.deleteFavoriteSpot)
 
 export default router
