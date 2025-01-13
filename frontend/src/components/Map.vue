@@ -1,23 +1,70 @@
 <script setup lang="ts">
-import "leaflet/dist/leaflet.css";
-import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
+import "leaflet/dist/leaflet.css"
+import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet"
+import { ref, onUnmounted, onBeforeMount } from "vue"
 
-const zoom: number = 2;
-const center: [number, number] = [47.41322, -1.219482];
+const zoom: number = 10
+const center = ref<[number, number]>([44.494887, 11.3426163])
+const watchId = ref<number | null>(null)
+const options = {
+  enableHighAccuracy: true,
+  timeout: 1000,
+  maximumAge: 0
+}
+const map = ref<typeof LMap | null>(null)
+
+const onMapReady = () => {
+  map.value?.leafletObject?.setView(center.value, zoom)
+}
+
+const updatePosition = (position: GeolocationPosition) => {
+  center.value = [position.coords.latitude, position.coords.longitude]
+}
+
+const handleError = (error: GeolocationPositionError) => {
+  console.error("Error getting location: ", error)
+}
+
+const startWatchingPosition = () => {
+  if (navigator.geolocation) {
+    watchId.value = navigator.geolocation.watchPosition(updatePosition, handleError, options)
+  } else {
+    console.error("Geolocation is not supported by this browser.")
+  }
+}
+
+const stopWatchingPosition = () => {
+  if (watchId) {
+    navigator.geolocation.clearWatch(watchId.value as number)
+  }
+}
+
+onBeforeMount(startWatchingPosition)
+onUnmounted(stopWatchingPosition)
 </script>
 
 <template>
-  <div style="height:600px; width:800px">
-    <LMap ref="map" v-model:zoom="zoom" :center="center" :useGlobalLeaflet="false">
+  <div id="map-div">
+    <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false" @ready="onMapReady">
       <LTileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           layer-type="base"
           name="OpenStreetMap"
       ></LTileLayer>
+      <LMarker :lat-lng="center"></LMarker>
     </LMap>
   </div>
 </template>
 
 <style scoped lang="scss">
+@use "../style/vars" as *;
 
+#map-div {
+  width: 100vw;
+  height: 100vh;
+
+  @media screen and (min-width: $min_desktop_width) {
+
+  }
+}
 </style>
