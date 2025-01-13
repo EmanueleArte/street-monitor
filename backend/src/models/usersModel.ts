@@ -1,11 +1,11 @@
-import mongoose from "mongoose"
+import mongoose, { Document, Schema, Model } from "mongoose"
 
 interface IFavoriteSpot {
     label: string
     coordinates: [number, number]
 }
 
-interface IUser extends mongoose.Document {
+export interface IUser extends Document {
     name: string
     surname: string
     email: string
@@ -15,7 +15,7 @@ interface IUser extends mongoose.Document {
     notifications: any[] // Replace with actual notification type if available
 }
 
-const userSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>({
+const userSchema: Schema<IUser> = new Schema<IUser>({
     name: { type: String, required: true },
     surname: { type: String, required: true },
     email: { type: String, required: true },
@@ -32,6 +32,6 @@ const userSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>({
     ]
 })
 
-const userModel: mongoose.Model<IUser> = mongoose.model<IUser>('User', userSchema)
+const userModel: Model<IUser> = mongoose.model<IUser>('User', userSchema)
 
 export default userModel

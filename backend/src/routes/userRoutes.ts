@@ -14,10 +14,10 @@ router.route('/:id')
     .put(controller.updateUser)
 
 router.route('/:id/notifications')
+    .get(controller.listNotifications)
     .post(controller.addNotification)
 
 router.route('/:id/notifications/:nid')
-    // .get(controller.getNotification)
     // .delete(controller.deleteNotification)
 
 export default router
