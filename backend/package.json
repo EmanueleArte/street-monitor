@@ -3,10 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev": "tsx watch .",
     "start": "tsx ."
   },
   "license": "ISC",
   "dependencies": {
+    "express": "^4.21.2",
+    "cors": "^2.8.5",
     "@types/express": "^5.0.0",
     "@types/mongoose": "^5.11.97",
     "@types/cors": "^2.8.17"

@@ -1,0 +1,28 @@
+{
+  "name": "John",
+  "surname": "Doe",
+  "email": "john.doe@example.com",
+  "password": "securepassword123",
+  "username": "johndoe",
+  "favorite_spots": [
+    {
+      "label": "Central Park",
+      "coordinates": [40.785091, -73.968285]
+    },
+    {
+      "label": "Eiffel Tower",
+      "coordinates": [48.858844, 2.294351]
+    }
+  ],
+  "notifications": [
+    {
+      "type": "message",
+      "content": "You have a new message from Jane."
+    },
+    {
+      "type": "reminder",
+      "content": "Don't forget your meeting at 3 PM."
+    }
+  ],
+  "__v": 0
+}

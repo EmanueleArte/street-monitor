@@ -1,20 +1,37 @@
-import mongoose = require('mongoose')
+import mongoose from "mongoose"
 
-const userSchema = new mongoose.Schema({
-    name: String,
-    surname: String,
-    email: String,
-    password: String,
-    username: String,
-    favorite_spots: [{
-        label: String,
-        coordinates: [Number, Number]
-    }],
+interface IFavoriteSpot {
+    label: string
+    coordinates: [number, number]
+}
+
+interface IUser extends mongoose.Document {
+    name: string
+    surname: string
+    email: string
+    password: string
+    username: string
+    favorite_spots: IFavoriteSpot[]
+    notifications: any[] // Replace with actual notification type if available
+}
+
+const userSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>({
+    name: { type: String, required: true },
+    surname: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+    username: { type: String, required: true },
+    favorite_spots: [
+        {
+            label: { type: String, required: true },
+            coordinates: { type: [Number, Number], required: true }
+        }
+    ],
     notifications: [
         // notification schema
     ]
-});
+})
 
-const userModel = mongoose.model('User', userSchema)
+const userModel: mongoose.Model<IUser> = mongoose.model<IUser>('User', userSchema)
 
-module.exports = {userModel}
+export default userModel

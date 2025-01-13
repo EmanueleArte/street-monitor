@@ -1,17 +1,18 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const movieRouter = require('./src/routes/movieRoutes');
-const cors = require('cors');
+import express from 'express'
+import cors from 'cors'
+import mongoose from 'mongoose'
+import { Application } from "express"
+import userRoutes from './src/routes/userRoutes'
 
-mongoose.connect('mongodb://localhost:27017/dbMovies');
+mongoose.connect('mongodb://localhost:27017/dbStreetMonitor')
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use(express.static('public'));
+const app: Application = express()
+app.use(cors())
+    .use(express.json())
+    .use(express.static('public'))
 
-app.use('/movies', movieRouter);
+app.use('/users', userRoutes)
 
 app.listen(3000, () => {
-    console.log('Server listening on port 3000');
-});
+    console.log('Server listening on port 3000')
+})
