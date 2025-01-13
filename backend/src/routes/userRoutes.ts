@@ -6,9 +6,6 @@ const router: express.Router = express.Router()
 router.route('/')
     .post(controller.createUser)
 
-// router.route('/search')
-//     .get(controller.findMoviesByActorAndYearRange)
-
 router.route('/:id')
     .get(controller.getUserByUsername)
     .put(controller.updateUser)
@@ -19,5 +16,13 @@ router.route('/:id/notifications')
 
 router.route('/:id/notifications/:nid')
     .delete(controller.deleteNotification)
+
+router.route('/:id/favorites')
+    .get(controller.listFavoriteSpots)
+    .post(controller.addFavoriteSpot)
+
+router.route('/:id/favorites/:fid')
+    // .get(controller.getFavoriteSpot)
+    // .delete(controller.deleteFavoriteSpot)
 
 export default router
