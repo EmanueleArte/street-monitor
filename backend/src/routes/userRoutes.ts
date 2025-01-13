@@ -11,7 +11,7 @@ router.route('/')
 
 router.route('/:id')
     .get(controller.getUserByUsername)
-    // .put(controller.updateMovie)
+    .put(controller.updateUser)
     // .delete(controller.deleteMovie)
 
 export default router
