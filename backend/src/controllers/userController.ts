@@ -3,7 +3,7 @@ import userModel from '../models/usersModel'
 import { Document } from 'mongoose'
 
 export const getUserByUsername = (req: Request, res: Response) => {
-    const username: string = req.query.username as string
+    const username: string = req.params.id
     userModel.findOne()
         .where('username').equals(username)
         .then((doc: Document | null) => {
