@@ -40,6 +40,19 @@ export const updateUser = (req: Request, res: Response) => {
         })
 }
 
+export const updateUserPassword = (req: Request, res: Response) => {
+    userModel.findOneAndUpdate({ username: req.params.id }, { password: req.body.password }, { new: true })
+        .then((doc: IUser | null) => {
+            if (!doc) {
+                return res.status(404).send('User not found');
+            }
+            res.json(doc);
+        })
+        .catch((err: Error) => {
+            res.status(500).send(err)
+        })
+}
+
 // Notifications
 export const addNotification = (req: Request, res: Response) => {
     userModel.findOneAndUpdate({ username: req.params.id }, { $push: { notifications: req.body } }, { new: true })

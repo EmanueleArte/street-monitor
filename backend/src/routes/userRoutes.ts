@@ -9,6 +9,7 @@ router.route('/')
 router.route('/:id')
     .get(controller.getUserByUsername)
     .put(controller.updateUser)
+    .post(controller.updateUserPassword)
 
 router.route('/:id/notifications')
     .get(controller.listNotifications)
