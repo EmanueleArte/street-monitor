@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import reportTypeModel, { IReportType } from '../models/reportTypeModel'
 
-export const getReportTypeByName = (req: Request, res: Response) => {
+export const getReportTypeById = (req: Request, res: Response) => {
     reportTypeModel.findOne()
-        .where('name').equals(req.params.name)
+        .where('_id').equals(req.params.id)
         .then((doc: IReportType | null) => {
             if (!doc) {
                 return res.status(404).send('Report type not found');
