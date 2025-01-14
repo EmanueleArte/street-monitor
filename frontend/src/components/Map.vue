@@ -3,7 +3,10 @@ import "leaflet/dist/leaflet.css"
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
 
-const zoom: number = 15
+const props = defineProps<{
+  zoom: number,
+}>()
+
 const center = ref<[number, number]>([44.494887, 11.3426163])
 const watchId = ref<number | null>(null)
 const options = {
@@ -14,7 +17,7 @@ const options = {
 const map = ref<typeof LMap | null>(null)
 
 const onMapReady = () => {
-  map.value?.leafletObject?.setView(center.value, zoom)
+  map.value?.leafletObject?.setView(center.value, props.zoom)
 }
 
 const updatePosition = (position: GeolocationPosition) => {
