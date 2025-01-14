@@ -1,0 +1,14 @@
+[
+    {
+        "name": "new_report_spot",
+        "description": "new report near a spot of the user"
+    },
+    {
+        "name": "new_report_gps",
+        "description": "new report near the current gps position of the user"
+    },
+    {
+        "name": "report_update",
+        "description": "a user's report changed state"
+    }
+]
