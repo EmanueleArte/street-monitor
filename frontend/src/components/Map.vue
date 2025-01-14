@@ -65,8 +65,8 @@ onUnmounted(stopWatchingPosition)
           layer-type="base"
           name="OpenStreetMap"
       ></LTileLayer>
-      <LMarker :lat-lng="position" />
-      <NearMapReportManager :lat="center[0]" :lng="center[1]" />
+      <LMarker :lat-lng="position"/>
+      <NearMapReportManager :lat="center[0]" :lng="center[1]"/>
     </LMap>
   </div>
 </template>
