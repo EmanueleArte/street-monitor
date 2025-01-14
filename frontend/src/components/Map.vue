@@ -2,9 +2,10 @@
 import "leaflet/dist/leaflet.css"
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
+import NearMapReportManager from '@/components/NearMapReportManager.vue'
 
 const props = defineProps<{
-  zoom: number,
+  zoom: number
 }>()
 
 const centerToPosition = ref<boolean>(true)
@@ -64,7 +65,8 @@ onUnmounted(stopWatchingPosition)
           layer-type="base"
           name="OpenStreetMap"
       ></LTileLayer>
-      <LMarker :lat-lng="position"></LMarker>
+      <LMarker :lat-lng="position" />
+      <NearMapReportManager :lat="center[0]" :lng="center[1]" />
     </LMap>
   </div>
 </template>
