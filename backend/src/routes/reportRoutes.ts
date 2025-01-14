@@ -7,9 +7,12 @@ router.route('/')
     .get(controller.listReports)
 
 router.route('/byType/:type')
-    .get(controller.getReportByType)
+    .get(controller.getReportsByType)
 
 router.route('/byUser/:user')
-    .get(controller.getReportByUser)
+    .get(controller.getReportsByUser)
+
+router.route('/byCoordinates/:latitude&:longitude&:radius')
+    .get(controller.getReportsByCoordinates)
 
 export default router

@@ -5,7 +5,7 @@ import userModel from "./userModel"
 export interface IReport extends Document {
     type: string,
     user: string,
-    coordinates: [Number, Number],
+    coordinates: [number, number],
     open_datetime: Date,
     close_datetime: Date,
     description: string//,
