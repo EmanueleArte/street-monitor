@@ -7,7 +7,7 @@
 }
 {
     "type": "Broken streetlight",
-    "user": "johnedoe",
+    "user": "johndoe",
     "coordinates": [34.052235, -118.243683],
     "open_datetime": "2023-10-02T15:30:00Z",
     "description": "The streetlight on Elm Street near the park is not working."

@@ -25,3 +25,14 @@ export const getReportByType = (req: Request, res: Response) => {
             res.status(500).send(err)
         })
 }
+
+export const getReportByUser = (req: Request, res: Response) => {
+    reportModel.find()
+        .where('user').equals(req.params.user)
+        .then((docs: IReport[]) => {
+            res.json(docs)
+        })
+        .catch((err: Error) => {
+            res.status(500).send(err)
+        })
+}
