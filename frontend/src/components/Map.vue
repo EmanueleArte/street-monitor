@@ -7,7 +7,9 @@ const props = defineProps<{
   zoom: number,
 }>()
 
+const centerToPosition = ref<boolean>(true)
 const center = ref<[number, number]>([44.494887, 11.3426163])
+const position = ref<[number, number]>(center.value)
 const watchId = ref<number | null>(null)
 const options = {
   enableHighAccuracy: true,
@@ -16,12 +18,19 @@ const options = {
 }
 const map = ref<typeof LMap | null>(null)
 
-const onMapReady = () => {
+const setMapCenter = () => {
   map.value?.leafletObject?.setView(center.value, props.zoom)
 }
 
-const updatePosition = (position: GeolocationPosition) => {
-  center.value = [position.coords.latitude, position.coords.longitude]
+const onMapReady = () => {
+  setMapCenter()
+}
+
+const updatePosition = (gps: GeolocationPosition) => {
+  position.value = [gps.coords.latitude, gps.coords.longitude]
+  if (centerToPosition) {
+    center.value = position.value
+  }
 }
 
 const handleError = (error: GeolocationPositionError) => {
@@ -55,7 +64,7 @@ onUnmounted(stopWatchingPosition)
           layer-type="base"
           name="OpenStreetMap"
       ></LTileLayer>
-      <LMarker :lat-lng="center"></LMarker>
+      <LMarker :lat-lng="position"></LMarker>
     </LMap>
   </div>
 </template>
