@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import axios from "axios"
 import { onMounted, ref } from "vue"
 import MovieMiniCard from "@/components/MovieMiniCard.vue"
 import replaceByDefault from "@/lib/replaceByDefault"
 import { NOT_FOUND_IMAGE } from "@/lib/replaceByDefault"
-import Map from "@/components/Map.vue";
+import Map from "@/components/Map.vue"
 
 const movie = ref({})
 
@@ -29,7 +29,3 @@ onMounted(getLastMovie)
     <Map />
   </div>
 </template>
-
-<style>
-
-</style>

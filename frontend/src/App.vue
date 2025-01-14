@@ -1,8 +1,5 @@
-<script setup>
+<script setup lang="ts">
 import NavBar from "@/components/NavBar.vue"
-import HomePage from "@/pages/HomePage.vue"
-import MoviesPage from "@/pages/MoviesPage.vue"
-import NotFoundPage from "@/pages/NotFound.vue"
 import { ref } from "vue"
 import { RouterView } from "vue-router"
 
@@ -14,9 +11,12 @@ const changePage = (newPage) => {
 </script>
 
 <template>
-    <NavBar @selected-page="changePage"></NavBar>
-<!--    <HomePage v-if="page === 'Home'" />-->
-<!--    <MoviesPage v-else-if="page === 'Movies'" />-->
-<!--    <NotFoundPage v-else />-->
+<!--    <NavBar @selected-page="changePage"></NavBar>-->
     <RouterView />
 </template>
+
+<style lang="scss">
+body {
+  margin: 0;
+}
+</style>
