@@ -11,7 +11,8 @@ for file in /docker-entrypoint-initdb.d/db/*.json
 do
     collection=${file##*_}
     collection=${collection%.*}
-    mongoimport --host localhost --db $DB_NAME --collection $collection --file $file
+    echo "Importing file $file in collection $collection"
+    mongoimport --host 127.0.0.1 --db $DB_NAME --collection $collection --file $file
 done
 
 echo "Imported data in $DB_NAME"
