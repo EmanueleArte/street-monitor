@@ -3,6 +3,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import { Application } from "express"
 import userRoutes from './src/routes/userRoutes'
+import notificationTypeRoutes from './src/routes/notificationTypeRoutes'
 
 mongoose.connect('mongodb://localhost:27017/dbStreetMonitor')
 
@@ -12,6 +13,7 @@ app.use(cors())
     .use(express.static('public'))
 
 app.use('/users', userRoutes)
+app.use('/notifications/types', notificationTypeRoutes)
 
 app.listen(3000, () => {
     console.log('Server listening on port 3000')
