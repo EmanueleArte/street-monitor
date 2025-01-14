@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css"
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
 
-const zoom: number = 10
+const zoom: number = 15
 const center = ref<[number, number]>([44.494887, 11.3426163])
 const watchId = ref<number | null>(null)
 const options = {
@@ -45,7 +45,8 @@ onUnmounted(stopWatchingPosition)
 
 <template>
   <div id="map-div">
-    <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false" @ready="onMapReady">
+    <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
+          :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady">
       <LTileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           layer-type="base"
