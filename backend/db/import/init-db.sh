@@ -5,11 +5,6 @@
 
 DB_NAME="dbStreetMonitor"
 
-until mongo --quiet --eval "db.runCommand({ ping: 1 })" > /dev/null 2>&1; do
-    echo "MongoDB non è pronto, attendo..."
-    sleep 2
-done
-
 echo "Importing databases"
 
 for file in /docker-entrypoint-initdb.d/db/*.json
@@ -17,7 +12,7 @@ do
     collection=${file##*_}
     collection=${collection%.*}
     echo "Importing file $file in collection $collection"
-    mongoimport --host 127.0.0.1 --db $DB_NAME --collection $collection --file $file
+    mongoimport --host 127.0.0.1 --db $DB_NAME --collection $collection --file $file --jsonArray
 done
 
 echo "Imported data in $DB_NAME"

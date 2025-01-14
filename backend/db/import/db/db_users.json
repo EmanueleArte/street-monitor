@@ -1,4 +1,4 @@
-{
+[{
   "name": "John",
   "surname": "Doe",
   "email": "john.doe@example.com",
@@ -25,4 +25,4 @@
     }
   ],
   "__v": 0
-}
+}]
