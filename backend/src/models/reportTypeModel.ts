@@ -12,7 +12,7 @@ const reportTypeSchema: Schema<IReportType> = new Schema<IReportType>({
     name: { type: String, required: true },
     icon: { type: String, required: false },
     icon_address: { type: String, required: false }
-})
+}, { collection: 'reportTypes' })
 
 const reportTypeModel: Model<IReportType> = mongoose.model<IReportType>('ReportType', reportTypeSchema)
 

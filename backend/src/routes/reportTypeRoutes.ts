@@ -3,7 +3,10 @@ import * as controller from '../controllers/reportTypeController'
 
 const router: express.Router = express.Router()
 
-router.route('/:id')
-    .get(controller.getReportTypeById)
+router.route('/')
+    .get(controller.listReportTypes)
+
+router.route('/:name')
+    .get(controller.getReportTypeByName)
 
 export default router
