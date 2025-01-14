@@ -1,7 +1,9 @@
-import mongoose, { Document, Schema, Model } from "mongoose"
+import mongoose, { Document, Schema, Model, ObjectId } from "mongoose"
+import reportTypeModel from "./reportTypeModel"
+import userModel from "./userModel"
 
 export interface IReport extends Document {
-    type: Object, //TODO
+    type: ObjectId,
     user: string,
     open_datetime: Date,
     close_datetime: Date,
@@ -10,8 +12,8 @@ export interface IReport extends Document {
 }
 
 const reportSchema: Schema<IReport> = new Schema<IReport>({
-    type: { type: Object, required: true },
-    user: { type: String, required: true },
+    type: { type: mongoose.Schema.Types.ObjectId, ref: 'ReportType', required: true },
+    user: { type: String, ref: 'User', required: true },
     open_datetime: { type: Date, required: true },
     close_datetime: { type: Date, required: false },
     description: { type: String, required: false }//,
