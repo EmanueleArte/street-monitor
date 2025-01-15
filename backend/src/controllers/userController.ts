@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import userModel, { IUser } from '@/models/userModel'
+import userModel, { IUser } from '../models/userModel'
 
 // Users
 export const getUserByUsername = (req: Request, res: Response) => {

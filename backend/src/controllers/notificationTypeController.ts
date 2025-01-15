@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import notificationTypeModel from "@/models/notificationTypeModel"
+import notificationTypeModel from "../models/notificationTypeModel"
 
 export const getNotificationTypes = (req: Request, res: Response) => {
     notificationTypeModel.find()
