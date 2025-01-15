@@ -12,8 +12,8 @@ export interface IUser extends Document {
     password: string
     username: string
     reputation: number
-    favorite_spots: Array<IFavoriteSpot>
-    notifications: Array<never> // TODO: Replace with actual notification type if available
+    favorite_spots: IFavoriteSpot[]
+    notifications: never[] // TODO: Replace with actual notification type if available
 }
 
 const userSchema: Schema<IUser> = new Schema<IUser>({
