@@ -11,7 +11,7 @@ const props = defineProps<{
 const centerToPosition = ref<boolean>(true)
 const center = ref<[number, number]>([44.494887, 11.3426163])
 const position = ref<[number, number]>(center.value)
-const radius = ref<number>(500)
+const radius = ref<number>(1)
 const watchId = ref<number | null>(null)
 const options = {
   enableHighAccuracy: true,
