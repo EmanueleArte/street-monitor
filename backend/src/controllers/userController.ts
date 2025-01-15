@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import userModel, { IUser } from '@/models/userModel'
-import favoriteSpotModel from '@/models/favoriteSpotModel';
-import notificationModel, { INotification } from '@/models/notificationModel';
+import userModel, { IUser } from '../models/userModel'
+import favoriteSpotModel from '../models/favoriteSpotModel';
+import notificationModel, { INotification } from '../models/notificationModel';
 
 // Users
 export const getUserByUsername = (req: Request, res: Response) => {
