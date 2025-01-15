@@ -1,21 +1,40 @@
 {
     "type": "Road pothole",
     "user": "johndoe",
-    "coordinates": [40.712776, -74.005974],
-    "open_datetime": "2023-10-01T12:00:00Z",
-    "description": "There is a large pothole on Main Street near the intersection with 2nd Avenue."
+    "coordinates": [44.41349736392319, 12.185559354433297],
+    "open_datetime": "2024-12-21T12:00:00Z",
+    "description": "There is a large pothole."
 }
 {
     "type": "Broken streetlight",
-    "user": "johndoe",
-    "coordinates": [34.052235, -118.243683],
-    "open_datetime": "2023-10-02T15:30:00Z",
-    "description": "The streetlight on Elm Street near the park is not working."
+    "user": "mariorossi",
+    "coordinates": [44.41864209505457, 12.14230249607438],
+    "open_datetime": "2025-01-02T15:30:00Z",
+    "description": "The streetlight near the park is not working."
 }
 {
     "type": "Broken streetlight",
-    "user": "johndoe",
-    "coordinates": [42.4829142, -61.048572],
-    "open_datetime": "2023-10-03T12:01:40.000Z",
+    "user": "mariorossi",
+    "coordinates": [44.426641011091725, 12.21466157595225],
+    "open_datetime": "2024-12-05T12:01:40.00Z",
     "description": "Streetlight not working!"
+}
+{
+    "type": "Ruined asphalt",
+    "user": "johndoe",
+    "coordinates": [44.37032021306061, 12.194437694232056],
+    "open_datetime": "2025-01-02T12:21:42.00Z",
+    "description": "The asphalt is really ruined."
+}
+{
+    "type": "Damaged road barrier",
+    "user": "johndoe",
+    "coordinates": [44.376282169847826, 12.206674783895958],
+    "open_datetime": "2025-01-03T12:01:40.00Z"
+}
+{
+    "type": "Ruined asphalt",
+    "user": "mariorossi",
+    "coordinates": [44.40043330387075, 12.172111898677823],
+    "open_datetime": "2025-01-14T12:14:31.00Z"
 }
