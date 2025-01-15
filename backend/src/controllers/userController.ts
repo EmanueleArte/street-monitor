@@ -1,7 +1,11 @@
 import { Request, Response } from 'express'
+<<<<<<< HEAD
 import userModel, { IUser } from '../models/userModel'
 import favoriteSpotModel from '../models/favoriteSpotModel';
 import notificationModel, { INotification } from '../models/notificationModel';
+=======
+import userModel, { IUser } from '@/models/userModel'
+>>>>>>> b2687f22efb0cbd01a4b1ec18fe53b51be206766
 
 // Users
 export const getUserByUsername = (req: Request, res: Response) => {

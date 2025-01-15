@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
-import reportTypeModel, { IReportType } from '../models/reportTypeModel'
-import { Types } from 'mongoose';
+import reportTypeModel, { IReportType } from '@/models/reportTypeModel'
 
 export const listReportTypes = (req: Request, res: Response) => {
     reportTypeModel.find()
