@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { LIcon, LMarker } from '@vue-leaflet/vue-leaflet'
+import { ref } from "vue"
+import { LIcon, LMarker } from "@vue-leaflet/vue-leaflet"
+import type { IReport } from '@models/reportModel.ts'
 
 const props = defineProps<{
-  report: any
+  report: IReport
 }>()
 
 const iconSize: number = 64

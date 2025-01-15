@@ -5,7 +5,7 @@ export const listReports = (req: Request, res: Response) => {
     reportModel.find()
         .then((docs: IReport[]) => {
             if (!docs || docs.length === 0) {
-                return res.status(404).send('No reports found');
+                return res.status(404).send('No reports found')
             }
             res.json(docs)
         })
@@ -26,12 +26,12 @@ export const createReport = (req: Request, res: Response) => {
 }
 
 export const updateReport = (req: Request, res: Response) => {
-    reportModel.findOneAndUpdate({ _id: req.params.id }, req.body, {new: true})
+    reportModel.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
         .then((doc: IReport | null) => {
             if (!doc) {
-                return res.status(404).send('Report not found');
+                return res.status(404).send('Report not found')
             }
-            res.json(doc);
+            res.json(doc)
         })
         .catch((err: Error) => {
             res.status(500).send(err)
@@ -42,7 +42,7 @@ export const getReportById = (req: Request, res: Response) => {
     reportModel.findById(req.params.id)
         .then((doc: IReport | null) => {
             if (!doc) {
-                return res.status(404).send('Report not found');
+                return res.status(404).send('Report not found')
             }
             res.json(doc)
         })
@@ -56,7 +56,7 @@ export const getReportsByType = (req: Request, res: Response) => {
         .where('type').equals(req.params.type)
         .then((docs: IReport[]) => {
             if (!docs || docs.length === 0) {
-                return res.status(404).send('No reports found');
+                return res.status(404).send('No reports found')
             }
             res.json(docs)
         })
@@ -70,7 +70,7 @@ export const getReportsByUser = (req: Request, res: Response) => {
         .where('user').equals(req.params.user)
         .then((docs: IReport[]) => {
             if (!docs || docs.length === 0) {
-                return res.status(404).send('No reports found');
+                return res.status(404).send('No reports found')
             }
             res.json(docs)
         })
@@ -80,19 +80,23 @@ export const getReportsByUser = (req: Request, res: Response) => {
 }
 
 export const getReportsByCoordinates = (req: Request, res: Response) => {
+    const latitude = parseFloat(req.params.latitude)
+    const longitude = parseFloat(req.params.longitude)
+    const radius = parseFloat(req.params.radius)
+
     reportModel.find()
+        .where({
+            coordinates: {
+                $geoWithin: {
+                    $centerSphere: [[latitude, longitude], radius],
+                }
+            }
+        })
         .then((docs: IReport[]) => {
             if (!docs || docs.length === 0) {
-                return res.status(404).send('No reports found');
+                return res.status(404).send('No reports found')
             }
-            const docsToReturn: any = []
-            docs.forEach(r => {
-                if (Math.abs(r.coordinates[0] - parseFloat(req.params.latitude)) <= parseFloat(req.params.radius)
-                    && Math.abs(r.coordinates[1] - parseFloat(req.params.longitude)) <= parseFloat(req.params.radius)) {
-                    docsToReturn.push(r)
-                }
-            })
-            res.json(docsToReturn)
+            res.json(docs)
         })
         .catch((err: Error) => {
             res.status(500).send(err)

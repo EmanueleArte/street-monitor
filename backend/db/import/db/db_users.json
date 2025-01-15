@@ -27,3 +27,19 @@
   ],
   "__v": 0
 }
+{
+  "name": "Mario",
+  "surname": "Rossi",
+  "email": "mario.rossi@example.com",
+  "password": "securepassword123",
+  "username": "mariorossi",
+  "reputation": 2,
+  "favorite_spots": [
+    {
+      "label": "Unibo via Zamboni",
+      "coordinates": [44.49687025253408, 11.352399777523498]
+    }
+  ],
+  "notifications": [],
+  "__v": 0
+}
