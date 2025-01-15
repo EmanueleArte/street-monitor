@@ -13,21 +13,25 @@ const props = defineProps<{
 const reports = ref<IReport[]>([])
 
 const getNearReports = async () => {
-  try {
-    // 500m lat = 0.00449
-    // 500m lng = 0.00635
-    reports.value = (await axios.get(
-        `http://localhost:3000/reports/by-coordinates/${props.lat}&${props.lng}&${props.radius}`)
-    ).data
-  } catch (e) {
-    console.error(e)
-  }
+  // try {
+  //   const response = await axios.get<IReport[]>(
+  //       `http://localhost:3000/reports/by-coordinates/${props.lat}&${props.lng}&${props.radius}`
+  //   )
+  //   reports.value = response.data
+  //   console.log(reports.value)
+  // } catch (e) {
+  //   console.error(e)
+  // }
+  axios.get<IReport[]>(`http://localhost:3000/reports/by-coordinates/${props.lat}&${props.lng}&${props.radius}`)
+      .then((res) => reports.value = res.data)
+      .catch((e) => console.error(e))
 }
+
 onMounted(getNearReports)
 </script>
 
 <template>
-  <ReportPin v-for="report in reports" :key="report.id" :report="report"/>
+  <ReportPin v-for="report in reports.values()" :report="report"/>
 </template>
 
 <style scoped lang="scss">
