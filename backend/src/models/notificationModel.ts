@@ -1,0 +1,25 @@
+import mongoose, { Document, Schema, Model } from "mongoose"
+import { INotificationType, notificationTypeSchema } from "./notificationTypeModel"
+import { favoriteSpotSchema, IFavoriteSpot } from "./favoriteSpotModel"
+
+export interface INotification extends Document {
+    content: String,
+    type: INotificationType,
+    send_datetime: Date,
+    report: any, // TODO: complete with the report type, once is created
+    favorite_spot: IFavoriteSpot,
+    read: Boolean
+}
+
+export const notificationSchema: Schema<INotification> = new Schema<INotification>({
+    content: { type: String, required: true },
+    type: { type: notificationTypeSchema, required: true},
+    send_datetime: { type: Date, required: true },
+    report: { type: mongoose.Schema.ObjectId, ref: 'Report', required: false },
+    favorite_spot: { type: favoriteSpotSchema, required: false },
+    read: { type: Boolean, required: false }
+})
+
+const notificationModel: Model<INotification> = mongoose.model<INotification>('Notification', notificationSchema)
+
+export default notificationModel
