@@ -5,7 +5,7 @@ export const listReports = (req: Request, res: Response) => {
     reportModel.find()
         .then((docs: IReport[]) => {
             if (!docs || docs.length === 0) {
-                return res.status(404).send('No reports found');
+                return res.status(404).send('No reports found')
             }
             res.json(docs)
         })
@@ -29,9 +29,9 @@ export const updateReport = (req: Request, res: Response) => {
     reportModel.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
         .then((doc: IReport | null) => {
             if (!doc) {
-                return res.status(404).send('Report not found');
+                return res.status(404).send('Report not found')
             }
-            res.json(doc);
+            res.json(doc)
         })
         .catch((err: Error) => {
             res.status(500).send(err)
@@ -42,7 +42,7 @@ export const getReportById = (req: Request, res: Response) => {
     reportModel.findById(req.params.id)
         .then((doc: IReport | null) => {
             if (!doc) {
-                return res.status(404).send('Report not found');
+                return res.status(404).send('Report not found')
             }
             res.json(doc)
         })
@@ -56,7 +56,7 @@ export const getReportsByType = (req: Request, res: Response) => {
         .where('type').equals(req.params.type)
         .then((docs: IReport[]) => {
             if (!docs || docs.length === 0) {
-                return res.status(404).send('No reports found');
+                return res.status(404).send('No reports found')
             }
             res.json(docs)
         })
@@ -70,7 +70,7 @@ export const getReportsByUser = (req: Request, res: Response) => {
         .where('user').equals(req.params.user)
         .then((docs: IReport[]) => {
             if (!docs || docs.length === 0) {
-                return res.status(404).send('No reports found');
+                return res.status(404).send('No reports found')
             }
             res.json(docs)
         })

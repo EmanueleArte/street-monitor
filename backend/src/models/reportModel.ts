@@ -1,6 +1,6 @@
-import mongoose, { Document, Schema, Model } from "mongoose"
-import type { IReportType } from "@/models/reportTypeModel"
-import type { IUser } from "@/models/userModel"
+import mongoose, { Document, Schema, Model } from 'mongoose'
+import type { IReportType } from '@/models/reportTypeModel'
+import type { IUser } from '@/models/userModel'
 
 export interface IReport extends Document {
     type: IReportType,

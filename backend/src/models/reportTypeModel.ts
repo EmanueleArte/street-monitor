@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Model, ObjectId } from "mongoose"
+import mongoose, { Document, Schema, Model, ObjectId } from 'mongoose'
 
 export interface IReportType extends Document {
     //_id: ObjectId,

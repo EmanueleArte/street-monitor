@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Model } from "mongoose"
+import mongoose, { Document, Schema, Model } from 'mongoose'
 
 export interface INotificationType extends Document {
     name: String,
