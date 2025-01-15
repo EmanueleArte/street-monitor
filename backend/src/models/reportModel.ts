@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Model, ObjectId } from "mongoose"
-import reportTypeModel from "./reportTypeModel"
-import userModel from "./userModel"
+import reportTypeModel from "@/models/reportTypeModel"
+import userModel from "@/models/userModel"
 
 export interface IReport extends Document {
     type: string,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from "axios"
 import { onMounted, ref } from "vue"
-import Map from "../components/Map.vue"
+import Map from "@/components/Map.vue"
 
 </script>
 
