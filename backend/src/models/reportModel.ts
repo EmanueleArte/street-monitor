@@ -1,10 +1,10 @@
-import mongoose, { Document, Schema, Model, ObjectId } from "mongoose"
-import reportTypeModel from "@/models/reportTypeModel"
-import userModel from "@/models/userModel"
+import mongoose, { Document, Schema, Model } from "mongoose"
+import { IReportType } from "@/models/reportTypeModel"
+import { IUser } from "@/models/userModel"
 
 export interface IReport extends Document {
-    type: string,
-    user: string,
+    type: IReportType,
+    user: IUser,
     coordinates: [number, number],
     open_datetime: Date,
     close_datetime: Date,
