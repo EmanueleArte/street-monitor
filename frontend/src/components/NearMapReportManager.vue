@@ -13,15 +13,6 @@ const props = defineProps<{
 const reports = ref<IReport[]>([])
 
 const getNearReports = async () => {
-  // try {
-  //   const response = await axios.get<IReport[]>(
-  //       `http://localhost:3000/reports/by-coordinates/${props.lat}&${props.lng}&${props.radius}`
-  //   )
-  //   reports.value = response.data
-  //   console.log(reports.value)
-  // } catch (e) {
-  //   console.error(e)
-  // }
   axios.get<IReport[]>(`http://localhost:3000/reports/by-coordinates/${props.lat}&${props.lng}&${props.radius}`)
       .then((res) => reports.value = res.data)
       .catch((e) => console.error(e))
