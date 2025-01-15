@@ -1,12 +1,13 @@
 import mongoose, { Document, Schema, Model } from "mongoose"
 import { INotificationType, notificationTypeSchema } from "./notificationTypeModel"
 import { favoriteSpotSchema, IFavoriteSpot } from "./favoriteSpotModel"
+import { IReport } from "./reportModel"
 
 export interface INotification extends Document {
     content: String,
     type: INotificationType,
     send_datetime: Date,
-    report: any, // TODO: complete with the report type, once is created
+    report: IReport,
     favorite_spot: IFavoriteSpot,
     read: Boolean
 }
