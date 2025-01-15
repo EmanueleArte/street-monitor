@@ -7,17 +7,17 @@ router.route('/')
     .get(controller.listReports)
     .post(controller.createReport)
 
-router.route('/byId/:id')
+router.route('/by-id/:id')
     .get(controller.getReportById)
-    .post(controller.updateReport)
+    .put(controller.updateReport)
 
-router.route('/byType/:type')
+router.route('/by-type/:type')
     .get(controller.getReportsByType)
 
-router.route('/byUser/:user')
+router.route('/by-user/:user')
     .get(controller.getReportsByUser)
 
-router.route('/byCoordinates/:latitude&:longitude&:radius')
+router.route('/by-coordinates/:latitude&:longitude&:radius')
     .get(controller.getReportsByCoordinates)
 
 export default router

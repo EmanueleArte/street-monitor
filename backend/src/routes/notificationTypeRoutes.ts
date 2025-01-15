@@ -8,3 +8,5 @@ router.route('/')
 
 router.route('/:name')
     .get(controller.getNotificationTypeByName)
+
+export default router
