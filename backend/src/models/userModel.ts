@@ -1,6 +1,6 @@
-import mongoose, { Document, Schema, Model } from "mongoose"
-import { IFavoriteSpot, favoriteSpotSchema } from "./favoriteSpotModel"
-import { INotification, notificationSchema } from "./notificationModel"
+import mongoose, { Document, Schema, Model } from 'mongoose'
+import { IFavoriteSpot, favoriteSpotSchema } from './favoriteSpotModel'
+import { INotification, notificationSchema } from './notificationModel'
 
 export interface IUser extends Document {
     name: string
