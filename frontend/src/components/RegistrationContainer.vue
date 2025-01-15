@@ -12,6 +12,15 @@ const form = reactive({
     passwordCheck: ""
 })
 
+const errors = reactive({
+    name: "",
+    surname: "",
+    username: "",
+    email: "",
+    password: "",
+    passwordCheck: ""
+})
+
 const signup = () => {
     // perform checks
     // ...
@@ -38,25 +47,34 @@ const signup = () => {
 
 <template>
   <div class="registrationContainer">
+    <span>StreetMonitor</span>
+    <h1>SignUp</h1>
+    <p>Create an account to continue</p>
+
     <form @submit.prevent="signup">
         <fieldset>
             <legend>Personal information</legend>
             
-            <FormInput v-model="form.name" field-name="name" label="Name" />
-            <FormInput v-model="form.surname" field-name="surname" label="Surname" />
+            <FormInput v-model="form.name" field-name="name" label="name" :error="errors.name" />
+            <FormInput v-model="form.surname" field-name="surname" label="surname" />
         </fieldset>
 
 
         <fieldset>
             <legend>Account information</legend>
 
-            <FormInput v-model="form.username" field-name="username" label="Username" />
-            <FormInput v-model="form.email" type="email" field-name="email" label="Email"/>
-            <FormInput v-model="form.password" type="password" field-name="password" label="Password"/>
-            <FormInput v-model="form.passwordCheck" type="password" field-name="password-check" label="Insert password again"/>
+            <FormInput v-model="form.username" field-name="username" label="username" />
+            <FormInput v-model="form.email" type="email" field-name="email" label="email"/>
+            <FormInput v-model="form.password" type="password" field-name="password" label="password"/>
+            <FormInput v-model="form.passwordCheck" type="password" field-name="password-check" label="confirm password" placeholder="Insert password again"/>
         </fieldset>
         
         <input type="submit" value="Register">
     </form>
+
+    <div>
+        Already registerd?
+        <a href="http://localhost:5173/signin">Sign in now</a>
+    </div>
   </div>
 </template>
