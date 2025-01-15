@@ -2,9 +2,15 @@
 import "leaflet/dist/leaflet.css"
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
+import NearMapReportManager from '@/components/NearMapReportManager.vue'
 
-const zoom: number = 10
+const props = defineProps<{
+  zoom: number
+}>()
+
+const centerToPosition = ref<boolean>(true)
 const center = ref<[number, number]>([44.494887, 11.3426163])
+const position = ref<[number, number]>(center.value)
 const watchId = ref<number | null>(null)
 const options = {
   enableHighAccuracy: true,
@@ -13,12 +19,19 @@ const options = {
 }
 const map = ref<typeof LMap | null>(null)
 
-const onMapReady = () => {
-  map.value?.leafletObject?.setView(center.value, zoom)
+const setMapCenter = () => {
+  map.value?.leafletObject?.setView(center.value, props.zoom)
 }
 
-const updatePosition = (position: GeolocationPosition) => {
-  center.value = [position.coords.latitude, position.coords.longitude]
+const onMapReady = () => {
+  setMapCenter()
+}
+
+const updatePosition = (gps: GeolocationPosition) => {
+  position.value = [gps.coords.latitude, gps.coords.longitude]
+  if (centerToPosition) {
+    center.value = position.value
+  }
 }
 
 const handleError = (error: GeolocationPositionError) => {
@@ -45,13 +58,15 @@ onUnmounted(stopWatchingPosition)
 
 <template>
   <div id="map-div">
-    <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false" @ready="onMapReady">
+    <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
+          :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady">
       <LTileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           layer-type="base"
           name="OpenStreetMap"
       ></LTileLayer>
-      <LMarker :lat-lng="center"></LMarker>
+      <LMarker :lat-lng="position"/>
+      <NearMapReportManager :lat="center[0]" :lng="center[1]"/>
     </LMap>
   </div>
 </template>
