@@ -26,7 +26,7 @@ export const createReport = (req: Request, res: Response) => {
 }
 
 export const updateReport = (req: Request, res: Response) => {
-    reportModel.findOneAndUpdate({ _id: req.params.id }, req.body, {new: true})
+    reportModel.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
         .then((doc: IReport | null) => {
             if (!doc) {
                 return res.status(404).send('Report not found');
@@ -80,38 +80,23 @@ export const getReportsByUser = (req: Request, res: Response) => {
 }
 
 export const getReportsByCoordinates = (req: Request, res: Response) => {
-    /*const latitude = parseFloat(req.params.latitude);
-    const longitude = parseFloat(req.params.longitude);
-    const radius = parseFloat(req.params.radius);
+    const latitude = parseFloat(req.params.latitude)
+    const longitude = parseFloat(req.params.longitude)
+    const radius = parseFloat(req.params.radius)
 
-    console.log('Latitude:', latitude);
-    console.log('Longitude:', longitude);
-    console.log('Radius:', radius);
-
-    if (isNaN(latitude) || isNaN(longitude) || isNaN(radius)) {
-        return res.status(400).send('Invalid coordinates or radius');
-    }*/
-
-    reportModel.find(/*{
-        coordinates: {
-            $geoWithin: {
-                $centerSphere: [[longitude, latitude], radius / 6378.1] // radius in radians (radius in km / Earth's radius in km)
+    reportModel.find()
+        .where({
+            coordinates: {
+                $geoWithin: {
+                    $centerSphere: [[latitude, longitude], radius],
+                }
             }
-        }
-        }*/)
+        })
         .then((docs: IReport[]) => {
             if (!docs || docs.length === 0) {
-                return res.status(404).send('No reports found');
+                return res.status(404).send('No reports found')
             }
-            const docsToReturn: any = []
-            docs.forEach(r => {
-                if (Math.abs(r.coordinates[0] - parseFloat(req.params.latitude)) <= parseFloat(req.params.radius)
-                    && Math.abs(r.coordinates[1] - parseFloat(req.params.longitude)) <= parseFloat(req.params.radius)) {
-                    docsToReturn.push(r)
-                }
-            })
-            res.json(docsToReturn)
-            //res.json(docs)
+            res.json(docs)
         })
         .catch((err: Error) => {
             res.status(500).send(err)
