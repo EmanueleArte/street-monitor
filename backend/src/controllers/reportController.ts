@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import reportModel, { IReport } from '@/models/reportModel'
+import reportModel, { IReport } from '../models/reportModel'
 
 export const listReports = (req: Request, res: Response) => {
     reportModel.find()
