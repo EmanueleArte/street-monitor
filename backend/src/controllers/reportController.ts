@@ -14,9 +14,42 @@ export const listReports = (req: Request, res: Response) => {
         })
 }
 
-export const createReport = (req: Request, res: Response) => {}
+export const createReport = (req: Request, res: Response) => {
+    const report = new reportModel(req.body)
+    report.save()
+        .then((doc: IReport) => {
+            res.json(doc)
+        })
+        .catch((err: Error) => {
+            res.status(500).send(err)
+        })
+}
 
-export const updateReport = (req: Request, res: Response) => {}
+export const updateReport = (req: Request, res: Response) => {
+    reportModel.findOneAndUpdate({ _id: req.params.id }, req.body, {new: true})
+        .then((doc: IReport | null) => {
+            if (!doc) {
+                return res.status(404).send('Report not found');
+            }
+            res.json(doc);
+        })
+        .catch((err: Error) => {
+            res.status(500).send(err)
+        })
+}
+
+export const getReportById = (req: Request, res: Response) => {
+    reportModel.findById(req.params.id)
+        .then((doc: IReport | null) => {
+            if (!doc) {
+                return res.status(404).send('Report not found');
+            }
+            res.json(doc)
+        })
+        .catch((err: Error) => {
+            res.status(500).send(err)
+        })
+}
 
 export const getReportsByType = (req: Request, res: Response) => {
     reportModel.find()

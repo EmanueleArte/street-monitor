@@ -12,3 +12,10 @@
     "open_datetime": "2023-10-02T15:30:00Z",
     "description": "The streetlight on Elm Street near the park is not working."
 }
+{
+    "type": "Broken streetlight",
+    "user": "johndoe",
+    "coordinates": [42.4829142, -61.048572],
+    "open_datetime": "2023-10-03T12:01:40.000Z",
+    "description": "Streetlight not working!"
+}
