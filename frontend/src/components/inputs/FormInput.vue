@@ -3,7 +3,7 @@ const DEFAULT_INPUT_TYPE: String = "text"
 const props = defineProps([
     'type',
     'label',
-    'field-name',
+    'fieldName',
     'placeholder',
     'modelValue',
     'error'])
@@ -19,8 +19,8 @@ const props = defineProps([
     <input
         :type="type || DEFAULT_INPUT_TYPE"
         :placeholder="placeholder || 'Insert ' + label"
-        :name="props.field-name"
-        :id="props.field-name"
+        :name="props.fieldName"
+        :id="props.fieldName"
         v-model="props.modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
     />

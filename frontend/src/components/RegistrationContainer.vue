@@ -2,6 +2,7 @@
 import axios from "axios"
 import { onMounted, ref, reactive } from "vue"
 import FormInput from "../components/inputs/FormInput.vue"
+import hashPassword from "../lib/passwordManager"
 
 const REQUIRED_FIELD_MESSAGE = "required field"
 
@@ -32,6 +33,17 @@ const PASSWORDS_DONT_MATCH_MESSAGE = "passwords don't match"
 const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 const passwordRegExp = new RegExp(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
 
+const resetErrors = () => {
+    errors.name.message = ""
+    errors.surname.message = ""
+    errors.username.message = ""
+    errors.email.message = ""
+    errors.password.message = ""
+    errors.password.suggestions = [""]
+    errors.passwordCheck.message = ""
+
+}
+
 const cleanData = () => {
     form.name = form.name.trim()
     form.surname = form.surname.trim()
@@ -42,29 +54,38 @@ const cleanData = () => {
 }
 
 const validate = () => {
+    let validationFailed = false
+    resetErrors()
 
     if (form.name === "") {
         errors.name.message = REQUIRED_FIELD_MESSAGE
+        validationFailed = true
     }
 
     if (form.surname === "") {
         errors.surname.message = REQUIRED_FIELD_MESSAGE
+        validationFailed = true
     }
 
     if (form.username === "") {
         errors.username.message = REQUIRED_FIELD_MESSAGE
+        validationFailed = true
     } else if (form.username.length < USERNAME_MIN_LENGTH) {
         errors.username.message = MINIMUM_LENGTH_ALLOWED_MESSAGE + USERNAME_MIN_LENGTH
+        validationFailed = true
     }
 
     if (form.email === "") {
         errors.email.message = REQUIRED_FIELD_MESSAGE
+        validationFailed = true
     } else if (!emailRegExp.test(form.email)) {
         errors.email.message = INVALID_FORMAT_MESSAGE
+        validationFailed = true
     }
 
     if (form.password === "") {
         errors.password.message = REQUIRED_FIELD_MESSAGE
+        validationFailed = true
     } else if (!passwordRegExp.test(form.password)) {
         errors.password.message = INVALID_PASSWORD_FORMAT_MESSAGE
         errors.password.suggestions = [
@@ -74,35 +95,41 @@ const validate = () => {
                 "at least one symbol (allowed symbols are: ! @ # $ % ^ & *)",
                 "at least 8 characters"
             ]
+        validationFailed = true
     } else if (form.password != form.passwordCheck) {
         errors.passwordCheck.message = PASSWORDS_DONT_MATCH_MESSAGE
+        validationFailed = true
     }
-    
+
+    return !validationFailed
 }
 
 const signup = () => {
     // perform checks
     cleanData()
-    validate()
-    
+    if (!validate()) {
+        return
+    }
 
     // hash password and store hashed value
-    // ...
-
-    axios.post('http://localhost:3000/users', {
-        name: form.name,
-        surname: form.surname,
-        username: form.username,
-        email: form.email,
-        password: form.password,
-        reputation: 0
+    hashPassword(form.password).then(hash => {
+        axios.post('http://localhost:3000/users', {
+            name: form.name,
+            surname: form.surname,
+            username: form.username,
+            email: form.email,
+            password: hash,
+            reputation: 0
+        })
+        .then(res => {
+            console.log(res)
+            // redirect to homepage
+        })
+        .catch(err => {
+            console.log(err)
+        })
     })
-    .then(res => {
-        console.log(res)
-    })
-    .catch(err => {
-        console.log(err)
-    })
+    .catch(err => console.log(err))
 }
 </script>
 
@@ -118,13 +145,13 @@ const signup = () => {
             
             <FormInput
                 v-model="form.name"
-                field-name="name"
+                fieldName="name"
                 label="name"
                 :error="errors.name" />
 
             <FormInput
                 v-model="form.surname"
-                field-name="surname"
+                fieldName="surname"
                 label="surname"
                 :error="errors.surname" />
         </fieldset>
@@ -135,25 +162,25 @@ const signup = () => {
 
             <FormInput
                 v-model="form.username"
-                field-name="username"
+                fieldName="username"
                 label="username"
                 :error="errors.username" />
             <FormInput
                 v-model="form.email"
                 type="email"
-                field-name="email"
+                fieldName="email"
                 label="email"
                 :error="errors.email" />
             <FormInput
                 v-model="form.password"
                 type="password"
-                field-name="password"
+                fieldName="password"
                 label="password"
                 :error="errors.password" />
             <FormInput
                 v-model="form.passwordCheck"
                 type="password"
-                field-name="password-check"
+                fieldName="password-check"
                 label="confirm password"
                 placeholder="Insert password again"
                 :error="errors.passwordCheck" />
