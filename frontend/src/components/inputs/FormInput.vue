@@ -10,7 +10,11 @@ const props = defineProps([
 </script>
 
 <template>
-    <p v-if="error">{{ error }}</p>
+    <p v-if="error">{{ error.message }}
+        <ul v-if="error.suggestions && error.suggestions.length > 1">
+            <li v-for="suggestion in error.suggestions">{{ suggestion }}</li>
+        </ul>
+    </p>
     <label>{{ label }}</label>
     <input
         :type="type || DEFAULT_INPUT_TYPE"
