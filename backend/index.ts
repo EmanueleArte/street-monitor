@@ -14,7 +14,7 @@ app.use(cors())
     .use(express.static('public'))
 
 app.use('/users', userRoutes)
-app.use('/reportTypes', reportTypeRoutes)
+app.use('/report-types', reportTypeRoutes)
 app.use('/reports', reportRoutes)
 
 app.listen(3000, () => {
