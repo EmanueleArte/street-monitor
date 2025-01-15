@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { LIcon, LMarker } from '@vue-leaflet/vue-leaflet'
+import { ref } from "vue"
+import { LIcon, LMarker } from "@vue-leaflet/vue-leaflet"
 
 const props = defineProps<{
   report: any

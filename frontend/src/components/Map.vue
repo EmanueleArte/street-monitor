@@ -2,7 +2,7 @@
 import "leaflet/dist/leaflet.css"
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
-import NearMapReportManager from '@/components/NearMapReportManager.vue'
+import NearMapReportManager from "@/components/NearMapReportManager.vue"
 
 const props = defineProps<{
   zoom: number
@@ -11,6 +11,7 @@ const props = defineProps<{
 const centerToPosition = ref<boolean>(true)
 const center = ref<[number, number]>([44.494887, 11.3426163])
 const position = ref<[number, number]>(center.value)
+const radius = ref<number>(500)
 const watchId = ref<number | null>(null)
 const options = {
   enableHighAccuracy: true,
@@ -66,7 +67,7 @@ onUnmounted(stopWatchingPosition)
           name="OpenStreetMap"
       ></LTileLayer>
       <LMarker :lat-lng="position"/>
-      <NearMapReportManager :lat="center[0]" :lng="center[1]"/>
+      <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius"/>
     </LMap>
   </div>
 </template>
