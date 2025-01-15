@@ -1,5 +1,7 @@
 import { Request, Response } from 'express'
 import userModel, { IUser } from '../models/userModel'
+import favoriteSpotModel from '../models/favoriteSpotModel';
+import notificationModel, { INotification } from '../models/notificationModel';
 
 // Users
 export const getUserByUsername = (req: Request, res: Response) => {
@@ -43,6 +45,14 @@ export const updateUser = (req: Request, res: Response) => {
 
 // Notifications
 export const addNotification = (req: Request, res: Response) => {
+    const notification: INotification = new notificationModel(req.body)
+    const validationError = notification.validateSync()
+
+    if (validationError) {
+        res.status(400).send(validationError.message)
+        return
+    }
+
     userModel.findOneAndUpdate({ username: req.params.id }, { $push: { notifications: req.body } }, { new: true })
         .then((doc: IUser | null) => {
             if (!doc) {
@@ -91,6 +101,14 @@ export const deleteNotification = (req: Request, res: Response) => {
 
 // Favorite spots
 export const addFavoriteSpot = (req: Request, res: Response) => {
+    const favoriteSpot = new favoriteSpotModel(req.body)
+    const validationError = favoriteSpot.validateSync()
+
+    if (validationError) {
+        res.status(400).send(validationError.message)
+        return
+    }
+
     userModel.findOneAndUpdate({ username: req.params.id }, { $push: { favorite_spots: req.body } }, { new: true })
         .then((doc: IUser | null) => {
             if (!doc) {
