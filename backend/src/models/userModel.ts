@@ -1,9 +1,6 @@
 import mongoose, { Document, Schema, Model } from "mongoose"
-
-interface IFavoriteSpot {
-    label: string
-    coordinates: [number, number]
-}
+import { IFavoriteSpot, favoriteSpotSchema } from "./favoriteSpotModel"
+import { INotification, notificationSchema } from "./notificationModel"
 
 export interface IUser extends Document {
     name: string
@@ -12,8 +9,8 @@ export interface IUser extends Document {
     password: string
     username: string
     reputation: number
-    favorite_spots: Array<IFavoriteSpot>
-    notifications: Array<never> // TODO: Replace with actual notification type if available
+    favorite_spots: IFavoriteSpot[]
+    notifications: INotification[]
 }
 
 const userSchema: Schema<IUser> = new Schema<IUser>({
@@ -23,15 +20,8 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     password: { type: String, required: true },
     username: { type: String, required: true },
     reputation: { type: Number, required: true },
-    favorite_spots: [
-        {
-            label: { type: String, required: true },
-            coordinates: { type: [Number, Number], required: true }
-        }
-    ],
-    notifications: [
-        // notification schema
-    ]
+    favorite_spots: [favoriteSpotSchema],
+    notifications: [notificationSchema]
 })
 
 const userModel: Model<IUser> = mongoose.model<IUser>('User', userSchema)

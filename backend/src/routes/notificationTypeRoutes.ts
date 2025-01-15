@@ -1,5 +1,5 @@
 import * as express from "express";
-import * as controller from '../controllers/notificationTypeController'
+import * as controller from '@/controllers/notificationTypeController'
 
 const router: express.Router = express.Router()
 
@@ -8,3 +8,5 @@ router.route('/')
 
 router.route('/:name')
     .get(controller.getNotificationTypeByName)
+
+export default router

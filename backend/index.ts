@@ -3,6 +3,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import { Application } from "express"
 import userRoutes from './src/routes/userRoutes'
+import notificationTypeRoutes from './src/routes/notificationTypeRoutes'
 import reportTypeRoutes from './src/routes/reportTypeRoutes'
 import reportRoutes from './src/routes/reportRoutes'
 
@@ -15,6 +16,7 @@ app.use(cors())
 
 app.use('/users', userRoutes)
 app.use('/report-types', reportTypeRoutes)
+app.use('/notifications/types', notificationTypeRoutes)
 app.use('/reports', reportRoutes)
 
 app.listen(3000, () => {

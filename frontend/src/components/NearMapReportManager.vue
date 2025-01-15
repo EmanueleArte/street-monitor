@@ -10,7 +10,7 @@ const props = defineProps<{
   lng: number
 }>()
 
-const reports = ref<Array<any>>([])
+const reports = ref<never[]>([])
 
 const getNearReports = async () => {
   try {
