@@ -9,17 +9,17 @@ export interface IReport extends Document {
     open_datetime: Date,
     close_datetime: Date,
     description: string//,
-    //picture: ???
+    picture: string
 }
 
 const reportSchema: Schema<IReport> = new Schema<IReport>({
     type: { type: String, ref: 'ReportType', required: true },
     user: { type: String, ref: 'User', required: true },
-    coordinates: { type: [Number, Number], required: true },
+    coordinates: { type: [Number, Number], /*type: [Number], index: '2dsphere',*/ required: true },
     open_datetime: { type: Date, required: true },
     close_datetime: { type: Date, required: false },
-    description: { type: String, required: false }//,
-    //picture: { type: ???, required: false }
+    description: { type: String, required: false },
+    picture: { type: String, required: false }
 })
 
 const reportModel: Model<IReport> = mongoose.model<IReport>('Report', reportSchema)

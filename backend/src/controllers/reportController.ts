@@ -80,7 +80,25 @@ export const getReportsByUser = (req: Request, res: Response) => {
 }
 
 export const getReportsByCoordinates = (req: Request, res: Response) => {
-    reportModel.find()
+    /*const latitude = parseFloat(req.params.latitude);
+    const longitude = parseFloat(req.params.longitude);
+    const radius = parseFloat(req.params.radius);
+
+    console.log('Latitude:', latitude);
+    console.log('Longitude:', longitude);
+    console.log('Radius:', radius);
+
+    if (isNaN(latitude) || isNaN(longitude) || isNaN(radius)) {
+        return res.status(400).send('Invalid coordinates or radius');
+    }*/
+
+    reportModel.find(/*{
+        coordinates: {
+            $geoWithin: {
+                $centerSphere: [[longitude, latitude], radius / 6378.1] // radius in radians (radius in km / Earth's radius in km)
+            }
+        }
+        }*/)
         .then((docs: IReport[]) => {
             if (!docs || docs.length === 0) {
                 return res.status(404).send('No reports found');
@@ -93,6 +111,7 @@ export const getReportsByCoordinates = (req: Request, res: Response) => {
                 }
             })
             res.json(docsToReturn)
+            //res.json(docs)
         })
         .catch((err: Error) => {
             res.status(500).send(err)
