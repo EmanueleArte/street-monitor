@@ -18,7 +18,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     surname: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    username: { type: String, required: true },
+    username: { type: String, required: true, unique: true, index: true, dropDups: true },
     reputation: { type: Number, required: true },
     favorite_spots: [favoriteSpotSchema],
     notifications: [notificationSchema]
