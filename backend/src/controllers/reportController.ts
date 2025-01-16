@@ -88,7 +88,7 @@ export const getReportsByCoordinates = (req: Request, res: Response) => {
         .where({
             coordinates: {
                 $geoWithin: {
-                    $centerSphere: [[latitude, longitude], radius],
+                    $centerSphere: [[latitude, longitude], radius / 6378.1],
                 }
             }
         })

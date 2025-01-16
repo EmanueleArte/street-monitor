@@ -1,39 +1,39 @@
 {
-    "type": "Road pothole",
+    "type": "road_pothole",
     "user": "johndoe",
     "coordinates": [44.41349736392319, 12.185559354433297],
     "open_datetime": "2024-12-21T12:00:00Z",
     "description": "There is a large pothole."
 }
 {
-    "type": "Broken streetlight",
+    "type": "broken_streetlight",
     "user": "mariorossi",
     "coordinates": [44.41864209505457, 12.14230249607438],
     "open_datetime": "2025-01-02T15:30:00Z",
     "description": "The streetlight near the park is not working."
 }
 {
-    "type": "Broken streetlight",
+    "type": "broken_streetlight",
     "user": "mariorossi",
     "coordinates": [44.426641011091725, 12.21466157595225],
     "open_datetime": "2024-12-05T12:01:40.00Z",
     "description": "Streetlight not working!"
 }
 {
-    "type": "Ruined asphalt",
+    "type": "ruined_asphalt",
     "user": "johndoe",
     "coordinates": [44.37032021306061, 12.194437694232056],
     "open_datetime": "2025-01-02T12:21:42.00Z",
     "description": "The asphalt is really ruined."
 }
 {
-    "type": "Damaged road barrier",
+    "type": "damaged_road_barrier",
     "user": "johndoe",
     "coordinates": [44.376282169847826, 12.206674783895958],
     "open_datetime": "2025-01-03T12:01:40.00Z"
 }
 {
-    "type": "Ruined asphalt",
+    "type": "ruined_asphalt",
     "user": "mariorossi",
     "coordinates": [44.40043330387075, 12.172111898677823],
     "open_datetime": "2025-01-14T12:14:31.00Z"

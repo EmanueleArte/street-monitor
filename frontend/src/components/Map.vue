@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import "leaflet/dist/leaflet.css"
-import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet"
+import { LMap, LMarker, LTileLayer, LCircle } from "@vue-leaflet/vue-leaflet"
+import { type LeafletEvent, Util } from "leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
+import { throttle } from "lodash"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
+import CenterPin from "@/components/CenterPin.vue"
 
 const props = defineProps<{
-  zoom: number
+  zoom: number,
+  usePosition: boolean
 }>()
+const circleColor = "blue"
 
 const centerToPosition = ref<boolean>(true)
 const center = ref<[number, number]>([44.494887, 11.3426163])
 const position = ref<[number, number]>(center.value)
-const radius = ref<number>(1)
+const radius = ref<number>(5) // km
 const watchId = ref<number | null>(null)
 const options = {
   enableHighAccuracy: true,
@@ -28,9 +33,18 @@ const onMapReady = () => {
   setMapCenter()
 }
 
+const onMapMoved = throttle((e: LeafletEvent) => {
+  if (map.value) {
+    centerToPosition.value = false
+    const newMapCenter = e.target.getCenter()
+    map.value.leafletObject.fitBounds(e.target.getBounds())
+    center.value = [newMapCenter.lat, newMapCenter.lng]
+  }
+}, 10)
+
 const updatePosition = (gps: GeolocationPosition) => {
   position.value = [gps.coords.latitude, gps.coords.longitude]
-  if (centerToPosition) {
+  if (centerToPosition.value && props.usePosition) {
     center.value = position.value
   }
 }
@@ -40,7 +54,7 @@ const handleError = (error: GeolocationPositionError) => {
 }
 
 const startWatchingPosition = () => {
-  if (navigator.geolocation) {
+  if (navigator.geolocation && props.usePosition) {
     watchId.value = navigator.geolocation.watchPosition(updatePosition, handleError, options)
   } else {
     console.error("Geolocation is not supported by this browser.")
@@ -60,13 +74,19 @@ onUnmounted(stopWatchingPosition)
 <template>
   <div id="map-div">
     <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
-          :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady">
+          :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady" @drag="onMapMoved">
       <LTileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           layer-type="base"
           name="OpenStreetMap"
       ></LTileLayer>
       <LMarker :lat-lng="position"/>
+      <CenterPin v-if="center !== position" :center="center"/>
+      <LCircle
+          :lat-lng="center"
+          :radius="radius * 1000"
+          :color="circleColor"
+      />
       <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius"/>
     </LMap>
   </div>

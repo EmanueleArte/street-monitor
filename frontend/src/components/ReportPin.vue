@@ -1,26 +1,17 @@
 <script setup lang="ts">
-import { ref } from "vue"
-import { LIcon, LMarker } from "@vue-leaflet/vue-leaflet"
-import type { IReport } from '@models/reportModel.ts'
+import type { IReport } from "@models/reportModel.ts"
+import Pin from "@/components/Pin.vue"
 
 const props = defineProps<{
   report: IReport
 }>()
 
-const iconSize: number = 64
-
-const dynamicSize: [number, number] = [iconSize, iconSize * 1.15]
-const dynamicAnchor: [number, number] = [iconSize / 2, iconSize * 1.15]
+const iconSize: number = 48
 </script>
 
 <template>
-  <LMarker :lat-lng="[props.report.coordinates[0], props.report.coordinates[1]]">
-    <LIcon
-        :icon-size="dynamicSize"
-        :icon-anchor="dynamicAnchor"
-        icon-url="../src/assets/icons/logo.svg">
-    </LIcon>
-  </LMarker>
+  <Pin :lat="props.report.coordinates[0]" :lng="props.report.coordinates[1]" iconUrl="../src/assets/icons/temp.png"
+       :iconSize="iconSize"/>
 </template>
 
 <style scoped lang="scss">

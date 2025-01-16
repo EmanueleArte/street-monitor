@@ -7,6 +7,7 @@ export interface IReport extends Document {
     user: IUser,
     coordinates: [number, number],
     open_datetime: Date,
+    status: string,
     close_datetime: Date,
     description: string,
     picture: string
@@ -17,6 +18,7 @@ const reportSchema: Schema<IReport> = new Schema<IReport>({
     user: { type: String, ref: 'User', required: true },
     coordinates: { type: [Number, Number], required: true },
     open_datetime: { type: Date, required: true },
+    status: { type: String, required: true, enum: ['open', 'solving', 'closed'], default: 'open' },
     close_datetime: { type: Date, required: false },
     description: { type: String, required: false },
     picture: { type: String, required: false }
