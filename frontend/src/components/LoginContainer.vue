@@ -21,7 +21,7 @@ const form = ref<ILoginForm>({
 const loginError = ref<string>("")
 
 const signin = () => {
-    axios.get<IUser>(`http://localhost:3000/users/${form.username}`)
+    axios.get<IUser>(`http://localhost:3000/users/${form.value.username.trim()}`)
         .then(res => {
             return verifyPassword(form.value.password, res.data.password)
         })

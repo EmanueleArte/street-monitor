@@ -38,7 +38,7 @@ interface IRegistrationErrors {
     passwordCheck: IRegistrationError
 }
 
-const form = reactive<IRegistrationForm>({
+const form = ref<IRegistrationForm>({
     name: "",
     surname: "",
     username: "",
@@ -47,7 +47,7 @@ const form = reactive<IRegistrationForm>({
     passwordCheck: ""
 })
 
-const errors = reactive<IRegistrationErrors>({
+const errors = ref<IRegistrationErrors>({
     name: { message: "" },
     surname: { message: "" },
     username: { message: "" },
@@ -58,60 +58,60 @@ const errors = reactive<IRegistrationErrors>({
 
 
 const resetErrors = () => {
-    errors.name.message = ""
-    errors.surname.message = ""
-    errors.username.message = ""
-    errors.email.message = ""
-    errors.password.message = ""
-    errors.password.suggestions = [""]
-    errors.passwordCheck.message = ""
+    errors.value.name.message = ""
+    errors.value.surname.message = ""
+    errors.value.username.message = ""
+    errors.value.email.message = ""
+    errors.value.password.message = ""
+    errors.value.password.suggestions = [""]
+    errors.value.passwordCheck.message = ""
 }
 
 const cleanData = () => {
-    form.name = form.name.trim()
-    form.surname = form.surname.trim()
-    form.username = form.username.trim()
-    form.email = form.email.trim()
-    form.password = form.password.trim()
-    form.passwordCheck = form.passwordCheck.trim()
+    form.value.name = form.value.name.trim()
+    form.value.surname = form.value.surname.trim()
+    form.value.username = form.value.username.trim()
+    form.value.email = form.value.email.trim()
+    form.value.password = form.value.password.trim()
+    form.value.passwordCheck = form.value.passwordCheck.trim()
 }
 
 const validate = (): boolean => {
     let validationFailed: boolean = false
     resetErrors()
 
-    if (form.name === "") {
-        errors.name.message = REQUIRED_FIELD_MESSAGE
+    if (form.value.name === "") {
+        errors.value.name.message = REQUIRED_FIELD_MESSAGE
         validationFailed = true
     }
 
-    if (form.surname === "") {
-        errors.surname.message = REQUIRED_FIELD_MESSAGE
+    if (form.value.surname === "") {
+        errors.value.surname.message = REQUIRED_FIELD_MESSAGE
         validationFailed = true
     }
 
-    if (form.username === "") {
-        errors.username.message = REQUIRED_FIELD_MESSAGE
+    if (form.value.username === "") {
+        errors.value.username.message = REQUIRED_FIELD_MESSAGE
         validationFailed = true
-    } else if (form.username.length < USERNAME_MIN_LENGTH) {
-        errors.username.message = MINIMUM_LENGTH_ALLOWED_MESSAGE + USERNAME_MIN_LENGTH
-        validationFailed = true
-    }
-
-    if (form.email === "") {
-        errors.email.message = REQUIRED_FIELD_MESSAGE
-        validationFailed = true
-    } else if (!emailRegExp.test(form.email)) {
-        errors.email.message = INVALID_FORMAT_MESSAGE
+    } else if (form.value.username.length < USERNAME_MIN_LENGTH) {
+        errors.value.username.message = MINIMUM_LENGTH_ALLOWED_MESSAGE + USERNAME_MIN_LENGTH
         validationFailed = true
     }
 
-    if (form.password === "") {
-        errors.password.message = REQUIRED_FIELD_MESSAGE
+    if (form.value.email === "") {
+        errors.value.email.message = REQUIRED_FIELD_MESSAGE
         validationFailed = true
-    } else if (!passwordRegExp.test(form.password)) {
-        errors.password.message = INVALID_PASSWORD_FORMAT_MESSAGE
-        errors.password.suggestions = [
+    } else if (!emailRegExp.test(form.value.email)) {
+        errors.value.email.message = INVALID_FORMAT_MESSAGE
+        validationFailed = true
+    }
+
+    if (form.value.password === "") {
+        errors.value.password.message = REQUIRED_FIELD_MESSAGE
+        validationFailed = true
+    } else if (!passwordRegExp.test(form.value.password)) {
+        errors.value.password.message = INVALID_PASSWORD_FORMAT_MESSAGE
+        errors.value.password.suggestions = [
                 "at least one upper case letter",
                 "at least one lower case letter",
                 "at least one digit",
@@ -119,8 +119,8 @@ const validate = (): boolean => {
                 "at least 8 characters"
             ]
         validationFailed = true
-    } else if (form.password != form.passwordCheck) {
-        errors.passwordCheck.message = PASSWORDS_DONT_MATCH_MESSAGE
+    } else if (form.value.password != form.value.passwordCheck) {
+        errors.value.passwordCheck.message = PASSWORDS_DONT_MATCH_MESSAGE
         validationFailed = true
     }
 
@@ -135,12 +135,12 @@ const signup = () => {
     }
 
     // hash password and store hashed value
-    hashPassword(form.password).then(hash => {
+    hashPassword(form.value.password).then(hash => {
         axios.post('http://localhost:3000/users', {
-            name: form.name,
-            surname: form.surname,
-            username: form.username,
-            email: form.email,
+            name: form.value.name,
+            surname: form.value.surname,
+            username: form.value.username,
+            email: form.value.email,
             password: hash,
             reputation: 0
         })
@@ -158,7 +158,7 @@ const signup = () => {
 
 <template>
   <div class="registrationContainer">
-    <span>StreetMonitor</span>
+    <header>StreetMonitor</header>
     <h1>SignUp</h1>
     <p>Create an account to continue</p>
 
