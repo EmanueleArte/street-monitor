@@ -1,12 +1,17 @@
 <script setup lang="ts">
-const DEFAULT_INPUT_TYPE: String = "text"
-const props = defineProps([
-    'type',
-    'label',
-    'fieldName',
-    'placeholder',
-    'modelValue',
-    'error'])
+const DEFAULT_INPUT_TYPE: string = "text"
+
+const props = defineProps<{
+    label: string,
+    fieldName: string,
+    modelValue: string,
+    type?: string,
+    placeholder?: string,
+    error?: {
+        message: string,
+        suggestions?: string[]
+    }
+}>()
 </script>
 
 <template>

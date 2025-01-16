@@ -3,16 +3,21 @@ import { ref } from "vue"
 import RegistrationContainer from "@/components/RegistrationContainer.vue"
 import LoginContainer from "@/components/LoginContainer.vue"
 
+const LOGIN_PARAGRAPH_TEXT: string = "Don't have an account?"
+const LOGIN_LINK_TEXT: string = "Register now"
+const REGISTRATION_PARAGRAPH_TEXT: string = "Already registered?"
+const REGISTRATION_LINK_TEXT: string = "Sign in now"
+
 const signupPage = ref({
-    isLoaded: true,
-    paragraphText: "Already registered?",
-    linkText: "Sign in now"
+    isLoaded: false,
+    paragraphText: LOGIN_PARAGRAPH_TEXT,
+    linkText: LOGIN_LINK_TEXT
 })
 
 const switchPage = () => {
     signupPage.value.isLoaded = !signupPage.value.isLoaded
-    signupPage.value.paragraphText = signupPage.value.isLoaded ? "Already registered?" : "Don't have an account?"
-    signupPage.value.linkText = signupPage.value.isLoaded ? "Sign in now" : "Register now"
+    signupPage.value.paragraphText = signupPage.value.isLoaded ? REGISTRATION_PARAGRAPH_TEXT : LOGIN_PARAGRAPH_TEXT
+    signupPage.value.linkText = signupPage.value.isLoaded ? REGISTRATION_LINK_TEXT : LOGIN_LINK_TEXT
 }
 </script>
 

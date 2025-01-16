@@ -3,10 +3,42 @@ import axios from "axios"
 import { onMounted, ref, reactive } from "vue"
 import FormInput from "../components/inputs/FormInput.vue"
 import hashPassword from "../lib/passwordManager"
+import type { IUser } from "@models/userModel"
 
-const REQUIRED_FIELD_MESSAGE = "required field"
+const REQUIRED_FIELD_MESSAGE: string = "required field"
+const USERNAME_MIN_LENGTH: number = 6
+const MINIMUM_LENGTH_ALLOWED_MESSAGE: string = "required a minimum length of "
+const INVALID_FORMAT_MESSAGE: string = "invalid format"
+const INVALID_PASSWORD_FORMAT_MESSAGE: string = "password must contain:"
+const PASSWORDS_DONT_MATCH_MESSAGE: string = "passwords don't match"
 
-const form = reactive({
+const emailRegExp: RegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+const passwordRegExp: RegExp = new RegExp(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
+
+interface IRegistrationForm {
+    name: string,
+    surname: string,
+    username: string,
+    email: string,
+    password: string,
+    passwordCheck: string
+}
+
+interface IRegistrationError {
+    message: string,
+    suggestions?: string[]
+}
+
+interface IRegistrationErrors {
+    name: IRegistrationError,
+    surname: IRegistrationError,
+    username: IRegistrationError,
+    email: IRegistrationError,
+    password: IRegistrationError,
+    passwordCheck: IRegistrationError
+}
+
+const form = reactive<IRegistrationForm>({
     name: "",
     surname: "",
     username: "",
@@ -15,7 +47,7 @@ const form = reactive({
     passwordCheck: ""
 })
 
-const errors = reactive({
+const errors = reactive<IRegistrationErrors>({
     name: { message: "" },
     surname: { message: "" },
     username: { message: "" },
@@ -24,14 +56,6 @@ const errors = reactive({
     passwordCheck: { message: "" }
 })
 
-const USERNAME_MIN_LENGTH = 6
-const MINIMUM_LENGTH_ALLOWED_MESSAGE = "required a minimum length of "
-const INVALID_FORMAT_MESSAGE = "invalid format"
-const INVALID_PASSWORD_FORMAT_MESSAGE = "password must contain:"
-const PASSWORDS_DONT_MATCH_MESSAGE = "passwords don't match"
-
-const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-const passwordRegExp = new RegExp(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
 
 const resetErrors = () => {
     errors.name.message = ""
@@ -41,7 +65,6 @@ const resetErrors = () => {
     errors.password.message = ""
     errors.password.suggestions = [""]
     errors.passwordCheck.message = ""
-
 }
 
 const cleanData = () => {
@@ -53,8 +76,8 @@ const cleanData = () => {
     form.passwordCheck = form.passwordCheck.trim()
 }
 
-const validate = () => {
-    let validationFailed = false
+const validate = (): boolean => {
+    let validationFailed: boolean = false
     resetErrors()
 
     if (form.name === "") {
