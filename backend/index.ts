@@ -16,7 +16,7 @@ app.use(cors())
 
 app.use('/users', userRoutes)
 app.use('/report-types', reportTypeRoutes)
-app.use('/notifications/types', notificationTypeRoutes)
+app.use('/notification-types', notificationTypeRoutes)
 app.use('/reports', reportRoutes)
 
 app.listen(3000, () => {
