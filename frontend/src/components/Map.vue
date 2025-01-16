@@ -3,10 +3,18 @@ import "leaflet/dist/leaflet.css"
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
+import { useUserStore } from "@/stores/user";
+import { useAuthStore } from "@/stores/auth.store";
+import { storeToRefs } from "pinia";
 
 const props = defineProps<{
   zoom: number
 }>()
+
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
+
+console.log(user)
 
 const centerToPosition = ref<boolean>(true)
 const center = ref<[number, number]>([44.494887, 11.3426163])
