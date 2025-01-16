@@ -188,10 +188,5 @@ const signup = () => {
         
         <input type="submit" value="Register">
     </form>
-
-    <div>
-        Already registerd?
-        <a href="http://localhost:5173/signin">Sign in now</a>
-    </div>
   </div>
 </template>
