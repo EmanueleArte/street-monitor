@@ -6,7 +6,7 @@ export interface INotificationType extends Document {
 }
 
 export const notificationTypeSchema: Schema<INotificationType> = new Schema<INotificationType>({
-    name: {type: String, required: true},
+    name: {type: String, required: true, unique: true, index: true, dropDups: true},
     icon_address: {type: String, required: false}
 })
 
