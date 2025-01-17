@@ -2,13 +2,15 @@
 import axios from "axios"
 import { onMounted, ref } from "vue"
 import Map from "@/components/Map.vue"
-import MyReports from "@/components/MyReports.vue"
+import MyReportsButton from "@/components/MyReportsButton.vue"
+import MyReportsDiv from "@/components/MyReportsDiv.vue"
 
 </script>
 
 <template>
   <div class="homeContainer">
     <Map :zoom="12" />
-    <MyReports />
+    <MyReportsButton />
+    <MyReportsDiv />
   </div>
 </template>
