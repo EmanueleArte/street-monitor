@@ -5,7 +5,8 @@ import { ref, onUnmounted, onBeforeMount } from "vue"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
 
 const props = defineProps<{
-  zoom: number
+  zoom: number,
+  usePosition: boolean
 }>()
 
 const centerToPosition = ref<boolean>(true)
@@ -30,7 +31,7 @@ const onMapReady = () => {
 
 const updatePosition = (gps: GeolocationPosition) => {
   position.value = [gps.coords.latitude, gps.coords.longitude]
-  if (centerToPosition) {
+  if (centerToPosition && props.usePosition) {
     center.value = position.value
   }
 }

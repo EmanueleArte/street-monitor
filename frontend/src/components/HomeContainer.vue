@@ -7,6 +7,6 @@ import Map from "@/components/Map.vue"
 
 <template>
   <div class="homeContainer">
-    <Map :zoom="12" />
+    <Map :zoom="12" :usePosition=true />
   </div>
 </template>
