@@ -6,11 +6,11 @@ const props = defineProps<{
   report: IReport
 }>()
 
-const iconSize: number = 64
+const iconSize: number = 48
 </script>
 
 <template>
-  <Pin :lat="props.report.coordinates[0]" :lng="props.report.coordinates[1]" iconUrl="../src/assets/icons/logo.svg"
+  <Pin :lat="props.report.coordinates[0]" :lng="props.report.coordinates[1]" iconUrl="../src/assets/icons/temp.png"
        :iconSize="iconSize"/>
 </template>
 
