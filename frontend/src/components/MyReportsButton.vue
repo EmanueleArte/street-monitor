@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { defineEmits } from "vue"
 
-const emit = defineEmits(["toggleReports"])
+const emit = defineEmits(["toggleMyReports"])
 
-function handleClick() {
-  emit("toggleReports")
+function toggleMyReports() {
+  emit("toggleMyReports")
 }
 </script>
 
 <template>
-    <button @click="handleClick" class="my-reports-button bg-blue-400 text-xl">My Reports</button>
+    <button @click="toggleMyReports" class="my-reports-button bg-blue-400 text-xl">My Reports</button>
 </template>
 
 <style lang="scss">

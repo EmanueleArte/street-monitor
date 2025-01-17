@@ -5,10 +5,10 @@ import Map from "@/components/Map.vue"
 import MyReportsButton from "@/components/MyReportsButton.vue"
 import MyReportsDiv from "@/components/MyReportsDiv.vue"
 
-const isReportsVisible = ref(false)
+const isMyReportsDivVisible = ref(false)
 
 function toggleReportsVisibility() {
-  isReportsVisible.value = !isReportsVisible.value
+  isMyReportsDivVisible.value = !isMyReportsDivVisible.value
 }
 </script>
 
