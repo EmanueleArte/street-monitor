@@ -15,7 +15,7 @@ function toggleReportsVisibility() {
 <template>
   <div class="homeContainer">
     <Map :zoom="12" />
-    <MyReportsButton @toggleReports="toggleReportsVisibility" />
-    <MyReportsDiv :isVisible="isReportsVisible" />
+    <MyReportsButton @toggleMyReports="toggleReportsVisibility" />
+    <MyReportsDiv :isVisible="isMyReportsDivVisible" />
   </div>
 </template>
