@@ -4,10 +4,16 @@ export default {
   theme: {
     extend: {},
     colors: {
+      "button-text": "#ffffff",
+      "light": "#ffffff",
       "main": {
         500: "#3b82f6",
         600: "#2563eb",
       }
+    },
+    borderRadius: {
+      "xl": "0.75rem",
+      "full": "9999px",
     }
   },
   plugins: [],
