@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import "leaflet/dist/leaflet.css"
 import { LMap, LMarker, LTileLayer, LCircle } from "@vue-leaflet/vue-leaflet"
-import type { LeafletEvent } from "leaflet"
+import { type LeafletEvent, Util } from "leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
+import { throttle } from "lodash"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
 import CenterPin from "@/components/CenterPin.vue"
 
@@ -32,14 +33,14 @@ const onMapReady = () => {
   setMapCenter()
 }
 
-const onMapMoved = (e: LeafletEvent) => {
+const onMapMoved = throttle((e: LeafletEvent) => {
   if (map.value) {
     centerToPosition.value = false
     const newMapCenter = e.target.getCenter()
     map.value.leafletObject.fitBounds(e.target.getBounds())
     center.value = [newMapCenter.lat, newMapCenter.lng]
   }
-}
+}, 10)
 
 const updatePosition = (gps: GeolocationPosition) => {
   position.value = [gps.coords.latitude, gps.coords.longitude]
