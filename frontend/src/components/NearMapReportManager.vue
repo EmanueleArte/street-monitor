@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from "axios"
 import { onMounted, ref, watch } from "vue"
-import ReportPin from "@/components/ReportPin.vue"
+import ReportPin from "@/components/pins/ReportPin.vue"
 import type { IReport } from "@models/reportModel"
 
 const props = defineProps<{

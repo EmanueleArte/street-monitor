@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Pin from "@/components/Pin.vue"
+import Pin from "@/components/pins/Pin.vue"
 
 defineProps<{
   center: [number, number]

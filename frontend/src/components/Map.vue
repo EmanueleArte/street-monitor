@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import "leaflet/dist/leaflet.css"
 import { LMap, LMarker, LTileLayer, LCircle } from "@vue-leaflet/vue-leaflet"
-import { type LeafletEvent, Util } from "leaflet"
+import type { LeafletEvent } from "leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
 import { throttle } from "lodash"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
-import CenterPin from "@/components/CenterPin.vue"
+import CenterPin from "@/components/pins/CenterPin.vue"
 
 const props = defineProps<{
   zoom: number,

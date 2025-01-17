@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IReport } from "@models/reportModel.ts"
-import Pin from "@/components/Pin.vue"
+import Pin from "@/components/pins/Pin.vue"
 
 const props = defineProps<{
   report: IReport
