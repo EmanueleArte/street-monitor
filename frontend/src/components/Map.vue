@@ -73,7 +73,7 @@ onUnmounted(stopWatchingPosition)
 
 <template>
   <div id="map-div">
-    <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
+    <LMap class="z-0" ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
           :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady" @drag="onMapMoved">
       <LTileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -93,6 +93,7 @@ onUnmounted(stopWatchingPosition)
 </template>
 
 <style scoped lang="scss">
+@use "../style/tailwind" as *;
 @use "../style/vars" as *;
 
 #map-div {
