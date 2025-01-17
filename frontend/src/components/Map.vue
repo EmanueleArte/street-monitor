@@ -3,6 +3,7 @@ import "leaflet/dist/leaflet.css"
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
+import CenterPin from "@/components/CenterPin.vue"
 
 const props = defineProps<{
   zoom: number,
@@ -41,7 +42,7 @@ const handleError = (error: GeolocationPositionError) => {
 }
 
 const startWatchingPosition = () => {
-  if (navigator.geolocation) {
+  if (navigator.geolocation && props.usePosition) {
     watchId.value = navigator.geolocation.watchPosition(updatePosition, handleError, options)
   } else {
     console.error("Geolocation is not supported by this browser.")
@@ -68,6 +69,7 @@ onUnmounted(stopWatchingPosition)
           name="OpenStreetMap"
       ></LTileLayer>
       <LMarker :lat-lng="position"/>
+      <CenterPin v-if="center !== position" :center="center"/>
       <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius"/>
     </LMap>
   </div>
