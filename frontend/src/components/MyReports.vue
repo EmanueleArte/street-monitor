@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <button class="my-reports-button">My Reports</button>
+    <button class="my-reports-button bg-blue-400 text-xl">My Reports</button>
 </template>
 
 <style lang="scss">
@@ -11,8 +11,11 @@
 
 .my-reports-button {
     position: absolute;
-    bottom: 2em;
-    left: 1em;
+    bottom: 2rem;
+    left: 1rem;
     z-index: 500;
+    padding: 2rem;
+    border: solid 2px white;
+    border-radius: 18px;
 }
 </style>
