@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import "leaflet/dist/leaflet.css"
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet"
+import type { LeafletEvent } from "leaflet"
 import { ref, onUnmounted, onBeforeMount } from "vue"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
 import CenterPin from "@/components/CenterPin.vue"
@@ -13,7 +14,7 @@ const props = defineProps<{
 const centerToPosition = ref<boolean>(true)
 const center = ref<[number, number]>([44.494887, 11.3426163])
 const position = ref<[number, number]>(center.value)
-const radius = ref<number>(1)
+const radius = ref<number>(10)
 const watchId = ref<number | null>(null)
 const options = {
   enableHighAccuracy: true,
@@ -28,6 +29,14 @@ const setMapCenter = () => {
 
 const onMapReady = () => {
   setMapCenter()
+}
+
+const onMapMoved = (e: LeafletEvent) => {
+  if (map.value) {
+    centerToPosition.value = false
+    const newMapCenter = e.target.getCenter()
+    center.value = [newMapCenter.lat, newMapCenter.lng]
+  }
 }
 
 const updatePosition = (gps: GeolocationPosition) => {
@@ -62,7 +71,7 @@ onUnmounted(stopWatchingPosition)
 <template>
   <div id="map-div">
     <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
-          :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady">
+          :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady" @drag="onMapMoved">
       <LTileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           layer-type="base"

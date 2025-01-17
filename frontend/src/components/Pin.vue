@@ -8,7 +8,7 @@ const props = defineProps<{
   lng: number
 }>()
 
-const dynamicSize: [number, number] = [props.iconSize, props.iconSize * 1.15]
+const dynamicSize: [number, number] = [props.iconSize, props.iconSize]
 const dynamicAnchor: [number, number] = [props.iconSize / 2, props.iconSize * 1.15]
 </script>
 

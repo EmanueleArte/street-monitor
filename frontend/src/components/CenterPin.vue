@@ -5,7 +5,7 @@ defineProps<{
   center: [number, number]
 }>()
 
-const iconSize: number = 64
+const iconSize: number = 48
 </script>
 
 <template>
