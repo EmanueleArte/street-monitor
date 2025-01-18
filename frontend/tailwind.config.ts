@@ -7,8 +7,12 @@ export default {
       "button-text": "#ffffff",
       "light": "#ffffff",
       "main": {
+        100: "#dbeafe",
         500: "#3b82f6",
         600: "#2563eb",
+      },
+      gray: {
+        500: "#6b7280",
       }
     },
     borderRadius: {

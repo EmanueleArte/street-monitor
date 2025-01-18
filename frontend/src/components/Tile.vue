@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="w-full rounded-t-xl bg-light">
+  <div class="w-full rounded-t-xl bg-light shadow-lg">
     <slot></slot>
   </div>
 </template>

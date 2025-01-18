@@ -72,8 +72,7 @@ onUnmounted(stopWatchingPosition)
 </script>
 
 <template>
-  <div id="map-div">
-    <LMap class="z-0" ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
+    <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
           :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady" @drag="onMapMoved">
       <LTileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -89,19 +88,8 @@ onUnmounted(stopWatchingPosition)
       />
       <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius"/>
     </LMap>
-  </div>
 </template>
 
 <style scoped lang="scss">
-@use "../style/tailwind" as *;
-@use "../style/vars" as *;
 
-#map-div {
-  width: 100vw;
-  height: 100vh;
-
-  @media screen and (min-width: $min_desktop_width) {
-
-  }
-}
 </style>
