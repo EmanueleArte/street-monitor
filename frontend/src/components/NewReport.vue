@@ -10,6 +10,7 @@ import type { IReportType } from "@models/reportTypeModel.ts"
 import axios from "axios"
 import Map from "@/components/Map.vue"
 import { usePositionStore } from "@/stores/position.ts"
+import { formatUnderscoredString } from "../lib/stringUtility.ts"
 
 const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)
@@ -39,7 +40,7 @@ onMounted(fetchReportTypes)
             focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75
             focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm">
           <span class="block truncate">
-            {{ selectedReportType?.name }}
+            {{ formatUnderscoredString(selectedReportType?.name) }}
           </span>
           <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -58,7 +59,7 @@ onMounted(fetchReportTypes)
                            :value="reportType">
               <li :class="[active ? 'bg-main-100' : 'text-gray-800', 'relative cursor-pointer select-none py-2 pl-10 pr-4',]">
                 <span :class="[selected ? 'font-medium' : 'font-normal','block truncate',]">
-                  {{ reportType.name }}
+                  {{ formatUnderscoredString(reportType?.name) }}
                 </span>
                 <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-main-600">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -77,7 +78,6 @@ onMounted(fetchReportTypes)
     <div class="w-full h-64">
       <Map id="position" class="z-0 rounded-xl" :zoom="12" :use-position=false :position="usePositionStore().position"></Map>
     </div>
-    <br><br><br><br><br><br><br><br><br>
   </div>
 </template>
 
