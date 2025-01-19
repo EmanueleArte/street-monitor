@@ -9,6 +9,7 @@ import {
 import type { IReportType } from "@models/reportTypeModel.ts"
 import axios from "axios"
 import Map from "@/components/Map.vue"
+import { usePositionStore } from "@/stores/position.ts"
 
 const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)
@@ -73,8 +74,8 @@ onMounted(fetchReportTypes)
     </Listbox>
 
     <label for="position" class="text-sm text-gray-500">Position</label>
-    <div class="w-full h-24">
-      <Map id="position" class="z-0 rounded-xl" :zoom="12" :use-position=true></Map>
+    <div class="w-full h-64">
+      <Map id="position" class="z-0 rounded-xl" :zoom="12" :use-position=false :position="usePositionStore().position"></Map>
     </div>
     <br><br><br><br><br><br><br><br><br>
   </div>
