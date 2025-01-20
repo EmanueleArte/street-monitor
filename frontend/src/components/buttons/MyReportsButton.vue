@@ -7,11 +7,11 @@ function toggleMyReports() {
 </script>
 
 <template>
-    <button @click="toggleMyReports" class="my-reports-button bg-blue-400 text-xl">My Reports</button>
+    <button @click="toggleMyReports" class="my-reports-button bg-main-600 text-xl">My Reports</button>
 </template>
 
-<style lang="scss">
-@use "../style/vars" as *;
+<style scoped lang="scss">
+@use "@/style/vars" as *;
 
 .my-reports-button {
     position: absolute;

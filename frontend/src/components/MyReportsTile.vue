@@ -12,10 +12,7 @@ const props = defineProps({
 
 const listMyReports = async () => {
   try {
-    const data = (await axios.get("http://localhost:3000/reports/by-user/mariorossi")).data //TODO cambiare user (mariorossi)
-    data.forEach((report: IReport) => {
-      console.log(report)
-    })
+    const data = (await axios.get("http://localhost:3000/reports/by-user/mariorossi")).data //TODO cambiare user (mariorossi) con user corrente loggato
     myReports.value = data
   } catch (e) {
     console.error(e)
@@ -26,7 +23,7 @@ onMounted(listMyReports)
 </script>
 
 <template>
-    <div v-show="isVisible" class="my-reports-div bg-blue-400">
+    <div v-show="isVisible" class="my-reports-div bg-light">
         <p class="my-reports-title">My reports:</p>
         <div class="my-reports-container">
           <ReportCard v-for="report in myReports" :report="report" />
@@ -34,7 +31,7 @@ onMounted(listMyReports)
     </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use "../style/vars" as *;
 
 @mixin my-reports {

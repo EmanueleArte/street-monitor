@@ -15,7 +15,7 @@ const datetimeConverter = (datetime: string): string => {
 </script>
 
 <template>
-    <article class="report-card bg-gray-400">
+    <article class="report-card bg-main-600">
         <section class="w-4/12">
             <img :src="`http://localhost:3000/${report.picture}`" alt="report image" class="report-image" />
         </section>
@@ -27,7 +27,7 @@ const datetimeConverter = (datetime: string): string => {
     </article>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use "../style/vars" as *;
 
 .report-card {
