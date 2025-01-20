@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import type { IReport } from "@models/reportModel";
 import axios from "axios";
-import { defineProps, onMounted, ref } from "vue"
+import { onMounted, ref } from "vue"
 import ReportCard from "./ReportCard.vue";
 
 const myReports = ref<IReport[]>([])
-
-const props = defineProps({
-  isVisible: { type: Boolean, required: true }
-})
 
 const listMyReports = async () => {
   try {
@@ -23,19 +19,17 @@ onMounted(listMyReports)
 </script>
 
 <template>
-    <div v-show="isVisible" class="my-reports-div bg-light">
-        <p class="my-reports-title">My reports:</p>
-        <div class="my-reports-container">
-          <ReportCard v-for="report in myReports" :report="report" />
-        </div>
-    </div>
+  <h1 class="my-reports-title">My reports:</h1>
+  <div class="my-reports-container">
+    <ReportCard v-for="report in myReports" :report="report" />
+  </div>
 </template>
 
 <style scoped lang="scss">
 @use "../style/vars" as *;
 
 @mixin my-reports {
-  $font-size: 16px; //1rem
+  $font-size: 1.5rem;
   $line-height: 1.5;
   $margin: 0rem;
   $p-height: calc(#{$font-size * $line-height} + #{$margin * 2});
@@ -51,12 +45,12 @@ onMounted(listMyReports)
 }
 
 .my-reports-div {
-  position: absolute;
+  /*position: absolute;
   bottom: 0;
   left: 0.4rem;
   right: 0.4rem;
   height: 60%;
-  z-index: $home_page_divs_z_index;
+  z-index: $home_page_divs_z_index;*/
   padding: 0.8rem;
   border: solid 2px white;
   border-bottom : none;

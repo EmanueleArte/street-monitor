@@ -19,7 +19,7 @@ const datetimeConverter = (datetime: string): string => {
         <section class="w-4/12">
             <img :src="`http://localhost:3000/${report.picture}`" alt="report image" class="report-image" />
         </section>
-        <section class="w-8/12 pl-3 text-start">
+        <section class="w-8/12 pl-3 text-start text-light">
             <h3>{{ reportTypeTextConverter(report.type) }}</h3>
             <p class="text-xs">{{ datetimeConverter(report.open_datetime) }}</p>
             <p class="text-xs">{{ report.description }}</p>    
