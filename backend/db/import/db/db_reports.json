@@ -10,14 +10,16 @@
     "user": "mariorossi",
     "coordinates": [44.41864209505457, 12.14230249607438],
     "open_datetime": "2025-01-02T15:30:00Z",
-    "description": "The streetlight near the park is not working."
+    "description": "The streetlight near the park is not working.",
+    "picture": "mariorossi-1.jpg"
 }
 {
     "type": "broken_streetlight",
     "user": "mariorossi",
     "coordinates": [44.426641011091725, 12.21466157595225],
     "open_datetime": "2024-12-05T12:01:40.00Z",
-    "description": "Streetlight not working!"
+    "description": "Streetlight not working!",
+    "picture": "mariorossi-2.jpg"
 }
 {
     "type": "ruined_asphalt",
@@ -36,5 +38,6 @@
     "type": "ruined_asphalt",
     "user": "mariorossi",
     "coordinates": [44.40043330387075, 12.172111898677823],
-    "open_datetime": "2025-01-14T12:14:31.00Z"
+    "open_datetime": "2025-01-14T12:14:31.00Z",
+    "picture": "mariorossi-3.jpg"
 }
