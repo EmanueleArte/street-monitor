@@ -2,15 +2,15 @@ import mongoose, { Document, Schema, Model } from 'mongoose'
 import { IFavoriteSpot, favoriteSpotSchema } from './favoriteSpotModel'
 import { INotification, notificationSchema } from './notificationModel'
 
-export interface IUser extends Document {
+export interface IUser {
     name: string
     surname: string
     email: string
     password: string
     username: string
     reputation: number
-    favorite_spots: IFavoriteSpot[]
-    notifications: INotification[]
+    favorite_spots?: IFavoriteSpot[]
+    notifications?: INotification[]
 }
 
 const userSchema: Schema<IUser> = new Schema<IUser>({
@@ -20,8 +20,8 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     password: { type: String, required: true },
     username: { type: String, required: true, unique: true, index: true, dropDups: true },
     reputation: { type: Number, required: true },
-    favorite_spots: [favoriteSpotSchema],
-    notifications: [notificationSchema]
+    favorite_spots: { type: [favoriteSpotSchema], required: false },
+    notifications: { type: [notificationSchema], required: false }
 })
 
 const userModel: Model<IUser> = mongoose.model<IUser>('User', userSchema)

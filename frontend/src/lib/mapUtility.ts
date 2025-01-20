@@ -1,0 +1,3 @@
+export const coordsEquals = (a: [number, number], b: [number, number]) => {
+    return a[0] === b[0] && a[1] === b[1]
+}

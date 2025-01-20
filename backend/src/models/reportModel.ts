@@ -10,7 +10,7 @@ export interface IReport extends Document {
     status: string,
     close_datetime: Date,
     description: string,
-    picture: string
+    picture: { data: Buffer, contentType: string }
 }
 
 const reportSchema: Schema<IReport> = new Schema<IReport>({
