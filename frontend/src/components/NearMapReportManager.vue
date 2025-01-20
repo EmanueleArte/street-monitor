@@ -19,6 +19,8 @@ const getNearReports = async () => {
         if (e.status === 404) {
           reports.value = []
           console.error(e.response.data)
+        } else {
+          console.error(e)
         }
       })
 }

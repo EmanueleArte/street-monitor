@@ -35,7 +35,7 @@ const handleTransitionCompleted = () => {
         </svg>
       </FloatingRoundButton>
       <Tile class="z-10 bottom-0 max-h-[80vh] overflow-auto">
-        <NewReport/>
+        <NewReport @toggle-tile="toggleTile"/>
       </Tile>
     </div>
   </transition>

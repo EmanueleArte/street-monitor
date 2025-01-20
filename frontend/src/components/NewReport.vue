@@ -9,11 +9,20 @@ import {
 import type { IReportType } from "@models/reportTypeModel.ts"
 import axios from "axios"
 import Map from "@/components/Map.vue"
-import { usePositionStore } from "@/stores/position.ts"
+import { usePositionStore } from "@/stores/position.store.ts"
 import { formatUnderscoredString } from "../lib/stringUtility.ts"
+
+const emit = defineEmits(["toggleTile"])
 
 const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)
+const posCopy = {...usePositionStore().position}
+const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])
+const zoom: number = 12
+
+const moveToPosition = () => {
+  usePositionStore().positionToMove = latLng.value
+}
 
 const fetchReportTypes = () => {
   axios.get<IReportType[]>(`http://localhost:3000/report-types`)
@@ -32,19 +41,19 @@ onMounted(fetchReportTypes)
     <h1 class="text-2xl">Insert a new report</h1>
 
     <Listbox v-model="selectedReportType" class="z-10">
-      <div class="relative mt-1">
+      <div class="relative mt-2">
         <label for="report-type" class="text-sm text-gray-500">Report type</label>
         <ListboxButton
             id="report-type"
             class="relative w-full cursor-pointer rounded-xl text-button-text bg-main-600 py-2 pl-3 pr-10 text-left shadow-lg
             focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75
-            focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm">
+            focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 hover:bg-main-700 duration-300">
           <span class="block truncate">
             {{ formatUnderscoredString(selectedReportType?.name) }}
           </span>
           <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="bg-main-600" class="size-6">
+                 stroke="white" class="size-6">
               <path stroke-linecap="round" stroke-linejoin="round"
                     d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"/>
             </svg>
@@ -74,9 +83,45 @@ onMounted(fetchReportTypes)
       </div>
     </Listbox>
 
-    <label for="position" class="text-sm text-gray-500">Position</label>
-    <div class="w-full h-64">
-      <Map id="position" class="z-0 rounded-xl" :zoom="12" :use-position=false :position="usePositionStore().position"></Map>
+    <div class="w-full h-64 mt-2 mb-8">
+      <label for="position" class="text-sm text-gray-500">Position</label>
+      <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
+           v-model:latLng="latLng"></Map>
+    </div>
+
+    <div class="flex flex-row w-full mt-2">
+      <div class="flex flex-col w-1/2">
+        <label for="lat" class="text-sm text-gray-500">Latitude</label>
+        <input type="number" id="lat"
+               class="rounded-xl p-2 mr-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"
+               v-model="latLng[0]"
+               @input="moveToPosition"
+               placeholder="Latitude">
+      </div>
+      <div class="flex flex-col w-1/2">
+        <label for="lng" class="ml-1 text-sm text-gray-500">Longitude</label>
+        <input type="number" id="lng"
+               class="rounded-xl p-2 ml-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"
+               v-model="latLng[1]"
+               @input="moveToPosition"
+               placeholder="Longitude">
+      </div>
+    </div>
+
+    <div class="mt-2">
+      <label for="description" class="text-sm text-gray-500">Description</label>
+      <textarea id="description"
+                class="w-full h-24 rounded-xl p-2 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"></textarea>
+    </div>
+
+    <div class="flex justify-end mt-2">
+      <button class="rounded-xl border border-main-600 px-4 py-2 mr-2 hover:bg-main-100 duration-300"
+              @click="emit('toggleTile')">
+        Cancel
+      </button>
+      <button class="rounded-xl bg-main-600 text-button-text px-4 py-2 hover:bg-main-700 duration-300">
+        Submit
+      </button>
     </div>
   </div>
 </template>
