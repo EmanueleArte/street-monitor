@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import NavBar from "@/components/NavBar.vue"
+//import NavBar from "@/components/NavBar.vue"
 import { ref } from "vue"
 import { RouterView } from "vue-router"
 
 const page = ref("Home")
 
-const changePage = (newPage) => {
+/*const changePage = (newPage) => {
     page.value = newPage
-}
+}*/
 </script>
 
 <template>
@@ -16,6 +16,8 @@ const changePage = (newPage) => {
 </template>
 
 <style lang="scss">
+@use "./style/tailwind" as *;
+
 body {
   margin: 0;
 }
