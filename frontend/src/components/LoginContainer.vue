@@ -6,8 +6,10 @@ import type { IUser } from '@models/userModel'
 import { verifyPassword } from '@/lib/passwordManager'
 import { router } from '@/router'
 import { useUserStore } from '@/stores/user'
-import { useAuthStore } from '@/stores/auth.store';
-import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores/auth.store'
+import { storeToRefs } from 'pinia'
+import FormFieldset from './inputs/FormFieldset.vue'
+import FormSubmitButton from './buttons/FormSubmitButton.vue';
 
 interface ILoginForm {
     username: string,
@@ -62,34 +64,33 @@ const signin = async () => {
             <p class="text-dark-default text-xl">Sign in to make a difference.</p>
         </div>
         
-        <p>
+        <p
+            v-if="loginError != ''"
+            class="border-2 border-red-800 rounded-md shadow-md shadow-red-400 bg-red-100 px-2 py-1 outline-pink-500 text-red-800 capitalize text-sm">
             {{ loginError }}
         </p>
+
         
         <form @submit.prevent="signin">
-            <fieldset class="flex flex-col gap-3">
-            <legend class="hidden">Account information</legend>
+            <FormFieldset :cols=1 legend="Account information" hideLegend>
 
-            <FormInput
-                fieldName="username"
-                label="username"
-                placeholder="Insert your username"
-                v-model="form.username"
-                />
-                
-            <FormInput 
-                fieldName="password"
-                label="password"
-                type="password"
-                placeholder="Insert your password"
-                v-model="form.password"
-                />
-            </fieldset>
+                <FormInput
+                    fieldName="username"
+                    label="username"
+                    placeholder="Insert your username"
+                    v-model="form.username"
+                    />
+                    
+                <FormInput 
+                    fieldName="password"
+                    label="password"
+                    type="password"
+                    placeholder="Insert your password"
+                    v-model="form.password"
+                    />
+
+            </FormFieldset>
             
-            <input
-                type="submit"
-                value="Sign In"
-                class="bg-primary-default w-full rounded-md py-1 mt-10 text-dark-default hover:bg-primary-accent"
-            />
+            <FormSubmitButton value="Sign In" />
         </form>
 </template>

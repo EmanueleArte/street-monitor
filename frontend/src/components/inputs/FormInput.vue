@@ -14,20 +14,23 @@ const props = defineProps<{
     ratio?: string
 }>()
 
-const withRatio: string = "basis-" + props.ratio || "full"
+const errorStyle: string = props.error?.message ? "border-red-800 text-red-800" : ""
+console.log(props.error, props.error?.message)
 </script>
 
 <template>
-    <p v-if="error">{{ error.message }}
-        <ul v-if="error.suggestions && error.suggestions.length > 1">
-            <li v-for="suggestion in error.suggestions">{{ suggestion }}</li>
-        </ul>
-    </p>
-    <label
-        class="text-sm inline-grid capitalize text-dark-default"
-        
-    >
-        {{ label }}
+    <div class="inline-grid">
+        <label :for="props.fieldName" class="text-sm capitalize text-dark-default">
+            {{ label }}
+        </label>
+        <p
+            v-if="error"
+            class="text-red-800 capitalize text-xs"    
+        >{{ error.message }}
+            <ul v-if="error.suggestions && error.suggestions.length > 1">
+                <li v-for="suggestion in error.suggestions">{{ suggestion }}</li>
+            </ul>
+        </p>
         <input
         :type="type || DEFAULT_INPUT_TYPE"
         :placeholder="placeholder || 'Insert ' + label"
@@ -35,7 +38,9 @@ const withRatio: string = "basis-" + props.ratio || "full"
         :id="props.fieldName"
         v-model="props.modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
-        class="border-2 rounded-md px-2 py-1 mt-1 bg-surface-component text-dark-default focus:outline-primary-default w-full"
+        class="w-full border-2 rounded-md px-2 py-1 mt-1 bg-surface-component text-dark-default focus:outline-primary-default focus:text-dark-default"
+        :class="errorStyle"
         />
-    </label>
+    </div>
+
 </template>

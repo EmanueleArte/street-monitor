@@ -4,7 +4,8 @@ import { onMounted, ref, reactive } from "vue"
 import FormInput from "../components/inputs/FormInput.vue"
 import hashPassword from "../lib/passwordManager"
 import type { IUser } from "@models/userModel"
-import FormFieldset from "./FormFieldset.vue"
+import FormFieldset from "./inputs/FormFieldset.vue"
+import FormSubmitButton from "./buttons/FormSubmitButton.vue"
 
 const REQUIRED_FIELD_MESSAGE: string = "required field"
 const USERNAME_MIN_LENGTH: number = 6
@@ -180,10 +181,6 @@ const signup = () => {
                     :error="errors.surname" />
             </FormFieldset>
 
-            <!-- <fieldset class="grid grid-cols-2 gap-1"> -->
-                
-            <!-- </fieldset> -->
-
             <FormFieldset :cols=1 legend="Account information" hideLegend>
                 
                 <FormInput
@@ -212,10 +209,6 @@ const signup = () => {
                     :error="errors.passwordCheck" />
             </FormFieldset>
             
-            <input
-                type="submit"
-                value="Register"
-                class="bg-primary-default w-full rounded-md py-1 mt-10 text-dark-default hover:bg-primary-accent"    
-            >
+            <FormSubmitButton value="Register" />
         </form>
 </template>
