@@ -14,6 +14,28 @@ export default {
         },
         gray: {
           500: "#6b7280",
+        },
+        
+        primary: {
+          default: '#2196F3',
+          accent: '#1565C0'
+        },
+        secondary: {
+          default: '#8BC34A',
+          accent: '#388E3C'
+        },
+        tertiary: {
+          default: '',
+          accent: ''
+        },
+        surface: {
+          default: '#fafafa',
+          component: '#f5f5f5',
+          divider: '#e0e0e0'
+        },
+        dark: {
+          default: '#212121',
+          disabled: '#bdbdbd'
         }
       },
       borderRadius: {
