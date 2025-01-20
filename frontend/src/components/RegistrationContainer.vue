@@ -4,6 +4,7 @@ import { onMounted, ref, reactive } from "vue"
 import FormInput from "../components/inputs/FormInput.vue"
 import hashPassword from "../lib/passwordManager"
 import type { IUser } from "@models/userModel"
+import FormFieldset from "./FormFieldset.vue"
 
 const REQUIRED_FIELD_MESSAGE: string = "required field"
 const USERNAME_MIN_LENGTH: number = 6
@@ -157,59 +158,64 @@ const signup = () => {
 </script>
 
 <template>
-  <div class="registrationContainer">
-    <header>StreetMonitor</header>
-    <h1>SignUp</h1>
-    <p>Create an account to continue</p>
-
-    <form @submit.prevent="signup">
-        <fieldset>
-            <legend>Personal information</legend>
-            
-            <FormInput
-                v-model="form.name"
-                fieldName="name"
-                label="name"
-                :error="errors.name" />
-
-            <FormInput
-                v-model="form.surname"
-                fieldName="surname"
-                label="surname"
-                :error="errors.surname" />
-        </fieldset>
-
-
-        <fieldset>
-            <legend>Account information</legend>
-
-            <FormInput
-                v-model="form.username"
-                fieldName="username"
-                label="username"
-                :error="errors.username" />
-            <FormInput
-                v-model="form.email"
-                type="email"
-                fieldName="email"
-                label="email"
-                :error="errors.email" />
-            <FormInput
-                v-model="form.password"
-                type="password"
-                fieldName="password"
-                label="password"
-                :error="errors.password" />
-            <FormInput
-                v-model="form.passwordCheck"
-                type="password"
-                fieldName="password-check"
-                label="confirm password"
-                placeholder="Insert password again"
-                :error="errors.passwordCheck" />
-        </fieldset>
+        <div>
+            <h1 class="text-3xl font-semibold text-primary-default">SignUp</h1>
+            <p class="text-dark-default text-xl">Create an account to continue.</p>
+        </div>
         
-        <input type="submit" value="Register">
-    </form>
-  </div>
+        <form @submit.prevent="signup">
+            <FormFieldset :cols=2 legend="Personal information" hideLegend>
+                <FormInput
+                    v-model="form.name"
+                    fieldName="name"
+                    label="name"
+                    ratio="1/2"
+                    :error="errors.name" />
+
+                <FormInput
+                    v-model="form.surname"
+                    fieldName="surname"
+                    label="surname"
+                    ratio="1/2"
+                    :error="errors.surname" />
+            </FormFieldset>
+
+            <!-- <fieldset class="grid grid-cols-2 gap-1"> -->
+                
+            <!-- </fieldset> -->
+
+            <FormFieldset :cols=1 legend="Account information" hideLegend>
+                
+                <FormInput
+                    v-model="form.username"
+                    fieldName="username"
+                    label="username"
+                    :error="errors.username" />
+                <FormInput
+                    v-model="form.email"
+                    type="email"
+                    fieldName="email"
+                    label="email"
+                    :error="errors.email" />
+                <FormInput
+                    v-model="form.password"
+                    type="password"
+                    fieldName="password"
+                    label="password"
+                    :error="errors.password" />
+                <FormInput
+                    v-model="form.passwordCheck"
+                    type="password"
+                    fieldName="password-check"
+                    label="confirm password"
+                    placeholder="Insert password again"
+                    :error="errors.passwordCheck" />
+            </FormFieldset>
+            
+            <input
+                type="submit"
+                value="Register"
+                class="bg-primary-default w-full rounded-md py-1 mt-10 text-dark-default hover:bg-primary-accent"    
+            >
+        </form>
 </template>

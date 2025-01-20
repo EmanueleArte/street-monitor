@@ -57,8 +57,6 @@ const signin = async () => {
 </script>
 
 <template>
-    <header class="text-l text-primary-default font-bold p-4">StreetMonitor</header>
-    <section class="flex flex-col grow justify-start gap-10 px-5 pt-40">
         <div>
             <h1 class="text-3xl font-semibold text-primary-default">Your city needs you!</h1>
             <p class="text-dark-default text-xl">Sign in to make a difference.</p>
@@ -94,5 +92,4 @@ const signin = async () => {
                 class="bg-primary-default w-full rounded-md py-1 mt-10 text-dark-default hover:bg-primary-accent"
             />
         </form>
-    </section>
 </template>

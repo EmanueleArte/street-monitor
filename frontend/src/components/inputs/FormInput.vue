@@ -10,8 +10,11 @@ const props = defineProps<{
     error?: {
         message: string,
         suggestions?: string[]
-    }
+    },
+    ratio?: string
 }>()
+
+const withRatio: string = "basis-" + props.ratio || "full"
 </script>
 
 <template>
@@ -21,7 +24,8 @@ const props = defineProps<{
         </ul>
     </p>
     <label
-        class="text-sm inline-grid w-full capitalize text-dark-default"
+        class="text-sm inline-grid capitalize text-dark-default"
+        
     >
         {{ label }}
         <input
@@ -31,7 +35,7 @@ const props = defineProps<{
         :id="props.fieldName"
         v-model="props.modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
-        class="border-2 rounded-md px-2 py-1 mt-1 bg-surface-component text-dark-default focus:outline-primary-default"
+        class="border-2 rounded-md px-2 py-1 mt-1 bg-surface-component text-dark-default focus:outline-primary-default w-full"
         />
     </label>
 </template>

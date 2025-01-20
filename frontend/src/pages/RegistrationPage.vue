@@ -19,12 +19,19 @@ const switchPage = () => {
     signupPage.value.paragraphText = signupPage.value.isLoaded ? REGISTRATION_PARAGRAPH_TEXT : LOGIN_PARAGRAPH_TEXT
     signupPage.value.linkText = signupPage.value.isLoaded ? REGISTRATION_LINK_TEXT : LOGIN_LINK_TEXT
 }
+
+switchPage()
 </script>
 
 <template>
   <div class="h-screen flex flex-col">
-    <RegistrationContainer v-if="signupPage.isLoaded" />
-    <LoginContainer v-else />
+    <header class="text-l text-primary-default font-bold p-4">StreetMonitor</header>
+
+    <section class="flex flex-col grow justify-start gap-10 px-5 pt-20">
+      <RegistrationContainer v-if="signupPage.isLoaded" />
+      <LoginContainer v-else />
+    </section>
+
     
     <footer class="flex justify-center gap-2 py-2">
       <span>{{ signupPage.paragraphText }}</span>
