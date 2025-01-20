@@ -22,11 +22,17 @@ const switchPage = () => {
 </script>
 
 <template>
+  <div class="h-screen flex flex-col">
     <RegistrationContainer v-if="signupPage.isLoaded" />
     <LoginContainer v-else />
-
-    <footer>
-        <span>{{ signupPage.paragraphText }}</span>
-        <a href="http://localhost:5173/signup" @click.prevent="switchPage">{{ signupPage.linkText }}</a>
+    
+    <footer class="flex justify-center gap-2 py-2">
+      <span>{{ signupPage.paragraphText }}</span>
+      <a
+        href="http://localhost:5173/signup"
+        @click.prevent="switchPage"
+        class="text-primary-default visited:text-primary-accent"
+      >{{ signupPage.linkText }}</a>
     </footer>
+  </div>
 </template>

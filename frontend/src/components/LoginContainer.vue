@@ -57,33 +57,42 @@ const signin = async () => {
 </script>
 
 <template>
-    <header>StreetMonitor</header>
-    <h1>Your city needs you!</h1>
-    <p>Sign in to make a difference.</p>
-
-    <p>
-        {{ loginError }}
-    </p>
-
-    <form @submit.prevent="signin">
-        <fieldset>
-            <legend>Account information</legend>
+    <header class="text-l text-primary-default font-bold p-4">StreetMonitor</header>
+    <section class="flex flex-col grow justify-start gap-10 px-5 pt-40">
+        <div>
+            <h1 class="text-3xl font-semibold text-primary-default">Your city needs you!</h1>
+            <p class="text-dark-default text-xl">Sign in to make a difference.</p>
+        </div>
+        
+        <p>
+            {{ loginError }}
+        </p>
+        
+        <form @submit.prevent="signin">
+            <fieldset class="flex flex-col gap-3">
+            <legend class="hidden">Account information</legend>
 
             <FormInput
                 fieldName="username"
-                label="username / email"
-                placeholder="Insert username or email"
+                label="username"
+                placeholder="Insert your username"
                 v-model="form.username"
-            />
-
+                />
+                
             <FormInput 
                 fieldName="password"
                 label="password"
                 type="password"
+                placeholder="Insert your password"
                 v-model="form.password"
+                />
+            </fieldset>
+            
+            <input
+                type="submit"
+                value="Sign In"
+                class="bg-primary-default w-full rounded-md py-1 mt-10 text-dark-default hover:bg-primary-accent"
             />
-        </fieldset>
-
-        <input type="submit" value="Sign In">
-    </form>
+        </form>
+    </section>
 </template>
