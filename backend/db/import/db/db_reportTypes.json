@@ -1,30 +1,30 @@
 {
-  "name": "Road pothole"
+  "name": "road_pothole"
 }
 {
-  "name": "Broken streetlight"
+  "name": "broken_streetlight"
 }
 {
-  "name": "Broken traffic light"
+  "name": "broken_traffic_light"
 }
 {
-  "name": "Broken traffic sign"
+  "name": "broken_traffic_sign"
 }
 {
-  "name": "Missing lane marking"
+  "name": "missing_lane_marking"
 }
 {
-  "name": "Missing road sign"
+  "name": "missing_road_sign"
 }
 {
-  "name": "Ruined asphalt"
+  "name": "ruined_asphalt"
 }
 {
-  "name": "Damaged sidewalk"
+  "name": "damaged_sidewalk"
 }
 {
-  "name": "Damaged road barrier"
+  "name": "damaged_road_barrier"
 }
 {
-  "name": "Ruins on the road"
+  "name": "ruins_on_the_road"
 }

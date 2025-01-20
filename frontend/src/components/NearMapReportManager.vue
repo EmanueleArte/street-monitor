@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from "axios"
-import { onMounted, ref } from "vue"
-import ReportPin from "@/components/ReportPin.vue"
+import { onMounted, ref, watch } from "vue"
+import ReportPin from "@/components/pins/ReportPin.vue"
 import type { IReport } from "@models/reportModel"
 
 const props = defineProps<{
@@ -15,10 +15,18 @@ const reports = ref<IReport[]>([])
 const getNearReports = async () => {
   axios.get<IReport[]>(`http://localhost:3000/reports/by-coordinates/${props.lat}&${props.lng}&${props.radius}`)
       .then((res) => reports.value = res.data)
-      .catch((e) => console.error(e))
+      .catch((e) => {
+        if (e.status === 404) {
+          reports.value = []
+          console.error(e.response.data)
+        } else {
+          console.error(e)
+        }
+      })
 }
 
 onMounted(getNearReports)
+watch(() => [props.lat, props.lng, props.radius], getNearReports)
 </script>
 
 <template>
