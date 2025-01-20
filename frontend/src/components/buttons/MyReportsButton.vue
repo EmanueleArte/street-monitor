@@ -7,18 +7,11 @@ function toggleMyReports() {
 </script>
 
 <template>
-    <button @click="toggleMyReports" class="my-reports-button bg-main-600 text-xl text-light">My Reports</button>
+    <button @click="toggleMyReports"
+    class="absolute bottom-2 left-6 h-24 w-40 bg-main-600 text-xl text-light rounded-xl">My Reports
+    </button>
 </template>
 
 <style scoped lang="scss">
 @use "@/style/vars" as *;
-
-.my-reports-button {
-    position: absolute;
-    bottom: 2rem;
-    left: 1rem;
-    z-index: $home_page_buttons_z_index;
-    padding: 2rem;
-    border-radius: 18px;
-}
 </style>

@@ -41,7 +41,7 @@ const handleTransitionCompleted = () => {
 
 <style scoped lang="scss">
 .slide-bottom-enter-active, .slide-bottom-leave-active {
-    transition: transform 0.5s ease;
+    transition: transform 0.5s;
 }
 .slide-bottom-enter-from, .slide-bottom-leave-to {
     transform: translateY(100%);
