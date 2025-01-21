@@ -53,10 +53,10 @@ onMounted(listMyReports)
       <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
         <ReportCard v-for="report in myOpenReports" :report="report" />
       </TabPanel>
-      <TabPanel>
+      <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
         <ReportCard v-for="report in mySolvingReports" :report="report" />
       </TabPanel>
-      <TabPanel>
+      <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
         <ReportCard v-for="report in myClosedReports" :report="report" />
       </TabPanel>
     </TabPanels>
