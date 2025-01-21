@@ -15,7 +15,8 @@ const props = defineProps<{
 }>()
 
 const errorStyle: string = props.error?.message ? "border-red-800 text-red-800" : ""
-console.log(props.error, props.error?.message)
+
+
 </script>
 
 <template>
@@ -37,7 +38,7 @@ console.log(props.error, props.error?.message)
         :name="props.fieldName"
         :id="props.fieldName"
         v-model="props.modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
         class="w-full border-2 rounded-md px-2 py-1 mt-1 bg-surface-component text-dark-default focus:outline-primary-default focus:text-dark-default"
         :class="errorStyle"
         />

@@ -8,6 +8,10 @@ const props = defineProps<{
     <input
         type="submit"
         :value="props.value"
-        class="bg-primary-default w-full rounded-md py-1 mt-10 text-dark-default hover:bg-primary-accent"    
+        class="
+        cursor-pointer bg-primary-default rounded-md text-dark-default
+        w-full py-1 mt-10
+        hover:bg-primary-accent
+        "
     >
 </template>

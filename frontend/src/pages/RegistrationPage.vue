@@ -24,22 +24,33 @@ switchPage()
 </script>
 
 <template>
-  <div class="h-screen flex flex-col">
-    <header class="text-l text-primary-default font-bold p-4">StreetMonitor</header>
 
-    <section class="flex flex-col grow justify-start gap-10 px-5 pt-20">
-      <RegistrationContainer v-if="signupPage.isLoaded" />
-      <LoginContainer v-else />
-    </section>
+<!-- background -->
+<div class="md:grid grid-cols-12 h-screen bg-red-500">
 
-    
-    <footer class="flex justify-center gap-2 py-2">
-      <span>{{ signupPage.paragraphText }}</span>
-      <a
-        href="http://localhost:5173/signup"
-        @click.prevent="switchPage"
-        class="text-primary-default visited:text-primary-accent"
-      >{{ signupPage.linkText }}</a>
-    </footer>
+  <!-- login/registration container -->
+  <div class="col-start-2 col-span-4 h-full md:flex md:flex-col md:flex-wrap md:p-10 px-0">
+
+    <!-- login/registration inner container -->
+    <div class="flex flex-col w-full h-full bg-surface-default md:rounded-2xl md:px-10 md:py-5">
+      <header class="text-l text-primary-default font-bold p-4">StreetMonitor</header>
+
+      <section class="flex flex-col grow justify-start gap-10 px-5 pt-20">
+        <RegistrationContainer v-if="signupPage.isLoaded" />
+        <LoginContainer v-else />
+      </section>
+
+      
+      <footer class="flex justify-center gap-2 py-2">
+        <span>{{ signupPage.paragraphText }}</span>
+        <a
+          href="http://localhost:5173/signup"
+          @click.prevent="switchPage"
+          class="text-primary-default visited:text-primary-accent"
+        >{{ signupPage.linkText }}</a>
+      </footer>
+    </div>
   </div>
+</div>
+
 </template>
