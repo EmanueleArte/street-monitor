@@ -136,10 +136,10 @@ onMounted(fetchReportTypes)
 
     <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-light">
       <SimpleButton classes="!bg-light !text-main-600 border border-main-600 hover:!bg-main-100"
-                    @action="emit('toggleTile')">
+                    @click="emit('toggleTile')">
         Cancel
       </SimpleButton>
-      <SimpleButton @action="console.log('Submit')">Submit</SimpleButton>
+      <SimpleButton @click="console.log('Submit')">Submit</SimpleButton>
     </section>
   </div>
 </template>

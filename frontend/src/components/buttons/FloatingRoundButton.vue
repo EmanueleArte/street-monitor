@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+defineProps<{
+  classes?: string
+}>()
 </script>
 
 <template>
-  <button class="w-16 h-16 bg-main-600 rounded-full shadow-lg flex items-center justify-center">
+  <button :class="[classes, 'w-16 h-16 bg-main-600 rounded-full shadow-lg flex items-center justify-center']">
     <slot></slot>
   </button>
 </template>
