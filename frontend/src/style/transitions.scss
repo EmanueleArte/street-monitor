@@ -4,19 +4,11 @@
     transition: transform 0.5s;
   }
 
-  &-enter-from .rotating {
+  &-enter-from .rotating, &-leave-to .rotating {
     transform: rotate(0deg);
   }
 
-  &-enter-to .rotating {
+  &-enter-to .rotating, &-leave-from .rotating {
     transform: rotate(45deg);
-  }
-
-  &-leave-from .rotating {
-    transform: rotate(45deg);
-  }
-
-  &-leave-to .rotating {
-    transform: rotate(0deg);
   }
 }
