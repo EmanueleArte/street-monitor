@@ -66,7 +66,7 @@ const signin = async () => {
         
         <p
             v-if="loginError != ''"
-            class="border-2 border-red-800 rounded-md shadow-md shadow-red-400 bg-red-100 px-2 py-1 outline-pink-500 text-red-800 capitalize text-sm">
+            class="border-2 border-error-default rounded-md shadow-md shadow-red-400 bg-red-100 px-2 py-1 outline-pink-500 text-error-default capitalize text-sm">
             {{ loginError }}
         </p>
 

@@ -1,3 +1,5 @@
+import colors from 'tailwindcss/colors'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{html,ts,vue}"],
@@ -36,6 +38,9 @@ export default {
         dark: {
           default: '#212121',
           disabled: '#bdbdbd'
+        },
+        error: {
+          default: colors.red[800]
         }
       },
       borderRadius: {

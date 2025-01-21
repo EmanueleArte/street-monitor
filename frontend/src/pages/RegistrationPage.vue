@@ -19,8 +19,6 @@ const switchPage = () => {
     signupPage.value.paragraphText = signupPage.value.isLoaded ? REGISTRATION_PARAGRAPH_TEXT : LOGIN_PARAGRAPH_TEXT
     signupPage.value.linkText = signupPage.value.isLoaded ? REGISTRATION_LINK_TEXT : LOGIN_LINK_TEXT
 }
-
-switchPage()
 </script>
 
 <template>
@@ -56,6 +54,7 @@ switchPage()
 </template>
 
 <style lang="scss" scoped>
+// temporary
 div#background {
   background-image: linear-gradient(to left top, #8bc34a, #00b87f, #00a4b5, #0089d0, #1565c0);
 }

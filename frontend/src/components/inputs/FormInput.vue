@@ -15,7 +15,7 @@ const props = defineProps<{
     ratio?: string
 }>()
 
-const errorStyle: string = props.error?.message ? "border-red-800 text-red-800" : ""
+const errorStyle: string = props.error?.message ? "border-error-default text-error-default" : ""
 const type: string = props.type || DEFAULT_INPUT_TYPE
 </script>
 
@@ -25,13 +25,13 @@ const type: string = props.type || DEFAULT_INPUT_TYPE
             {{ label }}
             <p
                 v-if="error?.message"
-                class="text-red-800 capitalize text-xs before:content-['*']"    
+                class="text-error-default capitalize text-xs before:content-['*']"    
                 >{{ error.message }}
 
 
             </p>
             <FormInfo
-                class="text-red-800 justify-self-end"
+                class="text-error-default justify-self-end"
                 v-if="error?.suggestions && error.suggestions?.length > 1"
                 :suggestions="props.error?.suggestions" />
 
