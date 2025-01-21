@@ -11,7 +11,7 @@ const REQUIRED_FIELD_MESSAGE: string = "required field"
 const USERNAME_MIN_LENGTH: number = 6
 const MINIMUM_LENGTH_ALLOWED_MESSAGE: string = "required a minimum length of "
 const INVALID_FORMAT_MESSAGE: string = "invalid format"
-const INVALID_PASSWORD_FORMAT_MESSAGE: string = "password must contain:"
+const INVALID_PASSWORD_FORMAT_MESSAGE: string = "invalid format"//"password must contain:"
 const PASSWORDS_DONT_MATCH_MESSAGE: string = "passwords don't match"
 
 const emailRegExp: RegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);

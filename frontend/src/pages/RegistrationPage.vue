@@ -26,13 +26,13 @@ switchPage()
 <template>
 
 <!-- background -->
-<div class="md:grid grid-cols-12 h-screen bg-red-500">
+<div id="background" class="md:grid grid-cols-12 h-screen bg-red-500">
 
   <!-- login/registration container -->
   <div class="col-start-2 col-span-4 h-full md:flex md:flex-col md:flex-wrap md:p-10 px-0">
 
     <!-- login/registration inner container -->
-    <div class="flex flex-col w-full h-full bg-surface-default md:rounded-2xl md:px-10 md:py-5">
+    <div class="flex flex-col w-full h-full bg-surface-default md:rounded-2xl md:px-10 md:py-5 shadow-lg shadow-black/30">
       <header class="text-l text-primary-default font-bold p-4">StreetMonitor</header>
 
       <section class="flex flex-col grow justify-start gap-10 px-5 pt-20">
@@ -54,3 +54,9 @@ switchPage()
 </div>
 
 </template>
+
+<style lang="scss" scoped>
+div#background {
+  background-image: linear-gradient(to left top, #8bc34a, #00b87f, #00a4b5, #0089d0, #1565c0);
+}
+</style>
