@@ -1,8 +1,9 @@
-import mongoose, { Document, Schema, Model } from 'mongoose'
+import mongoose, { Document, Schema, Model, ObjectId } from 'mongoose'
 import type { IReportType } from '@/models/reportTypeModel'
 import type { IUser } from '@/models/userModel'
 
 export interface IReport extends Document {
+    _id: ObjectId,
     type: IReportType,
     user: IUser,
     coordinates: [number, number],
@@ -14,6 +15,7 @@ export interface IReport extends Document {
 }
 
 const reportSchema: Schema<IReport> = new Schema<IReport>({
+    _id: { type: Schema.Types.ObjectId, required: true },
     type: { type: String, ref: 'ReportType', required: true },
     user: { type: String, ref: 'User', required: true },
     coordinates: { type: [Number, Number], required: true },
