@@ -46,28 +46,5 @@ const handleTransitionCompleted = () => {
 </template>
 
 <style scoped lang="scss">
-// Button icon rotation
-.slide-bottom {
-  &-enter-active .rotating, &-leave-active .rotating {
-    transition: transform 0.5s;
-  }
-
-  &-enter-from .rotating {
-    transform: rotate(0deg);
-  }
-
-  &-enter-to .rotating {
-    transform: rotate(45deg);
-  }
-
-  &-leave-from .rotating {
-    transform: rotate(45deg);
-  }
-
-  &-leave-to .rotating {
-    transform: rotate(0deg);
-  }
-}
-
-
+@use "../style/transitions" as *;
 </style>
