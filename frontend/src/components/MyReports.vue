@@ -23,7 +23,7 @@ const handleTransitionCompleted = () => {
 <template>
     <MyReportsButton v-if="!showReportTile && transitionCompleted" @toggleMyReports="toggleReportsVisibility" />
     <transition name="slide-bottom" @afterLeave="handleTransitionCompleted">
-        <div v-if="showReportTile" class="container fixed bottom-0 h-[60%]">
+        <div v-if="showReportTile" class="container fixed bottom-0 z-10 h-[60%]">
             <button class="absolute -top-20 left-4 w-16 h-16 bg-main-600 rounded-full shadow-lg flex items-center justify-center z-1"
                     @click="toggleReportsVisibility">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
