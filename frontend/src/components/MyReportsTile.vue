@@ -3,16 +3,36 @@ import type { IReport } from "@models/reportModel";
 import axios from "axios";
 import { onMounted, ref } from "vue"
 import ReportCard from "./ReportCard.vue";
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue';
 
-const myReports = ref<IReport[]>([])
+const myOpenReports = ref<IReport[]>([])
+const mySolvingReports = ref<IReport[]>([])
+const myClosedReports = ref<IReport[]>([])
+const status = ref<string>("open")
 
 const listMyReports = async () => {
   try {
     const data = (await axios.get("http://localhost:3000/reports/by-user/mariorossi")).data //TODO cambiare user (mariorossi) con user corrente loggato
-    myReports.value = data
+    for (const report of data) {
+      switch (report.status) {
+        case "open":
+          myOpenReports.value.push(report)
+          break
+        case "solving":
+          mySolvingReports.value.push(report)
+          break
+        case "closed":
+          myClosedReports.value.push(report)
+          break
+      }
+    }
   } catch (e) {
     console.error(e)
   }
+}
+
+const toggleTabList = (s: string) => {
+  status.value = s
 }
 
 onMounted(listMyReports)
@@ -20,45 +40,36 @@ onMounted(listMyReports)
 
 <template>
   <h1 class="my-reports-title">My reports:</h1>
-  <div class="my-reports-container">
-    <ReportCard v-for="report in myReports" :report="report" />
-  </div>
+  <TabGroup>
+    <TabList class="my-reports-tablist w-full flex justify-around">
+      <Tab :class="{ 'bg-main-700 text-light': status=='open', 'border-2 border-main-600': status!='open' }" class="rounded-s-2xl w-full p-1"
+          @click="toggleTabList('open')">Open</Tab>
+      <Tab :class="{ 'bg-main-700 text-light': status=='solving', 'border-2 border-main-600': status!='solving' }" class="w-full p-1"
+          @click="toggleTabList('solving')">Solving</Tab>
+      <Tab :class="{ 'bg-main-700 text-light': status=='closed', 'border-2 border-main-600': status!='closed' }" class="rounded-e-2xl w-full p-1"
+          @click="toggleTabList('closed')">Closed</Tab>
+    </TabList>
+    <TabPanels class="h-[100%]">
+      <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
+        <ReportCard v-for="report in myOpenReports" :report="report" />
+      </TabPanel>
+      <TabPanel>
+        <ReportCard v-for="report in mySolvingReports" :report="report" />
+      </TabPanel>
+      <TabPanel>
+        <ReportCard v-for="report in myClosedReports" :report="report" />
+      </TabPanel>
+    </TabPanels>
+  </TabGroup>
 </template>
 
 <style scoped lang="scss">
 @use "../style/vars" as *;
 
-@mixin my-reports {
-  $font-size: 1.5rem;
-  $line-height: 1.5;
-  $margin: 0rem;
-  $p-height: calc(#{$font-size * $line-height} + #{$margin * 2});
-
-  font-size: $font-size;
-  line-height: $line-height;
-  margin: $margin;
-  max-height: calc(100% - #{$p-height});
-}
-
-.my-reports-title {
-  @include my-reports;
-}
-
 .my-reports-div {
-  /*position: absolute;
-  bottom: 0;
-  left: 0.4rem;
-  right: 0.4rem;
-  height: 60%;
-  z-index: $home_page_divs_z_index;*/
   padding: 0.8rem;
   border: solid 2px white;
   border-bottom : none;
   border-radius: 18px 18px 0 0;
-}
-
-.my-reports-container {
-  @include my-reports;
-  overflow-y: auto;
 }
 </style>

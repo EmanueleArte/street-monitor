@@ -15,9 +15,9 @@ const datetimeConverter = (datetime: string): string => {
 </script>
 
 <template>
-    <article class="report-card bg-main-600">
+    <article class="report-card bg-main-500 border-2 border-main-700">
         <section class="w-4/12">
-            <img :src="`http://localhost:3000/${report.picture}`" alt="report image" class="report-image" />
+            <img :src="report.picture ? `http://localhost:3000/${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'" alt="report image" class="report-image" />
         </section>
         <section class="w-8/12 pl-3 text-start text-light">
             <h3>{{ reportTypeTextConverter(report.type) }}</h3>
@@ -35,7 +35,6 @@ const datetimeConverter = (datetime: string): string => {
     align-items: center;
     padding: 0.8rem;
     margin: 0.5rem;
-    border: solid 2px white;
     border-radius: 18px;
     margin-bottom: 0.4rem;
 }

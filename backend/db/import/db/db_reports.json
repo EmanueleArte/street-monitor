@@ -41,3 +41,26 @@
     "open_datetime": "2025-01-14T12:14:31.00Z",
     "picture": "mariorossi-3.jpg"
 }
+{
+    "type": "ruined_asphalt",
+    "user": "mariorossi",
+    "coordinates": [44.42543330387075, 12.319471898677823],
+    "open_datetime": "2025-01-15T10:01:00.00Z",
+    "status": "closed",
+    "close_datetime": "2025-01-15T12:14:31.00Z"
+}
+{
+    "type": "damaged_road_barrier",
+    "user": "mariorossi",
+    "coordinates": [44.67253146097075, 12.094279898677823],
+    "open_datetime": "2025-01-05T10:01:00.00Z",
+    "status": "solving",
+    "description": "The road barrier is really damaged, almost missing."
+}
+{
+    "type": "missing_road_sign",
+    "user": "mariorossi",
+    "coordinates": [44.67190346097075, 12.761642898677823],
+    "open_datetime": "2024-11-26T09:18:15.00Z",
+    "status": "solving"
+}
