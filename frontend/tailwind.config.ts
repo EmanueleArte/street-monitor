@@ -12,9 +12,6 @@ export default {
           600: "#2563eb",
           700: "#1d4ed8",
         },
-        gray: {
-          500: "#6b7280",
-        }
       },
       borderRadius: {
         "xl": "0.75rem",
