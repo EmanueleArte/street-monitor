@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { computed, onMounted, ref } from "vue"
 import {
   Listbox,
   ListboxButton,
@@ -11,12 +11,14 @@ import axios from "axios"
 import Map from "@/components/Map.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { formatUnderscoredString } from "../lib/stringUtility.ts"
+import CameraContainer from "@/components/CameraContainer.vue"
+import SimpleButton from "@/components/buttons/SimpleButton.vue"
 
 const emit = defineEmits(["toggleTile"])
 
 const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)
-const posCopy = {...usePositionStore().position}
+const posCopy = { ...usePositionStore().position }
 const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])
 const zoom: number = 12
 
@@ -33,19 +35,22 @@ const fetchReportTypes = () => {
       .catch((e) => console.error(e))
 }
 
+const image = ref<Blob | null>(null)
+const previewUrl = computed<string>(() => image.value ? URL.createObjectURL(image.value) : "")
+
 onMounted(fetchReportTypes)
 </script>
 
 <template>
-  <div class="p-4">
+  <div class="p-4 pb-20 space-y-2">
     <h1 class="text-2xl">Insert a new report</h1>
 
     <Listbox v-model="selectedReportType" class="z-10">
-      <div class="relative mt-2">
+      <div class="relative">
         <label for="report-type" class="text-sm text-gray-500">Report type</label>
         <ListboxButton
             id="report-type"
-            class="relative w-full cursor-pointer rounded-xl text-button-text bg-main-600 py-2 pl-3 pr-10 text-left shadow-lg
+            class="relative w-full cursor-pointer rounded-xl text-button-text bg-main-600 py-2 pl-3 pr-10 text-left
             focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75
             focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 hover:bg-main-700 duration-300">
           <span class="block truncate">
@@ -83,46 +88,59 @@ onMounted(fetchReportTypes)
       </div>
     </Listbox>
 
-    <div class="w-full h-64 mt-2 mb-8">
-      <label for="position" class="text-sm text-gray-500">Position</label>
-      <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
-           v-model:latLng="latLng"></Map>
-    </div>
-
-    <div class="flex flex-row w-full mt-2">
-      <div class="flex flex-col w-1/2">
-        <label for="lat" class="text-sm text-gray-500">Latitude</label>
-        <input type="number" id="lat"
-               class="rounded-xl p-2 mr-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"
-               v-model="latLng[0]"
-               @input="moveToPosition"
-               placeholder="Latitude">
+    <section>
+      <div class="w-full h-64 mb-8">
+        <label for="position" class="text-sm text-gray-500">Position</label>
+        <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
+             v-model:latLng="latLng"></Map>
       </div>
-      <div class="flex flex-col w-1/2">
-        <label for="lng" class="ml-1 text-sm text-gray-500">Longitude</label>
-        <input type="number" id="lng"
-               class="rounded-xl p-2 ml-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"
-               v-model="latLng[1]"
-               @input="moveToPosition"
-               placeholder="Longitude">
-      </div>
-    </div>
 
-    <div class="mt-2">
+      <div class="flex flex-row w-full">
+        <div class="flex flex-col w-1/2">
+          <label for="lat" class="text-sm text-gray-500">Latitude</label>
+          <input type="number" id="lat"
+                 class="rounded-xl p-2 mr-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"
+                 v-model="latLng[0]"
+                 @input="moveToPosition"
+                 placeholder="Latitude">
+        </div>
+        <div class="flex flex-col w-1/2">
+          <label for="lng" class="ml-1 text-sm text-gray-500">Longitude</label>
+          <input type="number" id="lng"
+                 class="rounded-xl p-2 ml-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"
+                 v-model="latLng[1]"
+                 @input="moveToPosition"
+                 placeholder="Longitude">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <label for="picture" class="text-sm text-gray-500">Picture</label>
+      <div id="picture">
+        <CameraContainer :resolution="{ width: 960, height: 1280 }" v-model:snapshot="image"/>
+        <SimpleButton classes="ml-2 !bg-light !text-main-600 border border-main-600 hover:!bg-main-100">
+          Choose from device
+        </SimpleButton>
+      </div>
+      <div v-if="image" class="mt-2">
+        <img v-if="image" :src="previewUrl" alt="Image preview" class="w-full rounded-xl"/>
+      </div>
+    </section>
+
+    <section>
       <label for="description" class="text-sm text-gray-500">Description</label>
       <textarea id="description"
                 class="w-full h-24 rounded-xl p-2 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"></textarea>
-    </div>
+    </section>
 
-    <div class="flex justify-end mt-2">
-      <button class="rounded-xl border border-main-600 px-4 py-2 mr-2 hover:bg-main-100 duration-300"
-              @click="emit('toggleTile')">
+    <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-light">
+      <SimpleButton classes="!bg-light !text-main-600 border border-main-600 hover:!bg-main-100"
+                    @action="emit('toggleTile')">
         Cancel
-      </button>
-      <button class="rounded-xl bg-main-600 text-button-text px-4 py-2 hover:bg-main-700 duration-300">
-        Submit
-      </button>
-    </div>
+      </SimpleButton>
+      <SimpleButton @action="console.log('Submit')">Submit</SimpleButton>
+    </section>
   </div>
 </template>
 

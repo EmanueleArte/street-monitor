@@ -37,6 +37,7 @@
     "vite-plugin-vue-devtools": "^7.6.5",
     "vue-tsc": "^2.1.10",
     "lodash": "^4.17.21",
-    "@types/lodash": "^4.17.14"
+    "@types/lodash": "^4.17.14",
+    "simple-vue-camera": "^1.1.3"
   }
 }
