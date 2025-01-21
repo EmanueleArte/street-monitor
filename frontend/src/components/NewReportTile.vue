@@ -21,21 +21,21 @@ const handleTransitionCompleted = () => {
 </script>
 
 <template>
-  <FloatingRoundButton v-if="!showTile && transitionCompleted" class="z-40 fixed bottom-4 right-4" @click="toggleTile">
+  <FloatingRoundButton v-if="!showTile && transitionCompleted" class="z-1 fixed bottom-4 right-4" @click="toggleTile">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
          class="size-8">
       <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
     </svg>
   </FloatingRoundButton>
   <SlideFromBottom @onCompleted="handleTransitionCompleted">
-    <div v-if="showTile" class="container fixed bottom-0">
-      <FloatingRoundButton class="z-40 absolute -top-20 right-4 " @click="toggleTile">
+    <div v-if="showTile" class="container fixed bottom-0 z-10">
+      <FloatingRoundButton class="absolute -top-20 right-4 " @click="toggleTile">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
              class="size-8 rotate-45">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
       </FloatingRoundButton>
-      <Tile class="z-10 bottom-0 max-h-[85vh] overflow-auto">
+      <Tile class="bottom-0 max-h-[85vh] overflow-auto">
         <NewReport @toggleTile="toggleTile"/>
       </Tile>
     </div>
