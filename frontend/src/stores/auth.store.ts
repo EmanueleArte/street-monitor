@@ -14,7 +14,6 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     function login(username: string, password: string) {
-        console.log('login')
         return axios
             .get<IUser>(backendUrl + username.trim())
             .then(res => verifyPassword(password, res.data.password)

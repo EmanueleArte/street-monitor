@@ -22,7 +22,6 @@ const form = ref<ILoginForm>({
 const signin = async () => {
     authStore.login(form.value.username, form.value.password)
     .catch(err => {
-        console.log(err)
         loginError.value = err.status && err.status == 404
             ? "Username not present"
             : "Username or password not correct"
