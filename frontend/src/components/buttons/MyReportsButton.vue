@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const emit = defineEmits(["toggleMyReports"])
 
-function toggleMyReports() {
+const toggleMyReports = () => {
   emit("toggleMyReports")
 }
 </script>

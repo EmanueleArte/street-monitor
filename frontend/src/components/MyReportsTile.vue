@@ -11,6 +11,9 @@ const myClosedReports = ref<IReport[]>([])
 const status = ref<string>("open")
 
 const listMyReports = async () => {
+  myOpenReports.value = []
+  mySolvingReports.value = []
+  myClosedReports.value = []
   try {
     const data = (await axios.get("http://localhost:3000/reports/by-user/mariorossi")).data //TODO cambiare user (mariorossi) con user corrente loggato
     for (const report of data) {
@@ -51,13 +54,13 @@ onMounted(listMyReports)
     </TabList>
     <TabPanels class="h-[100%]">
       <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
-        <ReportCard v-for="report in myOpenReports" :report="report" />
+        <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()" />
       </TabPanel>
       <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
-        <ReportCard v-for="report in mySolvingReports" :report="report" />
+        <ReportCard v-for="report in mySolvingReports" :report="report" @updateTiles="listMyReports()" />
       </TabPanel>
       <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
-        <ReportCard v-for="report in myClosedReports" :report="report" />
+        <ReportCard v-for="report in myClosedReports" :report="report" @updateTiles="listMyReports()" />
       </TabPanel>
     </TabPanels>
   </TabGroup>

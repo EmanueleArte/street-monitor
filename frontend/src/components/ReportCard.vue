@@ -3,9 +3,15 @@ import ChangeStatusButton from './buttons/ChangeStatusButton.vue';
 import type { IReport } from '@models/reportModel';
 import type { PropType } from 'vue';
 
+const emit = defineEmits(["updateTiles"])
+
 defineProps({
     report: { type: Object as PropType<IReport>, required: true }
 })
+
+const updateTiles = () => {
+    emit("updateTiles")
+}
 
 const reportTypeTextConverter = (t: string): string => {
     return t.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -27,7 +33,7 @@ const datetimeConverter = (datetime: Date): string => {
             <h2 class="text-lg">{{ reportTypeTextConverter(report.type) }}</h2>
             <p class="text-xs">{{ datetimeConverter(report.open_datetime) }}</p>
             <p class="text-xs">{{ report.description }}</p>
-            <ChangeStatusButton v-if="report.status!='closed'" :report="report" />
+            <ChangeStatusButton v-show="report.status!='closed'" :report="report" @changeStatus="updateTiles" />
         </section>
     </article>
 </template>

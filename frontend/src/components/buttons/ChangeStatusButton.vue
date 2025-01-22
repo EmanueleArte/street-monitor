@@ -3,16 +3,19 @@ import type { IReport } from '@models/reportModel';
 import axios from 'axios';
 import type { PropType } from 'vue';
 
+const emit = defineEmits(["changeStatus"])
+
 defineProps({
     report: { type: Object as PropType<IReport>, required: true }
 })
 
 const changeStatus = async (r: IReport) => {
     try {
-        console.log(r.status)
         r.status = r.status === 'open' ? 'solving' : 'closed'
-        console.log(r.status)
         const response = await axios.put(`http://localhost:3000/reports/by-id/${r._id}`, r)
+        if (response.status === 200) {
+            emit("changeStatus")
+        }
     } catch (e) {
         console.error(e);
     }
