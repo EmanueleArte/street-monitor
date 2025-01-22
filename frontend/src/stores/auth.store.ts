@@ -5,9 +5,6 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-const WRONG_INPUTS_ERROR: string = "Wrong username or password"
-const USERNAME_NOT_PRESENT_ERROR: string = "You are not registered"
-
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<IUser>()
     const backendUrl = "http://localhost:3000/users/"
@@ -17,12 +14,15 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     function login(username: string, password: string) {
+        console.log('login')
         return axios
             .get<IUser>(backendUrl + username.trim())
             .then(res => verifyPassword(password, res.data.password)
                     .then(match => {
-                        if (!match) return
-
+                        if (!match) {
+                            return Promise.reject('passwords don\'t match')
+                        }
+                        
                         user.value = res.data
                         localStorage.setItem('user', JSON.stringify(res.data))
                         router.push('/')

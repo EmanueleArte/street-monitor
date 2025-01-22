@@ -10,10 +10,6 @@ const props = defineProps<{
     type?: string,
     placeholder?: string,
     error?: string,
-    // error?: {
-    //     message: string,
-    //     suggestions?: string[]
-    // },
     ratio?: string
 }>()
 
@@ -22,7 +18,7 @@ const type: string = props.type || DEFAULT_INPUT_TYPE
 </script>
 
 <template>
-    <div class="">
+    <div>
         <label :for="props.fieldName" class="flex wrap justify-items-end gap-x-2 text-sm capitalize text-dark-default">
             {{ label }}
             <p

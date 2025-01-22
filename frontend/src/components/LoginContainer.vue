@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import FormInput from './inputs/FormInput.vue'
-import axios from 'axios'
-import type { IUser } from '@models/userModel'
-import { verifyPassword } from '@/lib/passwordManager'
-import { router } from '@/router'
 import { useAuthStore } from '@/stores/auth.store'
-import { storeToRefs } from 'pinia'
+import FormInput from './inputs/FormInput.vue'
 import FormFieldset from './inputs/FormFieldset.vue'
 import FormSubmitButton from './buttons/FormSubmitButton.vue';
+
+const authStore = useAuthStore()
+const loginError = ref<string>("")
 
 interface ILoginForm {
     username: string,
@@ -20,13 +18,11 @@ const form = ref<ILoginForm>({
     password: ""
 })
 
-// const userStore = useUserStore()
-const authStore = useAuthStore()
-const loginError = ref<string>("")
 
 const signin = async () => {
     authStore.login(form.value.username, form.value.password)
     .catch(err => {
+        console.log(err)
         loginError.value = err.status && err.status == 404
             ? "Username not present"
             : "Username or password not correct"

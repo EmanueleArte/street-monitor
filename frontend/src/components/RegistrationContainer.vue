@@ -1,35 +1,18 @@
 <script setup lang="ts">
-import axios from "axios"
-import { onMounted, ref, reactive } from "vue"
-import { Form } from 'vee-validate'
+import { ref } from "vue"
 import FormInput from "../components/inputs/FormInput.vue"
-import hashPassword from "../lib/passwordManager"
-import type { IUser } from "@models/userModel"
 import FormFieldset from "./inputs/FormFieldset.vue"
 import FormSubmitButton from "./buttons/FormSubmitButton.vue"
 import * as yup from 'yup'
-
 import {useAuthStore} from '@/stores/auth.store'
-import { ValidationError } from "yup"
-
-const REQUIRED_FIELD_MESSAGE: string = "required field"
-const USERNAME_MIN_LENGTH: number = 6
-const MINIMUM_LENGTH_ALLOWED_MESSAGE: string = "required a minimum length of "
-const INVALID_FORMAT_MESSAGE: string = "invalid format"
-const INVALID_PASSWORD_FORMAT_MESSAGE: string = "invalid format"//"password must contain:"
-const PASSWORDS_DONT_MATCH_MESSAGE: string = "passwords don't match"
-
-const emailRegExp: RegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-const passwordRegExp: RegExp = new RegExp(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
 
 const authStore = useAuthStore()
-
 const passwordRules: string[] = [
-                "at least one upper case letter",
-                "at least one lower case letter",
-                "at least one digit",
-                "at least one symbol (allowed symbols are: ! @ # $ % ^ & *)",
-            ]
+    "at least one upper case letter",
+    "at least one lower case letter",
+    "at least one digit",
+    "at least one symbol (allowed symbols are: ! @ # $ % ^ & *)",
+]
 
 yup.setLocale({
     mixed: {
@@ -90,7 +73,7 @@ const validationErrors = ref<IRegistrationForm>({
 const signup = () => {
     schema.validate(form.value, {abortEarly: false})
         .then(user => authStore.register(user))
-        .catch((e: ValidationError) => {
+        .catch((e: yup.ValidationError) => {
             const temporaryValidationErrors: any = {}
             e.inner.forEach((err) => {
                 if (err.path && !temporaryValidationErrors[err.path]) {
