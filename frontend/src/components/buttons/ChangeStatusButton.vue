@@ -10,14 +10,19 @@ defineProps({
 })
 
 const changeStatus = async (r: IReport) => {
-    try {
-        r.status = r.status === 'open' ? 'solving' : 'closed'
-        const response = await axios.put(`http://localhost:3000/reports/by-id/${r._id}`, r)
-        if (response.status === 200) {
-            emit("changeStatus")
+    if (r.status != 'closed') {
+        try {
+            r.status = r.status === 'open' ? 'solving' : 'closed'
+            if (r.status === 'closed') {
+                r.close_datetime = new Date()
+            }
+            const response = await axios.put(`http://localhost:3000/reports/by-id/${r._id}`, r)
+            if (response.status === 200) {
+                emit("changeStatus")
+            }
+        } catch (e) {
+            console.error(e);
         }
-    } catch (e) {
-        console.error(e);
     }
 }
 

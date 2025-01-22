@@ -32,6 +32,7 @@ const datetimeConverter = (datetime: Date): string => {
         <section class="w-8/12 pl-3 text-start text-light">
             <h2 class="text-lg">{{ reportTypeTextConverter(report.type) }}</h2>
             <p class="text-xs">{{ datetimeConverter(report.open_datetime) }}</p>
+            <p v-if="report.status == 'closed'" class="text-xs">{{ datetimeConverter(report.close_datetime) }}</p>
             <p class="text-xs">{{ report.description }}</p>
             <ChangeStatusButton v-show="report.status!='closed'" :report="report" @changeStatus="updateTiles" />
         </section>
