@@ -45,9 +45,9 @@ onMounted(listMyReports)
 </script>
 
 <template>
-  <h1 class="my-reports-title text-xl mb-1">My reports:</h1>
+  <h1 class="text-xl mb-1">My reports:</h1>
   <TabGroup>
-    <TabList class="my-reports-tablist w-full flex justify-around">
+    <TabList class="w-full flex justify-around">
       <Tab :class="{ 'bg-main-700 text-light': status=='open', 'border-2 border-main-600': status!='open' }" class="rounded-s-2xl w-full p-1"
           @click="toggleTabList('open')">Open</Tab>
       <Tab :class="{ 'bg-main-700 text-light': status=='solving', 'border-2 border-main-600': status!='solving' }" class="w-full p-1"
@@ -72,10 +72,4 @@ onMounted(listMyReports)
 <style scoped lang="scss">
 @use "../style/vars" as *;
 
-.my-reports-div {
-  padding: 0.8rem;
-  border: solid 2px white;
-  border-bottom : none;
-  border-radius: 18px 18px 0 0;
-}
 </style>
