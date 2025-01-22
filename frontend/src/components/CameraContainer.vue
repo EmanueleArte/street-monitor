@@ -30,7 +30,7 @@ const takeSnapshot = async () => {
 </script>
 
 <template>
-  <SimpleButton @click="openCamera">Start camera</SimpleButton>
+  <SimpleButton @click="openCamera">Take picture</SimpleButton>
 
   <SlideFromBottom @on-completed="() => {}">
     <div v-if="cameraOpen" class="w-screen h-screen fixed z-50 top-0 left-0 bg-black flex flex-col justify-between">
