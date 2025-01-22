@@ -19,7 +19,7 @@ const datetimeConverter = (datetime: Date): string => {
 </script>
 
 <template>
-    <article class="report-card bg-main-500 border-2 border-main-700">
+    <article class="flex items-center p-2 m-2 rounded-2xl bg-main-500 border-2 border-main-700">
         <section class="w-4/12">
             <img :src="report.picture ? `http://localhost:3000/${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'" alt="report image" class="report-image" />
         </section>
@@ -34,14 +34,5 @@ const datetimeConverter = (datetime: Date): string => {
 
 <style scoped lang="scss">
 @use "../style/vars" as *;
-
-.report-card {
-    display: flex;
-    align-items: center;
-    padding: 0.8rem;
-    margin: 0.5rem;
-    border-radius: 18px;
-    margin-bottom: 0.4rem;
-}
 
 </style>
