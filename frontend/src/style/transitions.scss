@@ -12,3 +12,18 @@
     transform: rotate(45deg);
   }
 }
+
+// Slide from bottom transition
+.slide-bottom {
+  &-enter-active, &-leave-active {
+    transition: transform 0.5s;
+  }
+
+  &-enter-from {
+    transform: translateY(100%);
+  }
+
+  &-leave-to {
+    transform: translateY(110%);
+  }
+}
