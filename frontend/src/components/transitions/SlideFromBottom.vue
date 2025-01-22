@@ -9,5 +9,17 @@ const emit = defineEmits(["onCompleted"])
 </template>
 
 <style scoped lang="scss">
-@use "../../style/transitions" as *;
+.slide-bottom {
+  &-enter-active, &-leave-active {
+    transition: transform 0.5s;
+  }
+
+  &-enter-from {
+    transform: translateY(100%);
+  }
+
+  &-leave-to {
+    transform: translateY(110%);
+  }
+}
 </style>
