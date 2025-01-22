@@ -5,6 +5,8 @@ import type { LeafletEvent } from "leaflet"
 import { ref, onUnmounted, onBeforeMount, watch } from "vue"
 import { throttle } from "lodash"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
+import { useAuthStore } from "@/stores/auth.store";
+import { storeToRefs } from "pinia";
 import CenterPin from "@/components/pins/CenterPin.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { coordsEquals } from "@/lib/mapUtility.ts"
