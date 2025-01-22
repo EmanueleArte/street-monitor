@@ -5,7 +5,6 @@ import type { LeafletEvent } from "leaflet"
 import { ref, onUnmounted, onBeforeMount, watch } from "vue"
 import { throttle } from "lodash"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
-import { useUserStore } from "@/stores/user";
 import { useAuthStore } from "@/stores/auth.store";
 import { storeToRefs } from "pinia";
 import CenterPin from "@/components/pins/CenterPin.vue"
@@ -20,11 +19,6 @@ const props = defineProps<{
 const emit = defineEmits(["update:latLng"])
 
 const circleColor = "blue"
-
-const authStore = useAuthStore()
-const { user } = storeToRefs(authStore)
-
-console.log(user)
 
 const centerToPosition = ref<boolean>(true)
 const center = ref<[number, number]>(props.latLng ? props.latLng : [44.494887, 11.3426163])

@@ -7,6 +7,8 @@ import type { IUser } from "@models/userModel"
 import FormFieldset from "./inputs/FormFieldset.vue"
 import FormSubmitButton from "./buttons/FormSubmitButton.vue"
 
+import {useAuthStore} from '@/stores/auth.store'
+
 const REQUIRED_FIELD_MESSAGE: string = "required field"
 const USERNAME_MIN_LENGTH: number = 6
 const MINIMUM_LENGTH_ALLOWED_MESSAGE: string = "required a minimum length of "
@@ -16,6 +18,8 @@ const PASSWORDS_DONT_MATCH_MESSAGE: string = "passwords don't match"
 
 const emailRegExp: RegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 const passwordRegExp: RegExp = new RegExp(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
+
+const authStore = useAuthStore()
 
 interface IRegistrationForm {
     name: string,
@@ -129,32 +133,41 @@ const validate = (): boolean => {
     return !validationFailed
 }
 
-const signup = () => {
+const signup = async () => {
     // perform checks
     cleanData()
     if (!validate()) {
         return
     }
 
+    await authStore.register(
+        form.value.name,
+        form.value.surname,
+        form.value.username,
+        form.value.email,
+        form.value.password,
+        form.value.passwordCheck
+    )
+
     // hash password and store hashed value
-    hashPassword(form.value.password).then(hash => {
-        axios.post('http://localhost:3000/users', {
-            name: form.value.name,
-            surname: form.value.surname,
-            username: form.value.username,
-            email: form.value.email,
-            password: hash,
-            reputation: 0
-        })
-        .then(res => {
-            console.log(res)
-            // redirect to homepage
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    })
-    .catch(err => console.log(err))
+    // hashPassword(form.value.password).then(hash => {
+    //     axios.post('http://localhost:3000/users', {
+    //         name: form.value.name,
+    //         surname: form.value.surname,
+    //         username: form.value.username,
+    //         email: form.value.email,
+    //         password: hash,
+    //         reputation: 0
+    //     })
+    //     .then(res => {
+    //         console.log(res)
+    //         // redirect to homepage
+    //     })
+    //     .catch(err => {
+    //         console.log(err)
+    //     })
+    // })
+    // .catch(err => console.log(err))
 }
 </script>
 
