@@ -25,21 +25,15 @@ const closeCamera = () => {
 const takeSnapshot = async () => {
   const blob = await cameraRef.value?.snapshot()
   emit("update:snapshot", blob)
+  closeCamera()
 }
 </script>
 
 <template>
-  <SimpleButton @click="openCamera">Start camera</SimpleButton>
+  <SimpleButton @click="openCamera">Take picture</SimpleButton>
 
   <SlideFromBottom @on-completed="() => {}">
     <div v-if="cameraOpen" class="w-screen h-screen fixed z-50 top-0 left-0 bg-black flex flex-col justify-between">
-      <!--      <div class="flex justify-end mt-4 mr-4 auto-rows-auto">-->
-      <!--        <svg @click="closeCamera" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
-      <!--             stroke="white" class="size-12">-->
-      <!--          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>-->
-      <!--        </svg>-->
-      <!--      </div>-->
-
       <section>
         <camera ref="cameraRef" :resolution="resolution" :autoplay="true"></camera>
       </section>

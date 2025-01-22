@@ -21,17 +21,20 @@ const handleTransitionCompleted = () => {
 </script>
 
 <template>
-  <FloatingRoundButton v-if="!showTile && transitionCompleted" class="z-1 fixed bottom-4 right-4" @click="toggleTile">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
-         class="size-8">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-    </svg>
-  </FloatingRoundButton>
+  <SlideFromBottom>
+    <FloatingRoundButton v-if="!showTile && transitionCompleted" class="z-10 fixed bottom-28 right-4"
+                         @click="toggleTile">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
+           class="size-8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+      </svg>
+    </FloatingRoundButton>
+  </SlideFromBottom>
   <SlideFromBottom @onCompleted="handleTransitionCompleted">
     <div v-if="showTile" class="container fixed bottom-0 z-10">
-      <FloatingRoundButton class="absolute -top-20 right-4 " @click="toggleTile">
+      <FloatingRoundButton class="absolute -top-20 right-4" @click="toggleTile">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
-             class="size-8 rotate-45">
+             class="rotating size-8 rotate-45">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
       </FloatingRoundButton>
@@ -43,24 +46,5 @@ const handleTransitionCompleted = () => {
 </template>
 
 <style scoped lang="scss">
-// Button icon rotation
-.slide-bottom-enter-active svg, .slide-bottom-leave-active svg {
-  transition: transform 0.5s;
-}
-
-.slide-bottom-enter-from svg {
-  transform: rotate(0deg);
-}
-
-.slide-bottom-enter-to svg {
-  transform: rotate(45deg);
-}
-
-.slide-bottom-leave-from svg {
-  transform: rotate(45deg);
-}
-
-.slide-bottom-leave-to svg {
-  transform: rotate(0deg);
-}
+@use "../style/transitions" as *;
 </style>

@@ -13,6 +13,7 @@ import { usePositionStore } from "@/stores/position.store.ts"
 import { formatUnderscoredString } from "../lib/stringUtility.ts"
 import CameraContainer from "@/components/CameraContainer.vue"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
+import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 
 const emit = defineEmits(["toggleTile"])
 
@@ -38,6 +39,14 @@ const fetchReportTypes = () => {
 const image = ref<Blob | null>(null)
 const previewUrl = computed<string>(() => image.value ? URL.createObjectURL(image.value) : "")
 
+const uploadFile = (e: Event) => {
+  const target = e.target as HTMLInputElement
+  const file = target.files?.item(0)
+  if (file) {
+    image.value = file
+  }
+}
+
 onMounted(fetchReportTypes)
 </script>
 
@@ -47,7 +56,7 @@ onMounted(fetchReportTypes)
 
     <Listbox v-model="selectedReportType" class="z-10">
       <div class="relative">
-        <label for="report-type" class="text-sm text-gray-500">Report type</label>
+        <SimpleLabel attachTo="report-type">Report type</SimpleLabel>
         <ListboxButton
             id="report-type"
             class="relative w-full cursor-pointer rounded-xl text-button-text bg-main-600 py-2 pl-3 pr-10 text-left
@@ -90,14 +99,14 @@ onMounted(fetchReportTypes)
 
     <section>
       <div class="w-full h-64 mb-8">
-        <label for="position" class="text-sm text-gray-500">Position</label>
+        <SimpleLabel attachTo="position">Position</SimpleLabel>
         <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
              v-model:latLng="latLng"></Map>
       </div>
 
       <div class="flex flex-row w-full">
         <div class="flex flex-col w-1/2">
-          <label for="lat" class="text-sm text-gray-500">Latitude</label>
+          <SimpleLabel attachTo="lat">Latitude</SimpleLabel>
           <input type="number" id="lat"
                  class="rounded-xl p-2 mr-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"
                  v-model="latLng[0]"
@@ -105,7 +114,7 @@ onMounted(fetchReportTypes)
                  placeholder="Latitude">
         </div>
         <div class="flex flex-col w-1/2">
-          <label for="lng" class="ml-1 text-sm text-gray-500">Longitude</label>
+          <SimpleLabel attachTo="lng">Longitude</SimpleLabel>
           <input type="number" id="lng"
                  class="rounded-xl p-2 ml-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"
                  v-model="latLng[1]"
@@ -116,27 +125,31 @@ onMounted(fetchReportTypes)
     </section>
 
     <section>
-      <label for="picture" class="text-sm text-gray-500">Picture</label>
-      <div id="picture">
+      <SimpleLabel attachTo="picture">Picture</SimpleLabel>
+      <div id="picture" class="flex flex-row">
         <CameraContainer :resolution="{ width: 960, height: 1280 }" v-model:snapshot="image"/>
-        <SimpleButton classes="ml-2 !bg-light !text-main-600 border border-main-600 hover:!bg-main-100">
-          Choose from device
-        </SimpleButton>
+        <label for="img-input" class="flex items-center cursor-pointer ml-2 rounded-xl px-4 duration-300 bg-light text-main-600 border
+               border-main-600 hover:bg-main-100 hover:border-main-700">
+          Upload image
+        </label>
+        <input type="file" id="img-input" accept="image/x-png,image/jpeg,image/jpg" @change="uploadFile" class="hidden"/>
       </div>
       <div v-if="image" class="mt-2">
-        <img v-if="image" :src="previewUrl" alt="Image preview" class="w-full rounded-xl"/>
+        <SimpleLabel attachTo="preview">Preview</SimpleLabel>
+        <img v-if="image" :src="previewUrl" alt="Image preview" id="preview" class="w-full rounded-xl"/>
       </div>
     </section>
 
     <section>
-      <label for="description" class="text-sm text-gray-500">Description</label>
+      <SimpleLabel attachTo="description">Description</SimpleLabel>
       <textarea id="description"
                 class="w-full h-24 rounded-xl p-2 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"></textarea>
     </section>
 
     <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-light">
-      <SimpleButton classes="!bg-light !text-main-600 border border-main-600 hover:!bg-main-100"
-                    @click="emit('toggleTile')">
+      <SimpleButton
+          classes="!bg-light !text-main-600 border border-main-600 hover:!bg-main-100 hover:border-main-700 hover:!text-main-700"
+          @click="emit('toggleTile')">
         Cancel
       </SimpleButton>
       <SimpleButton @click="console.log('Submit')">Submit</SimpleButton>

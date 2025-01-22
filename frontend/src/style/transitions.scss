@@ -1,0 +1,14 @@
+// Button icon rotation when sliding in/out
+.slide-bottom {
+  &-enter-active .rotating, &-leave-active .rotating {
+    transition: transform 0.5s;
+  }
+
+  &-enter-from .rotating, &-leave-to .rotating {
+    transform: rotate(0deg);
+  }
+
+  &-enter-to .rotating, &-leave-from .rotating {
+    transform: rotate(45deg);
+  }
+}

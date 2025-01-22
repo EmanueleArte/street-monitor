@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useAuthStore } from '@/stores/auth.store'
 import FormInput from './inputs/FormInput.vue'
-import axios from 'axios'
-import type { IUser } from '@models/userModel'
-import { verifyPassword } from '@/lib/passwordManager'
+import FormFieldset from './inputs/FormFieldset.vue'
+import FormSubmitButton from './buttons/FormSubmitButton.vue';
 
-const WRONG_INPUTS_ERROR: string = "Wrong username or password"
-const USERNAME_NOT_PRESENT_ERROR: string = "You are not registered"
+const authStore = useAuthStore()
+const loginError = ref<string>("")
 
 interface ILoginForm {
     username: string,
@@ -18,63 +18,51 @@ const form = ref<ILoginForm>({
     password: ""
 })
 
-const loginError = ref<string>("")
 
-const signin = () => {
-    axios.get<IUser>(`http://localhost:3000/users/${form.value.username.trim()}`)
-        .then(res => {
-            return verifyPassword(form.value.password, res.data.password)
-        })
-        .then(passwordsMatch => {
-            if (passwordsMatch) {
-                // store user data in session
-
-                // redirect
-
-            } else {
-                loginError.value = WRONG_INPUTS_ERROR
-            }
-        })
-        .catch(error => {
-            console.log(error)
-            if (error.response && error.response.status == 404) {
-                loginError.value = USERNAME_NOT_PRESENT_ERROR
-            } else {
-                loginError.value = WRONG_INPUTS_ERROR
-            }
-        })
+const signin = async () => {
+    authStore.login(form.value.username, form.value.password)
+    .catch(err => {
+        loginError.value = err.status && err.status == 404
+            ? "Username not present"
+            : "Username or password not correct"
+    })
 }
 
 </script>
 
 <template>
-    <header>StreetMonitor</header>
-    <h1>Your city needs you!</h1>
-    <p>Sign in to make a difference.</p>
+        <div>
+            <h1 class="text-3xl font-semibold text-primary-default">Your city needs you!</h1>
+            <p class="text-dark-default text-xl">Sign in to make a difference.</p>
+        </div>
+        
+        <p
+            v-if="loginError != ''"
+            class="border-2 border-error-default rounded-md shadow-md shadow-red-400 bg-red-100 px-2 py-1 outline-pink-500 text-error-default capitalize text-sm">
+            {{ loginError }}
+        </p>
 
-    <p>
-        {{ loginError }}
-    </p>
+        
+        <form @submit.prevent="signin">
+            <FormFieldset :cols=1 legend="Account information" hideLegend>
 
-    <form @submit.prevent="signin">
-        <fieldset>
-            <legend>Account information</legend>
+                <FormInput
+                    fieldName="username"
+                    label="username"
+                    placeholder="Insert your username"
+                    v-model="form.username"
+                    />
+                    
+                <FormInput 
+                    fieldName="password"
+                    label="password"
+                    type="password"
+                    placeholder="Insert your password"
+                    v-model="form.password"
+                    />
 
-            <FormInput
-                fieldName="username"
-                label="username / email"
-                placeholder="Insert username or email"
-                v-model="form.username"
-            />
-
-            <FormInput 
-                fieldName="password"
-                label="password"
-                type="password"
-                v-model="form.password"
-            />
-        </fieldset>
-
-        <input type="submit" value="Sign In">
-    </form>
+            </FormFieldset>
+            
+            <FormSubmitButton value="Sign In" />
+        </form>
 </template>
