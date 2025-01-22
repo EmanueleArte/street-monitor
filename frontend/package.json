@@ -14,8 +14,10 @@
     "axios": "^1.7.9",
     "bcrypt-ts": "^5.0.3",
     "pinia": "^2.0.0",
+    "vee-validate": "^4.15.0",
     "vue": "^3.5.12",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.12",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@headlessui/vue": "^1.7.23",
