@@ -10,7 +10,9 @@ import reportRoutes from './src/routes/reportRoutes'
 mongoose.connect('mongodb://localhost:27017/dbStreetMonitor')
 
 const app: Application = express()
-app.use(cors())
+app.use(express.json({ limit: '16mb' }))
+    .use(express.urlencoded({ limit: '16mb' }))
+    .use(cors())
     .use(express.json())
     .use(express.static('public'))
 

@@ -1,16 +1,13 @@
 <script setup lang="ts">
+import mongoose from "mongoose"
 import { computed, onMounted, ref } from "vue"
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption
-} from "@headlessui/vue"
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue"
 import type { IReportType } from "@models/reportTypeModel.ts"
+import type { IReport } from "@models/reportModel.ts"
 import axios from "axios"
 import Map from "@/components/Map.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
-import { formatUnderscoredString } from "../lib/stringUtility.ts"
+import { blobToBase64, formatUnderscoredString } from "@/lib/stringUtility.ts"
 import CameraContainer from "@/components/CameraContainer.vue"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
@@ -45,6 +42,32 @@ const uploadFile = (e: Event) => {
   if (file) {
     image.value = file
   }
+}
+
+const description = ref<string>("")
+
+const saveDescription = (e: Event) => {
+  const target = e.target as HTMLTextAreaElement
+  description.value = target.value
+}
+
+const publishReport = async () => {
+  const newReport: IReport = {
+    _id: new mongoose.Types.ObjectId(),
+    type: selectedReportType.value?.name,
+    user: "mariorossi",
+    coordinates: latLng.value,
+  } as IReport
+  if (description.value !== "") {
+    newReport.description = description.value
+  }
+  if (image.value) {
+    const imageString: string = await blobToBase64(image.value)
+    newReport.picture = { data: imageString, contentType: image.value.type }
+  }
+  axios.post<IReport>(`http://localhost:3000/reports`, newReport)
+      .then((res) => console.log(res.data))
+      .catch((e) => console.error(e))
 }
 
 onMounted(fetchReportTypes)
@@ -132,7 +155,8 @@ onMounted(fetchReportTypes)
                border-main-600 hover:bg-main-100 hover:border-main-700">
           Upload image
         </label>
-        <input type="file" id="img-input" accept="image/x-png,image/jpeg,image/jpg" @change="uploadFile" class="hidden"/>
+        <input type="file" id="img-input" accept="image/x-png,image/jpeg,image/jpg" @change="uploadFile"
+               class="hidden"/>
       </div>
       <div v-if="image" class="mt-2">
         <SimpleLabel attachTo="preview">Preview</SimpleLabel>
@@ -142,7 +166,7 @@ onMounted(fetchReportTypes)
 
     <section>
       <SimpleLabel attachTo="description">Description</SimpleLabel>
-      <textarea id="description"
+      <textarea id="description" @input="saveDescription"
                 class="w-full h-24 rounded-xl p-2 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"></textarea>
     </section>
 
@@ -152,7 +176,7 @@ onMounted(fetchReportTypes)
           @click="emit('toggleTile')">
         Cancel
       </SimpleButton>
-      <SimpleButton @click="console.log('Submit')">Submit</SimpleButton>
+      <SimpleButton @click="publishReport">Submit</SimpleButton>
     </section>
   </div>
 </template>
