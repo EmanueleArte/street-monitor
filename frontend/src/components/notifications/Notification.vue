@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// text-dark-default/75 text-slate-500/75
+// text-black/75 text-slate-500/75
 import { formatDate } from '@/lib/stringUtility';
 
 const props = defineProps<{

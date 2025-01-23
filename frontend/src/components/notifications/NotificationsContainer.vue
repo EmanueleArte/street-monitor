@@ -29,9 +29,9 @@ const dates: Date[] = [
 
         <section>
             <h2 class="relative flex items-center">
-                <div class="flex-grow border-t border-dark-default/85"></div>
-                    <span class="mx-4 flex-shrink text-dark-default/85 font-medium text-md">Read notifications</span>
-                <div class="flex-grow border-t border-dark-default/85"></div>
+                <div class="flex-grow border-t border-black/70"></div>
+                    <span class="mx-4 flex-shrink text-black/70 font-medium text-md">Read notifications</span>
+                <div class="flex-grow border-t border-black/70"></div>
             </h2>
             <ul class="gap-1 inline-grid mt-2">
                 <li v-for="date in dates.sort((a: Date, b: Date) => b.getTime() - a.getTime())">
