@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from "vue"
+import { router } from "@/router"
 
+const emit = defineEmits<{
+  (e: 'change', page: string): void
+}>()
 </script>
 
 <template>
@@ -8,7 +12,7 @@ import { ref } from "vue";
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <!-- Left part | Website name -->
-        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden" @click="$emit('change', 'home')">
           StreetMonitor
         </div>
 
@@ -22,7 +26,7 @@ import { ref } from "vue";
         <!-- Right part | Notifications + profile -->
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
           <!-- Notifications -->
-          <button type="button" class="relative rounded-full bg-primary-default p-1 text-dark-default hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+          <button type="button" @click="$emit('change', 'notifications')" class="relative rounded-full bg-primary-default p-1 text-dark-default hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
             <span class="absolute -inset-1.5"></span>
             <span class="sr-only">View notifications</span>
             <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -31,7 +35,7 @@ import { ref } from "vue";
           </button>
 
           <!-- Profile -->
-          <button type="button" class="ml-3 relative rounded-full bg-primary-default p-1 text-dark-default hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+          <button type="button" @click="$emit('change', 'profile')" class="ml-3 relative rounded-full bg-primary-default p-1 text-dark-default hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
           <!-- <button type="button" class="relative ml-3 flex rounded-full bg-primary-default text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true"> -->
             <span class="absolute -inset-1.5"></span>
             <span class="sr-only">Open user menu</span>
