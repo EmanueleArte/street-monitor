@@ -6,11 +6,11 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useAuthStore = defineStore('auth', () => {
-    const user = ref<IUser>()
+    let user: IUser = JSON.parse(localStorage.getItem('user') || "{}")
     const backendUrl = "http://localhost:3000/users/"
 
     function get() {
-        return user.value
+        return user
     }
 
     function login(username: string, password: string) {
@@ -22,16 +22,16 @@ export const useAuthStore = defineStore('auth', () => {
                             return Promise.reject('passwords don\'t match')
                         }
                         
-                        user.value = res.data
+                        user = res.data
                         localStorage.setItem('user', JSON.stringify(res.data))
                         router.push('/')
-                        return user.value
+                        return user
                     })
             )
     }
 
     function logout() {
-        user.value = undefined
+        user = JSON.parse("{}")
         router.push("/signup")
     }
 
