@@ -1,26 +1,19 @@
-<script setup>
-import {ref} from "vue";
-
-const props = defineProps(["routeName", "route"])
-const emit = defineEmits(["counterClicked"])
-
-const count = ref(0)
-const onClicked = () => {
-  count.value++
-  emit("counterClicked")
-}
+<script setup lang="ts">
+const props = defineProps<{
+  screenReaderLabel: string
+}>()
 </script>
 
 <template>
-    <li class="nav-item">
-      <RouterLink class="nav-link" @click.prevent="onClicked" :to="props.route">
-        {{ props.routeName }} (Count: {{ count }})
-      </RouterLink>
-    </li>
+  <button type="button"  class="
+  relative rounded-full p-1 text-dark-default 
+  hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800
+  md:bg-surface-default md:shadow md:w-10 md:aspect-square md:p-auto
+  md:hover:shadow-md md:hover:bg-surface-component md:hover:text-dark-default
+  ">
+    <span class="absolute -inset-1.5"></span>
+    <span class="sr-only">{{ props.screenReaderLabel }}</span>
+    
+    <slot />
+  </button>
 </template>
-
-<style scoped>
-li {
-  cursor: pointer;
-}
-</style>
