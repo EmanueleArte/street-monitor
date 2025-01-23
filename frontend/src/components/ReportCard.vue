@@ -25,7 +25,7 @@ const datetimeConverter = (datetime: Date): string => {
 </script>
 
 <template>
-    <article class="flex items-center p-2 m-2 rounded-2xl bg-primary-600 border-2 border-primary-700">
+    <article class="flex items-center p-2 m-2 rounded-lg bg-surface-component border-2 border-primary-700">
         <section class="w-4/12">
             <img :src="report.picture ? `http://localhost:3000/${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'" alt="report image" class="report-image" />
         </section>
@@ -33,7 +33,7 @@ const datetimeConverter = (datetime: Date): string => {
             <h2 class="text-lg">{{ reportTypeTextConverter(report.type) }}</h2>
             <p class="text-xs">{{ datetimeConverter(report.open_datetime) }}</p>
             <p v-if="report.status == 'closed'" class="text-xs">{{ datetimeConverter(report.close_datetime) }}</p>
-            <p v-if="report.description" class="bg-primary-700 text-light rounded-sm p-1 mt-1 mb-1 text-xs max-h-[60px] overflow-y-auto">{{ report.description }}</p>
+            <p v-if="report.description" class="bg-surface-default border-2 border-surface-divider text-dark rounded-sm p-1 mt-1 mb-1 text-xs max-h-[60px] overflow-y-auto">{{ report.description }}</p>
             <ChangeStatusButton v-show="report.status!='closed'" :report="report" @changeStatus="updateTiles" />
         </section>
     </article>
