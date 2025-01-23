@@ -11,7 +11,7 @@ const readOpacity: number = 75
 </script>
 
 <template>
-    <div class="m-2 flex flex-col justify-items-center py-2 px-2" :class="`text-dark-default${props.read ? `/${readOpacity}` : ''}`">
+    <div class="flex flex-col justify-items-center py-2" :class="`text-dark-default${props.read ? `/${readOpacity}` : ''}`">
       <div class="flex gap-4">
         <div class="flex flex-col justify-center">
             <svg v-if="props.read" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7">
