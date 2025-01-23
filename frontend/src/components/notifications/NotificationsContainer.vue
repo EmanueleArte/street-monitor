@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import Notification from './Notification.vue'
+import { useAuthStore } from '@/stores/auth.store'
 
-const dates: Date[] = [
-    new Date('01/22/2025,10:00:00'),
-    new Date('01/23/2025,10:05:00'),
-    new Date('01/01/2025,10:00:00'),
-    new Date('01/23/2025,7:00:00'),
-    new Date('01/23/2025,9:00:00'),
-    new Date('01/21/2025,10:00:00'),
-    new Date('01/21/2025,23:00:00'),
-]
+const authStore = useAuthStore()
+const notifications = authStore.get()?.notifications
+
+const unreadNotifications = notifications?.filter(n => !n.read)
+const readNotifications = notifications?.filter(n => n.read)
+
 </script>
 
 <template>
@@ -19,24 +17,29 @@ const dates: Date[] = [
         <section>
             <h2 class="hidden">Unread notifications</h2>
             <ul class="gap-1 inline-grid mt-2">
-                <li v-for="date in dates.sort((a: Date, b: Date) => b.getTime() - a.getTime())">
-                    <Notification :read="false" :date="date">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat, quis?
+                <li v-for="notification in unreadNotifications">
+                    <Notification
+                        :read="false"
+                        :date="new Date(notification.send_datetime)"
+                        :report="notification.report"
+                        :favorite-spot="notification.favorite_spot"
+                    >
+                        {{ notification.content }}
                     </Notification>
                 </li>
             </ul>
         </section>
 
-        <section>
+        <section v-if="readNotifications && readNotifications.length > 0">
             <h2 class="relative flex items-center">
                 <div class="flex-grow border-t border-black/70"></div>
                     <span class="mx-4 flex-shrink text-black/70 font-medium text-md">Read notifications</span>
                 <div class="flex-grow border-t border-black/70"></div>
             </h2>
             <ul class="gap-1 inline-grid mt-2">
-                <li v-for="date in dates.sort((a: Date, b: Date) => b.getTime() - a.getTime())">
-                    <Notification :read="true" :date="date">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat, quis?
+                <li v-for="notification in readNotifications">
+                    <Notification :read="true" :date="new Date(notification.send_datetime)">
+                        {{ notification.content }}
                     </Notification>
                 </li>
             </ul>
