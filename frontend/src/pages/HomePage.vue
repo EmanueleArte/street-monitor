@@ -2,6 +2,7 @@
 import HomeContainer from "@/components/HomeContainer.vue"
 import NavBar from "@/components/NavBar.vue"
 import NotificationsContainer from "@/components/notifications/NotificationsContainer.vue"
+import ProfileContainer from "@/components/ProfileContainer.vue"
 import Aside from "@/components/Aside.vue"
 import { ref } from "vue"
 
@@ -18,7 +19,9 @@ function openPage(page: string) {
   <HomeContainer v-if="currentPage == 'home'"/>
   <NotificationsContainer v-if="currentPage == 'notifications'"/>
 
-  <Aside v-if="asidePage == 'notifications'">
-    <NotificationsContainer />
+  <Aside v-if="asidePage">
+    <NotificationsContainer v-if="asidePage == 'notifications'" />
+
+    <ProfileContainer v-if="asidePage == 'profile'" />
   </Aside>
 </template>
