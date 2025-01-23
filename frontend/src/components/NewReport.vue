@@ -82,9 +82,9 @@ onMounted(fetchReportTypes)
         <SimpleLabel attachTo="report-type">Report type</SimpleLabel>
         <ListboxButton
             id="report-type"
-            class="relative w-full cursor-pointer rounded-xl text-button-text bg-main-600 py-2 pl-3 pr-10 text-left
-            focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75
-            focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 hover:bg-main-700 duration-300">
+            class="relative w-full cursor-pointer rounded-xl text-button-text bg-primary-600 py-2 pl-3 pr-10 text-left
+            focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75
+            focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 hover:bg-primary-700 duration-300">
           <span class="block truncate">
             {{ formatUnderscoredString(selectedReportType?.name) }}
           </span>
@@ -103,11 +103,11 @@ onMounted(fetchReportTypes)
               class="absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-light py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
             <ListboxOption v-slot="{ active, selected }" v-for="reportType in reportTypes" :key="reportType.name"
                            :value="reportType">
-              <li :class="[active ? 'bg-main-100' : 'text-gray-800', 'relative cursor-pointer select-none py-2 pl-10 pr-4',]">
+              <li :class="[active ? 'bg-primary-100' : 'text-gray-800', 'relative cursor-pointer select-none py-2 pl-10 pr-4',]">
                 <span :class="[selected ? 'font-medium' : 'font-normal','block truncate',]">
                   {{ formatUnderscoredString(reportType?.name) }}
                 </span>
-                <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-main-600">
+                <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-primary-600">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                        stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
@@ -131,7 +131,7 @@ onMounted(fetchReportTypes)
         <div class="flex flex-col w-1/2">
           <SimpleLabel attachTo="lat">Latitude</SimpleLabel>
           <input type="number" id="lat"
-                 class="rounded-xl p-2 mr-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"
+                 class="rounded-xl p-2 mr-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"
                  v-model="latLng[0]"
                  @input="moveToPosition"
                  placeholder="Latitude">
@@ -139,7 +139,7 @@ onMounted(fetchReportTypes)
         <div class="flex flex-col w-1/2">
           <SimpleLabel attachTo="lng">Longitude</SimpleLabel>
           <input type="number" id="lng"
-                 class="rounded-xl p-2 ml-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"
+                 class="rounded-xl p-2 ml-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"
                  v-model="latLng[1]"
                  @input="moveToPosition"
                  placeholder="Longitude">
@@ -151,8 +151,8 @@ onMounted(fetchReportTypes)
       <SimpleLabel attachTo="picture">Picture</SimpleLabel>
       <div id="picture" class="flex flex-row">
         <CameraContainer :resolution="{ width: 960, height: 1280 }" v-model:snapshot="image"/>
-        <label for="img-input" class="flex items-center cursor-pointer ml-2 rounded-xl px-4 duration-300 bg-light text-main-600 border
-               border-main-600 hover:bg-main-100 hover:border-main-700">
+        <label for="img-input" class="flex items-center cursor-pointer ml-2 rounded-xl px-4 duration-300 bg-light text-primary-600 border
+               border-primary-600 hover:bg-primary-100 hover:border-primary-700">
           Upload image
         </label>
         <input type="file" id="img-input" accept="image/x-png,image/jpeg,image/jpg" @change="uploadFile"
@@ -167,12 +167,12 @@ onMounted(fetchReportTypes)
     <section>
       <SimpleLabel attachTo="description">Description</SimpleLabel>
       <textarea id="description" @input="saveDescription"
-                class="w-full h-24 rounded-xl p-2 border border-gray-500 duration-300 focus:outline-none focus-visible:border-main-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-main-600 sm:text-sm"></textarea>
+                class="w-full h-24 rounded-xl p-2 border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"></textarea>
     </section>
 
     <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-light">
       <SimpleButton
-          classes="!bg-light !text-main-600 border border-main-600 hover:!bg-main-100 hover:border-main-700 hover:!text-main-700"
+          classes="!bg-light !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
           @click="emit('toggleTile')">
         Cancel
       </SimpleButton>

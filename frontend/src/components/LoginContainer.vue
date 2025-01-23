@@ -32,13 +32,13 @@ const signin = async () => {
 
 <template>
         <div>
-            <h1 class="text-3xl font-semibold text-primary-default">Your city needs you!</h1>
-            <p class="text-dark-default text-xl">Sign in to make a difference.</p>
+            <h1 class="text-3xl font-semibold text-primary-600">Your city needs you!</h1>
+            <p class="text-xl">Sign in to make a difference.</p>
         </div>
         
         <p
             v-if="loginError != ''"
-            class="border-2 border-error-default rounded-md shadow-md shadow-red-400 bg-red-100 px-2 py-1 outline-pink-500 text-error-default capitalize text-sm">
+            class="border-2 border-error-800 rounded-md shadow-md shadow-error-400 bg-red-100 px-2 py-1 text-error-800 capitalize text-sm">
             {{ loginError }}
         </p>
 

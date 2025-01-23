@@ -29,7 +29,7 @@ const changeStatus = async (r: IReport) => {
 </script>
 
 <template>
-    <button class="bg-primary-accent text-light text-xs rounded-lg p-1 mt-1 ms-0 border-2 border-surface-component" @click="changeStatus(report)">
+    <button class="bg-primary-700 text-light text-xs rounded-lg p-1 mt-1 ms-0 border-2 border-surface-component" @click="changeStatus(report)">
         Change status
     </button>
 </template>

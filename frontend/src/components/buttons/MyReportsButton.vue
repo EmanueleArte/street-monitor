@@ -8,7 +8,7 @@ const toggleMyReports = () => {
 
 <template>
     <button @click="toggleMyReports"
-    class="absolute bottom-2 left-6 h-24 w-40 z-1 bg-main-600 text-xl text-light rounded-xl">My Reports
+    class="absolute bottom-2 left-6 h-24 w-40 z-1 bg-primary-600 text-xl text-light rounded-xl">My Reports
     </button>
 </template>
 

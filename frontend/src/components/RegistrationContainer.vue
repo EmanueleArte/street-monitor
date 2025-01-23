@@ -97,8 +97,8 @@ const signup = () => {
 
 <template>
         <div>
-            <h1 class="text-3xl font-semibold text-primary-default">SignUp</h1>
-            <p class="text-dark-default text-xl">Create an account to continue.</p>
+            <h1 class="text-3xl font-semibold text-primary-600">SignUp</h1>
+            <p class="text-xl">Create an account to continue.</p>
         </div>
         
         <form @submit.prevent="signup">

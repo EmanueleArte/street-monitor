@@ -24,14 +24,14 @@ const switchPage = () => {
 <template>
 
 <!-- background -->
-<div id="background" class="md:grid grid-cols-12 h-screen bg-red-500">
+<div id="background" class="md:grid grid-cols-12 h-screen">
 
   <!-- login/registration container -->
   <div class="col-start-2 col-span-4 h-full md:flex md:flex-col md:flex-wrap md:p-10 px-0">
 
     <!-- login/registration inner container -->
     <div class="flex flex-col w-full h-full bg-surface-default md:rounded-2xl md:px-10 md:py-5 shadow-lg shadow-black/30">
-      <header class="text-l text-primary-default font-bold p-4">StreetMonitor</header>
+      <header class="text-l text-primary-600 font-bold p-4">StreetMonitor</header>
 
       <section class="flex flex-col grow justify-start gap-10 px-5 pt-20">
         <RegistrationContainer v-if="signupPage.isLoaded" />
@@ -44,7 +44,7 @@ const switchPage = () => {
         <a
           href="http://localhost:5173/signup"
           @click.prevent="switchPage"
-          class="text-primary-default visited:text-primary-accent"
+          class="text-primary-600 visited:text-primary-700"
         >{{ signupPage.linkText }}</a>
       </footer>
     </div>

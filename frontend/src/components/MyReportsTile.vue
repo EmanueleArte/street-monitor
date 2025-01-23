@@ -48,11 +48,11 @@ onMounted(listMyReports)
   <h1 class="text-xl mb-1">My reports:</h1>
   <TabGroup>
     <TabList class="w-full flex justify-around">
-      <Tab :class="{ 'bg-primary-accent text-light': status=='open', 'border-2 border-primary-accent': status!='open' }" class="rounded-s-2xl w-full p-1"
+      <Tab :class="{ 'bg-primary-700 text-light': status=='open', 'border-2 border-primary-700': status!='open' }" class="rounded-s-2xl w-full p-1"
           @click="toggleTabList('open')">Open</Tab>
-      <Tab :class="{ 'bg-primary-accent text-light': status=='solving', 'border-2 border-primary-accent': status!='solving' }" class="w-full p-1"
+      <Tab :class="{ 'bg-primary-700 text-light': status=='solving', 'border-2 border-primary-700': status!='solving' }" class="w-full p-1"
           @click="toggleTabList('solving')">Solving</Tab>
-      <Tab :class="{ 'bg-primary-accent text-light': status=='closed', 'border-2 border-primary-accent': status!='closed' }" class="rounded-e-2xl w-full p-1"
+      <Tab :class="{ 'bg-primary-700 text-light': status=='closed', 'border-2 border-primary-700': status!='closed' }" class="rounded-e-2xl w-full p-1"
           @click="toggleTabList('closed')">Closed</Tab>
     </TabList>
     <TabPanels class="h-[100%]">
