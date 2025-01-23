@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <button :class="[classes, 'rounded-xl bg-primary-600 text-button-text px-4 py-2 hover:bg-primary-700 duration-300']">
+  <button :class="[classes, 'rounded-xl bg-primary-600 text-light px-4 py-2 hover:bg-primary-700 duration-300']">
     <slot></slot>
   </button>
 </template>

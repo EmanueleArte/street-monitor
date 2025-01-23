@@ -82,7 +82,7 @@ onMounted(fetchReportTypes)
         <SimpleLabel attachTo="report-type">Report type</SimpleLabel>
         <ListboxButton
             id="report-type"
-            class="relative w-full cursor-pointer rounded-xl text-button-text bg-primary-600 py-2 pl-3 pr-10 text-left
+            class="relative w-full cursor-pointer rounded-xl text-light bg-primary-600 py-2 pl-3 pr-10 text-left
             focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75
             focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 hover:bg-primary-700 duration-300">
           <span class="block truncate">
