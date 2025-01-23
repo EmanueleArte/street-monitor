@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import MyReportsButton from "@/components/buttons/MyReportsButton.vue"
 import MyReportsTile from "@/components/MyReportsTile.vue"
 import Tile from "@/components/Tile.vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
+import BottomButton from "./buttons/BottomButton.vue"
 
 const showReportTile = ref<boolean>(false)
 
@@ -14,7 +14,7 @@ const toggleReportsVisibility = () => {
 </script>
 
 <template>
-  <MyReportsButton @toggleMyReports="toggleReportsVisibility"/>
+  <BottomButton class="absolute bottom-2 left-6 h-24 w-40 z-1 bg-primary-600 text-xl text-light rounded-xl" @click="toggleReportsVisibility" :text="'My Reports'" />
   <SlideFromBottom>
     <div v-if="showReportTile" class="container fixed bottom-0 z-20 h-[60%]">
       <FloatingRoundButton
