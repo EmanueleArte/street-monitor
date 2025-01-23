@@ -13,7 +13,7 @@ const dates: Date[] = [
 </script>
 
 <template>
-    <section class="p-4">
+    <section class="p-4 mt-10 pt-10">
         <h1 class="text-2xl">Notifications</h1>
 
         <section>

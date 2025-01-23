@@ -10,5 +10,5 @@ const currentPage = ref<string>("home")
 <template>
   <NavBar @change="(page) => currentPage = page" />
   <HomeContainer v-if="currentPage == 'home'"/>
-  <NotificationsContainer v-if="currentPage == 'notifications'" />
+  <NotificationsContainer v-if="currentPage == 'notifications'"/>
 </template>
