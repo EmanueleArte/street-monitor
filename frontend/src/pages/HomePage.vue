@@ -5,6 +5,13 @@ import NotificationsContainer from "@/components/notifications/NotificationsCont
 import ProfileContainer from "@/components/ProfileContainer.vue"
 import Aside from "@/components/Aside.vue"
 import { ref } from "vue"
+import { useAuthStore } from "@/stores/auth.store"
+
+const authStore = useAuthStore()
+
+if (!authStore.get()) {
+  authStore.logout()
+}
 
 const currentPage = ref<string>("home")
 const asidePage = ref<string | undefined>(undefined)
