@@ -11,12 +11,13 @@ import { blobToBase64, formatUnderscoredString } from "@/lib/stringUtility.ts"
 import CameraContainer from "@/components/CameraContainer.vue"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
+import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
 
 const emit = defineEmits(["toggleTile"])
 
 const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)
-const posCopy = { ...usePositionStore().position }
+const posCopy = {...usePositionStore().position}
 const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])
 const zoom: number = 12
 
@@ -36,11 +37,11 @@ const fetchReportTypes = () => {
 const image = ref<Blob | null>(null)
 const previewUrl = computed<string>(() => image.value ? URL.createObjectURL(image.value) : "")
 
-const uploadFile = (e: Event) => {
+const uploadFile = async (e: Event) => {
   const target = e.target as HTMLInputElement
   const file = target.files?.item(0)
   if (file) {
-    image.value = file
+    image.value = await cropTo4by3(file).then((img) => scaleToResolution(img))
   }
 }
 
@@ -62,8 +63,7 @@ const publishReport = async () => {
     newReport.description = description.value
   }
   if (image.value) {
-    const imageString: string = await blobToBase64(image.value)
-    newReport.picture = { data: imageString, contentType: image.value.type }
+    newReport.picture = await blobToBase64(image.value)
   }
   axios.post<IReport>(`http://localhost:3000/reports`, newReport)
       .then((res) => console.log(res.data))
@@ -158,6 +158,8 @@ onMounted(fetchReportTypes)
         <input type="file" id="img-input" accept="image/x-png,image/jpeg,image/jpg" @change="uploadFile"
                class="hidden"/>
       </div>
+      <p class="mt-1 ml-1 text-xs text-gray-500">The image should be 4:3 format, if not it will be automatically
+        cropped.</p>
       <div v-if="image" class="mt-2">
         <SimpleLabel attachTo="preview">Preview</SimpleLabel>
         <img v-if="image" :src="previewUrl" alt="Image preview" id="preview" class="w-full rounded-xl"/>
