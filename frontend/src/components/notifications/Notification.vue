@@ -22,7 +22,10 @@ const positionStore = usePositionStore()
 function goToPosition() {
     axios.get<IReport>("http://localhost:3000/reports/by-id/" + props.report)
         .then(report => {
-            positionStore.positionToMove = report.data.coordinates
+            console.log("current position", positionStore.position)
+            console.log("move to", report.data.coordinates)
+            positionStore.move(report.data.coordinates)
+            // positionStore.
         })
 }
 

@@ -33,13 +33,14 @@ const map = ref<typeof LMap | null>(null)
 
 watch(() => usePositionStore().positionToMove, (newPosition) => {
   if (newPosition) {
-    moveToPosition()
+    console.log(newPosition)
+    moveToPosition(newPosition)
   }
 }, { deep: true })
 
-const moveToPosition = () => {
+const moveToPosition = (pos: [number, number]) => {
   if (map.value && map.value.leafletObject) {
-    center.value = map.value.center
+    center.value = pos
     map.value.leafletObject.flyTo(center.value, props.zoom, {
       animate: true,
       duration: 1
