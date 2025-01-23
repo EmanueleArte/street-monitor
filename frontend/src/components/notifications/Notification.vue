@@ -1,15 +1,17 @@
 <script setup lang="ts">
+// text-dark-default/75 text-slate-500/75
 import { formatDate } from '@/lib/stringUtility';
 
 const props = defineProps<{
     date: Date,
-    read?: boolean
+    read: boolean
 }>()
+const readOpacity: number = 75
 
 </script>
 
 <template>
-    <div class="m-2 flex flex-col justify-items-center py-2 px-2">
+    <div class="m-2 flex flex-col justify-items-center py-2 px-2" :class="`text-dark-default${props.read ? `/${readOpacity}` : ''}`">
       <div class="flex gap-4">
         <div class="flex flex-col justify-center">
             <svg v-if="props.read" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7">
@@ -21,6 +23,6 @@ const props = defineProps<{
         </div>
         <slot />
       </div>
-      <div class="text-end text-xs leading-tight text-slate-500">{{ formatDate(props.date) }}</div>
+      <div class="text-end text-xs leading-tight" :class="`text-slate-500${props.read ? `/${readOpacity}` : ''}`">{{ formatDate(props.date) }}</div>
     </div>
 </template>

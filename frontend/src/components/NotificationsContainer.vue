@@ -13,11 +13,36 @@ const dates: Date[] = [
 </script>
 
 <template>
-    <ul>
+    <section>
+        <h1>Notifications</h1>
+
+        <section>
+            <h2>Unread notifications</h2>
+            <ul>
+                <li v-for="date in dates.sort((a: Date, b: Date) => b.getTime() - a.getTime())">
+                    <Notification :read="false" :date="date">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat, quis?
+                    </Notification>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Read notifications</h2>
+            <ul>
+                <li v-for="date in dates.sort((a: Date, b: Date) => b.getTime() - a.getTime())">
+                    <Notification :read="true" :date="date">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat, quis?
+                    </Notification>
+                </li>
+            </ul>
+        </section>
+    </section>
+    <!-- <ul>
         <li v-for="date in dates.sort((a: Date, b: Date) => b.getTime() - a.getTime())">
             <Notification :read="false" :date="date">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat, quis?
             </Notification>
         </li>
-    </ul>
+    </ul> -->
 </template>
