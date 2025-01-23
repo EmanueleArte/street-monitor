@@ -18,6 +18,8 @@ function openPage(page: string) {
   <NavBar @change="(page) => currentPage = page" @open="openPage" />
   <HomeContainer v-if="currentPage == 'home'"/>
   <NotificationsContainer v-if="currentPage == 'notifications'"/>
+  <ProfileContainer v-if="currentPage == 'profile'" />
+
 
   <Aside v-if="asidePage">
     <NotificationsContainer v-if="asidePage == 'notifications'" />
