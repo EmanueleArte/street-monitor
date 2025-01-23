@@ -7,7 +7,7 @@ import Aside from "@/components/Aside.vue"
 import { ref } from "vue"
 
 const currentPage = ref<string>("home")
-const asidePage = ref<string | undefined>("")
+const asidePage = ref<string | undefined>(undefined)
 
 function openPage(page: string) {
   asidePage.value = asidePage.value == page ? undefined : page
