@@ -31,7 +31,7 @@
   "name": "Mario",
   "surname": "Rossi",
   "email": "mario.rossi@example.com",
-  "password": "securepassword123",
+  "password": "$2a$10$/cxMwrZZ2xDObzIhhmzzB.qkeq9CWSuvSM8Z.Qz3G.p64g.oP04Wm",
   "username": "mariorossi",
   "reputation": 2,
   "favorite_spots": [
@@ -40,6 +40,35 @@
       "coordinates": [44.49687025253408, 11.352399777523498]
     }
   ],
-  "notifications": [],
+  "notifications": [
+    {
+      "content": "A new report has been added near one of your favorite spot.",
+      "type": {
+        "_id": "67923e1d9f82cf18d3254ecd",
+        "name": "new_report_spot"
+      },
+      "send_datetime": "2025-01-23T12:00:00.000Z",
+      "report": "6792634ba485592ea0c77d86", 
+      "favorite_spot": {
+        "label": "Unibo via Zamboni",
+        "coordinates": [44.49687025253408, 11.352399777523498]
+      },
+      "read": false
+    },
+    {
+      "content": "The GPS coordinates for a new report have been added.",
+      "type": {
+        "_id": "67923e1d9f82cf18d3254ecc",
+        "name": "new_report_gps"
+      },
+      "send_datetime": "2025-01-24T08:30:00.000Z",
+      "favorite_spot": {
+        "label": "Unibo via Zamboni",
+        "coordinates": [44.49687025253408, 11.352399777523498]
+      },
+      "read": false
+    }
+    
+  ],
   "__v": 0
 }

@@ -6,6 +6,7 @@
     "description": "There is a large pothole."
 }
 {
+    "_id": {"$oid":"6792634ba485592ea0c77d86"},
     "type": "broken_streetlight",
     "user": "mariorossi",
     "coordinates": [44.41864209505457, 12.14230249607438],
