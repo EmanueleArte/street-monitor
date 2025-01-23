@@ -11,7 +11,7 @@ export interface IReport extends Document {
     status: string,
     close_datetime: Date,
     description: string,
-    picture: { data: string, contentType: string }
+    picture: string
 }
 
 const reportSchema: Schema<IReport> = new Schema<IReport>({
@@ -23,13 +23,7 @@ const reportSchema: Schema<IReport> = new Schema<IReport>({
     status: { type: String, required: true, enum: ['open', 'solving', 'closed'], default: 'open' },
     close_datetime: { type: Date, required: false },
     description: { type: String, required: false },
-    picture: {
-        type: {
-            data: { type: String, required: true },
-            contentType: { type: String, required: true }
-        },
-        required: false
-    }
+    picture: { type: String, required: false }
 })
 
 reportSchema.index({ coordinates: '2dsphere' })
