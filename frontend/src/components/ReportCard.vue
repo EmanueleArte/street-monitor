@@ -5,6 +5,7 @@ import ChangeStatusButton from './buttons/ChangeStatusButton.vue';
 import type { IReport } from '@models/reportModel';
 import { ref, type PropType } from 'vue';
 import { formatDate } from '@/lib/stringUtility';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 
 const emit = defineEmits(["updateTiles"])
 
@@ -90,19 +91,44 @@ if (props.report.user == useAuthStore().get()?.username) reputationColor.value =
                 <!-- dates -->
                 <div class="flex gap-x-3 lowercase flex-wrap text-slate-600" :class="props.report.close_datetime ? 'col-span-3' : 'col-span-2'">
                     <!-- open -->
-                    <div class="flex gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-                        <path fill-rule="evenodd" d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z" clip-rule="evenodd" />
-                        </svg>
-                        <p>{{ formatDate(new Date(report.open_datetime)) }}</p>
-                    </div>
+                    <Popover class="relative inline-grid">
+                        <PopoverButton>
+                            <div class="flex gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z" clip-rule="evenodd" />
+                                </svg>
+                                <p>{{ formatDate(new Date(report.open_datetime)) }}</p>
+                            </div>
+                        </PopoverButton>
+
+                        <PopoverPanel class="absolute left-1/2 z-10 mt-3 w-64 max-w-sm -translate-x-1/2 transform px-4 bottom-1/4 -translate-y-1/4 sm:px-0 lg:max-w-3xl">
+                            <div class="overflow-hidden rounded shadow-lg ring-1 ring-black/5">
+                                <div class="relative grid gap-8 bg-surface-default p-2 text-xs">
+                                    Open date of the report
+                                </div>
+                            </div>
+                        </PopoverPanel>
+                    </Popover>
+
                     <!-- close -->
-                    <div v-if="report.close_datetime" class="flex gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="my-auto size-4">
-                        <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
-                        </svg>
-                        <p>{{ formatDate(new Date(report.close_datetime)) }}</p>
-                    </div>
+                    <Popover class="relative inline-grid">
+                        <PopoverButton>
+                            <div v-if="report.close_datetime" class="flex gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="my-auto size-4">
+                                <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+                                </svg>
+                                <p>{{ formatDate(new Date(report.close_datetime)) }}</p>
+                            </div>
+                        </PopoverButton>
+
+                        <PopoverPanel class="absolute left-1/2 z-10 mt-3 w-64 max-w-sm -translate-x-1/2 transform px-4 bottom-1/4 -translate-y-1/4 sm:px-0 lg:max-w-3xl">
+                            <div class="overflow-hidden rounded shadow-lg ring-1 ring-black/5">
+                                <div class="relative grid gap-8 bg-surface-default p-2 text-xs">
+                                    Close date of the report
+                                </div>
+                            </div>
+                        </PopoverPanel>
+                    </Popover>
                 </div><!-- /dates -->
             </div>
 
