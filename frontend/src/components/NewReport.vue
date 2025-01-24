@@ -63,7 +63,7 @@ const publishReport = async () => {
   }
   if (image.value) {
     const imageString: string = await blobToBase64(image.value)
-    newReport.picture = { data: imageString, contentType: image.value.type }
+    newReport.picture = imageString //{ data: imageString, contentType: image.value.type }
   }
   axios.post<IReport>(`http://localhost:3000/reports`, newReport)
       .then((res) => console.log(res.data))

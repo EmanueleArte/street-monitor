@@ -50,6 +50,22 @@
     {
       "label": "Casa",
       "coordinates": [44.17318597134516, 12.076435089220467]
+    },
+    {
+      "label": "Palestra",
+      "coordinates": [44.22254485785064, 12.038801908220194]
+    },
+    {
+      "label": "Supermercato",
+      "coordinates": [44.22254485785064, 12.038801908220194]
+    },
+    {
+      "label": "Biblioteca",
+      "coordinates": [44.22254485785064, 12.038801908220194]
+    },
+    {
+      "label": "Piscina",
+      "coordinates": [44.22254485785064, 12.038801908220194]
     }
   ],
   "notifications": [],

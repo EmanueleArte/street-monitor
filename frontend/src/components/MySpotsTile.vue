@@ -19,7 +19,7 @@ onMounted(listMySpots)
 </script>
 
 <template>
-    <div class="flex flex-wrap">
+    <div class="flex flex-wrap max-h-[100%] overflow-y-auto">
         <SpotCard v-for="spot in mySpots" :spot="spot" />
     </div>
 </template>

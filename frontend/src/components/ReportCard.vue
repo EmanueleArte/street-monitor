@@ -25,7 +25,7 @@ const datetimeConverter = (datetime: Date): string => {
 </script>
 
 <template>
-    <article class="flex items-center p-2 m-2 rounded-lg bg-surface-component border-2 border-primary-700">
+    <article class="flex items-center p-2 m-2 rounded-lg bg-surface-component shadow-xl">
         <section class="w-4/12">
             <img :src="report.picture ? `http://localhost:3000/${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'" alt="report image" class="report-image" />
         </section>

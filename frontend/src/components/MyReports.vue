@@ -26,7 +26,7 @@ const toggleReportsVisibility = () => {
                 d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
       </FloatingRoundButton>
-      <Tile class="h-[100%] z-10 p-2">
+      <Tile class="h-[100%] z-10 p-2 pb-0">
         <MyReportsTile/>
       </Tile>
     </div>

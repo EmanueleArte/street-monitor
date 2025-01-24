@@ -16,7 +16,7 @@ const toggleSpotsVisibility = () => {
 <template>
     <BottomButton class="absolute bottom-2 h-24 w-40 z-1 right-6 bg-primary-600 text-xl text-light rounded-xl" @click="toggleSpotsVisibility" :text="'My Spots'" />
     <SlideFromBottom>
-        <div v-if="showSpotsTile" class="container fixed bottom-0 z-20 h-[60%]">
+        <div v-if="showSpotsTile" class="container fixed bottom-0 z-20 h-[45%]">
             <FloatingRoundButton
               class="absolute -top-20 left-4"
               @click="toggleSpotsVisibility">
@@ -26,7 +26,7 @@ const toggleSpotsVisibility = () => {
                       d="M12 4.5v15m7.5-7.5h-15"/>
                 </svg>
             </FloatingRoundButton>
-            <Tile class="h-[100%] z-10 p-2">
+            <Tile class="h-[100%] z-10 p-2 pb-0">
                 <MySpotsTile/>
             </Tile>
         </div>
