@@ -12,6 +12,7 @@ import CameraContainer from "@/components/CameraContainer.vue"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
+import { useAuthStore } from "@/stores/auth.store.ts"
 
 const emit = defineEmits(["cancel"])
 
@@ -52,7 +53,7 @@ const publishReport = async () => {
   const newReport: IReport = {
     _id: new mongoose.Types.ObjectId(),
     type: selectedReportType.value?.name,
-    user: "mariorossi",
+    user: useAuthStore().get()?.username,
     coordinates: latLng.value,
   } as IReport
   if (description.value !== "") {
@@ -61,6 +62,7 @@ const publishReport = async () => {
   if (image.value) {
     newReport.picture = await blobToBase64(image.value)
   }
+  emit("cancel")
   axios.post<IReport>(`http://localhost:3000/reports`, newReport)
       .then((res) => console.log(res.data))
       .catch((e) => console.error(e))

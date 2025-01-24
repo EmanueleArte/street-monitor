@@ -4,6 +4,10 @@ import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { ref } from "vue"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
+import axios from "axios"
+import type { IReport } from "@models/reportModel.ts"
+import type { IFavoriteSpot } from "@models/favoriteSpotModel.ts"
+import { useAuthStore } from "@/stores/auth.store.ts"
 
 const emit = defineEmits(["cancel"])
 
@@ -11,6 +15,17 @@ const posCopy = { ...usePositionStore().position }
 const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])
 const zoom: number = 12
 const label = ref<string>("")
+
+const saveSpot = () => {
+  const newSpot: IFavoriteSpot = {
+    label: label.value !== "" ? label.value : "Favorite spot",
+    coordinates: latLng.value,
+  } as IFavoriteSpot
+  axios.post<IReport>(`http://localhost:3000/users/${useAuthStore().get()?.username}/favorites`, newSpot)
+      .then((res) => console.log(res.data))
+      .catch((e) => console.error(e))
+  emit("cancel")
+}
 </script>
 
 <template>
@@ -60,7 +75,7 @@ const label = ref<string>("")
           @click="emit('cancel')">
         Cancel
       </SimpleButton>
-      <SimpleButton>Submit</SimpleButton>
+      <SimpleButton @click="saveSpot">Submit</SimpleButton>
     </section>
   </div>
 </template>
