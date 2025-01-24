@@ -1,16 +1,30 @@
 <script setup lang="ts">
-import ChangeStatusButton from './buttons/ChangeStatusButton.vue';
 import type { IReport } from '@models/reportModel';
 import type { PropType } from 'vue';
+import SimpleButton from './buttons/SimpleButton.vue';
+import axios from 'axios';
 
 const emit = defineEmits(["updateTiles"])
 
-defineProps({
+const props = defineProps({
     report: { type: Object as PropType<IReport>, required: true }
 })
 
-const updateTiles = () => {
-    emit("updateTiles")
+const changeStatus = async () => {
+    if (props["report"].status != 'closed') {
+        try {
+            props["report"].status = props["report"].status === 'open' ? 'solving' : 'closed'
+            if (props["report"].status === 'closed') {
+                props["report"].close_datetime = new Date()
+            }
+            const response = await axios.put(`http://localhost:3000/reports/by-id/${props["report"]._id}`, props["report"])
+            if (response.status === 200) {
+                emit("updateTiles")
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
 }
 
 const reportTypeTextConverter = (t: string): string => {
@@ -34,7 +48,7 @@ const datetimeConverter = (datetime: Date): string => {
             <p class="text-xs">{{ datetimeConverter(report.open_datetime) }}</p>
             <p v-if="report.status == 'closed'" class="text-xs">{{ datetimeConverter(report.close_datetime) }}</p>
             <p v-if="report.description" class="bg-surface-default border-2 border-surface-divider text-dark rounded-sm p-1 mt-1 mb-1 text-xs max-h-[60px] overflow-y-auto">{{ report.description }}</p>
-            <ChangeStatusButton v-show="report.status!='closed'" :report="report" @changeStatus="updateTiles" />
+            <SimpleButton v-show="report.status!='closed'" @click="changeStatus" classes="!bg-light !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700 text-[0.7rem] !px-2 !py-1 mr-1 !rounded-lg">Change status</SimpleButton>
         </section>
     </article>
 </template>
