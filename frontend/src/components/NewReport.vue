@@ -13,17 +13,13 @@ import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
 
-const emit = defineEmits(["toggleTile"])
+const emit = defineEmits(["cancel"])
 
 const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)
 const posCopy = { ...usePositionStore().position }
 const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])
 const zoom: number = 12
-
-const moveToPosition = () => {
-  usePositionStore().positionToMove = latLng.value
-}
 
 const fetchReportTypes = () => {
   axios.get<IReportType[]>(`http://localhost:3000/report-types`)
@@ -133,7 +129,7 @@ onMounted(fetchReportTypes)
           <input type="number" id="lat"
                  class="rounded-xl p-2 mr-1 border bg-surface-default border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"
                  v-model="latLng[0]"
-                 @input="moveToPosition"
+                 @input="usePositionStore().move(latLng)"
                  placeholder="Latitude">
         </div>
         <div class="flex flex-col w-1/2">
@@ -141,7 +137,7 @@ onMounted(fetchReportTypes)
           <input type="number" id="lng"
                  class="rounded-xl p-2 ml-1 bg-surface-default border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"
                  v-model="latLng[1]"
-                 @input="moveToPosition"
+                 @input="usePositionStore().move(latLng)"
                  placeholder="Longitude">
         </div>
       </div>
@@ -175,7 +171,7 @@ onMounted(fetchReportTypes)
     <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default">
       <SimpleButton
           classes="!bg-surface-default !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
-          @click="emit('toggleTile')">
+          @click="emit('cancel')">
         Cancel
       </SimpleButton>
       <SimpleButton @click="publishReport">Submit</SimpleButton>
