@@ -5,8 +5,6 @@ import type { LeafletEvent } from "leaflet"
 import { ref, onUnmounted, onBeforeMount, watch } from "vue"
 import { throttle } from "lodash"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
-import { useAuthStore } from "@/stores/auth.store";
-import { storeToRefs } from "pinia";
 import CenterPin from "@/components/pins/CenterPin.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { coordsEquals } from "@/lib/mapUtility.ts"
@@ -33,18 +31,19 @@ const map = ref<typeof LMap | null>(null)
 
 watch(() => usePositionStore().positionToMove, (newPosition) => {
   if (newPosition) {
-    console.log(newPosition)
     moveToPosition(newPosition)
   }
 }, { deep: true })
 
 const moveToPosition = (pos: [number, number]) => {
-  if (map.value && map.value.leafletObject) {
-    center.value = pos
-    map.value.leafletObject.flyTo(center.value, props.zoom, {
-      animate: true,
-      duration: 1
-    })
+  if (props.latLng || usePositionStore().flyMainMap) {
+    if (map.value && map.value.leafletObject) {
+      center.value = pos
+      map.value.leafletObject.flyTo(center.value, props.zoom, {
+        animate: true,
+        duration: 1
+      })
+    }
   }
 }
 
