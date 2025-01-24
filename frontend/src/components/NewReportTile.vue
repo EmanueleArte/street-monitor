@@ -4,6 +4,8 @@ import Tile from "@/components/Tile.vue"
 import NewReport from "@/components/NewReport.vue"
 import { ref } from "vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
+import Tabs from "@/components/utils/Tabs.vue"
+import { ReportStatus } from "@/lib/vars.ts"
 
 const showTile = ref<boolean>(false)
 const transitionCompleted = ref<boolean>(true)
@@ -39,6 +41,7 @@ const handleTransitionCompleted = () => {
         </svg>
       </FloatingRoundButton>
       <Tile class="bottom-0 max-h-[85vh] overflow-auto">
+        <Tabs :tabs="ReportStatus" @toggleTabList="() => {}"></Tabs>
         <NewReport @toggleTile="toggleTile"/>
       </Tile>
     </div>
