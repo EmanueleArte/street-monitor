@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import type { IReport } from "@models/reportModel.ts"
 import Pin from "@/components/pins/Pin.vue"
-import ReportCard from "../ReportCard.vue";
 
 const props = defineProps<{
   report: IReport
 }>()
 
 const iconSize: number = 48
+
+const emit = defineEmits<{
+  (e: 'click'): void
+}>()
+function clickHandler() {
+  emit('click')
+}
 </script>
 
 <template>
@@ -16,9 +22,8 @@ const iconSize: number = 48
     :lng="props.report.coordinates[1]"
     iconUrl="../src/assets/icons/temp.png"
     :iconSize="iconSize"
-    @click="console.log(report)"  
+    @click="clickHandler"
   />
-  <ReportCard :report="report" />
 </template>
 
 <style scoped lang="scss">

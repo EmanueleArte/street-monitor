@@ -3,6 +3,10 @@ import Map from "@/components/Map.vue"
 import NewReport from "@/components/NewReportTile.vue"
 import MyReports from "@/components/MyReports.vue"
 import MySpots from "@/components/MySpots.vue"
+import { useReportStore } from "@/stores/report.store";
+import ReportCarosel from "./ReportCarosel.vue";
+
+const reportStore = useReportStore()
 </script>
 
 <template>
@@ -11,6 +15,7 @@ import MySpots from "@/components/MySpots.vue"
     <NewReport/>
     <MyReports/>
     <MySpots/>
+    <ReportCarosel />
   </div>
 </template>
 
