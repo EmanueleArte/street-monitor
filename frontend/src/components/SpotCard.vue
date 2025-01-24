@@ -1,22 +1,40 @@
 <script setup lang="ts">
 import type { IFavoriteSpot } from '@models/favoriteSpotModel';
-import type { PropType } from 'vue';
+import { onMounted, type PropType } from 'vue';
 import SimpleButton from './buttons/SimpleButton.vue';
+import axios from 'axios';
 
-defineProps({
+const props = defineProps({
     spot: { type: Object as PropType<IFavoriteSpot>, required: true }
 })
+
+const deleteSpot = async () => {
+    console.log(props["spot"])
+    try {
+        await axios.delete(`http://localhost:3000/users/mariorossi/favorites/${props["spot"]._id}`) //TODO cambiare user (mariorossi) con user corrente loggato
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+const debug = () => {
+    console.log(props["spot"])
+}
+
+onMounted(debug)
 </script>
 
 <template>
     <article class="w-[calc(50%-1rem)] p-3 m-2 rounded-lg bg-surface-component shadow-xl">
         <div class="flex items-center mb-1">
             <p>{{ spot.label }}</p>
-            <SimpleButton classes="!bg-light !text-primary-600 border-none hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700 text-[0.7rem] !px-2 !py-1 ml-auto !rounded-lg">D</SimpleButton>
+            <SimpleButton @click="deleteSpot" classes="!bg-surface-component border-none ml-auto !rounded-lg">
+                <img src="@/assets/icons/recycle_bin.svg" alt="recycle bin icon" class="w-4 h-4" />
+            </SimpleButton>
         </div>
         <p class="text-[0.7rem]"> Lat: {{ spot.coordinates[0] }}</p>
         <p class="text-[0.7rem] mb-2"> Lon: {{ spot.coordinates[1] }}</p>
-        <SimpleButton classes="!bg-light !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700 text-[0.7rem] !px-2 !py-1 mr-1 !rounded-lg">Edit</SimpleButton>
+        <!--SimpleButton classes="!bg-light !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700 text-[0.7rem] !px-2 !py-1 mr-1 !rounded-lg">Edit</SimpleButton-->
         <SimpleButton classes="text-[0.7rem] !px-2 !py-1 !rounded-lg">Go to spot</SimpleButton>
     </article>
 </template>

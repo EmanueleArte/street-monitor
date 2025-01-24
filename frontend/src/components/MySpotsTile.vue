@@ -10,6 +10,7 @@ const listMySpots = async () => {
     try {
         const response = await axios.get('http://localhost:3000/users/mariorossi/favorites') //TODO cambiare user (mariorossi) con user corrente loggato
         mySpots.value = response.data
+        console.log(mySpots.value)
     } catch (e) {
         console.error(e)
     }
