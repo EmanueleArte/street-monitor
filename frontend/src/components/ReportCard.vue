@@ -55,7 +55,7 @@ if (props.report.user == useAuthStore().get()?.username) reputationColor.value =
 
 <template>
     <article
-        class="flex w-full rounded-md border-2 bg-slate-50 shadow-md my-2 overflow-hidden max-w-96"
+        class="flex aspect-3/2 rounded-md border-2 bg-slate-50 shadow-md my-2 overflow-hidden max-w-96"
         :class="`border-${reputationColor} shadow-${reputationColor}/60`"    
     >
         <img
@@ -73,7 +73,7 @@ if (props.report.user == useAuthStore().get()?.username) reputationColor.value =
                 <span class="ps-1 text-black/40 before:content-['\('] after:content-['\)']">{{ userReputation }}</span>
             </p>
 
-            <div class="grid grid-cols-3 grid-rows-3">
+            <div class="grid grid-cols-3 grid-rows-3 text-xs">
                 <!-- coords -->
                 <div
                     :class="props.report.close_datetime ? 'col-span-3' : 'col-span-2'"

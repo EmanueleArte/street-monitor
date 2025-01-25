@@ -23,13 +23,13 @@ export const useReportStore = defineStore('report', () => {
     }
 
     function getPreviousReport(report: IReport) {
-        if (!_reports.value) return
+        if (!_reports.value) return undefined
         const previousIndex: number = _reports.value.indexOf(report) - 1
         return previousIndex < 0 ? _reports.value[_reports.value.length - 1] : _reports.value[previousIndex]
     }
 
     function getNextReport(report: IReport) {
-        if (!_reports.value) return
+        if (!_reports.value) return undefined
         const nextIndex: number = _reports.value.indexOf(report) + 1
         return _reports.value[nextIndex % _reports.value.length]
     }
