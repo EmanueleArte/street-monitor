@@ -32,7 +32,7 @@ const saveSpot = () => {
   <div class="p-4 pb-20 space-y-2">
     <h1 class="text-2xl">Insert a new favorite spot</h1>
 
-    <section>
+    <section class="pt-1">
       <div class="flex flex-col w-full">
         <SimpleLabel attachTo="label">Label</SimpleLabel>
         <input type="text" id="label"
