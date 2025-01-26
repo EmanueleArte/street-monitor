@@ -108,7 +108,7 @@ onUnmounted(stopWatchingPosition)
         layer-type="base"
         name="OpenStreetMap"
     ></LTileLayer>
-    <LMarker :lat-lng="usePositionStore().position"/>
+    <LMarker :lat-lng="usePositionStore().position" :options="{ alt: 'Current position' }" />
     <CenterPin v-if="!coordsEquals(center, usePositionStore().position)" :center="center"/>
     <LCircle
         :lat-lng="[center[0], center[1]]"
