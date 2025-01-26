@@ -4,8 +4,10 @@ import { onMounted, ref, watch } from "vue"
 import ReportPin from "@/components/pins/ReportPin.vue"
 import type { IReport } from "@models/reportModel"
 import { useReportStore } from "@/stores/report.store"
+import { usePositionStore } from "@/stores/position.store"
 
 const reportStore = useReportStore()
+const positionStore = usePositionStore()
 
 const props = defineProps<{
   lat: number,
@@ -34,6 +36,7 @@ const getNearReports = async () => {
 function clickHandler(report: IReport) {
   console.log('click')
   reportStore.setCurrentReport(report)
+  positionStore.move(report.coordinates)
 }
 
 onMounted(getNearReports)

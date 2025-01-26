@@ -16,20 +16,26 @@ if (currentReport.value) nextReport.value = reportStore.getNextReport(currentRep
 watch(() => useReportStore().getCurrentReport(), (newReport: IReport | undefined) => {
     console.log('new report')
     if (newReport) {
-        currentReport.value = newReport
+        updateCarosel(newReport)
     }
 }, { deep: true })
 
 const previousReportHandler = () => {
-    if (!currentReport.value) return
-    const previousReport = reportStore.getPreviousReport(currentReport.value)
-    currentReport.value = previousReport
+    if (!previousReport.value) return
+    currentReport.value = previousReport.value
+    updateCarosel(currentReport.value)
 }
 
 const nextReportHandler = () => {
-    if (!currentReport.value) return
-    const nextReport = reportStore.getNextReport(currentReport.value)
-    currentReport.value = nextReport
+    if (!nextReport.value) return
+    currentReport.value = nextReport.value
+    updateCarosel(currentReport.value)
+}
+
+const updateCarosel = (report: IReport) => {
+    currentReport.value = report
+    previousReport.value = reportStore.getPreviousReport(report)
+    nextReport.value = reportStore.getNextReport(report)
 }
 </script>
 
@@ -50,7 +56,9 @@ const nextReportHandler = () => {
         </div>
         <ReportCard :report="currentReport" />
     </div> -->
-    <section v-if="currentReport" class="z-10 absolute bottom-2 left-0 flex w-full content-center justify-center overflow-x-hidden md:w-lg md:gap-1 md:rounded-none md:border-0">
+    <section
+        v-if="currentReport"
+        class="z-10 absolute bottom-2 left-0 flex w-full content-center justify-center overflow-x-hidden md:w-lg md:gap-1 md:rounded-none md:border-0">
         <!-- <article class="h-60 w-lg shrink-0 scale-90 rounded-md bg-red-300 text-center shadow-sm md:hidden">Previous card</article>
 
         <button>
@@ -60,9 +68,19 @@ const nextReportHandler = () => {
         </button> -->
 
         <!-- <article class="h-60 w-md shrink-0 rounded-md bg-red-300 text-center shadow-sm">Main card</article> -->
-        <ReportCard v-if="previousReport" :report="previousReport" class="scale-95 shrink-0" />
+        <ReportCard
+            v-if="previousReport"
+            :report="previousReport"
+            @click="previousReportHandler"
+            class="scale-95 shrink-0" />
+
         <ReportCard :report="currentReport" class="shrink-0 basis-4/5" />
-        <ReportCard v-if="nextReport" :report="nextReport" class="scale-95 shrink-0" />
+
+        <ReportCard
+            v-if="nextReport"
+            :report="nextReport"
+            @click="nextReportHandler"
+            class="scale-95 shrink-0" />
 
 
         <!-- <article class="h-60 w-96 shrink-0 scale-90 rounded-md bg-red-300 text-center shadow-sm md:hidden">Next card</article>
@@ -71,6 +89,7 @@ const nextReportHandler = () => {
             <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
             </svg>
         </button> -->
+
     </section>
 
 </template>
