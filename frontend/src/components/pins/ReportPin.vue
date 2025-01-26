@@ -9,7 +9,7 @@ const props = defineProps<{
 }>()
 
 const iconSize: number = 48
-const iconPath = computed(() => "../src/assets/icons/" + props.report.type + "_pin.png")
+const iconPath = computed(() => "../src/assets/icons/" + props.report.status + "/" + props.report.type + "_pin.png")
 </script>
 
 <template>
