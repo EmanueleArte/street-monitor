@@ -4,9 +4,16 @@ import Tile from "@/components/Tile.vue"
 import NewReport from "@/components/NewReport.vue"
 import { ref } from "vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
+import Tabs from "@/components/utils/Tabs.vue"
+import { TabPanel } from "@headlessui/vue"
+import NewSpot from "@/components/NewSpot.vue"
 
 const showTile = ref<boolean>(false)
 const transitionCompleted = ref<boolean>(true)
+const contents = {
+  NEW_REPORT: "New report",
+  NEW_SPOT: "New spot"
+}
 
 const toggleTile = () => {
   showTile.value = !showTile.value
@@ -38,8 +45,15 @@ const handleTransitionCompleted = () => {
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
       </FloatingRoundButton>
-      <Tile class="bottom-0 max-h-[85vh] overflow-auto">
-        <NewReport @toggleTile="toggleTile"/>
+      <Tile class="bottom-0 min-h-[85vh] max-h-[85vh] overflow-auto">
+        <Tabs :tabs="contents" :toggleTabList="() => {}">
+          <TabPanel>
+            <NewReport @cancel="toggleTile"/>
+          </TabPanel>
+          <TabPanel>
+            <NewSpot @cancel="toggleTile"/>
+          </TabPanel>
+        </Tabs>
       </Tile>
     </div>
   </SlideFromBottom>
