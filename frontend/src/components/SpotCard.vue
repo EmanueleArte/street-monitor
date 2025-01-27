@@ -35,7 +35,6 @@ const moveToSpot = () => {
         </div>
         <p class="text-[0.7rem]"> Lat: {{ spot.coordinates[0] }}</p>
         <p class="text-[0.7rem] mb-2"> Lon: {{ spot.coordinates[1] }}</p>
-        <!--SimpleButton classes="!bg-light !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700 text-[0.7rem] !px-2 !py-1 mr-1 !rounded-lg">Edit</SimpleButton-->
         <SimpleButton @click="moveToSpot" classes="text-[0.7rem] !px-2 !py-1 !rounded-lg">Go to spot</SimpleButton>
     </article>
 </template>
