@@ -20,6 +20,6 @@ onMounted(listMySpots)
 
 <template>
     <div class="flex flex-wrap max-h-[100%] overflow-y-auto">
-        <SpotCard v-for="spot in mySpots" :spot="spot" />
+        <SpotCard @updateTiles="listMySpots" v-for="spot in mySpots" :spot="spot" />
     </div>
 </template>
