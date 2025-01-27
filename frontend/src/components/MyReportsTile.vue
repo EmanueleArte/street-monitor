@@ -3,7 +3,9 @@ import type { IReport } from "@models/reportModel";
 import axios from "axios";
 import { onMounted, ref } from "vue"
 import ReportCard from "./ReportCard.vue";
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue';
+import { TabPanel } from '@headlessui/vue';
+import Tabs from "@/components/utils/Tabs.vue"
+import { ReportStatus } from "@/lib/vars.ts"
 
 const myOpenReports = ref<IReport[]>([])
 const mySolvingReports = ref<IReport[]>([])
@@ -46,27 +48,17 @@ onMounted(listMyReports)
 
 <template>
   <h1 class="text-xl mb-1">My reports:</h1>
-  <TabGroup>
-    <TabList class="w-full flex justify-around">
-      <Tab :class="{ 'bg-primary-600 text-light': status=='open', 'text-primary-600 border border-primary-700 hover:bg-primary-100': status!='open' }" class="rounded-s-2xl w-full p-1"
-          @click="toggleTabList('open')">Open</Tab>
-      <Tab :class="{ 'bg-primary-600 text-light': status=='solving', 'text-primary-600 border border-primary-700 hover:bg-primary-100': status!='solving' }" class="w-full p-1"
-          @click="toggleTabList('solving')">Solving</Tab>
-      <Tab :class="{ 'bg-primary-600 text-light': status=='closed', 'text-primary-600 border border-primary-700 hover:bg-primary-100': status!='closed' }" class="rounded-e-2xl w-full p-1"
-          @click="toggleTabList('closed')">Closed</Tab>
-    </TabList>
-    <TabPanels class="h-[100%]">
-      <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
-        <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()" />
-      </TabPanel>
-      <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
-        <ReportCard v-for="report in mySolvingReports" :report="report" @updateTiles="listMyReports()" />
-      </TabPanel>
-      <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
-        <ReportCard v-for="report in myClosedReports" :report="report" @updateTiles="listMyReports()" />
-      </TabPanel>
-    </TabPanels>
-  </TabGroup>
+  <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="`h-full`" :tabPanelClasses="`h-full`">
+    <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
+      <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()"/>
+    </TabPanel>
+    <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
+      <ReportCard v-for="report in mySolvingReports" :report="report" @updateTiles="listMyReports()"/>
+    </TabPanel>
+    <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
+      <ReportCard v-for="report in myClosedReports" :report="report" @updateTiles="listMyReports()"/>
+    </TabPanel>
+  </Tabs>
 </template>
 
 <style scoped lang="scss">

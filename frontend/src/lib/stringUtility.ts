@@ -6,7 +6,7 @@ export function formatUnderscoredString(input: string | undefined): string {
     return formatted.charAt(0).toUpperCase() + formatted.slice(1)
 }
 
-export const base64ToBlob = (base64: string) => {
+export const base64ToBlob = (base64: string): Blob => {
     const [prefix, base64Data] = base64.split(",")
     const byteString = atob(base64Data)
     const mimeType = prefix.match(/:(.*?);/)?.[1] || "application/octet-stream"
@@ -19,7 +19,7 @@ export const base64ToBlob = (base64: string) => {
     return new Blob([buffer], { type: mimeType });
 }
 
-export const blobToBase64 = (blob: Blob) => {
+export const blobToBase64 = (blob: Blob): Promise<string> => {
     const reader: FileReader = new FileReader()
     reader.readAsDataURL(blob)
     return new Promise<string>(resolve => {

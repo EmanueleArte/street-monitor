@@ -1,29 +1,45 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
-import { LMap } from "@vue-leaflet/vue-leaflet"
+import { computed, ref } from "vue"
+import type { IReport } from "@models/reportModel.ts"
+import { ReportStatus } from "@/lib/vars.ts"
 
 export const useMapStore = defineStore('map', () => {
-    const maps = ref<typeof LMap[]>([])
-    const centers = ref<[number, number][]>([])
-    const length = ref<number>(0)
+    const reports = ref<IReport[]>([])
+    const filteredReports = ref<IReport[]>([])
+    const currentFilter = ref<Record<string, boolean | string>>({})
 
-    function set(map: typeof LMap, center: [number, number]) {
-        length.value = maps.value.push(map)
-        centers.value.push(center)
+    function setReports(data: IReport[]) {
+        reports.value = data
+        filterReports(currentFilter.value)
     }
 
-    function get() {
-        return {
-            "map": maps.value[length.value - 1],
-            "center": centers.value[length.value - 1]
+    function filterReports(filter: Record<string, boolean | string>) {
+        for (let key in filter) {
+            if (!filter[key]) {
+                delete currentFilter.value[key]
+            } else {
+                currentFilter.value[key] = filter[key]
+            }
         }
+        let filteredStatus: IReport[] = []
+        let filteredType: IReport[] = []
+        for (let key in currentFilter.value) {
+            if (Object.values(ReportStatus).includes(key as ReportStatus)) {
+                filteredStatus = filteredStatus.concat(filterByStatus(reports.value, key))
+            } else {
+                filteredType = filteredType.concat(filterByType(filteredStatus, key))
+            }
+        }
+        filteredReports.value = filteredType.length > 0 ? filteredType : filteredStatus
     }
 
-    function remove() {
-        length.value--
-        centers.value.pop()
-        return maps.value.pop()
+    function filterByStatus(reportList: IReport[], status: string): IReport[] {
+        return reportList.filter((report) => report.status === status)
     }
 
-    return {get, set, remove}
+    function filterByType(reportList: IReport[], type: string): IReport[] {
+        return reportList.filter((report) => report.type.name === type)
+    }
+
+    return { reports, filteredReports, setReports, filterReports }
 })
