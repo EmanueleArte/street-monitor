@@ -139,8 +139,7 @@ export const listFavoriteSpots = (req: Request, res: Response) => {
 export const deleteFavoriteSpot = (req: Request, res: Response) => {
     userModel.findOneAndUpdate(
         {
-            username: req.params.id,
-            'favorite_spots._id': req.params.fid
+            username: req.params.id
         },
         { $pull: { favorite_spots: { _id: req.params.fid } } },
         { new: true })
