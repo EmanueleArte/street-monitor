@@ -14,7 +14,8 @@ import { coordsEquals } from "@/lib/mapUtility.ts"
 const props = defineProps<{
   zoom: number,
   usePosition: boolean,
-  latLng?: [number, number]
+  latLng?: [number, number],
+  main?: boolean
 }>()
 const emit = defineEmits(["update:latLng"])
 
@@ -115,7 +116,7 @@ onUnmounted(stopWatchingPosition)
         :radius="radius * 1000"
         :color="circleColor"
     />
-    <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius"/>
+    <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius" :main="main"/>
   </LMap>
 </template>
 

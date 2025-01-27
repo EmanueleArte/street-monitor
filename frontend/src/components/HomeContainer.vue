@@ -8,7 +8,7 @@ import ReportFilter from "@/components/ReportFilter.vue"
 
 <template>
   <div class="homeContainer w-screen h-screen">
-    <Map class="z-0" :zoom="12" :usePosition=true></Map>
+    <Map class="z-0" :zoom="12" :usePosition=true :main=true></Map>
     <ReportFilter/>
     <NewReportTile/>
     <MyReports/>
