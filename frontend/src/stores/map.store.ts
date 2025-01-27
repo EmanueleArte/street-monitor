@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { computed, ref } from "vue"
+import { ref } from "vue"
 import type { IReport } from "@models/reportModel.ts"
 import { ReportStatus } from "@/lib/vars.ts"
 
@@ -14,31 +14,17 @@ export const useMapStore = defineStore('map', () => {
     }
 
     function filterReports(filter: Record<string, boolean | string>) {
-        for (let key in filter) {
+        Object.keys(filter).forEach(key => {
             if (!filter[key]) {
                 delete currentFilter.value[key]
             } else {
                 currentFilter.value[key] = filter[key]
             }
-        }
-        let filteredStatus: IReport[] = []
-        let filteredType: IReport[] = []
-        for (let key in currentFilter.value) {
-            if (Object.values(ReportStatus).includes(key as ReportStatus)) {
-                filteredStatus = filteredStatus.concat(filterByStatus(reports.value, key))
-            } else {
-                filteredType = filteredType.concat(filterByType(filteredStatus, key))
-            }
-        }
-        filteredReports.value = filteredType.length > 0 ? filteredType : filteredStatus
-    }
-
-    function filterByStatus(reportList: IReport[], status: string): IReport[] {
-        return reportList.filter((report) => report.status === status)
-    }
-
-    function filterByType(reportList: IReport[], type: string): IReport[] {
-        return reportList.filter((report) => report.type.name === type)
+        })
+        const statusKeys = Object.keys(currentFilter.value).filter(key => Object.values(ReportStatus).includes(key as ReportStatus))
+        const typeKeys = Object.keys(currentFilter.value).filter(key => !Object.values(ReportStatus).includes(key as ReportStatus))
+        const filteredStatus = reports.value.filter(report => statusKeys.includes(report.status))
+        filteredReports.value = typeKeys.length ? filteredStatus.filter(report => typeKeys.includes(report.type)) : filteredStatus
     }
 
     return { reports, filteredReports, setReports, filterReports }
