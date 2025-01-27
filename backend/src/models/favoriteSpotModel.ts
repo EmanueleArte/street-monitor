@@ -7,7 +7,7 @@ export interface IFavoriteSpot {
 }
 
 export const favoriteSpotSchema: Schema<IFavoriteSpot> = new Schema<IFavoriteSpot>({
-    //_id: { type: Schema.Types.ObjectId, required: true },
+    _id: { type: Schema.Types.ObjectId, required: true },
     label: { type: String, required: true },
     coordinates: { type: [Number, Number], required: true }
 })

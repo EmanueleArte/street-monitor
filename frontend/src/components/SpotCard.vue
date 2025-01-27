@@ -12,7 +12,6 @@ const props = defineProps({
 const positionStore = usePositionStore()
 
 const deleteSpot = async () => {
-    console.log(props.spot)
     try {
         await axios.delete(`http://localhost:3000/users/mariorossi/favorites/${props.spot._id}`) //TODO cambiare user (mariorossi) con user corrente loggato
     } catch (e) {
@@ -20,16 +19,10 @@ const deleteSpot = async () => {
     }
 }
 
-const debug = () => {
-    console.log(props.spot)
-}
-
 const moveToSpot = () => {
     positionStore.setFlyMainMap(true)
     positionStore.move(props.spot.coordinates)
 }
-
-onMounted(debug)
 </script>
 
 <template>
