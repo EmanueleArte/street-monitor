@@ -1,13 +1,13 @@
-import mongoose, { Document, Schema, Model, ObjectId } from 'mongoose'
+import mongoose, { Schema, Model, Types } from 'mongoose'
 
 export interface IFavoriteSpot {
-    _id: ObjectId
+    _id: Types.ObjectId
     label: string
     coordinates: [number, number]
 }
 
 export const favoriteSpotSchema: Schema<IFavoriteSpot> = new Schema<IFavoriteSpot>({
-    _id: { type: Schema.Types.ObjectId, required: true },
+    //_id: { type: Schema.Types.ObjectId, required: true },
     label: { type: String, required: true },
     coordinates: { type: [Number, Number], required: true }
 })

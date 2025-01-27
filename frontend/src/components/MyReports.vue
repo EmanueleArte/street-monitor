@@ -14,7 +14,7 @@ const toggleReportsVisibility = () => {
 </script>
 
 <template>
-  <BottomButton class="absolute bottom-2 left-6 h-24 w-40 z-1 bg-primary-600 text-xl text-light rounded-xl" @click="toggleReportsVisibility" :text="'My Reports'" />
+  <BottomButton class="left-6" @click="toggleReportsVisibility" :text="'My Reports'" />
   <SlideFromBottom>
     <div v-if="showReportTile" class="container fixed bottom-0 z-20 h-[60%]">
       <FloatingRoundButton
