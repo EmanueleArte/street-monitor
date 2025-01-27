@@ -34,9 +34,9 @@ onMounted(debug)
 
 <template>
     <article class="w-[calc(50%-1rem)] p-3 m-2 rounded-lg bg-surface-component shadow-xl">
-        <div class="flex items-center mb-1">
-            <p>{{ spot.label }}</p>
-            <SimpleButton @click="deleteSpot" classes="!bg-surface-component border-none ml-auto !rounded-lg">
+        <div class="flex items-center justify-center mb-1 w-full">
+            <p class="basis-[80%]">{{ spot.label }}</p>
+            <SimpleButton @click="deleteSpot" classes="!bg-surface-component border-none !rounded-lg basis-[20%] !p-0 flex justify-center items-center">
                 <img src="@/assets/icons/recycle_bin.svg" alt="recycle bin icon" class="w-4 h-4" />
             </SimpleButton>
         </div>
