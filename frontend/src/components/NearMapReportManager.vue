@@ -4,6 +4,7 @@ import { computed, onMounted, ref, watch } from "vue"
 import ReportPin from "@/components/pins/ReportPin.vue"
 import type { IReport } from "@models/reportModel"
 import { useMapStore } from "@/stores/map.store.ts"
+import { ReportStatus } from "@/lib/vars.ts"
 
 const props = defineProps<{
   lat: number,
@@ -38,7 +39,7 @@ const getNearReports = async () => {
 }
 
 const reportsList = computed(() => {
-  return props.main ? useMapStore().reports : reports.value
+  return props.main ? useMapStore().filteredReports : reports.value.filter((report) => report.status !== ReportStatus.CLOSED)
 })
 
 onMounted(getNearReports)

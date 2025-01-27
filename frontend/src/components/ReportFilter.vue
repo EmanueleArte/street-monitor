@@ -5,6 +5,7 @@ import SlideFromTop from "@/components/transitions/SlideFromTop.vue"
 import Checkbox from "@/components/inputs/Checkbox.vue"
 import { ReportStatus } from "@/lib/vars.ts"
 import { formatUnderscoredString } from "@/lib/stringUtility.ts"
+import { useMapStore } from "@/stores/map.store.ts"
 
 const show = ref<boolean>(true)
 const observer = ref<MutationObserver | null>(null)
@@ -29,8 +30,9 @@ const statusToShow = reactive<Record<ReportStatus, boolean>>(
     }, {} as Record<ReportStatus, boolean>)
 )
 statusToShow[ReportStatus.CLOSED] = false
+
 watch(statusToShow, () => {
-  console.log(statusToShow)
+  useMapStore().filterReports(statusToShow)
 })
 
 const typesToShow = {}
@@ -51,6 +53,7 @@ const getReportTypes = () => {
 onMounted(() => {
   observeTile()
   getReportTypes()
+  useMapStore().filterReports(statusToShow)
 })
 onUnmounted(() => {
   observer.value?.disconnect()
