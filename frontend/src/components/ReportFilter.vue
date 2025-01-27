@@ -85,7 +85,7 @@ onUnmounted(() => {
 <template>
   <SlideFromTop>
     <div v-if="show" class="absolute w-screen top-10 p-4">
-      <div class="w-full bg-surface-default shadow-lg rounded-xl p-4">
+      <div class="w-full bg-surface-default shadow-lg rounded-xl p-4 pt-3">
         <SimpleLabel attach-to="status-filter">Status filter</SimpleLabel>
         <section id="status-filter" class="flex flex-row justify-between px-1">
           <Checkbox v-for="(value, key) in statusToShow" :checked="value"
@@ -96,7 +96,7 @@ onUnmounted(() => {
         <section>
           <Listbox v-model="selectedReportType" class="z-10">
             <div class="relative">
-              <SimpleLabel attachTo="report-type">Report type</SimpleLabel>
+              <SimpleLabel attachTo="report-type">Report type filter</SimpleLabel>
               <ListboxButton
                   id="report-type"
                   class="relative w-full cursor-pointer rounded-xl text-light bg-primary-600 py-2 pl-3 pr-10 text-left
