@@ -5,6 +5,7 @@ import ReportPin from "@/components/pins/ReportPin.vue"
 import type { IReport } from "@models/reportModel"
 import { useMapStore } from "@/stores/map.store.ts"
 import { ReportStatus } from "@/lib/vars.ts"
+import { throttle } from "lodash"
 
 const props = defineProps<{
   lat: number,
@@ -42,8 +43,10 @@ const reportsList = computed(() => {
   return props.main ? useMapStore().filteredReports : reports.value.filter((report) => report.status !== ReportStatus.CLOSED)
 })
 
+const throttledGetNearReports = throttle(getNearReports, 100)
+
 onMounted(getNearReports)
-watch(() => [props.lat, props.lng, props.radius], getNearReports)
+watch(() => [props.lat, props.lng, props.radius], throttledGetNearReports)
 </script>
 
 <template>
