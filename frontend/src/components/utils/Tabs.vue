@@ -4,7 +4,7 @@ import { TabGroup, TabList, Tab, TabPanels } from "@headlessui/vue"
 defineProps<{
   tabs: { [key: string]: string },
   toggleTabList: (s: string) => void,
-  tabPanelClasses?: string,
+  tabPanelsClasses?: string,
   topDivClasses?: string
 }>()
 </script>
@@ -35,7 +35,7 @@ defineProps<{
         </Tab>
       </TabList>
 
-      <TabPanels :class="[tabPanelClasses, 'mt-2']">
+      <TabPanels :class="[tabPanelsClasses, 'mt-2']">
         <slot></slot>
       </TabPanels>
     </TabGroup>
