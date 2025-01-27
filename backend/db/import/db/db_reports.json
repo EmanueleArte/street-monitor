@@ -1,1 +1,71 @@
-{"_id":{"$oid":"67975a6f56effddacdd228d9"},"type":"broken_streetlight","user":"mariorossi","coordinates":[44.426641011091725,12.21466157595225],"open_datetime":"2024-12-05T12:01:40.00Z","description":"Streetlight not working!","picture":"mariorossi-2.jpg"},{"_id":{"$oid":"67975a6f56effddacdd228da"},"type":"missing_road_sign","user":"mariorossi","coordinates":[44.42949736392319,12.185559354433297],"open_datetime":"2024-11-26T09:18:15.00Z","status":"solving"},{"_id":{"$oid":"67975a6f56effddacdd228db"},"type":"road_pothole","user":"johndoe","coordinates":[44.41349736392319,12.185559354433297],"open_datetime":"2024-12-21T12:00:00Z","description":"There is a large pothole."},{"_id":{"$oid":"67975a6f56effddacdd228dc"},"type":"ruined_asphalt","user":"mariorossi","coordinates":[44.40043330387075,12.172111898677823],"open_datetime":"2025-01-14T12:14:31.00Z","picture":"mariorossi-3.jpg"},{"_id":{"$oid":"67975a6f56effddacdd228dd"},"type":"damaged_road_barrier","user":"johndoe","coordinates":[44.376282169847826,12.206674783895958],"open_datetime":"2025-01-03T12:01:40.00Z"},{"_id":{"$oid":"67975a6f56effddacdd228de"},"type":"ruined_asphalt","user":"johndoe","coordinates":[44.37032021306061,12.194437694232056],"open_datetime":"2025-01-02T12:21:42.00Z","description":"The asphalt is really ruined."},{"_id":{"$oid":"67975a6f56effddacdd228df"},"type":"damaged_road_barrier","user":"mariorossi","coordinates":[44.67253146097075,12.094279898677822],"open_datetime":"2025-01-05T10:01:00.00Z","status":"solving","description":"The road barrier is really damaged, almost missing."},{"_id":{"$oid":"67975a6f56effddacdd228e0"},"type":"ruined_asphalt","user":"mariorossi","coordinates":[44.41046375970214,12.21937257210509],"open_datetime":"2025-01-15T10:01:00.00Z","status":"closed","close_datetime":"2025-01-15T12:14:31.00Z"},{"_id":{"$oid":"67975a6f56effddacdd228e1"},"type":"broken_streetlight","user":"mariorossi","coordinates":[44.41864209505457,12.14230249607438],"open_datetime":"2025-01-02T15:30:00Z","description":"The streetlight near the park is not working.","picture":"mariorossi-1.jpg"}
+{
+    "_id":{"$oid":"67975a6f56effddacdd228d9"},
+    "type":"broken_streetlight","user":"mariorossi",
+    "coordinates":[44.426641011091725,12.21466157595225],
+    "open_datetime":"2024-12-05T12:01:40.00Z",
+    "description":"Streetlight not working!",
+    "picture":"mariorossi-2.jpg"
+}
+{
+    "_id":{"$oid":"67975a6f56effddacdd228da"},
+    "type":"missing_road_sign",
+    "user":"mariorossi",
+    "coordinates":[44.42949736392319,12.185559354433297],
+    "open_datetime":"2024-11-26T09:18:15.00Z","status":"solving"
+}
+{
+    "_id":{"$oid":"67975a6f56effddacdd228db"},
+    "type":"road_pothole","user":"johndoe",
+    "coordinates":[44.41349736392319,12.185559354433297],
+    "open_datetime":"2024-12-21T12:00:00Z",
+    "description":"There is a large pothole."
+}
+{
+    "_id":{"$oid":"67975a6f56effddacdd228dc"},
+    "type":"ruined_asphalt",
+    "user":"mariorossi",
+    "coordinates":[44.40043330387075,12.172111898677823],
+    "open_datetime":"2025-01-14T12:14:31.00Z",
+    "picture":"mariorossi-3.jpg"
+}
+{
+    "_id":{"$oid":"67975a6f56effddacdd228dd"},
+    "type":"damaged_road_barrier",
+    "user":"johndoe",
+    "coordinates":[44.376282169847826,12.206674783895958],
+    "open_datetime":"2025-01-03T12:01:40.00Z"
+}
+{
+    "_id":{"$oid":"67975a6f56effddacdd228de"},
+    "type":"ruined_asphalt",
+    "user":"johndoe",
+    "coordinates":[44.37032021306061,12.194437694232056],
+    "open_datetime":"2025-01-02T12:21:42.00Z",
+    "description":"The asphalt is really ruined."
+}
+{
+    "_id":{"$oid":"67975a6f56effddacdd228df"},
+    "type":"damaged_road_barrier",
+    "user":"mariorossi",
+    "coordinates":[44.67253146097075,12.094279898677822],
+    "open_datetime":"2025-01-05T10:01:00.00Z",
+    "status":"solving",
+    "description":"The road barrier is really damaged, almost missing."
+}
+{
+    "_id":{"$oid":"67975a6f56effddacdd228e0"},
+    "type":"ruined_asphalt",
+    "user":"mariorossi",
+    "coordinates":[44.41046375970214,12.21937257210509],
+    "open_datetime":"2025-01-15T10:01:00.00Z",
+    "status":"closed",
+    "close_datetime":"2025-01-15T12:14:31.00Z"
+}
+{
+    "_id":{"$oid":"67975a6f56effddacdd228e1"},
+    "type":"broken_streetlight",
+    "user":"mariorossi",
+    "coordinates":[44.41864209505457,12.14230249607438],
+    "open_datetime":"2025-01-02T15:30:00Z",
+    "description":"The streetlight near the park is not working.",
+    "picture":"mariorossi-1.jpg"}

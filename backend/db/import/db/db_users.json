@@ -7,10 +7,12 @@
   "reputation": 5,
   "favorite_spots": [
     {
+      "_id": "67939d02f1d546f6c78323a9",
       "label": "Central Park",
       "coordinates": [40.785091, -73.968285]
     },
     {
+      "_id": "67939d02f1d546f6c78323aa",
       "label": "Eiffel Tower",
       "coordinates": [48.858844, 2.294351]
     }
