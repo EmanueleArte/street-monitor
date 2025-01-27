@@ -36,8 +36,44 @@
   "reputation": 2,
   "favorite_spots": [
     {
+      "_id": "67939d02f1d546f6c78323a1",
       "label": "Unibo via Zamboni",
       "coordinates": [44.49687025253408, 11.352399777523498]
+    },
+    {
+      "_id": "67939d02f1d546f6c78323a2",
+      "label": "Forlì centro",
+      "coordinates": [44.22254485785064, 12.038801908220194]
+    },
+    {
+      "_id": "67939d02f1d546f6c78323a3",
+      "label": "Lavoro",
+      "coordinates": [44.23792724345771, 12.118041515295774]
+    },
+    {
+      "_id": "67939d02f1d546f6c78323a4",
+      "label": "Casa",
+      "coordinates": [44.17318597134516, 12.076435089220467]
+    },
+    {
+      "_id": "67939d02f1d546f6c78323a5",
+      "label": "Palestra",
+      "coordinates": [44.22254485785064, 12.038801908220194]
+    },
+    {
+      "_id": "67939d02f1d546f6c78323a6",
+      "label": "Supermercato",
+      "coordinates": [44.22254485785064, 12.038801908220194]
+    },
+    {
+      "_id": "67939d02f1d546f6c78323a7",
+      "label": "Biblioteca",
+      "coordinates": [44.22254485785064, 12.038801908220194]
+    },
+    {
+      "_id": "67939d02f1d546f6c78323a8",
+      "label": "Piscina",
+      "coordinates": [44.22254485785064, 12.038801908220194]
     }
   ],
   "notifications": [],

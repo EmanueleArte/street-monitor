@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
 import userModel, { IUser } from '../models/userModel'
-import favoriteSpotModel from '../models/favoriteSpotModel'
+import favoriteSpotModel, { IFavoriteSpot } from '../models/favoriteSpotModel'
 import notificationModel, { INotification } from '../models/notificationModel'
+import { Types } from 'mongoose'
 
 // Users
 export const getUserByUsername = (req: Request, res: Response) => {

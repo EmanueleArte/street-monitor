@@ -3,12 +3,14 @@ import { TabGroup, TabList, Tab, TabPanels } from "@headlessui/vue"
 
 defineProps<{
   tabs: { [key: string]: string },
-  toggleTabList: (s: string) => void
+  toggleTabList: (s: string) => void,
+  tabPanelsClasses?: string,
+  topDivClasses?: string
 }>()
 </script>
 
 <template>
-  <div class="w-full pt-4 px-4">
+  <div :class="[topDivClasses, 'w-full pt-4 px-4']">
     <TabGroup>
       <TabList class="flex space-x-1 rounded-2xl bg-primary-100 p-1">
         <Tab
@@ -33,7 +35,7 @@ defineProps<{
         </Tab>
       </TabList>
 
-      <TabPanels class="mt-2">
+      <TabPanels :class="[tabPanelsClasses, 'mt-2']">
         <slot></slot>
       </TabPanels>
     </TabGroup>
