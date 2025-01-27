@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import MyReportsTile from "@/components/MyReportsTile.vue"
 import Tile from "@/components/Tile.vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
@@ -8,9 +8,21 @@ import BottomButton from "./buttons/BottomButton.vue"
 
 const showReportTile = ref<boolean>(false)
 
+const props = defineProps({
+  showMyReports: Boolean
+})
+
 const toggleReportsVisibility = () => {
   showReportTile.value = !showReportTile.value
 }
+
+const checkIfShowMyReports = () => {
+  if (props.showMyReports) {
+    showReportTile.value = true
+  }
+}
+
+onMounted(checkIfShowMyReports)
 </script>
 
 <template>

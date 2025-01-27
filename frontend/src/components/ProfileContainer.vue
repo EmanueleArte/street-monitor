@@ -5,11 +5,11 @@ import SimpleButton from '@/components/buttons/SimpleButton.vue';
 const authStore = useAuthStore()
 
 const showMyReports = () => {
-    console.log('showMyReports')
+    window.location.href = `./?show-my-reports=true`
 }
 
 const showMySpots = () => {
-    console.log('showMySpots')
+    window.location.href = `./?show-my-spots=true`
 }
 
 const logout = () => {
@@ -52,6 +52,7 @@ const logout = () => {
 </template>
 
 <style scoped lang="scss">
+@use "../style/vars" as *;
 
 p.inset-shadow {
     box-shadow: inset 0px 0px 2px 3px rgba(0, 0, 0, 0.1)
