@@ -42,7 +42,11 @@ export const useAuthStore = defineStore('auth', () => {
             .post(backendUrl, {
                 ...values,
                 password: hash,
-                reputation: 0
+                reputation: 0,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
             .then(() => login(values.username, values.password))
     }

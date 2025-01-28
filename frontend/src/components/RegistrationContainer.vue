@@ -5,6 +5,7 @@ import FormFieldset from "./inputs/FormFieldset.vue"
 import FormSubmitButton from "./buttons/FormSubmitButton.vue"
 import * as yup from 'yup'
 import {useAuthStore} from '@/stores/auth.store'
+import { AxiosError } from "axios"
 
 const authStore = useAuthStore()
 const passwordRules: string[] = [
@@ -73,9 +74,15 @@ const validationErrors = ref<IRegistrationForm>({
 const signup = () => {
     schema.validate(form.value, {abortEarly: false})
         .then(user => authStore.register(user))
-        .catch((e: yup.ValidationError) => {
+        .catch(e => {
+            if (e.status && e.status == 500) {
+                console.error(e)
+                return
+            }
+
             const temporaryValidationErrors: any = {}
-            e.inner.forEach((err) => {
+            const yupError: yup.ValidationError = e as yup.ValidationError
+            yupError.inner.forEach((err) => {
                 if (err.path && !temporaryValidationErrors[err.path]) {
                     const errorObj = {
                         message: err.message,
@@ -91,6 +98,7 @@ const signup = () => {
             })
 
             validationErrors.value = temporaryValidationErrors
+
         })
 }
 </script>

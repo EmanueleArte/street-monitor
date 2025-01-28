@@ -7,7 +7,6 @@ import { useReportStore } from "@/stores/report.store";
 import ReportCarosel from "./ReportCarosel.vue";
 import ReportFilter from "@/components/ReportFilter.vue"
 
-const reportStore = useReportStore()
 </script>
 
 <template>

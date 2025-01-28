@@ -6,6 +6,7 @@ import ReportCard from "./ReportCard.vue";
 import { TabPanel } from '@headlessui/vue';
 import Tabs from "@/components/utils/Tabs.vue"
 import { ReportStatus } from "@/lib/vars.ts"
+import { useAuthStore } from "@/stores/auth.store";
 
 const myOpenReports = ref<IReport[]>([])
 const mySolvingReports = ref<IReport[]>([])
@@ -17,7 +18,7 @@ const listMyReports = async () => {
   mySolvingReports.value = []
   myClosedReports.value = []
   try {
-    const data = (await axios.get("http://localhost:3000/reports/by-user/mariorossi")).data //TODO cambiare user (mariorossi) con user corrente loggato
+    const data = (await axios.get("http://localhost:3000/reports/by-user/" + useAuthStore().get().username)).data
     for (const report of data) {
       switch (report.status) {
         case "open":
