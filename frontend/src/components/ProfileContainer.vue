@@ -28,7 +28,12 @@ const listMyReports = async () => {
   }
 }
 
-onMounted(listMyReports)
+onMounted(() => {
+    if (!authStore.get()) {
+        //authStore.logout()
+    }
+    listMyReports
+})
 </script>
 
 <template>
