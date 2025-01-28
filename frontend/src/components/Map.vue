@@ -5,8 +5,6 @@ import type { LeafletEvent } from "leaflet"
 import { ref, onUnmounted, onBeforeMount, watch } from "vue"
 import { throttle } from "lodash"
 import NearMapReportManager from "@/components/NearMapReportManager.vue"
-import { useAuthStore } from "@/stores/auth.store";
-import { storeToRefs } from "pinia";
 import CenterPin from "@/components/pins/CenterPin.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { coordsEquals } from "@/lib/mapUtility.ts"
@@ -14,7 +12,8 @@ import { coordsEquals } from "@/lib/mapUtility.ts"
 const props = defineProps<{
   zoom: number,
   usePosition: boolean,
-  latLng?: [number, number]
+  latLng?: [number, number],
+  main?: boolean
 }>()
 const emit = defineEmits(["update:latLng"])
 
@@ -33,17 +32,19 @@ const map = ref<typeof LMap | null>(null)
 
 watch(() => usePositionStore().positionToMove, (newPosition) => {
   if (newPosition) {
-    moveToPosition()
+    moveToPosition(newPosition)
   }
 }, { deep: true })
 
-const moveToPosition = () => {
-  if (map.value && map.value.leafletObject) {
-    center.value = map.value.center
-    map.value.leafletObject.flyTo(center.value, props.zoom, {
-      animate: true,
-      duration: 1
-    })
+const moveToPosition = (pos: [number, number]) => {
+  if (props.latLng || usePositionStore().flyMainMap) {
+    if (map.value && map.value.leafletObject) {
+      center.value = pos
+      map.value.leafletObject.flyTo(center.value, props.zoom, {
+        animate: true,
+        duration: 1
+      })
+    }
   }
 }
 
@@ -108,14 +109,14 @@ onUnmounted(stopWatchingPosition)
         layer-type="base"
         name="OpenStreetMap"
     ></LTileLayer>
-    <LMarker :lat-lng="usePositionStore().position"/>
+    <LMarker :lat-lng="usePositionStore().position" :options="{ alt: 'Current position' }" />
     <CenterPin v-if="!coordsEquals(center, usePositionStore().position)" :center="center"/>
     <LCircle
         :lat-lng="[center[0], center[1]]"
         :radius="radius * 1000"
         :color="circleColor"
     />
-    <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius"/>
+    <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius" :main="main"/>
   </LMap>
 </template>
 

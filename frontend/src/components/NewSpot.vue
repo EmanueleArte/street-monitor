@@ -8,6 +8,7 @@ import axios from "axios"
 import type { IReport } from "@models/reportModel.ts"
 import type { IFavoriteSpot } from "@models/favoriteSpotModel.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
+import mongoose from "mongoose"
 
 const emit = defineEmits(["cancel"])
 
@@ -18,6 +19,7 @@ const label = ref<string>("")
 
 const saveSpot = () => {
   const newSpot: IFavoriteSpot = {
+    _id: new mongoose.Types.ObjectId(),
     label: label.value !== "" ? label.value : "Favorite spot",
     coordinates: latLng.value,
   } as IFavoriteSpot
@@ -32,7 +34,7 @@ const saveSpot = () => {
   <div class="p-4 pb-20 space-y-2">
     <h1 class="text-2xl">Insert a new favorite spot</h1>
 
-    <section>
+    <section class="pt-1">
       <div class="flex flex-col w-full">
         <SimpleLabel attachTo="label">Label</SimpleLabel>
         <input type="text" id="label"

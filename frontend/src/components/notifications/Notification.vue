@@ -1,28 +1,55 @@
 <script setup lang="ts">
 // text-black/75 text-slate-500/75
 import { formatDate } from '@/lib/stringUtility';
+import { usePositionStore } from '@/stores/position.store';
+import type { IFavoriteSpot } from '@models/favoriteSpotModel';
+import type { IReport } from '@models/reportModel';
+import axios from 'axios';
+import { ref } from 'vue';
 
 const props = defineProps<{
     date: Date,
-    read: boolean
+    read: boolean,
+    report?: IReport,
+    favoriteSpot?: IFavoriteSpot
 }>()
+
+
 const readOpacity: number = 75
+
+const positionStore = usePositionStore()
+
+function goToPosition() {
+    axios.get<IReport>("http://localhost:3000/reports/by-id/" + props.report)
+        .then(report => {
+            console.log("current position", positionStore.position)
+            console.log("move to", report.data.coordinates)
+            positionStore.move(report.data.coordinates)
+            // positionStore.
+        })
+}
+
 
 </script>
 
 <template>
     <div class="flex flex-col justify-items-center py-2" :class="`text-black${props.read ? `/${readOpacity}` : ''}`">
-      <div class="flex gap-4">
-        <div class="flex flex-col justify-center">
-            <svg v-if="props.read" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-            </svg>
-            <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
-            </svg>
+        <div class="text-end text-xs leading-tight" :class="`text-slate-500${props.read ? `/${readOpacity}` : ''}`">{{ formatDate(props.date) }}</div>
+        <div class="flex gap-4">
+            <div class="flex flex-col justify-center">
+                <svg v-if="props.read" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                </svg>
+            </div>
+
+            <slot />
         </div>
-        <slot />
-      </div>
-      <div class="text-end text-xs leading-tight" :class="`text-slate-500${props.read ? `/${readOpacity}` : ''}`">{{ formatDate(props.date) }}</div>
+        <div class="ms-11 flex gap-4 text-xs leading-tight" :class="`text-primary-600${props.read ? `/${readOpacity}` : ''}`">
+            <button v-if="props.report" @click="goToPosition()">Go to report</button>
+            <a v-if="props.favoriteSpot" href="">Go to favorite spot</a>
+        </div>
     </div>
 </template>

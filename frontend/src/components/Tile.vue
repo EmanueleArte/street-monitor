@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="w-full rounded-t-xl bg-surface-default shadow-lg">
+  <div class="tile w-full rounded-t-xl bg-surface-default shadow-lg">
     <slot></slot>
   </div>
 </template>

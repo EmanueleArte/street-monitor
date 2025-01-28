@@ -48,14 +48,14 @@ onMounted(listMyReports)
 
 <template>
   <h1 class="text-xl mb-1">My reports:</h1>
-  <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList">
-    <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
+  <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="`h-full`" :tabPanelsClasses="`h-full`">
+    <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
       <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()"/>
     </TabPanel>
-    <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
+    <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
       <ReportCard v-for="report in mySolvingReports" :report="report" @updateTiles="listMyReports()"/>
     </TabPanel>
-    <TabPanel class="overflow-y-auto max-h-[calc(100%-4.25rem)] mt-1">
+    <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
       <ReportCard v-for="report in myClosedReports" :report="report" @updateTiles="listMyReports()"/>
     </TabPanel>
   </Tabs>

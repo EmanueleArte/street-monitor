@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
 import userModel, { IUser } from '../models/userModel'
-import favoriteSpotModel from '../models/favoriteSpotModel'
+import favoriteSpotModel, { IFavoriteSpot } from '../models/favoriteSpotModel'
 import notificationModel, { INotification } from '../models/notificationModel'
+import { Types } from 'mongoose'
 
 // Users
 export const getUserByUsername = (req: Request, res: Response) => {
@@ -138,8 +139,7 @@ export const listFavoriteSpots = (req: Request, res: Response) => {
 export const deleteFavoriteSpot = (req: Request, res: Response) => {
     userModel.findOneAndUpdate(
         {
-            username: req.params.id,
-            'favorite_spots._id': req.params.fid
+            username: req.params.id
         },
         { $pull: { favorite_spots: { _id: req.params.fid } } },
         { new: true })

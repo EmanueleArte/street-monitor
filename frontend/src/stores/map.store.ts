@@ -1,29 +1,31 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
-import { LMap } from "@vue-leaflet/vue-leaflet"
+import type { IReport } from "@models/reportModel.ts"
+import { ReportStatus } from "@/lib/vars.ts"
 
 export const useMapStore = defineStore('map', () => {
-    const maps = ref<typeof LMap[]>([])
-    const centers = ref<[number, number][]>([])
-    const length = ref<number>(0)
+    const reports = ref<IReport[]>([])
+    const filteredReports = ref<IReport[]>([])
+    const currentFilter = ref<Record<string, boolean | string>>({})
 
-    function set(map: typeof LMap, center: [number, number]) {
-        length.value = maps.value.push(map)
-        centers.value.push(center)
+    function setReports(data: IReport[]) {
+        reports.value = data
+        filterReports(currentFilter.value)
     }
 
-    function get() {
-        return {
-            "map": maps.value[length.value - 1],
-            "center": centers.value[length.value - 1]
-        }
+    function filterReports(filter: Record<string, boolean | string>) {
+        Object.keys(filter).forEach(key => {
+            if (!filter[key]) {
+                delete currentFilter.value[key]
+            } else {
+                currentFilter.value[key] = filter[key]
+            }
+        })
+        const statusKeys = Object.keys(currentFilter.value).filter(key => Object.values(ReportStatus).includes(key as ReportStatus))
+        const typeKeys = Object.keys(currentFilter.value).filter(key => !Object.values(ReportStatus).includes(key as ReportStatus))
+        const filteredStatus = reports.value.filter(report => statusKeys.includes(report.status))
+        filteredReports.value = typeKeys.length ? filteredStatus.filter(report => typeKeys.includes(report.type)) : filteredStatus
     }
 
-    function remove() {
-        length.value--
-        centers.value.pop()
-        return maps.value.pop()
-    }
-
-    return {get, set, remove}
+    return { reports, filteredReports, setReports, filterReports }
 })
