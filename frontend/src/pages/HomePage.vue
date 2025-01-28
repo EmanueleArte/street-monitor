@@ -22,7 +22,7 @@ function openPage(page: string) {
 </script>
 
 <template>
-  <!-- <NavBar @change="(page) => currentPage = page" @open="openPage" /> -->
+  <NavBar @change="(page) => currentPage = page" @open="openPage" />
   <HomeContainer v-if="currentPage == 'home'"/>
   <NotificationsContainer v-if="currentPage == 'notifications'"/>
   <ProfileContainer v-if="currentPage == 'profile'" />
