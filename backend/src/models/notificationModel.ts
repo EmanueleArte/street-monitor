@@ -14,7 +14,11 @@ export interface INotification extends Document {
 
 export const notificationSchema: Schema<INotification> = new Schema<INotification>({
     content: { type: String, required: true },
-    type: { type: notificationTypeSchema, required: true},
+    type: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'NotificationType',
+        required: true,
+    },
     send_datetime: { type: Date, required: true },
     report: { type: mongoose.Schema.ObjectId, ref: 'Report', required: false },
     favorite_spot: { type: favoriteSpotSchema, required: false },

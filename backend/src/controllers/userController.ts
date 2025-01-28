@@ -21,6 +21,8 @@ export const getUserByUsername = (req: Request, res: Response) => {
 
 export const createUser = (req: Request, res: Response) => {
     const user = new userModel(req.body)
+    console.log(user)
+    console.log(req.body)
     user.save()
         .then((doc: IUser) => {
             res.json(doc)

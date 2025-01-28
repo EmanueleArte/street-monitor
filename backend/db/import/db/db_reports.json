@@ -11,7 +11,8 @@
     "type":"missing_road_sign",
     "user":"mariorossi",
     "coordinates":[44.42949736392319,12.185559354433297],
-    "open_datetime":"2024-11-26T09:18:15.00Z","status":"solving"
+    "open_datetime":"2024-11-26T09:18:15.00Z",
+    "status":"solving"
 }
 {
     "_id":{"$oid":"67975a6f56effddacdd228db"},
@@ -34,6 +35,8 @@
     "user":"johndoe",
     "coordinates":[44.376282169847826,12.206674783895958],
     "open_datetime":"2025-01-03T12:01:40.00Z"
+}
+{
     "_id": {"$oid":"6792634ba485592ea0c77d86"},
     "type": "broken_streetlight",
     "user": "mariorossi",
