@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { onUpdated, ref } from "vue"
 import MyReportsTile from "@/components/MyReportsTile.vue"
 import Tile from "@/components/Tile.vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
@@ -22,7 +22,7 @@ const checkIfShowMyReports = () => {
   }
 }
 
-onMounted(checkIfShowMyReports)
+onUpdated(checkIfShowMyReports)
 </script>
 
 <template>

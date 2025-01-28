@@ -7,19 +7,21 @@ import axios from 'axios';
 const authStore = useAuthStore()
 const reportsNumber = ref<number>(0)
 
+const emits = defineEmits(['showMyReports', 'showMySpots'])
+
 const showMyReports = () => {
-    window.location.href = `./?show-my-reports=true`
+    emits('showMyReports')
 }
 
 const showMySpots = () => {
-    window.location.href = `./?show-my-spots=true`
+    emits('showMySpots')
 }
 
 const logout = () => {
     authStore.logout()
 }
 
-const listMyReports = async () => {
+const countReports = async () => {
   try {
     const data = (await axios.get("http://localhost:3000/reports/by-user/mariorossi")).data //TODO cambiare user (mariorossi) con user corrente loggato
     reportsNumber.value = data.length
@@ -30,9 +32,9 @@ const listMyReports = async () => {
 
 onMounted(() => {
     if (!authStore.get()) {
-        //authStore.logout()
+        //logout()
     }
-    listMyReports
+    countReports
 })
 </script>
 

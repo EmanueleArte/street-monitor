@@ -3,14 +3,28 @@ import Map from "@/components/Map.vue"
 import MyReports from "@/components/MyReports.vue"
 import MySpots from "@/components/MySpots.vue"
 import ReportFilter from "@/components/ReportFilter.vue"
-import { useRoute } from 'vue-router'
 import NewReportTile from "./NewReportTile.vue"
+import { onMounted, ref } from "vue"
 
-const route = useRoute()
-const queryParams = route.query
-const showMyReports = queryParams['show-my-reports'] === 'true'
-const showMySpots = queryParams['show-my-spots'] === 'true'
+const showMyReports = ref<boolean>(false)
+const showMySpots = ref<boolean>(false)
 
+const props = defineProps({
+  whatToShow: { type: String, required: false }
+})
+
+const checkShow = (): void => {
+  switch (props.whatToShow) {
+    case 'myReports':
+      showMyReports.value = true
+      break
+    case 'mySpots':
+      showMySpots.value = true
+      break
+  }
+}
+
+onMounted(checkShow)
 </script>
 
 <template>

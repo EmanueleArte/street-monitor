@@ -8,17 +8,29 @@ import { ref } from "vue"
 
 const currentPage = ref<string>("home")
 const asidePage = ref<string | undefined>("")
+const whatToShow = ref<string>("")
 
-function openPage(page: string) {
+const openPage = (page: string): void => {
+  whatToShow.value = ""
   asidePage.value = asidePage.value == page ? undefined : page
+}
+
+const changePage = (page: string): void => {
+  whatToShow.value = ""
+  currentPage.value = page
+}
+
+const homeContainerShow = (what: string): void => {
+  whatToShow.value = what
+  currentPage.value = "home"
 }
 </script>
 
 <template>
-  <NavBar @change="(page) => currentPage = page" @open="openPage" />
-  <HomeContainer v-if="currentPage == 'home'"/>
+  <NavBar @change="changePage" @open="openPage" />
+  <HomeContainer v-if="currentPage == 'home'" :whatToShow="whatToShow"/>
   <NotificationsContainer v-if="currentPage == 'notifications'"/>
-  <ProfileContainer v-if="currentPage == 'profile'" />
+  <ProfileContainer v-if="currentPage == 'profile'" @showMyReports="homeContainerShow('myReports')" @showMySpots="homeContainerShow('mySpots')" />
 
 
   <Aside v-if="asidePage">
