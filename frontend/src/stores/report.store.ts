@@ -3,18 +3,18 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useReportStore = defineStore('report', () => {
-    const currentReport = ref<IReport>()
-    const _reports = ref<IReport[]>()
+    const _currentReport = ref<IReport>()
+    const _reports = ref<IReport[]>([])
 
-    function getCurrentReport() {
-        return currentReport.value
+    function getCurrentReport(): IReport | undefined {
+        return _currentReport.value
     }
 
-    function setCurrentReport(report: IReport) {
-        currentReport.value = report
+    function setCurrentReport(report: IReport | undefined) {
+        _currentReport.value = report
     }
 
-    function getReports() {
+    function getReports(): IReport[] {
         return _reports.value
     }
 
@@ -22,16 +22,23 @@ export const useReportStore = defineStore('report', () => {
         _reports.value = reports
     }
 
-    function getPreviousReport(report: IReport) {
+    function getPreviousReport(report: IReport): IReport | undefined {
         if (!_reports.value) return undefined
-        const previousIndex: number = _reports.value.indexOf(report) - 1
-        return previousIndex < 0 ? _reports.value[_reports.value.length - 1] : _reports.value[previousIndex]
+        const reportIndex: number = _reports.value.map(r => JSON.stringify(r)).indexOf(JSON.stringify(report))
+        const previousIndex: number = reportIndex - 1 >= 0 ? reportIndex - 1 : _reports.value.length - 1
+        // console.log(_reports.value.map(r => JSON.stringify(r)), JSON.stringify(report))
+        // console.log(reportIndex, previousIndex)
+        if (reportIndex == -1 || previousIndex == reportIndex) return undefined
+        return _reports.value[previousIndex]
     }
 
-    function getNextReport(report: IReport) {
+    function getNextReport(report: IReport): IReport | undefined {
         if (!_reports.value) return undefined
-        const nextIndex: number = _reports.value.indexOf(report) + 1
-        return _reports.value[nextIndex % _reports.value.length]
+        const reportIndex: number = _reports.value.map(r => JSON.stringify(r)).indexOf(JSON.stringify(report))
+        const nextIndex: number = (reportIndex + 1) % _reports.value.length
+        // console.log(reportIndex, nextIndex)
+        if (reportIndex == -1 || nextIndex == reportIndex) return undefined
+        return _reports.value[nextIndex]
     }
 
     return {getCurrentReport, setCurrentReport, getReports, setReports, getPreviousReport, getNextReport}

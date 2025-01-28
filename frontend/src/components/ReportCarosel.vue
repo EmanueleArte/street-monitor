@@ -2,8 +2,7 @@
 import { useReportStore } from '@/stores/report.store';
 import ReportCard from './ReportCard.vue';
 import type { IReport } from '@models/reportModel';
-import NavButton from './NavButton.vue';
-import { ref, watch } from 'vue';
+import { ref, watch } from 'vue'
 
 const reportStore = useReportStore()
 const currentReport = ref<IReport | undefined>(reportStore.getCurrentReport())
@@ -13,23 +12,34 @@ const nextReport = ref<IReport | undefined>()
 if (currentReport.value) previousReport.value = reportStore.getPreviousReport(currentReport.value)
 if (currentReport.value) nextReport.value = reportStore.getNextReport(currentReport.value)
 
-watch(() => useReportStore().getCurrentReport(), (newReport: IReport | undefined) => {
+watch(() => reportStore.getCurrentReport(), (newReport: IReport | undefined) => {
     console.log('new report')
     if (newReport) {
         updateCarosel(newReport)
     }
 }, { deep: true })
 
+watch(() => reportStore.getReports(), (newReports: IReport[], oldReports: IReport[]) => {
+    if (JSON.stringify(newReports) === JSON.stringify(oldReports)) return
+
+    const _currentReport: IReport | undefined = reportStore.getCurrentReport()
+    if (_currentReport) {
+        if (_currentReport !== currentReport.value) {
+            currentReport.value = undefined
+        } else {
+            updateCarosel(_currentReport)
+        }
+    }
+})
+
 const previousReportHandler = () => {
     if (!previousReport.value) return
-    currentReport.value = previousReport.value
-    updateCarosel(currentReport.value)
+    updateCarosel(previousReport.value)
 }
 
 const nextReportHandler = () => {
     if (!nextReport.value) return
-    currentReport.value = nextReport.value
-    updateCarosel(currentReport.value)
+    updateCarosel(nextReport.value)
 }
 
 const updateCarosel = (report: IReport) => {
