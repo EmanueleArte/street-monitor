@@ -9,7 +9,7 @@ import BottomButton from "./buttons/BottomButton.vue"
 const showReportTile = ref<boolean>(false)
 
 const props = defineProps({
-  showMyReports: Boolean
+  showMyReports: { type: Boolean }
 })
 
 const toggleReportsVisibility = () => {

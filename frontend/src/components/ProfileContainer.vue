@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth.store';
 import SimpleButton from '@/components/buttons/SimpleButton.vue';
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
 
 const authStore = useAuthStore()
+const reportsNumber = ref<number>(0)
 
 const showMyReports = () => {
     window.location.href = `./?show-my-reports=true`
@@ -16,11 +19,21 @@ const logout = () => {
     authStore.logout()
 }
 
+const listMyReports = async () => {
+  try {
+    const data = (await axios.get("http://localhost:3000/reports/by-user/mariorossi")).data //TODO cambiare user (mariorossi) con user corrente loggato
+    reportsNumber.value = data.length
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+onMounted(listMyReports)
 </script>
 
 <template>
     <h1 class="ml-2 mt-16 md:mt-0 text-lg">Welcome mariorossi{{ authStore.get()?.username }}</h1>
-    <section class="ml-2 mt-3 shadow-lg p-3 rounded-lg">
+    <section class="mx-2 mt-3 shadow-lg p-3 rounded-lg">
         <div class="flex flex-col md:flex-row">
             <div class="flex flex-col md:flex-row md:space-x-4">
                 <div class="flex flex-col">
@@ -38,8 +51,16 @@ const logout = () => {
                     </div>
                     <p class="text-xs">Email</p>
                     <p class="inset-shadow w-fit rounded-lg text-sm p-2 mb-2">mariorossi@example.com{{ authStore.get()?.email }}</p>
-                    <p class="text-xs">Reputation</p>
-                    <p class="inset-shadow w-fit rounded-lg text-sm p-2">2{{ authStore.get()?.reputation }}</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-xs">Reports made</p>
+                            <p class="inset-shadow w-fit rounded-lg text-sm p-2">{{ reportsNumber }}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs">Reputation</p>
+                            <p class="inset-shadow w-fit rounded-lg text-sm p-2">2{{ authStore.get()?.reputation }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

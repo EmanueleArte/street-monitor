@@ -9,7 +9,7 @@ import { onMounted, ref } from "vue"
 const showSpotsTile = ref<boolean>(false)
 
 const props = defineProps({
-  showMySpots: Boolean
+  showMySpots: { type: Boolean }
 })
 
 const toggleSpotsVisibility = () => {
