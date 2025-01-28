@@ -8,6 +8,9 @@ import NearMapReportManager from "@/components/NearMapReportManager.vue"
 import CenterPin from "@/components/pins/CenterPin.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { coordsEquals } from "@/lib/mapUtility.ts"
+import { useReportStore } from "@/stores/report.store"
+
+const reportStore = useReportStore()
 
 const props = defineProps<{
   zoom: number,
@@ -97,13 +100,18 @@ const stopWatchingPosition = () => {
   }
 }
 
+function handler(event: any) {
+  reportStore.setCurrentReport(undefined)
+  console.log(reportStore.getCurrentReport())
+}
+
 onBeforeMount(startWatchingPosition)
 onUnmounted(stopWatchingPosition)
 </script>
 
 <template>
   <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
-        :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady" @drag="onMapMoved">
+        :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady" @drag="onMapMoved" @click="handler">
     <LTileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         layer-type="base"

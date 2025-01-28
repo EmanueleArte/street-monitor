@@ -13,7 +13,7 @@ if (currentReport.value) previousReport.value = reportStore.getPreviousReport(cu
 if (currentReport.value) nextReport.value = reportStore.getNextReport(currentReport.value)
 
 watch(() => reportStore.getCurrentReport(), (newReport: IReport | undefined) => {
-    console.log('new report')
+    currentReport.value = newReport
     if (newReport) {
         updateCarosel(newReport)
     }

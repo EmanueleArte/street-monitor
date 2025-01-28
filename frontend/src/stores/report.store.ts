@@ -26,8 +26,6 @@ export const useReportStore = defineStore('report', () => {
         if (!_reports.value) return undefined
         const reportIndex: number = _reports.value.map(r => JSON.stringify(r)).indexOf(JSON.stringify(report))
         const previousIndex: number = reportIndex - 1 >= 0 ? reportIndex - 1 : _reports.value.length - 1
-        // console.log(_reports.value.map(r => JSON.stringify(r)), JSON.stringify(report))
-        // console.log(reportIndex, previousIndex)
         if (reportIndex == -1 || previousIndex == reportIndex) return undefined
         return _reports.value[previousIndex]
     }
@@ -36,7 +34,6 @@ export const useReportStore = defineStore('report', () => {
         if (!_reports.value) return undefined
         const reportIndex: number = _reports.value.map(r => JSON.stringify(r)).indexOf(JSON.stringify(report))
         const nextIndex: number = (reportIndex + 1) % _reports.value.length
-        // console.log(reportIndex, nextIndex)
         if (reportIndex == -1 || nextIndex == reportIndex) return undefined
         return _reports.value[nextIndex]
     }

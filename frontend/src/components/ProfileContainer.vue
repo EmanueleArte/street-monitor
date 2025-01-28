@@ -19,6 +19,8 @@ const authStore = useAuthStore()
                 </div>
             </div>
         </div>
+
+        <button @click="() => authStore.logout()">Logout</button>
     </section>
 </template>
 

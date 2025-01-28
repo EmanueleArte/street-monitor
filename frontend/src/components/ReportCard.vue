@@ -70,7 +70,7 @@ if (props.report.user == useAuthStore().get()?.username) reputationColor.value =
 
 <template>
     <article
-        class="flex aspect-3/2 rounded-md border-2 bg-slate-50 shadow-md my-2 overflow-hidden max-w-96"
+        class="flex aspect-3/2 rounded-md border-2 bg-surface-default shadow-md my-2 overflow-hidden max-w-96"
         :class="`border-${reputationColor} shadow-${reputationColor}/60`"    
     >
         <img
