@@ -32,6 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     function logout() {
         user = JSON.parse("{}")
+        localStorage.setItem('user', "{}")
         router.push("/signup")
     }
 

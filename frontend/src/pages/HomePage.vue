@@ -9,7 +9,7 @@ import { useAuthStore } from "@/stores/auth.store"
 
 const authStore = useAuthStore()
 
-if (!authStore.get()) {
+if (JSON.stringify(authStore.get()) === "{}") {
   authStore.logout()
 }
 
