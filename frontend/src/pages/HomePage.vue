@@ -30,12 +30,12 @@ const homeContainerShow = (what: string): void => {
   <NavBar @change="changePage" @open="openPage" />
   <HomeContainer v-if="currentPage == 'home'" :whatToShow="whatToShow"/>
   <NotificationsContainer v-if="currentPage == 'notifications'"/>
-  <ProfileContainer v-if="currentPage == 'profile'" @showMyReports="homeContainerShow('myReports')" @showMySpots="homeContainerShow('mySpots')" />
+  <ProfileContainer v-if="currentPage == 'profile'" :mobile="true" @showMyReports="homeContainerShow('myReports')" @showMySpots="homeContainerShow('mySpots')" />
 
 
   <Aside v-if="asidePage">
     <NotificationsContainer v-if="asidePage == 'notifications'" />
 
-    <ProfileContainer v-if="asidePage == 'profile'" />
+    <ProfileContainer v-if="asidePage == 'profile'" :mobile="false" />
   </Aside>
 </template>

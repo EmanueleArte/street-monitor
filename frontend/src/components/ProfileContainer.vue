@@ -9,6 +9,10 @@ const reportsNumber = ref<number>(0)
 
 const emits = defineEmits(['showMyReports', 'showMySpots'])
 
+const props = defineProps({
+    mobile: { type: Boolean, required: true }
+})
+
 const showMyReports = () => {
     emits('showMyReports')
 }
@@ -72,7 +76,7 @@ onMounted(() => {
             </div>
         </div>
     </section>
-    <section>
+    <section v-if="mobile">
         <SimpleButton @click="showMyReports" :classes="'ml-4 mt-4 shadow-xl'">My reports</SimpleButton>
         <SimpleButton @click="showMySpots" :classes="'ml-4 mt-4 shadow-xl'">My spots</SimpleButton>
     </section>
