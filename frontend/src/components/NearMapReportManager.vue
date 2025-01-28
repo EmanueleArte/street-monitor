@@ -23,6 +23,7 @@ const getNearReports = async () => {
       .then((res) => {
         if (props.main) {
           useMapStore().setReports(res.data)
+          reportStore.setReports(res.data)
         } else {
           reports.value = res.data
         }
@@ -33,6 +34,7 @@ const getNearReports = async () => {
             useMapStore().setReports([])
           } else {
             reports.value = []
+            reportStore.setReports([])
           }
           console.error(e.response.data)
         } else {
