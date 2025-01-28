@@ -34,7 +34,7 @@ const takeSnapshot = async () => {
 
   <SlideFromBottom @on-completed="() => {}">
     <div v-if="cameraOpen" class="w-screen h-screen fixed z-50 top-0 left-0 bg-black flex flex-col justify-between">
-      <section>
+      <section class="md:h-[80vh]">
         <camera ref="cameraRef" :resolution="resolution" :autoplay="true"></camera>
       </section>
 
@@ -51,7 +51,7 @@ const takeSnapshot = async () => {
           </FloatingRoundButton>
           <svg @click="closeCamera" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                stroke-width="1.5"
-               stroke="white" class="size-12 absolute right-16">
+               stroke="white" class="size-12 absolute right-16 md:right-1/3">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
           </svg>
         </div>

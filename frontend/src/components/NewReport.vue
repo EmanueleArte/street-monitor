@@ -158,9 +158,9 @@ onMounted(fetchReportTypes)
       </div>
       <p class="mt-1 ml-1 text-xs text-gray-500">The image should be 3:4 format, if not it will be automatically
         cropped.</p>
-      <div v-if="image" class="mt-2">
-        <SimpleLabel attachTo="preview">Preview</SimpleLabel>
-        <img v-if="image" :src="previewUrl" alt="Image preview" id="preview" class="w-full rounded-xl"/>
+      <div v-if="image" class="mt-2 md:flex md:place-items-center md:flex-col">
+        <SimpleLabel attachTo="preview" class="md:mr-auto">Preview</SimpleLabel>
+        <img v-if="image" :src="previewUrl" alt="Image preview" id="preview" class="w-full rounded-xl md:w-60 md:h-80"/>
       </div>
     </section>
 
@@ -173,10 +173,11 @@ onMounted(fetchReportTypes)
     <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
       <SimpleButton
           classes="!bg-surface-default !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
+          screenReaderLabel="Cancel new report creation"
           @click="emit('cancel')">
         Cancel
       </SimpleButton>
-      <SimpleButton @click="publishReport">Submit</SimpleButton>
+      <SimpleButton screenReaderLabel="Submit new report" @click="publishReport">Submit</SimpleButton>
     </section>
   </div>
 </template>
