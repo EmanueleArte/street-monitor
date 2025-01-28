@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  screenReaderLabel: string,
+  screenReaderLabel?: string,
   classes?: string
 }>()
 </script>

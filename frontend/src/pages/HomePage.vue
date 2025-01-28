@@ -5,6 +5,8 @@ import NotificationsContainer from "@/components/notifications/NotificationsCont
 import ProfileContainer from "@/components/ProfileContainer.vue"
 import Aside from "@/components/Aside.vue"
 import { ref } from "vue"
+import SlideFromRight from "@/components/transitions/SlideFromRight.vue"
+import Fade from "@/components/transitions/Fade.vue"
 
 const currentPage = ref<string>("home")
 const asidePage = ref<string | undefined>("")
@@ -27,15 +29,18 @@ const homeContainerShow = (what: string): void => {
 </script>
 
 <template>
-  <NavBar @change="changePage" @open="openPage" />
+  <NavBar @change="changePage" @open="openPage"/>
   <HomeContainer v-if="currentPage == 'home'" :whatToShow="whatToShow"/>
   <NotificationsContainer v-if="currentPage == 'notifications'"/>
-  <ProfileContainer v-if="currentPage == 'profile'" @showMyReports="homeContainerShow('myReports')" @showMySpots="homeContainerShow('mySpots')" />
+  <ProfileContainer v-if="currentPage == 'profile'" @showMyReports="homeContainerShow('myReports')"
+                    @showMySpots="homeContainerShow('mySpots')"/>
 
 
-  <Aside v-if="asidePage">
-    <NotificationsContainer v-if="asidePage == 'notifications'" />
+  <SlideFromRight>
+    <Aside v-if="asidePage">
+      <NotificationsContainer v-if="asidePage == 'notifications'"/>
+      <ProfileContainer v-if="asidePage == 'profile'"/>
+    </Aside>
+  </SlideFromRight>
 
-    <ProfileContainer v-if="asidePage == 'profile'" />
-  </Aside>
 </template>
