@@ -29,7 +29,7 @@ const handleTransitionCompleted = () => {
 
 <template>
   <SlideFromBottom>
-    <FloatingRoundButton v-if="!showTile && transitionCompleted" class="z-10 fixed bottom-28 right-4"
+    <FloatingRoundButton v-if="!showTile && transitionCompleted" class="z-10 fixed bottom-28 right-4 md:right-8"
                          @click="toggleTile">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
            class="size-8 stroke-light">
@@ -38,14 +38,14 @@ const handleTransitionCompleted = () => {
     </FloatingRoundButton>
   </SlideFromBottom>
   <SlideFromBottom @onCompleted="handleTransitionCompleted">
-    <div v-if="showTile" class="container fixed bottom-0 z-10">
-      <FloatingRoundButton class="absolute -top-20 right-4" @click="toggleTile">
+    <div v-if="showTile" class="container fixed bottom-0 z-10 md:max-w-[50vw] md:right-4">
+      <FloatingRoundButton class="absolute -top-[4.5rem] right-4" @click="toggleTile">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
              class="rotating size-8 rotate-45 stroke-light">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
       </FloatingRoundButton>
-      <Tile class="bottom-0 min-h-[85vh] max-h-[85vh] overflow-auto">
+      <Tile class="bottom-0 min-h-[85vh] max-h-[85vh] overflow-auto md:min-h-[80vh] md:max-h-[80vh]">
         <Tabs :tabs="contents" :toggleTabList="() => {}">
           <TabPanel>
             <NewReport @cancel="toggleTile"/>
