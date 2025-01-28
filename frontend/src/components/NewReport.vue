@@ -173,10 +173,11 @@ onMounted(fetchReportTypes)
     <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
       <SimpleButton
           classes="!bg-surface-default !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
+          screenReaderLabel="Cancel new report creation"
           @click="emit('cancel')">
         Cancel
       </SimpleButton>
-      <SimpleButton @click="publishReport">Submit</SimpleButton>
+      <SimpleButton screenReaderLabel="Submit new report" @click="publishReport">Submit</SimpleButton>
     </section>
   </div>
 </template>
