@@ -45,7 +45,7 @@ const handleTransitionCompleted = () => {
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
       </FloatingRoundButton>
-      <Tile class="bottom-0 min-h-[85vh] max-h-[85vh] overflow-auto md:min-h-[80vh] md:max-h-[80vh]">
+      <Tile class="bottom-0 h-[85vh] overflow-auto md:h-[80vh]">
         <Tabs :tabs="contents" :toggleTabList="() => {}">
           <TabPanel>
             <NewReport @cancel="toggleTile"/>
