@@ -158,9 +158,9 @@ onMounted(fetchReportTypes)
       </div>
       <p class="mt-1 ml-1 text-xs text-gray-500">The image should be 3:4 format, if not it will be automatically
         cropped.</p>
-      <div v-if="image" class="mt-2">
-        <SimpleLabel attachTo="preview">Preview</SimpleLabel>
-        <img v-if="image" :src="previewUrl" alt="Image preview" id="preview" class="w-full rounded-xl"/>
+      <div v-if="image" class="mt-2 md:flex md:place-items-center md:flex-col">
+        <SimpleLabel attachTo="preview" class="md:mr-auto">Preview</SimpleLabel>
+        <img v-if="image" :src="previewUrl" alt="Image preview" id="preview" class="w-full rounded-xl md:w-60 md:h-80"/>
       </div>
     </section>
 
