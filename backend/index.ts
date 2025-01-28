@@ -11,7 +11,7 @@ mongoose.connect('mongodb://localhost:27017/dbStreetMonitor')
 
 const app: Application = express()
 app.use(express.json({ limit: '16mb' }))
-    .use(express.urlencoded({ limit: '16mb' }))
+    .use(express.urlencoded({ limit: '16mb', extended: true }))
     .use(cors())
     .use(express.json())
     .use(express.static('public'))

@@ -11,18 +11,16 @@ import { blobToBase64, formatUnderscoredString } from "@/lib/stringUtility.ts"
 import CameraContainer from "@/components/CameraContainer.vue"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
+import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
+import { useAuthStore } from "@/stores/auth.store.ts"
 
-const emit = defineEmits(["toggleTile"])
+const emit = defineEmits(["cancel"])
 
 const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)
 const posCopy = { ...usePositionStore().position }
 const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])
 const zoom: number = 12
-
-const moveToPosition = () => {
-  usePositionStore().positionToMove = latLng.value
-}
 
 const fetchReportTypes = () => {
   axios.get<IReportType[]>(`http://localhost:3000/report-types`)
@@ -36,11 +34,11 @@ const fetchReportTypes = () => {
 const image = ref<Blob | null>(null)
 const previewUrl = computed<string>(() => image.value ? URL.createObjectURL(image.value) : "")
 
-const uploadFile = (e: Event) => {
+const uploadFile = async (e: Event) => {
   const target = e.target as HTMLInputElement
   const file = target.files?.item(0)
   if (file) {
-    image.value = file
+    image.value = await cropTo4by3(file).then((img) => scaleToResolution(img))
   }
 }
 
@@ -55,16 +53,16 @@ const publishReport = async () => {
   const newReport: IReport = {
     _id: new mongoose.Types.ObjectId(),
     type: selectedReportType.value?.name,
-    user: "mariorossi",
+    user: useAuthStore().get()?.username,
     coordinates: latLng.value,
   } as IReport
   if (description.value !== "") {
     newReport.description = description.value
   }
   if (image.value) {
-    const imageString: string = await blobToBase64(image.value)
-    newReport.picture = { data: imageString, contentType: image.value.type }
+    newReport.picture = await blobToBase64(image.value)
   }
+  emit("cancel")
   axios.post<IReport>(`http://localhost:3000/reports`, newReport)
       .then((res) => console.log(res.data))
       .catch((e) => console.error(e))
@@ -82,7 +80,7 @@ onMounted(fetchReportTypes)
         <SimpleLabel attachTo="report-type">Report type</SimpleLabel>
         <ListboxButton
             id="report-type"
-            class="relative w-full cursor-pointer rounded-xl text-button-text bg-primary-600 py-2 pl-3 pr-10 text-left
+            class="relative w-full cursor-pointer rounded-xl text-light bg-primary-600 py-2 pl-3 pr-10 text-left
             focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75
             focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 hover:bg-primary-700 duration-300">
           <span class="block truncate">
@@ -131,17 +129,17 @@ onMounted(fetchReportTypes)
         <div class="flex flex-col w-1/2">
           <SimpleLabel attachTo="lat">Latitude</SimpleLabel>
           <input type="number" id="lat"
-                 class="rounded-xl p-2 mr-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"
+                 class="rounded-xl p-2 mr-1 border bg-surface-default border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"
                  v-model="latLng[0]"
-                 @input="moveToPosition"
+                 @input="usePositionStore().move(latLng)"
                  placeholder="Latitude">
         </div>
         <div class="flex flex-col w-1/2">
           <SimpleLabel attachTo="lng">Longitude</SimpleLabel>
           <input type="number" id="lng"
-                 class="rounded-xl p-2 ml-1 border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"
+                 class="rounded-xl p-2 ml-1 bg-surface-default border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"
                  v-model="latLng[1]"
-                 @input="moveToPosition"
+                 @input="usePositionStore().move(latLng)"
                  placeholder="Longitude">
         </div>
       </div>
@@ -151,13 +149,15 @@ onMounted(fetchReportTypes)
       <SimpleLabel attachTo="picture">Picture</SimpleLabel>
       <div id="picture" class="flex flex-row">
         <CameraContainer :resolution="{ width: 960, height: 1280 }" v-model:snapshot="image"/>
-        <label for="img-input" class="flex items-center cursor-pointer ml-2 rounded-xl px-4 duration-300 bg-light text-primary-600 border
+        <label for="img-input" class="flex items-center cursor-pointer ml-2 rounded-xl px-4 duration-300 bg-surface-default text-primary-600 border
                border-primary-600 hover:bg-primary-100 hover:border-primary-700">
           Upload image
         </label>
         <input type="file" id="img-input" accept="image/x-png,image/jpeg,image/jpg" @change="uploadFile"
                class="hidden"/>
       </div>
+      <p class="mt-1 ml-1 text-xs text-gray-500">The image should be 4:3 format, if not it will be automatically
+        cropped.</p>
       <div v-if="image" class="mt-2">
         <SimpleLabel attachTo="preview">Preview</SimpleLabel>
         <img v-if="image" :src="previewUrl" alt="Image preview" id="preview" class="w-full rounded-xl"/>
@@ -167,13 +167,13 @@ onMounted(fetchReportTypes)
     <section>
       <SimpleLabel attachTo="description">Description</SimpleLabel>
       <textarea id="description" @input="saveDescription"
-                class="w-full h-24 rounded-xl p-2 border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"></textarea>
+                class="w-full h-24 rounded-xl p-2 bg-surface-default border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"></textarea>
     </section>
 
-    <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-light">
+    <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default">
       <SimpleButton
-          classes="!bg-light !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
-          @click="emit('toggleTile')">
+          classes="!bg-surface-default !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
+          @click="emit('cancel')">
         Cancel
       </SimpleButton>
       <SimpleButton @click="publishReport">Submit</SimpleButton>
