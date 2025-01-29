@@ -34,14 +34,13 @@ const type: string = props.type || DEFAULT_INPUT_TYPE
 
         </label>
 
-
         <input
         :type="type"
         :placeholder="placeholder || 'Insert ' + label"
         :name="props.fieldName"
         :id="props.fieldName"
         :value="props.modelValue"
-        v-on:input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+        v-on:input="$emit('input', $event)"
         class="w-full border-2 rounded-md px-2 py-2 mt-1 bg-surface-component  focus:outline-primary-600"
         :class="errorStyle"
         />

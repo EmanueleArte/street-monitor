@@ -101,6 +101,17 @@ const signup = () => {
 
         })
 }
+
+const updateValue = (inputName: string, newValue: string) => {
+    if (
+        inputName != 'name' &&
+        inputName != 'surname' &&
+        inputName != 'username' &&
+        inputName != 'email' &&
+        inputName != 'password' &&
+        inputName != 'passwordConfirmation') return
+    form.value[inputName] = newValue
+}
 </script>
 
 <template>
@@ -116,6 +127,7 @@ const signup = () => {
                     fieldName="name"
                     label="name"
                     ratio="1/2"
+                    @input="(event) => updateValue('name', event.target.value)"
                     :error="validationErrors.name" />
 
                 <FormInput
@@ -123,6 +135,7 @@ const signup = () => {
                     fieldName="surname"
                     label="surname"
                     ratio="1/2"
+                    @input="(event) => updateValue('surname', event.target.value)"
                     :error="validationErrors.surname" />
             </FormFieldset>
 
@@ -132,18 +145,21 @@ const signup = () => {
                     v-model="form.username"
                     fieldName="username"
                     label="username"
+                    @input="(event) => updateValue('username', event.target.value)"
                     :error="validationErrors.username" />
                 <FormInput
                     v-model="form.email"
                     type="email"
                     fieldName="email"
                     label="email"
+                    @input="(event) => updateValue('email', event.target.value)"
                     :error="validationErrors.email" />
                 <FormInput
                     v-model="form.password"
                     type="password"
                     fieldName="password"
                     label="password"
+                    @input="(event) => updateValue('password', event.target.value)"
                     :error="validationErrors.password" />
                 <FormInput
                     v-model="form.passwordConfirmation"
@@ -151,6 +167,7 @@ const signup = () => {
                     fieldName="password-check"
                     label="confirm password"
                     placeholder="Insert password again"
+                    @input="(event) => updateValue('passwordConfirmation', event.target.value)"
                     :error="validationErrors.passwordConfirmation" />
             </FormFieldset>
             

@@ -28,6 +28,11 @@ const signin = async () => {
     })
 }
 
+const updateValue = (inputName: string, newValue: string) => {
+    if (inputName != 'username' && inputName != 'password') return
+    form.value[inputName] = newValue
+}
+
 </script>
 
 <template>
@@ -51,6 +56,7 @@ const signin = async () => {
                     label="username"
                     placeholder="Insert your username"
                     v-model="form.username"
+                    @input="(event) => updateValue('username', event.target.value)"
                     />
                     
                 <FormInput 
