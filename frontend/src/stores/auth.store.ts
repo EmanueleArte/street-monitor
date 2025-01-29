@@ -51,5 +51,9 @@ export const useAuthStore = defineStore('auth', () => {
             .then(() => login(values.username, values.password))
     }
 
-    return {login, logout, register, get}
+    function isLoggedIn(username: string): boolean {
+        return user && username === user.username
+    }
+
+    return {login, logout, register, get, isLoggedIn}
 })
