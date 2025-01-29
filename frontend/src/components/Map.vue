@@ -100,9 +100,8 @@ const stopWatchingPosition = () => {
   }
 }
 
-function handler(event: any) {
-  reportStore.setCurrentReport(undefined)
-  console.log(reportStore.getCurrentReport())
+function unsetReport() {
+  reportStore.setReport(undefined)
 }
 
 onBeforeMount(startWatchingPosition)
@@ -111,7 +110,7 @@ onUnmounted(stopWatchingPosition)
 
 <template>
   <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
-        :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady" @drag="onMapMoved" @click="handler">
+        :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady" @drag="onMapMoved" @click="unsetReport">
     <LTileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         layer-type="base"

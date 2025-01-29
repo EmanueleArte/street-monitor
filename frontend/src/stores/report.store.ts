@@ -24,7 +24,7 @@ export const useReportStore = defineStore('report', () => {
 
     function getPreviousReport(report: IReport): IReport | undefined {
         if (!_reports.value) return undefined
-        const reportIndex: number = _reports.value.map(r => JSON.stringify(r)).indexOf(JSON.stringify(report))
+        const reportIndex: number = getIndexOfReport(report)
         const previousIndex: number = reportIndex - 1 >= 0 ? reportIndex - 1 : _reports.value.length - 1
         if (reportIndex == -1 || previousIndex == reportIndex) return undefined
         return _reports.value[previousIndex]
@@ -32,10 +32,14 @@ export const useReportStore = defineStore('report', () => {
 
     function getNextReport(report: IReport): IReport | undefined {
         if (!_reports.value) return undefined
-        const reportIndex: number = _reports.value.map(r => JSON.stringify(r)).indexOf(JSON.stringify(report))
+        const reportIndex: number = getIndexOfReport(report)
         const nextIndex: number = (reportIndex + 1) % _reports.value.length
         if (reportIndex == -1 || nextIndex == reportIndex) return undefined
         return _reports.value[nextIndex]
+    }
+
+    function getIndexOfReport(report: IReport): number {
+        return _reports.value.map(r => JSON.stringify(r)).indexOf(JSON.stringify(report))
     }
 
     return {getReport, setReport, getReports, setReports, getPreviousReport, getNextReport}
