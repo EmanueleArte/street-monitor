@@ -2,10 +2,11 @@
 import { ref } from "vue"
 import FormInput from "../components/inputs/FormInput.vue"
 import FormFieldset from "./inputs/FormFieldset.vue"
-import FormSubmitButton from "./buttons/FormSubmitButton.vue"
 import * as yup from 'yup'
 import {useAuthStore} from '@/stores/auth.store'
 import { AxiosError } from "axios"
+import { extend } from "lodash"
+import SimpleButton from "./buttons/SimpleButton.vue"
 
 const authStore = useAuthStore()
 const passwordRules: string[] = [
@@ -71,31 +72,63 @@ const validationErrors = ref<IRegistrationForm>({
     passwordConfirmation: ""
 })
 
+const registrationError = ref<string>('')
+
+interface IErrorObject {
+    message: string,
+    body?: string,
+    serialize(): string
+}
+
+class ErrorObject implements IErrorObject {
+    message: string
+    body?: string | undefined
+
+    constructor(message: string) {
+        this.message = message
+    }
+
+    serialize(): string {
+        return JSON.stringify(this)
+    }
+}
+
 const signup = () => {
     schema.validate(form.value, {abortEarly: false})
         .then(user => authStore.register(user))
         .catch(e => {
+            const temporaryValidationErrors: any = {}
+
             if (e.status && e.status == 500) {
                 console.error(e)
+                registrationError.value = 'Internal server error. Retry later...'
                 return
             }
-
-            const temporaryValidationErrors: any = {}
-            const yupError: yup.ValidationError = e as yup.ValidationError
-            yupError.inner.forEach((err) => {
-                if (err.path && !temporaryValidationErrors[err.path]) {
-                    const errorObj = {
-                        message: err.message,
-                        body: ''
-                    }
-
-                    if (err.path == 'password' && err.message.includes('match')) {
-                        errorObj.message = 'invalid format'
-                        errorObj.body = JSON.stringify(passwordRules)
-                    }
-                    temporaryValidationErrors[err.path] = JSON.stringify(errorObj)
+            if (e.status && e.status == 409) {
+                const {username, email} = e.response.data
+                const errorObject: IErrorObject = new ErrorObject('')
+                if (username) {
+                    errorObject.message = 'username already present'
+                    temporaryValidationErrors['username'] = errorObject.serialize()
                 }
-            })
+                if (email) {
+                    errorObject.message = 'email already used'
+                    temporaryValidationErrors['email'] = errorObject.serialize()
+                }
+            } else {
+                const yupError: yup.ValidationError = e as yup.ValidationError
+                yupError.inner.forEach((err) => {
+                    if (err.path && !temporaryValidationErrors[err.path]) {
+                        const errorObject = new ErrorObject(err.message)
+
+                        if (err.path == 'password' && err.message.includes('match')) {
+                            errorObject.message = 'invalid format'
+                            errorObject.body = JSON.stringify(passwordRules)
+                        }
+                        temporaryValidationErrors[err.path] = errorObject.serialize()
+                    }
+                })
+            }
 
             validationErrors.value = temporaryValidationErrors
 
@@ -120,6 +153,12 @@ const updateValue = (inputName: string, newValue: string) => {
             <h1 class="text-3xl font-semibold text-primary-600">SignUp</h1>
             <p class="text-xl">Create an account to continue.</p>
         </div>
+
+        <p
+            v-if="registrationError != ''"
+            class="absolute top-20 w-1/2 left-1/2 -translate-x-1/2 border-2 border-error-800 rounded-md shadow-md shadow-error-400 bg-red-100 px-2 py-1 text-error-800 capitalize text-sm">
+            {{ registrationError }}
+        </p>
         
         <form @submit.prevent="signup">
             <FormFieldset :cols=2 legend="Personal information" hideLegend>
@@ -172,7 +211,9 @@ const updateValue = (inputName: string, newValue: string) => {
                     :error="validationErrors.passwordConfirmation" />
             </FormFieldset>
             
-            <FormSubmitButton value="Register" />
+            <SimpleButton class="mt-10 w-full">
+                Register
+            </SimpleButton>
         </form>
   </div>
 </template>
