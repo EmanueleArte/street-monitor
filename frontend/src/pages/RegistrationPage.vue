@@ -2,7 +2,6 @@
 import { ref } from "vue"
 import RegistrationContainer from "@/components/RegistrationContainer.vue"
 import LoginContainer from "@/components/LoginContainer.vue"
-import VerticalSlide from "@/components/transitions/VerticalSlide.vue"
 import Fade from "@/components/transitions/Fade.vue"
 
 const LOGIN_PARAGRAPH_TEXT: string = "Don't have an account?"
@@ -26,7 +25,7 @@ const switchPage = () => {
 <template>
 
 <!-- background -->
-<div id="background" class="md:grid grid-cols-12 h-screen">
+<div id="background" class="md:grid grid-cols-12 min-h-screen">
 
   <!-- login/registration container -->
   <div class="col-start-2 col-span-4 h-full md:flex md:flex-col md:flex-wrap md:p-10 px-0">
@@ -36,12 +35,10 @@ const switchPage = () => {
       <header class="text-l text-primary-600 font-bold p-4">StreetMonitor</header>
 
       <section class="flex flex-col grow justify-start gap-10 px-5 pt-20">
-<!--        <VerticalSlide :direction="signupPage.isLoaded">-->
         <Fade>
           <RegistrationContainer v-if="signupPage.isLoaded" />
           <LoginContainer v-else />
         </Fade>
-<!--        </VerticalSlide>-->
       </section>
 
       
