@@ -76,7 +76,7 @@ onMounted(() => {
         <SimpleButton @click="showMyReports" class="ml-4 mt-4 shadow-xl">My reports</SimpleButton>
         <SimpleButton @click="showMySpots" class="ml-4 mt-4 shadow-xl">My spots</SimpleButton>
     </section>
-    <SimpleButton @click="logout" class="ml-4 mt-4 shadow-xl !bg-light !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700">Logout</SimpleButton>
+    <SimpleButton @click="logout" class="ml-4 mt-4 shadow-xl" :outline="true">Logout</SimpleButton>
 </template>
 
 <style scoped lang="scss">
