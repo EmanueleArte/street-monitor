@@ -43,7 +43,7 @@ const updateValue = (inputName: string, newValue: string) => {
         
         <p
             v-if="loginError != ''"
-            class="border-2 border-error-800 rounded-md shadow-md shadow-error-400 bg-red-100 px-2 py-1 text-error-800 capitalize text-sm">
+            class="absolute top-20 w-1/2 left-1/2 -translate-x-1/2  border-2 border-error-800 rounded-md shadow-md shadow-error-400 bg-red-100 px-2 py-1 text-error-800 capitalize text-sm">
             {{ loginError }}
         </p>
 

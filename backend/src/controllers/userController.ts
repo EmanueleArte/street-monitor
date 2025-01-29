@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import userModel, { IUser } from '../models/userModel'
-import favoriteSpotModel, { IFavoriteSpot } from '../models/favoriteSpotModel'
+import favoriteSpotModel from '../models/favoriteSpotModel'
 import notificationModel, { INotification } from '../models/notificationModel'
-import { Types } from 'mongoose'
+import { Error } from 'mongoose'
+import { MongoServerError } from 'mongodb'
 
 // Users
 export const getUserByUsername = (req: Request, res: Response) => {
@@ -21,13 +22,20 @@ export const getUserByUsername = (req: Request, res: Response) => {
 
 export const createUser = (req: Request, res: Response) => {
     const user = new userModel(req.body)
-    console.log(user)
-    console.log(req.body)
+
     user.save()
         .then((doc: IUser) => {
             res.json(doc)
         })
+        .catch((err: MongoServerError) => {
+            if (err.code == 11000) {
+                res.status(409).send(err.keyValue)
+                return
+            }
+            res.status(500).send(err)
+        })
         .catch((err: Error) => {
+            console.log(err)
             res.status(500).send(err)
         })
 }
