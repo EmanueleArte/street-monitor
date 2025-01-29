@@ -7,6 +7,7 @@ import * as yup from 'yup'
 import {useAuthStore} from '@/stores/auth.store'
 import { AxiosError } from "axios"
 import { extend } from "lodash"
+import SimpleButton from "./buttons/SimpleButton.vue"
 
 const authStore = useAuthStore()
 const passwordRules: string[] = [
@@ -210,6 +211,8 @@ const updateValue = (inputName: string, newValue: string) => {
                     :error="validationErrors.passwordConfirmation" />
             </FormFieldset>
             
-            <FormSubmitButton value="Register" />
+            <SimpleButton class="mt-10 w-full">
+                Register
+            </SimpleButton>
         </form>
 </template>

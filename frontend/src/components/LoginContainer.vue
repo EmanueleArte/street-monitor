@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/auth.store'
 import FormInput from './inputs/FormInput.vue'
 import FormFieldset from './inputs/FormFieldset.vue'
 import FormSubmitButton from './buttons/FormSubmitButton.vue';
+import SimpleButton from './buttons/SimpleButton.vue';
 
 const authStore = useAuthStore()
 const loginError = ref<string>("")
@@ -49,7 +50,7 @@ const updateValue = (inputName: string, newValue: string) => {
 
         
         <form @submit.prevent="signin">
-            <FormFieldset :cols=1 legend="Account information" hideLegend>
+            <FormFieldset :cols=1 legend="Account information" hideLegend class="w-full">
 
                 <FormInput
                     fieldName="username"
@@ -69,6 +70,8 @@ const updateValue = (inputName: string, newValue: string) => {
 
             </FormFieldset>
             
-            <FormSubmitButton value="Sign In" />
+            <SimpleButton class="mt-10 w-full">
+                Sign In
+            </SimpleButton>
         </form>
 </template>
