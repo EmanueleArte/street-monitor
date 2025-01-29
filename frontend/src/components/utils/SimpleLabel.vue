@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <label :for="attachTo" class="ml-1 text-sm text-gray-500">
+  <label :for="attachTo" class="ml-1 text-sm text-gray-700">
     <slot></slot>
   </label>
 </template>

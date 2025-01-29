@@ -6,7 +6,7 @@ const DEFAULT_INPUT_TYPE: string = "text"
 const props = defineProps<{
     label: string,
     fieldName: string,
-    modelValue: string,
+    modelValue: string | number,
     type?: string,
     placeholder?: string,
     error?: string,
@@ -24,7 +24,7 @@ const togglePasswordVisibility = () => {
 
 <template>
     <div>
-        <label :for="props.fieldName" class="flex wrap justify-items-end gap-x-2 text-sm capitalize text-dark-default">
+        <label :for="props.fieldName" class="flex ml-1 wrap justify-items-end gap-x-2 text-sm capitalize text-gray-700">
             {{ label }}
             <p
                 v-if="props.error"
@@ -45,8 +45,9 @@ const togglePasswordVisibility = () => {
             :placeholder="placeholder || 'Insert ' + label"
             :name="props.fieldName"
             :id="props.fieldName"
+            :value="props.modelValue"
             @input="$emit('input', $event)"
-            class="w-full border-2 rounded-md px-2 py-2 mt-1 bg-surface-component focus:outline-primary-600"
+            class="w-full border rounded-lg p-2 mt-0.5 bg-surface-component duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600"
             :class="errorStyle"
         />
         <button

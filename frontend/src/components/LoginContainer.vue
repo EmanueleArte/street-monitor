@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth.store'
 import FormInput from './inputs/FormInput.vue'
 import FormFieldset from './inputs/FormFieldset.vue'
@@ -17,7 +17,6 @@ const form = ref<ILoginForm>({
     username: "",
     password: ""
 })
-
 
 const signin = async () => {
     authStore.login(form.value.username, form.value.password)
@@ -55,7 +54,7 @@ const updateValue = (inputName: string, newValue: string) => {
                     fieldName="username"
                     label="username"
                     placeholder="Insert your username"
-                    v-model="form.username"
+                    :modelValue="form.username"
                     @input="(event) => updateValue('username', event.target.value)"
                     />
                     
@@ -64,7 +63,8 @@ const updateValue = (inputName: string, newValue: string) => {
                     label="password"
                     type="password"
                     placeholder="Insert your password"
-                    v-model="form.password"
+                    :modelValue="form.password"
+                    @input="(event) => updateValue('password', event.target.value)"
                     />
 
             </FormFieldset>
