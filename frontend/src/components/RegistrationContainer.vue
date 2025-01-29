@@ -115,6 +115,7 @@ const updateValue = (inputName: string, newValue: string) => {
 </script>
 
 <template>
+  <div>
         <div>
             <h1 class="text-3xl font-semibold text-primary-600">SignUp</h1>
             <p class="text-xl">Create an account to continue.</p>
@@ -173,4 +174,5 @@ const updateValue = (inputName: string, newValue: string) => {
             
             <FormSubmitButton value="Register" />
         </form>
+  </div>
 </template>

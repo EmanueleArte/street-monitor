@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <transition name="slide-right">
+  <transition name="slide-right" mode="out-in">
     <slot></slot>
   </transition>
 </template>

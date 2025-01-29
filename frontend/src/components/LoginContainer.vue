@@ -35,6 +35,7 @@ const updateValue = (inputName: string, newValue: string) => {
 </script>
 
 <template>
+  <div>
         <div>
             <h1 class="text-3xl font-semibold text-primary-600">Your city needs you!</h1>
             <p class="text-xl">Sign in to make a difference.</p>
@@ -71,4 +72,5 @@ const updateValue = (inputName: string, newValue: string) => {
             
             <FormSubmitButton value="Sign In" />
         </form>
+  </div>
 </template>
