@@ -20,6 +20,7 @@ const form = ref<ILoginForm>({
 
 
 const signin = async () => {
+    console.log(form.value)
     authStore.login(form.value.username, form.value.password)
     .catch(err => {
         loginError.value = err.status && err.status == 404
@@ -65,6 +66,7 @@ const updateValue = (inputName: string, newValue: string) => {
                     type="password"
                     placeholder="Insert your password"
                     v-model="form.password"
+                    @input="(event) => updateValue('password', event.target.value)"
                     />
 
             </FormFieldset>
