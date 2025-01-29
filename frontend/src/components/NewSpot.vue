@@ -25,7 +25,6 @@ const saveSpot = () => {
     coordinates: latLng.value,
   } as IFavoriteSpot
   axios.post<IReport>(`http://localhost:3000/users/${useAuthStore().get()?.username}/favorites`, newSpot)
-      .then((res) => console.log(res.data))
       .catch((e) => console.error(e))
   emit("cancel")
 }

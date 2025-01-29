@@ -65,7 +65,6 @@ const publishReport = async () => {
   }
   emit("cancel")
   axios.post<IReport>(`http://localhost:3000/reports`, newReport)
-      .then((res) => console.log(res.data))
       .catch((e) => console.error(e))
 }
 
