@@ -6,14 +6,14 @@ import { ref, watch } from 'vue'
 import NavButton from './NavButton.vue';
 
 const reportStore = useReportStore()
-const currentReport = ref<IReport | undefined>(reportStore.getCurrentReport())
+const currentReport = ref<IReport | undefined>(reportStore.getReport())
 const previousReport = ref<IReport | undefined>()
 const nextReport = ref<IReport | undefined>()
 
 if (currentReport.value) previousReport.value = reportStore.getPreviousReport(currentReport.value)
 if (currentReport.value) nextReport.value = reportStore.getNextReport(currentReport.value)
 
-watch(() => reportStore.getCurrentReport(), (newReport: IReport | undefined) => {
+watch(() => reportStore.getReport(), (newReport: IReport | undefined) => {
     currentReport.value = newReport
     if (newReport) {
         updateCarosel(newReport)
@@ -22,9 +22,8 @@ watch(() => reportStore.getCurrentReport(), (newReport: IReport | undefined) => 
 
 watch(() => reportStore.getReports(), (newReports: IReport[], oldReports: IReport[]) => {
     if (JSON.stringify(newReports) === JSON.stringify(oldReports)) return
-    console.log('reports change')
 
-    const _currentReport: IReport | undefined = reportStore.getCurrentReport()
+    const _currentReport: IReport | undefined = reportStore.getReport()
     if (_currentReport) {
 
         if (_currentReport !== currentReport.value) {
@@ -37,12 +36,12 @@ watch(() => reportStore.getReports(), (newReports: IReport[], oldReports: IRepor
 
 const previousReportHandler = () => {
     if (!previousReport.value) return
-    reportStore.setCurrentReport(previousReport.value)
+    reportStore.setReport(previousReport.value)
 }
 
 const nextReportHandler = () => {
     if (!nextReport.value) return
-    reportStore.setCurrentReport(nextReport.value)
+    reportStore.setReport(nextReport.value)
 }
 
 const updateCarosel = (report: IReport) => {

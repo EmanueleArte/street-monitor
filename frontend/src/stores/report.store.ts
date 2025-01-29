@@ -6,11 +6,11 @@ export const useReportStore = defineStore('report', () => {
     const _currentReport = ref<IReport>()
     const _reports = ref<IReport[]>([])
 
-    function getCurrentReport(): IReport | undefined {
+    function getReport(): IReport | undefined {
         return _currentReport.value
     }
 
-    function setCurrentReport(report: IReport | undefined) {
+    function setReport(report: IReport | undefined) {
         _currentReport.value = report
     }
 
@@ -38,5 +38,5 @@ export const useReportStore = defineStore('report', () => {
         return _reports.value[nextIndex]
     }
 
-    return {getCurrentReport, setCurrentReport, getReports, setReports, getPreviousReport, getNextReport}
+    return {getReport, setReport, getReports, setReports, getPreviousReport, getNextReport}
 })
