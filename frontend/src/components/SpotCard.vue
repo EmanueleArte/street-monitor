@@ -40,6 +40,6 @@ const moveToSpot = () => {
         </div>
         <p class="text-[0.7rem]"> Lat: {{ spot.coordinates[0] }}</p>
         <p class="text-[0.7rem] mb-2"> Lon: {{ spot.coordinates[1] }}</p>
-        <SimpleButton @click="moveToSpot" classes="text-[0.7rem] !px-2 !py-1 !rounded-lg">Go to spot</SimpleButton>
+        <SimpleButton @click="moveToSpot" :classes="'text-[0.7rem] !px-2 !py-1 !rounded-lg'">Go to spot</SimpleButton>
     </article>
 </template>

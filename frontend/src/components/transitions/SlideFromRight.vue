@@ -1,21 +1,21 @@
 <script setup lang="ts">
-const emit = defineEmits(["onCompleted"])
+
 </script>
 
 <template>
-  <transition name="slide-bottom" @afterLeave="emit('onCompleted')">
+  <transition name="slide-right">
     <slot></slot>
   </transition>
 </template>
 
 <style scoped lang="scss">
-.slide-bottom {
+.slide-right {
   &-enter-active, &-leave-active {
     transition: transform 0.5s;
   }
 
   &-enter-from, &-leave-to {
-    transform: translateY(100%);
+    transform: translateX(100%);
   }
 }
 </style>

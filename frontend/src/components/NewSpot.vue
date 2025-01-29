@@ -71,13 +71,14 @@ const saveSpot = () => {
       </div>
     </section>
 
-    <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default">
+    <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
       <SimpleButton
           classes="!bg-surface-default !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
+          screenReaderLabel="Cancel favorite spot creation"
           @click="emit('cancel')">
         Cancel
       </SimpleButton>
-      <SimpleButton @click="saveSpot">Submit</SimpleButton>
+      <SimpleButton screenReaderLabel="Submit favorite spot creation" @click="saveSpot">Submit</SimpleButton>
     </section>
   </div>
 </template>

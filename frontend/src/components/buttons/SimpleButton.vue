@@ -2,6 +2,7 @@
 // text-primary-600
 const props = defineProps<{
   // classes?: string,
+  screenReaderLabel?: string,
   outline?: boolean,
   size?: string
 }>()
@@ -24,6 +25,7 @@ function convertSizeToPadding(size: string | undefined): string {
     class="rounded-lg py-2 duration-300"
     :class="[buttonStyle, buttonSize]"
   >
+    <span class="sr-only">{{ screenReaderLabel }}</span>
     <slot></slot>
   </button>
 </template>

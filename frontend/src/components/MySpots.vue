@@ -4,13 +4,25 @@ import Tile from "@/components/Tile.vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
 import MySpotsTile from "@/components/MySpotsTile.vue"
-import { ref } from "vue"
+import { onUpdated, ref } from "vue"
 
 const showSpotsTile = ref<boolean>(false)
+
+const props = defineProps({
+  showMySpots: { type: Boolean }
+})
 
 const toggleSpotsVisibility = () => {
   showSpotsTile.value = !showSpotsTile.value
 }
+
+const checkIfShowMySpots = () => {
+  if (props.showMySpots) {
+    showSpotsTile.value = true
+  }
+}
+
+onUpdated(checkIfShowMySpots)
 </script>
 
 <template>
