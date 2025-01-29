@@ -13,6 +13,7 @@ import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
 import { useAuthStore } from "@/stores/auth.store.ts"
+import FormInput from "@/components/inputs/FormInput.vue"
 
 const emit = defineEmits(["cancel"])
 
@@ -80,7 +81,7 @@ onMounted(fetchReportTypes)
         <SimpleLabel attachTo="report-type">Report type</SimpleLabel>
         <ListboxButton
             id="report-type"
-            class="relative w-full cursor-pointer rounded-xl text-light bg-primary-600 py-2 pl-3 pr-10 text-left
+            class="relative w-full cursor-pointer rounded-xl text-light bg-primary-600 mt-0.5 py-2 pl-3 pr-10 text-left
             focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75
             focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 hover:bg-primary-700 duration-300">
           <span class="block truncate">
@@ -126,28 +127,24 @@ onMounted(fetchReportTypes)
       </div>
 
       <div class="flex flex-row w-full">
-        <div class="flex flex-col w-1/2">
-          <SimpleLabel attachTo="lat">Latitude</SimpleLabel>
-          <input type="number" id="lat"
-                 class="rounded-xl p-2 mr-1 border bg-surface-default border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"
-                 v-model="latLng[0]"
-                 @input="usePositionStore().move(latLng)"
-                 placeholder="Latitude">
+        <div class="flex flex-col w-1/2 pr-1">
+          <FormInput type="number" label="latitude" fieldName="lat" :modelValue="latLng[0]" @input="(lat) => {
+            latLng[0] = Number.parseFloat(lat.target.value)
+            usePositionStore().move(latLng)
+          }"/>
         </div>
-        <div class="flex flex-col w-1/2">
-          <SimpleLabel attachTo="lng">Longitude</SimpleLabel>
-          <input type="number" id="lng"
-                 class="rounded-xl p-2 ml-1 bg-surface-default border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"
-                 v-model="latLng[1]"
-                 @input="usePositionStore().move(latLng)"
-                 placeholder="Longitude">
+        <div class="flex flex-col w-1/2 pl-1">
+          <FormInput type="number" label="longitude" fieldName="lng" :modelValue="latLng[1]" @input="(lng) => {
+            latLng[1] = Number.parseFloat(lng.target.value)
+            usePositionStore().move(latLng)
+          }"/>
         </div>
       </div>
     </section>
 
     <section>
       <SimpleLabel attachTo="picture">Picture</SimpleLabel>
-      <div id="picture" class="flex flex-row">
+      <div id="picture" class="flex flex-row mt-0.5">
         <CameraContainer :resolution="{ width: 960, height: 1280 }" v-model:snapshot="image"/>
         <label for="img-input" class="flex items-center cursor-pointer ml-2 rounded-xl px-4 duration-300 bg-surface-default text-primary-600 border
                border-primary-600 hover:bg-primary-100 hover:border-primary-700">
@@ -167,7 +164,7 @@ onMounted(fetchReportTypes)
     <section>
       <SimpleLabel attachTo="description">Description</SimpleLabel>
       <textarea id="description" @input="saveDescription"
-                class="w-full h-24 rounded-xl p-2 bg-surface-default border border-gray-500 duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"></textarea>
+                class="w-full h-24 rounded-lg p-2 mt-0.5 border bg-surface-component border duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"></textarea>
     </section>
 
     <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
