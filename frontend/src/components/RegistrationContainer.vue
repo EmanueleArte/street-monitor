@@ -2,7 +2,6 @@
 import { ref } from "vue"
 import FormInput from "../components/inputs/FormInput.vue"
 import FormFieldset from "./inputs/FormFieldset.vue"
-import FormSubmitButton from "./buttons/FormSubmitButton.vue"
 import * as yup from 'yup'
 import {useAuthStore} from '@/stores/auth.store'
 import { AxiosError } from "axios"

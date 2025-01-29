@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth.store'
 import FormInput from './inputs/FormInput.vue'
 import FormFieldset from './inputs/FormFieldset.vue'
-import FormSubmitButton from './buttons/FormSubmitButton.vue';
 import SimpleButton from './buttons/SimpleButton.vue';
 
 const authStore = useAuthStore()
