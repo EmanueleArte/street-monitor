@@ -4,7 +4,6 @@
 // border-amber-600 shadow-amber-600/60
 // border-emerald-600 shadow-emerald-600/60
 import { useAuthStore } from '@/stores/auth.store';
-import ChangeStatusButton from './buttons/ChangeStatusButton.vue';
 import type { IReport } from '@models/reportModel';
 import { ref, type PropType } from 'vue';
 import { formatDate } from '@/lib/stringUtility';
@@ -14,25 +13,35 @@ import SimpleButton from './buttons/SimpleButton.vue';
 import axios from 'axios';
 
 const emit = defineEmits(["updateTiles"])
+const authStore = useAuthStore()
 
 const props = defineProps({
     report: { type: Object as PropType<IReport>, required: true }
 })
 
+/*
+Se l'utente che preme il <button> è lo stesso della segnalazione, cambia stato direttamente.
+Altrimenti, notifica il proprietario del report
+*/
 const changeStatus = async () => {
-    if (props["report"].status != 'closed') {
+    if (props.report.status === 'closed') return
+
+    if (authStore.isLoggedIn(props.report.user)) {
         try {
-            props["report"].status = props["report"].status === 'open' ? 'solving' : 'closed'
-            if (props["report"].status === 'closed') {
-                props["report"].close_datetime = new Date()
+            props.report.status = props.report.status === 'open' ? 'solving' : 'closed'
+            if (props.report.status === 'closed') {
+                props.report.close_datetime = new Date()
             }
-            const response = await axios.put(`http://localhost:3000/reports/by-id/${props["report"]._id}`, props["report"])
+            const response = await axios.put(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
             if (response.status === 200) {
                 emit("updateTiles")
             }
         } catch (e) {
             console.error(e);
         }
+    } else {
+        // send notification
+        console.log(`sending notification to ${props.report.user}...`)
     }
 }
 
@@ -56,7 +65,6 @@ function computeReputationColor(reputation: number | undefined): string {
 
 const userReputation = ref<number | undefined>(props.report.user == useAuthStore().get()?.username ? undefined : 0)
 const reputationColor = ref<string>(computeReputationColor(userReputation.value))
-console.log(userReputation.value)
 
 </script>
 
@@ -93,7 +101,19 @@ console.log(userReputation.value)
                             {{ coordinatesConverter(props.report.coordinates) }}
                         </a>
                     </div>
-                    <ChangeStatusButton v-if="report.status!='closed'" :report="report" @changeStatus="changeStatus" />
+                    <!-- <ChangeStatusButton v-if="report.status!='closed'" :report="report" @changeStatus="changeStatus" /> -->
+                    <SimpleButton
+                        v-if="report.status!='closed'"
+                        :report="report"
+                        @click="changeStatus"
+                        :outline="true"
+                        size="small"
+                        :class="props.report.close_datetime ? 'row-span-2' : 'row-span-3'"
+                        class="my-auto text-xs py-2 font-medium"
+        
+                    >
+                        {{ props.report.status === 'open' ? 'Resolve' : 'Close' }}
+                    </SimpleButton>
                     <!-- dates -->
                     <div class="flex gap-x-3 lowercase flex-wrap text-slate-600" :class="props.report.close_datetime ? 'col-span-3' : 'col-span-2'">
                         <!-- open -->
