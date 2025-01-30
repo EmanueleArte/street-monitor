@@ -46,14 +46,6 @@
     "picture": "mariorossi-1.jpg"
 }
 {
-    "type": "broken_streetlight",
-    "user": "mariorossi",
-    "coordinates": [44.426641011091725, 12.21466157595225],
-    "open_datetime": "2024-12-05T12:01:40.00Z",
-    "description": "Streetlight not working!",
-    "picture": "mariorossi-2.jpg"
-}
-{
     "type": "ruined_asphalt",
     "user": "johndoe",
     "coordinates": [44.37032021306061, 12.194437694232056],
@@ -91,13 +83,4 @@
     "open_datetime":"2025-01-15T10:01:00.00Z",
     "status":"closed",
     "close_datetime":"2025-01-15T12:14:31.00Z"
-}
-{
-    "_id":{"$oid":"67975a6f56effddacdd228e1"},
-    "type":"broken_streetlight",
-    "user":"mariorossi",
-    "coordinates":[44.41864209505457,12.14230249607438],
-    "open_datetime":"2025-01-02T15:30:00Z",
-    "description":"The streetlight near the park is not working.",
-    "picture":"mariorossi-1.jpg"
 }
