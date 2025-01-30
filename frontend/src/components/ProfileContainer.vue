@@ -23,7 +23,7 @@ const logout = () => {
 
 const countReports = async () => {
     try {
-        const data = (await axios.get("http://localhost:3000/reports/by-user/mariorossi")).data //TODO cambiare user (mariorossi) con user corrente loggato
+        const data = (await axios.get(`http://localhost:3000/reports/by-user/${authStore.get()?.username}`)).data
         reportsNumber.value = data.length
     } catch (e) {
         console.error(e)

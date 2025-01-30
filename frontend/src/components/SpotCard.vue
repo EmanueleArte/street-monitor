@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { IFavoriteSpot } from '@models/favoriteSpotModel';
-import { onMounted, ref, type PropType } from 'vue';
-import SimpleButton from './buttons/SimpleButton.vue';
+import { type PropType } from 'vue';
+import SimpleButton from '@/components/buttons/SimpleButton.vue';
 import axios from 'axios';
 import { usePositionStore } from '@/stores/position.store';
+import { useAuthStore } from '@/stores/auth.store';
 
 const props = defineProps({
     spot: { type: Object as PropType<IFavoriteSpot>, required: true }
@@ -12,10 +13,11 @@ const props = defineProps({
 const emits = defineEmits(["updateTiles"])
 
 const positionStore = usePositionStore()
+const authStore = useAuthStore()
 
 const deleteSpot = async () => {
     try {
-        const response = await axios.delete(`http://localhost:3000/users/mariorossi/favorites/${props.spot._id}`) //TODO cambiare user (mariorossi) con user corrente loggato
+        const response = await axios.delete(`http://localhost:3000/users/${authStore.get()?.username}/favorites/${props.spot._id}`)
         if(response.status === 200) {
             emits("updateTiles")
         }

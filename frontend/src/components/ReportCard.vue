@@ -63,7 +63,7 @@ function computeReputationColor(reputation: number | undefined): string {
     return "primary-600"
 }
 
-const userReputation = ref<number | undefined>(props.report.user == useAuthStore().get()?.username ? undefined : 0)
+const userReputation = ref<number | undefined>(props.report.user == authStore.get()?.username ? undefined : 0)
 const reputationColor = ref<string>(computeReputationColor(userReputation.value))
 
 </script>
@@ -83,7 +83,7 @@ const reputationColor = ref<string>(computeReputationColor(userReputation.value)
             <h2 class="text-base font-medium capitalize">{{ reportTypeTextConverter(report.type) }}</h2>
 
             <!-- username -->
-            <p v-if="props.report.user != useAuthStore().get()?.username" class="text-black/60">
+            <p v-if="props.report.user != authStore.get()?.username" class="text-black/60">
                 {{ props.report.user }}
                 <span class="ps-1 text-black/40 before:content-['\('] after:content-['\)']">{{ userReputation }}</span>
             </p>

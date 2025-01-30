@@ -8,14 +8,22 @@ import ReportFilter from "@/components/ReportFilter.vue"
 import NewReportTile from "./NewReportTile.vue"
 import { onMounted, ref } from "vue"
 import LeftAside from "@/components/LeftAside.vue"
+import { useAuthStore } from "@/stores/auth.store";
 
 const showMyReports = ref<boolean>(false)
 const showMySpots = ref<boolean>(false)
 const mobile = window.innerWidth <= 768
+const authStore = useAuthStore()
 
 const props = defineProps({
   whatToShow: { type: String, required: false }
 })
+
+const checkLogin = (): void => {
+  if (!authStore.get()) {
+    authStore.logout()
+  }
+}
 
 const checkShow = (): void => {
   switch (props.whatToShow) {
@@ -28,7 +36,10 @@ const checkShow = (): void => {
   }
 }
 
-onMounted(checkShow)
+onMounted(() => {
+  checkLogin()
+  checkShow()
+})
 </script>
 
 <template>
