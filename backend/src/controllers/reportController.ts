@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import reportModel, { IReport } from '../models/reportModel'
+import mongoose from 'mongoose'
 
 export const listReports = (req: Request, res: Response) => {
     reportModel.find()
@@ -15,7 +16,9 @@ export const listReports = (req: Request, res: Response) => {
 }
 
 export const createReport = (req: Request, res: Response) => {
-    const report = new reportModel(req.body)
+    const reportData: IReport = req.body
+    reportData._id = new mongoose.Types.ObjectId()
+    const report = new reportModel(reportData)
     report.save()
         .then((doc: IReport) => {
             res.json(doc)

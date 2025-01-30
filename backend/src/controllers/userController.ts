@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import userModel, { IUser } from '../models/userModel'
-import favoriteSpotModel from '../models/favoriteSpotModel'
+import favoriteSpotModel, { IFavoriteSpot } from '../models/favoriteSpotModel'
 import notificationModel, { INotification } from '../models/notificationModel'
-import { Error } from 'mongoose'
+import mongoose, { Error } from 'mongoose'
 import { MongoServerError } from 'mongodb'
 
 // Users
@@ -112,7 +112,9 @@ export const deleteNotification = (req: Request, res: Response) => {
 
 // Favorite spots
 export const addFavoriteSpot = (req: Request, res: Response) => {
-    const favoriteSpot = new favoriteSpotModel(req.body)
+    const favoriteSpotData: IFavoriteSpot = req.body
+    favoriteSpotData._id = new mongoose.Types.ObjectId()
+    const favoriteSpot = new favoriteSpotModel(favoriteSpotData)
     const validationError = favoriteSpot.validateSync()
 
     if (validationError) {
