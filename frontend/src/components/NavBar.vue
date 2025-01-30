@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import { router } from "@/router"
 import NavButton from "./NavButton.vue"
 import Scale from "@/components/transitions/Scale.vue"
+import type { IFavoriteSpot } from "@models/favoriteSpotModel";
+import axios from "axios";
+import SpotPill from "./SpotPill.vue";
 
 const emit = defineEmits<{
   (e: 'change', page: string): void,
@@ -32,16 +35,35 @@ function openProfilePage() {
 
   }
 }
+
+const mySpots = ref<IFavoriteSpot[]>([])
+
+const listMySpots = async () => {
+    try {
+        const response = await axios.get('http://localhost:3000/users/mariorossi/favorites') //TODO cambiare user (mariorossi) con user corrente loggato
+        mySpots.value = response.data
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+onMounted(listMySpots)
 </script>
 
 <template>
-  <nav class="bg-primary-600 md:bg-transparent fixed top-0 right-0 left-0 z-10 shadow-md shadow-black/40 md:shadow-none text-light">
+  <nav class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-10 shadow-md shadow-black/40 md:shadow-none text-light">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 md:mx-0 md:max-w-none md:px-4">
-      <div class="relative flex h-12 md:items-center md:justify-end md:h-16">
+      <div class="relative flex h-12 md:content-center p-3 md:justify-between md:h-16">
         <!-- Left part | Website name -->
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden" @click="$emit('change', 'home')">
           StreetMonitor
         </div>
+
+        <ul class="gap-2 w-3/4 flex-wrap left-0 content-start hidden md:flex">
+          <li v-for="spot in mySpots" >
+            <SpotPill :spot="spot" />
+          </li>
+        </ul>
 
         <!-- Central part | Website logo -->
         <!-- <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">

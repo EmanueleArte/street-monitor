@@ -26,7 +26,7 @@ onUpdated(checkIfShowMySpots)
 </script>
 
 <template>
-    <BottomButton class="right-6" @click="toggleSpotsVisibility" :text="'My Spots'" />
+    <BottomButton class="right-6 md:hidden" @click="toggleSpotsVisibility" :text="'My Spots'" />
     <SlideFromBottom>
         <div v-if="showSpotsTile" class="container fixed bottom-0 z-20 h-[45%]">
             <FloatingRoundButton
