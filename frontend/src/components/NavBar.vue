@@ -5,7 +5,8 @@ import NavButton from "./NavButton.vue"
 import Scale from "@/components/transitions/Scale.vue"
 import type { IFavoriteSpot } from "@models/favoriteSpotModel";
 import axios from "axios";
-import SpotPill from "./SpotPill.vue";
+import SpotCard from "./SpotCard.vue";
+import MySpotsTile from "./MySpotsTile.vue";
 
 const emit = defineEmits<{
   (e: 'change', page: string): void,
@@ -36,18 +37,6 @@ function openProfilePage() {
   }
 }
 
-const mySpots = ref<IFavoriteSpot[]>([])
-
-const listMySpots = async () => {
-    try {
-        const response = await axios.get('http://localhost:3000/users/mariorossi/favorites') //TODO cambiare user (mariorossi) con user corrente loggato
-        mySpots.value = response.data
-    } catch (e) {
-        console.error(e)
-    }
-}
-
-onMounted(listMySpots)
 </script>
 
 <template>
@@ -58,12 +47,8 @@ onMounted(listMySpots)
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden" @click="$emit('change', 'home')">
           StreetMonitor
         </div>
-
-        <ul class="gap-2 w-3/4 flex-wrap left-0 content-start hidden md:flex">
-          <li v-for="spot in mySpots" >
-            <SpotPill :spot="spot" />
-          </li>
-        </ul>
+        
+        <MySpotsTile class="hidden md:flex gap-2 w-3/4 flex-wrap content-start overflow-y-visible" />
 
         <!-- Central part | Website logo -->
         <!-- <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
