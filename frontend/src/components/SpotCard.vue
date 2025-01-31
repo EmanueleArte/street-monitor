@@ -46,7 +46,7 @@ function handleLeave() {
 </script>
 
 <template>
-    <article class="w-[calc(50%-1rem)] p-3 m-2 rounded-lg bg-surface-component shadow-xl md:hidden">
+    <article class="p-3 m-2 rounded-lg bg-surface-component shadow-xl md:hidden">
         <div class="flex items-center justify-center mb-1 w-full">
             <p class="basis-[80%]">{{ spot.label }}</p>
             <SimpleButton @click="deleteSpot" classes="!bg-surface-component border-none !rounded-lg basis-[20%] !p-0 flex justify-center items-center">
@@ -61,9 +61,9 @@ function handleLeave() {
     <article
         @mouseover="handleHover"
         @mouseleave="handleLeave"
-        class="hidden md:flex bg-surface-default rounded-full text-black text-sm align-baseline md:shadow px-2 py-1
+        class="shrink-0 hidden md:flex bg-surface-default rounded-full text-black text-sm md:shadow px-2 py-1
             md:hover:shadow-md md:hover:bg-surface-component md:hover:text-black/70 min-w-28 gap-2 justify-between">
-        <button @click="moveToSpot">
+        <button @click="moveToSpot" class="text-nowrap">
             {{ pillText }}
         </button>
         <button class="text-error-800" v-if="deleteButtonIsActive" @click="deleteSpot">

@@ -21,9 +21,22 @@ onMounted(listMySpots)
 </script>
 
 <template>
-    <ul class="flex flex-wrap max-h-[100%] overflow-y-auto">
-        <li v-for="spot in mySpots">
+    <ul class="grid grid-cols-2 md:flex max-h-[100%] overflow-y-scroll md:overflow-y-hidden relative md:overflow-x-auto">
+        <li v-for="spot in mySpots" class="flex flex-col justify-center">
             <SpotCard @updateTiles="listMySpots" :spot="spot" />
         </li>
     </ul>
 </template>
+
+<style>
+/* Hide scrollbar for Chrome, Safari and Opera */
+ul::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+ul {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+</style>
