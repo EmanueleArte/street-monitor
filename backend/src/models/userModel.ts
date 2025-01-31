@@ -9,6 +9,7 @@ export interface IUser {
     password: string
     username: string
     reputation: number
+    admin?: boolean
     favorite_spots?: IFavoriteSpot[]
     notifications?: INotification[]
 }
@@ -20,6 +21,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     password: { type: String, required: true },
     username: { type: String, required: true, unique: true, index: true, dropDups: true },
     reputation: { type: Number, required: true },
+    admin: { type: Boolean, required: false },
     favorite_spots: { type: [favoriteSpotSchema], required: false },
     notifications: { type: [notificationSchema], required: false }
 })
