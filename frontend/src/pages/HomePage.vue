@@ -8,6 +8,8 @@ import { ref } from "vue"
 import SlideFromRight from "@/components/transitions/SlideFromRight.vue"
 
 import { useAuthStore } from "@/stores/auth.store"
+import AdminContainer from "@/components/AdminContainer.vue"
+import PopoverPanelWrapper from "@/components/utils/PopoverPanelWrapper.vue"
 
 const authStore = useAuthStore()
 
@@ -37,15 +39,16 @@ const homeContainerShow = (what: string): void => {
 
 <template>
   <NavBar @change="changePage" @open="openPage"/>
-  <HomeContainer v-if="currentPage == 'home'" :whatToShow="whatToShow"/>
-  <NotificationsContainer v-if="currentPage == 'notifications'"/>
-  <ProfileContainer v-if="currentPage == 'profile'" :mobile="true" @showMyReports="homeContainerShow('myReports')" @showMySpots="homeContainerShow('mySpots')" />
-
+  <HomeContainer v-if="currentPage === 'home'" :whatToShow="whatToShow"/>
+  <NotificationsContainer v-if="currentPage === 'notifications'"/>
+  <ProfileContainer v-if="currentPage === 'profile'" @showMyReports="homeContainerShow('myReports')" @showMySpots="homeContainerShow('mySpots')" />
+  <AdminContainer v-if="currentPage === 'admin'"/>
 
   <SlideFromRight>
     <Aside v-if="asidePage">
-      <NotificationsContainer v-if="asidePage == 'notifications'"/>
-      <ProfileContainer v-if="asidePage == 'profile'"/>
+      <NotificationsContainer v-if="asidePage === 'notifications'"/>
+      <ProfileContainer v-if="asidePage === 'profile'"/>
+      <AdminContainer v-if="asidePage === 'admin'"/>
     </Aside>
   </SlideFromRight>
 </template>
