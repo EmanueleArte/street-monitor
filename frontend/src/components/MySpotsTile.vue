@@ -29,12 +29,6 @@ onMounted(listMySpots)
         <li v-for="spot in mySpots" class="flex flex-col justify-center">
             <SpotCard @updateTiles="listMySpots" :spot="spot" />
         </li>
-        <li v-for="spot in mySpots" class="flex flex-col justify-center">
-            <SpotCard @updateTiles="listMySpots" :spot="spot" />
-        </li>
-        <li v-for="spot in mySpots" class="flex flex-col justify-center">
-            <SpotCard @updateTiles="listMySpots" :spot="spot" />
-        </li>
     </ul>
     <p v-if="mySpots.length == 0" class="text-center w-full md:hidden">You don't have any favorite spots.</p>
 </template>
