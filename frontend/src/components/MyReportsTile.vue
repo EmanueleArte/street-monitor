@@ -48,8 +48,8 @@ onMounted(listMyReports)
 </script>
 
 <template>
-  <h1 class="text-xl mb-1">My reports:</h1>
-  <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="`h-full`" :tabPanelsClasses="`h-full`">
+  <h2 class="text-xl mb-1">My reports:</h2>
+  <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="``" :tabPanelsClasses="`h-full`">
     <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
       <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()"/>
     </TabPanel>
