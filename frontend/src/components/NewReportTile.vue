@@ -31,8 +31,9 @@ const handleTransitionCompleted = () => {
 </script>
 
 <template>
-  <!-- <SlideFromBottom>
-    <FloatingRoundButton v-if="!showTile && transitionCompleted" class="z-10 fixed bottom-28 right-4 md:right-8"
+  <!-- Mobile version -->
+  <SlideFromBottom>
+    <FloatingRoundButton v-if="!showTile && transitionCompleted" class="md:hidden z-10 fixed bottom-28 right-4 md:right-8"
                          screenReaderLabel="Open new report tile" @click="toggleTile">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
            class="size-8 stroke-light">
@@ -59,9 +60,10 @@ const handleTransitionCompleted = () => {
         </Tabs>
       </Tile>
     </div>
-  </SlideFromBottom> -->
+  </SlideFromBottom>
 
-  <ul class="md:absolute md:z-10 md:bottom-3 md:right-3 md:flex md:gap-2 flex-row-reverse">
+  <!-- Desktop version -->
+  <ul class="hidden md:absolute md:z-10 md:bottom-3 md:right-3 md:flex md:gap-2 flex-row-reverse">
     <li>
       <SlideFromBottom>
         <SimpleButton v-if="!showTile && transitionCompleted" screenReaderLabel="Open new report tile" @click="() => toggleTile('reports')" >
