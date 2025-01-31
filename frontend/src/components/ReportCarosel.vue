@@ -54,7 +54,7 @@ const updateCarosel = (report: IReport) => {
 <template>
     <section
         v-if="currentReport"
-        class="z-10 absolute h-1/4 bottom-2 left-0 flex w-full md:w-1/3 content-center justify-center overflow-x-hidden md:w-lg md:gap-1 md:rounded-none md:border-0">
+        class="z-10 absolute h-1/4 bottom-2 md:left-1/4 flex w-full md:w-3/4 content-center justify-center md:justify-start overflow-x-hidden md:w-lg md:gap-1 md:rounded-none md:border-0 md:px-3">
         
         <ReportCard
             v-if="previousReport"

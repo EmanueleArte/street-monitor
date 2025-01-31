@@ -41,7 +41,7 @@ function openProfilePage() {
 
 <template>
   <nav class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-10 shadow-md shadow-black/40 md:shadow-none text-light">
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 md:mx-0 md:max-w-none md:px-4">
+    <div class="mx-auto max-w-7xl px-2 md:mx-0 md:max-w-none md:px-0">
       <div class="relative flex h-12 md:content-center p-3 md:justify-between md:h-16">
         <!-- Left part | Website name -->
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden" @click="$emit('change', 'home')">
