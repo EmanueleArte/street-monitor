@@ -14,6 +14,7 @@ import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
+import RecenterMapButton from "./buttons/RecenterMapButton.vue"
 
 const emit = defineEmits(["cancel"])
 
@@ -120,7 +121,7 @@ onMounted(fetchReportTypes)
     </Listbox>
 
     <section>
-      <div class="w-full h-64 mb-8">
+      <div class="w-full h-64 mb-8 relative">
         <SimpleLabel attachTo="position">Position</SimpleLabel>
         <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
              v-model:latLng="latLng"></Map>
@@ -170,7 +171,7 @@ onMounted(fetchReportTypes)
     <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
       <SimpleButton
           :outline=true
-          classes="!bg-surface-default !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
+          classes="!bg-surface-default !text-primary-600 border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
           screenReaderLabel="Cancel new report creation"
           @click="emit('cancel')">
         Cancel

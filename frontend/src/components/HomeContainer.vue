@@ -41,8 +41,6 @@ onMounted(checkShow)
     <MyReports :showMyReports="showMyReports"/>
     <MySpots :showMySpots="showMySpots"/>
 
-    <RecenterMapButton />
-
     <ReportCarosel />
     <LeftAside />
   </div>

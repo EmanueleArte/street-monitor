@@ -10,9 +10,10 @@ import { usePositionStore } from "@/stores/position.store.ts"
 import { coordsEquals } from "@/lib/mapUtility.ts"
 import { useReportStore } from "@/stores/report.store"
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
+import RecenterMapButton from "./buttons/RecenterMapButton.vue"
 
 const reportStore = useReportStore()
-
+const isMobile = ref<boolean>(window.innerWidth < 768)
 const props = defineProps<{
   zoom: number,
   usePosition: boolean,
@@ -123,6 +124,9 @@ onUnmounted(stopWatchingPosition)
         layer-type="base"
         name="OpenStreetMap"
     ></LTileLayer>
+    <LControl :position="isMobile ? 'bottomleft' : 'bottomright'">
+      <RecenterMapButton :forMainMap="props.main" :class="{'md:bottom-20': props.main}" />
+    </LControl>
     <LMarker :lat-lng="usePositionStore().position" :options="{ alt: 'Current position' }"/>
     <CenterPin v-if="!coordsEquals(center, usePositionStore().position)" :center="center"/>
     <LCircle
