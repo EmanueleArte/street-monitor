@@ -33,7 +33,7 @@ const handleTransitionCompleted = () => {
 <template>
   <!-- Mobile version -->
   <SlideFromBottom>
-    <FloatingRoundButton v-if="!showTile && transitionCompleted" class="md:hidden z-10 fixed bottom-28 right-4 md:right-8"
+    <FloatingRoundButton v-if="!showTile && transitionCompleted" class="md:hidden z-10 fixed bottom-28 right-4"
                          screenReaderLabel="Open new report tile" @click="toggleTile">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
            class="size-8 stroke-light">
