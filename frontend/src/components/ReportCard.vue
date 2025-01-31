@@ -70,7 +70,7 @@ const reputationColor = ref<string>(computeReputationColor(userReputation.value)
 
 <template>
     <article
-        class="flex aspect-3/2 rounded-md border-2 bg-surface-default shadow-md my-2 overflow-hidden max-w-80"
+        class="flex aspect-3/2 rounded-md border-2 bg-surface-default shadow-md overflow-hidden max-w-80"
         :class="`border-${reputationColor} shadow-${reputationColor}/60`"    
     >
         <img
