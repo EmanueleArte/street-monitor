@@ -59,6 +59,7 @@ const updateCarosel = (report: IReport) => {
         <ReportCard
             v-if="previousReport"
             :report="previousReport"
+            :previousOrNext="true"
             @click="previousReportHandler"
             class="scale-95 shrink-0 md:hidden" />
 
@@ -67,6 +68,7 @@ const updateCarosel = (report: IReport) => {
         <ReportCard
             v-if="nextReport"
             :report="nextReport"
+            :previousOrNext="true"
             @click="nextReportHandler"
             class="scale-95 shrink-0 md:hidden" />
 

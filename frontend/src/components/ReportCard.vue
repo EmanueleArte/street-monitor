@@ -18,7 +18,8 @@ const authStore = useAuthStore()
 const positionStore = usePositionStore()
 
 const props = defineProps({
-    report: { type: Object as PropType<IReport>, required: true }
+    report: { type: Object as PropType<IReport>, required: true },
+    previousOrNext: { type: Boolean, required: false }
 })
 
 /*
@@ -87,8 +88,21 @@ const reputationColor = ref<string>(computeReputationColor(userReputation.value)
         />
 
         <section class="w-full px-3 py-2 text-sm shadow-md shadow-black/40 flex flex-col gap-2">
-            <h2 class="text-base font-medium capitalize">{{ reportTypeTextConverter(report.type) }}</h2>
+            <!-- title and upvote button in current report and other user report and not in closed reports -->
+            <div v-if="!previousOrNext && authStore.get()?.username != report.user && report.status != 'closed'" class="flex flex-row items-center">
+                <h2 class="text-base font-medium capitalize basis-[80%]">{{ reportTypeTextConverter(report.type) }}</h2>
+            
+                <!-- upvote -->
+                <div class="basis-[20%] flex justify-center">
+                    <SimpleButton class="!p-[0.4rem] text-[0.7rem] size-7">
+                        <img src="@/assets/icons/arrow_up.svg" alt="up arrow" class="up-arrow-img" />
+                    </SimpleButton>
+                </div>
+            </div>
 
+            <!-- only title if previous or next report or current user reports or closed reports -->
+            <h2 v-if="previousOrNext || authStore.get()?.username == report.user || report.status == 'closed'" class="text-base font-medium capitalize">{{ reportTypeTextConverter(report.type) }}</h2>
+                
             <!-- username -->
             <p v-if="props.report.user != authStore.get()?.username" class="text-black/60">
                 {{ props.report.user }}
@@ -167,4 +181,10 @@ const reputationColor = ref<string>(computeReputationColor(userReputation.value)
 </template>
 
 <style scoped lang="scss">
+@use "@/style/vars.scss" as *;
+
+.up-arrow-img {
+    filter: invert(1);
+}
+
 </style>
