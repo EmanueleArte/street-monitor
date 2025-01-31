@@ -78,16 +78,18 @@ const reputationColor = ref<string>(computeReputationColor(userReputation.value)
 
 <template>
     <article
-        class="flex aspect-3/2 rounded-md border-2 bg-surface-default shadow-md my-2 overflow-hidden max-w-80"
+        class="h-fit w-80 flex flex-row rounded-md border-2 bg-surface-default shadow-md my-2 overflow-hidden"
         :class="`border-${reputationColor} shadow-${reputationColor}/60`"    
     >
-        <img
-            :src="report.picture ? `http://localhost:3000/${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
-            alt="report image"
-            class="w-1/3"
-        />
+        <section class="flex-shrink-0">
+            <img
+                :src="report.picture ? `http://localhost:3000/${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
+                alt="report image"
+                class="h-40"
+            />
+        </section>
 
-        <section class="w-full px-3 py-2 text-sm shadow-md shadow-black/40 flex flex-col gap-2">
+        <section class="max-h-40 overflow-y-auto px-3 py-2 text-sm shadow-md shadow-black/40 flex flex-col gap-2">
             <!-- title and upvote button in current report and other user report and not in closed reports -->
             <div v-if="!previousOrNext && authStore.get()?.username != report.user && report.status != 'closed'" class="flex flex-row items-center">
                 <h2 class="text-base font-medium capitalize basis-[80%]">{{ reportTypeTextConverter(report.type) }}</h2>
