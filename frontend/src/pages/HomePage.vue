@@ -41,7 +41,6 @@ const homeContainerShow = (what: string): void => {
   <NotificationsContainer v-if="currentPage == 'notifications'"/>
   <ProfileContainer v-if="currentPage == 'profile'" :mobile="true" @showMyReports="homeContainerShow('myReports')" @showMySpots="homeContainerShow('mySpots')" />
 
-
   <SlideFromRight>
     <Aside v-if="asidePage">
       <NotificationsContainer v-if="asidePage == 'notifications'"/>
