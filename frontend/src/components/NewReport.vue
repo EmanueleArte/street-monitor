@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import mongoose from "mongoose"
 import { computed, onMounted, ref } from "vue"
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue"
 import type { IReportType } from "@models/reportTypeModel.ts"
@@ -52,7 +51,6 @@ const saveDescription = (e: Event) => {
 
 const publishReport = async () => {
   const newReport: IReport = {
-    _id: new mongoose.Types.ObjectId(),
     type: selectedReportType.value?.name,
     user: useAuthStore().get()?.username,
     coordinates: latLng.value,

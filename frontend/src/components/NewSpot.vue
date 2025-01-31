@@ -8,7 +8,6 @@ import axios from "axios"
 import type { IReport } from "@models/reportModel.ts"
 import type { IFavoriteSpot } from "@models/favoriteSpotModel.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
-import mongoose from "mongoose"
 import FormInput from "@/components/inputs/FormInput.vue"
 
 const emit = defineEmits(["cancel"])
@@ -20,7 +19,6 @@ const label = ref<string>("")
 
 const saveSpot = () => {
   const newSpot: IFavoriteSpot = {
-    _id: new mongoose.Types.ObjectId(),
     label: label.value !== "" ? label.value : "Favorite spot",
     coordinates: latLng.value,
   } as IFavoriteSpot
