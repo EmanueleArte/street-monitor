@@ -23,5 +23,6 @@ onMounted(listMySpots)
 <template>
     <div class="flex flex-wrap max-h-[100%] overflow-y-auto">
         <SpotCard @updateTiles="listMySpots" v-for="spot in mySpots" :spot="spot" />
+        <p v-if="mySpots.length == 0" class="text-center w-full">You don't have any favorite spots.</p>
     </div>
 </template>
