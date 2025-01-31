@@ -48,7 +48,9 @@ function openProfilePage() {
           StreetMonitor
         </div>
         
-        <MySpotsTile class="hidden md:flex gap-2 content-start" />
+        <div class="hidden md:flex gap-2 content-start w-4/5">
+          <MySpotsTile />
+        </div>
 
         <!-- Central part | Website logo -->
         <!-- <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">

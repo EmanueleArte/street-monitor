@@ -11,12 +11,15 @@ import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 import PopoverPanelWrapper from './utils/PopoverPanelWrapper.vue';
 import SimpleButton from './buttons/SimpleButton.vue';
 import axios from 'axios';
+import { usePositionStore } from '@/stores/position.store';
 
 const emit = defineEmits(["updateTiles"])
 const authStore = useAuthStore()
+const positionStore = usePositionStore()
 
 const props = defineProps({
-    report: { type: Object as PropType<IReport>, required: true }
+    report: { type: Object as PropType<IReport>, required: true },
+    previousOrNext: { type: Boolean, required: false }
 })
 
 /*
@@ -45,6 +48,11 @@ const changeStatus = async () => {
     }
 }
 
+const moveToReport = () => {
+    positionStore.setFlyMainMap(true)
+    positionStore.move(props.report.coordinates)
+}
+
 const reportTypeTextConverter = (t: string): string => {
     return t.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
@@ -63,7 +71,7 @@ function computeReputationColor(reputation: number | undefined): string {
     return "primary-600"
 }
 
-const userReputation = ref<number | undefined>(props.report.user == useAuthStore().get()?.username ? undefined : 0)
+const userReputation = ref<number | undefined>(props.report.user == authStore.get()?.username ? undefined : 0)
 const reputationColor = ref<string>(computeReputationColor(userReputation.value))
 
 </script>
@@ -80,10 +88,26 @@ const reputationColor = ref<string>(computeReputationColor(userReputation.value)
         />
 
         <section class="w-full px-3 py-2 text-sm shadow-md shadow-black/40 flex flex-col gap-2">
-            <h2 class="text-base font-medium capitalize">{{ reportTypeTextConverter(report.type) }}</h2>
+            <!-- title and upvote button in current report and other user report and not in closed reports -->
+            <div v-if="!previousOrNext && authStore.get()?.username != report.user && report.status != 'closed'" class="flex flex-row items-center">
+                <h2 class="text-base font-medium capitalize basis-[80%]">{{ reportTypeTextConverter(report.type) }}</h2>
+            
+                <!-- upvote -->
+                <div class="basis-[20%] flex justify-center">
+                    <SimpleButton class="!p-0 size-7 flex items-center justify-center">
+                        <!--img src="@/assets/icons/arrow_up.svg" alt="up arrow" class="up-arrow-img" /-->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-4 h-4">
+                            <path d="M12 2l-10 10h6v10h8v-10h6z"/>
+                        </svg>
+                    </SimpleButton>
+                </div>
+            </div>
 
+            <!-- only title if previous or next report or current user reports or closed reports -->
+            <h2 v-if="previousOrNext || authStore.get()?.username == report.user || report.status == 'closed'" class="text-base font-medium capitalize">{{ reportTypeTextConverter(report.type) }}</h2>
+                
             <!-- username -->
-            <p v-if="props.report.user != useAuthStore().get()?.username" class="text-black/60">
+            <p v-if="props.report.user != authStore.get()?.username" class="text-black/60">
                 {{ props.report.user }}
                 <span class="ps-1 text-black/40 before:content-['\('] after:content-['\)']">{{ userReputation }}</span>
             </p>
@@ -97,9 +121,9 @@ const reputationColor = ref<string>(computeReputationColor(userReputation.value)
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 my-auto">
                             <path fill-rule="evenodd" d="m7.539 14.841.003.003.002.002a.755.755 0 0 0 .912 0l.002-.002.003-.003.012-.009a5.57 5.57 0 0 0 .19-.153 15.588 15.588 0 0 0 2.046-2.082c1.101-1.362 2.291-3.342 2.291-5.597A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082 8.916 8.916 0 0 0 .189.153l.012.01ZM8 8.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clip-rule="evenodd" />
                         </svg>
-                        <a class="cursor-pointer text-primary-600 my-auto">
+                        <p @click="moveToReport" class="cursor-pointer text-primary-600 my-auto">
                             {{ coordinatesConverter(props.report.coordinates) }}
-                        </a>
+                        </p>
                     </div>
                     <!-- <ChangeStatusButton v-if="report.status!='closed'" :report="report" @changeStatus="changeStatus" /> -->
                     <SimpleButton
@@ -160,4 +184,10 @@ const reputationColor = ref<string>(computeReputationColor(userReputation.value)
 </template>
 
 <style scoped lang="scss">
+@use "@/style/vars.scss" as *;
+
+.up-arrow-img {
+    filter: invert(1);
+}
+
 </style>

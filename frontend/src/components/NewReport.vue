@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import mongoose from "mongoose"
 import { computed, onMounted, ref } from "vue"
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue"
 import type { IReportType } from "@models/reportTypeModel.ts"
@@ -53,7 +52,6 @@ const saveDescription = (e: Event) => {
 
 const publishReport = async () => {
   const newReport: IReport = {
-    _id: new mongoose.Types.ObjectId(),
     type: selectedReportType.value?.name,
     user: useAuthStore().get()?.username,
     coordinates: latLng.value,
@@ -66,7 +64,6 @@ const publishReport = async () => {
   }
   emit("cancel")
   axios.post<IReport>(`http://localhost:3000/reports`, newReport)
-      .then((res) => console.log(res.data))
       .catch((e) => console.error(e))
 }
 
@@ -171,7 +168,6 @@ onMounted(fetchReportTypes)
     <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
       <SimpleButton
           :outline=true
-          classes="!bg-surface-default !text-primary-600 border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
           screenReaderLabel="Cancel new report creation"
           @click="emit('cancel')">
         Cancel

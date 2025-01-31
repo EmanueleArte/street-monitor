@@ -8,7 +8,6 @@ import axios from "axios"
 import type { IReport } from "@models/reportModel.ts"
 import type { IFavoriteSpot } from "@models/favoriteSpotModel.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
-import mongoose from "mongoose"
 import FormInput from "@/components/inputs/FormInput.vue"
 
 const emit = defineEmits(["cancel"])
@@ -20,12 +19,10 @@ const label = ref<string>("")
 
 const saveSpot = () => {
   const newSpot: IFavoriteSpot = {
-    _id: new mongoose.Types.ObjectId(),
     label: label.value !== "" ? label.value : "Favorite spot",
     coordinates: latLng.value,
   } as IFavoriteSpot
   axios.post<IReport>(`http://localhost:3000/users/${useAuthStore().get()?.username}/favorites`, newSpot)
-      .then((res) => console.log(res.data))
       .catch((e) => console.error(e))
   emit("cancel")
 }
@@ -69,7 +66,6 @@ const saveSpot = () => {
         class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
       <SimpleButton
           :outline=true
-          classes="!bg-surface-default !text-primary-600 border border-primary-600 hover:!bg-primary-100 hover:border-primary-700 hover:!text-primary-700"
           screenReaderLabel="Cancel favorite spot creation"
           @click="emit('cancel')">
         Cancel

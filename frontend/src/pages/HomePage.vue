@@ -44,7 +44,7 @@ const homeContainerShow = (what: string): void => {
   <SlideFromRight>
     <Aside v-if="asidePage">
       <NotificationsContainer v-if="asidePage == 'notifications'"/>
-      <ProfileContainer v-if="asidePage == 'profile'" :mobile="false" />
+      <ProfileContainer v-if="asidePage == 'profile'"/>
     </Aside>
   </SlideFromRight>
 </template>
