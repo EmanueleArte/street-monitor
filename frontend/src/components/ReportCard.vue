@@ -206,7 +206,7 @@ function computeReputationColor(reputation: number | undefined): string {
                     </div><!-- /dates -->
                 </div>
 
-                <p v-if="report.description" class="max-h-14 mt-2 w-full overflow-auto rounded-sm bg-slate-200 px-2 py-1 text-slate-800">
+                <p v-if="report.description" class="max-h-14 mt-2 max-w-[50vw] overflow-auto rounded-sm bg-slate-200 px-2 py-1 text-slate-800">
                     {{ report.description }}
                 </p>
             </div>
