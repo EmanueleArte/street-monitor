@@ -20,9 +20,9 @@ const openPanel = ref<Panels | null>(null)
 
 function openAdminPage() {
   if (window.innerWidth <= 768) { // md
-    emit('change', 'admin')
+    emit('change', Panels.ADMIN)
   } else {
-    emit('open', 'admin')
+    emit('open', Panels.ADMIN)
     if (openPanel.value === Panels.ADMIN) {
       openPanel.value = null
     } else {
@@ -33,9 +33,9 @@ function openAdminPage() {
 
 function openNotificationsPage() {
   if (window.innerWidth <= 768) { // md
-    emit('change', 'notifications')
+    emit('change', Panels.NOTIFICATIONS)
   } else {
-    emit('open', 'notifications')
+    emit('open', Panels.NOTIFICATIONS)
     if (openPanel.value === Panels.NOTIFICATIONS) {
       openPanel.value = null
     } else {
@@ -46,9 +46,9 @@ function openNotificationsPage() {
 
 function openProfilePage() {
   if (window.innerWidth <= 768) { // md
-    emit('change', 'profile')
+    emit('change', Panels.PROFILE)
   } else {
-    emit('open', 'profile')
+    emit('open', Panels.PROFILE)
     if (openPanel.value === Panels.PROFILE) {
       openPanel.value = null
     } else {

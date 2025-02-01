@@ -6,6 +6,14 @@ export function formatUnderscoredString(input: string | undefined): string {
     return formatted.charAt(0).toUpperCase() + formatted.slice(1)
 }
 
+export function formatToUnderscored(input: string | undefined): string {
+    if (!input) {
+        return ""
+    }
+    const formatted = input.replace(/ /g, "_")
+    return formatted.charAt(0).toLowerCase() + formatted.slice(1)
+}
+
 export const base64ToBlob = (base64: string): Blob => {
     const [prefix, base64Data] = base64.split(",")
     const byteString = atob(base64Data)
