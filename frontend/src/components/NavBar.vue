@@ -2,7 +2,8 @@
 import { ref } from "vue"
 import NavButton from "./NavButton.vue"
 import Scale from "@/components/transitions/Scale.vue"
-import { useAuthStore } from "@/stores/auth.store.ts"
+import MySpotsTile from "./MySpotsTile.vue"
+import { useAuthStore } from "@/stores/auth.store"
 
 const emit = defineEmits<{
   (e: 'change', page: string): void,
@@ -55,16 +56,20 @@ function openProfilePage() {
     }
   }
 }
+
 </script>
 
 <template>
-  <nav
-      class="bg-primary-600 md:bg-transparent fixed top-0 right-0 left-0 z-10 shadow-md shadow-black/40 md:shadow-none text-light">
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 md:mx-0 md:max-w-none md:px-4">
-      <div class="relative flex h-12 md:items-center md:justify-end md:h-16">
+  <nav class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-10 shadow-md shadow-black/40 md:shadow-none text-light">
+    <div class="mx-auto max-w-7xl px-2 md:mx-0 md:max-w-none md:px-0">
+      <div class="relative flex h-12 md:content-center p-3 md:justify-between md:h-16">
         <!-- Left part | Website name -->
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden" @click="$emit('change', 'home')">
           StreetMonitor
+        </div>
+        
+        <div class="hidden md:flex gap-2 content-start w-4/5">
+          <MySpotsTile />
         </div>
 
         <!-- Central part | Website logo -->

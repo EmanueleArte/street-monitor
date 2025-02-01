@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import MyReportsTile from './MyReportsTile.vue';
-//import ReportFilter from './ReportFilter.vue';
+import ReportFilter from './ReportFilter.vue';
 
 </script>
 
 <template>
-    <aside class="absolute w-96 bg-surface-default top-5 bottom-5 left-3 shadow-lg overflow-auto rounded-lg">
-        <section>
-            <!--ReportFilter /-->
-        </section>
-        <section class="ml-1 mt-1">
-            <MyReportsTile />
-        </section>
-    </aside>
+    <section class="flex md:absolute top-0 h-full w-1/4 z-20 md:p-3">
+        <aside class="hidden p-3 md:flex md:flex-col z-10 h-full w-full bg-surface-default overflow-hidden rounded-lg shadow gap-y-2">
+            <h1 class="text-2xl text-primary-600 font-medium">StreetMonitor</h1>
+            <section>
+                <h2>Map filters</h2>
+                <ReportFilter />
+            </section>
+            <section class="ml-1 mt-1 hidden">
+                <MyReportsTile />
+            </section>
+        </aside>
+    </section>
 </template>

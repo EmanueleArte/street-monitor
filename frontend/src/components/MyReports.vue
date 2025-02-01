@@ -26,7 +26,7 @@ onUpdated(checkIfShowMyReports)
 </script>
 
 <template>
-  <BottomButton class="left-6" @click="toggleReportsVisibility" :text="'My Reports'" />
+  <BottomButton class="left-4 md:hidden" @click="toggleReportsVisibility" :text="'My Reports'" />
   <SlideFromBottom>
     <div v-if="showReportTile" class="container fixed bottom-0 z-20 h-[60%]">
       <FloatingRoundButton
@@ -38,7 +38,7 @@ onUpdated(checkIfShowMyReports)
                 d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
       </FloatingRoundButton>
-      <Tile class="h-[100%] z-10 p-2 pb-0">
+      <Tile class="h-full flex flex-col z-10 p-2 pb-0 outline outline-emerald-600">
         <MyReportsTile/>
       </Tile>
     </div>

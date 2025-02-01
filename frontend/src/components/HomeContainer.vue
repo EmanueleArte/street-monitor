@@ -9,10 +9,10 @@ import NewReportTile from "./NewReportTile.vue"
 import { onMounted, ref } from "vue"
 import LeftAside from "@/components/LeftAside.vue"
 import { useAuthStore } from "@/stores/auth.store";
+import ReportFilterContainer from "./ReportFilterContainer.vue";
 
 const showMyReports = ref<boolean>(false)
 const showMySpots = ref<boolean>(false)
-const mobile = window.innerWidth <= 768
 const authStore = useAuthStore()
 
 const props = defineProps({
@@ -45,13 +45,13 @@ onMounted(() => {
 <template>
   <div class="homeContainer w-screen h-screen">
     <Map class="z-0" :zoom="12" :usePosition=true :main=true></Map>
-    <ReportFilter v-if="mobile"/>
-    <NewReportTile v-if="mobile"/>
-    <MyReports v-if="mobile" :showMyReports="showMyReports"/>
-    <MySpots v-if="mobile" :showMySpots="showMySpots"/>
+    <ReportFilterContainer class="md:hidden"/>
+    <NewReportTile />
+    <MyReports :showMyReports="showMyReports"/>
+    <MySpots :showMySpots="showMySpots"/>
 
-    <LeftAside v-if="!mobile"/>
     <ReportCarosel />
+    <LeftAside />
   </div>
 </template>
 

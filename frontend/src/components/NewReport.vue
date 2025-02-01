@@ -13,6 +13,7 @@ import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
+import RecenterMapButton from "./buttons/RecenterMapButton.vue"
 
 const emit = defineEmits(["cancel"])
 
@@ -117,7 +118,7 @@ onMounted(fetchReportTypes)
     </Listbox>
 
     <section>
-      <div class="w-full h-64 mb-8">
+      <div class="w-full h-64 mb-8 relative">
         <SimpleLabel attachTo="position">Position</SimpleLabel>
         <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
              v-model:latLng="latLng"></Map>
@@ -161,7 +162,7 @@ onMounted(fetchReportTypes)
     <section>
       <SimpleLabel attachTo="description">Description</SimpleLabel>
       <textarea id="description" @input="saveDescription"
-                class="w-full h-24 rounded-lg p-2 mt-0.5 border bg-surface-component border duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"></textarea>
+                class="w-full h-24 rounded-lg p-2 mt-0.5 border bg-surface-component duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"></textarea>
     </section>
 
     <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
