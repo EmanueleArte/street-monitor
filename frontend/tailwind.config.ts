@@ -20,6 +20,10 @@ export default {
           400: colors.red[400],
           800: colors.red[800]
         },
+        success: {
+          400: colors.green[400],
+          800: colors.green[800]
+        },
         light: '#fafafa'
       }
     },

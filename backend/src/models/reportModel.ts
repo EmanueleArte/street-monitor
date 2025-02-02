@@ -9,9 +9,10 @@ export interface IReport extends Document {
     coordinates: [number, number],
     open_datetime: Date,
     status: string,
-    close_datetime: Date,
-    description: string,
-    picture: string
+    close_datetime?: Date,
+    description?: string,
+    picture?: string,
+    upvotes?: IUser[]
 }
 
 const reportSchema: Schema<IReport> = new Schema<IReport>({
@@ -23,7 +24,8 @@ const reportSchema: Schema<IReport> = new Schema<IReport>({
     status: { type: String, required: true, enum: ['open', 'solving', 'closed'], default: 'open' },
     close_datetime: { type: Date, required: false },
     description: { type: String, required: false },
-    picture: { type: String, required: false }
+    picture: { type: String, required: false },
+    upvotes: { type: [String], required: false }
 })
 
 reportSchema.index({ coordinates: '2dsphere' })

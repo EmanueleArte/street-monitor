@@ -5,17 +5,21 @@
 // border-emerald-600 shadow-emerald-600/60
 import { useAuthStore } from '@/stores/auth.store';
 import type { IReport } from '@models/reportModel';
-import { ref, type PropType } from 'vue';
+import { onMounted, ref, watch, type PropType } from 'vue';
 import { formatDate } from '@/lib/stringUtility';
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+import { Popover, PopoverButton } from '@headlessui/vue';
 import PopoverPanelWrapper from './utils/PopoverPanelWrapper.vue';
 import SimpleButton from './buttons/SimpleButton.vue';
 import axios from 'axios';
 import { usePositionStore } from '@/stores/position.store';
+import type { IUser } from '@models/userModel';
 
 const emit = defineEmits(["updateTiles"])
 const authStore = useAuthStore()
 const positionStore = usePositionStore()
+const user = ref<IUser>()
+//const userReputation = ref<number | undefined>(props.report.user == authStore.get()?.username ? undefined : 0)
+const reputationColor = ref<string>(computeReputationColor(user.value?.reputation || 0))//userReputation.value))
 
 const props = defineProps({
     report: { type: Object as PropType<IReport>, required: true },
@@ -48,6 +52,30 @@ const changeStatus = async () => {
     }
 }
 
+const upvote = async () => {
+    try {
+        props.report.upvotes?.push(authStore.get()?.username)
+        await axios.put(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
+        if (user.value) {
+            user.value.reputation += 1
+            await axios.put(`http://localhost:3000/users/${props.report.user}`, user.value)
+        }
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+watch(() => props.report.user, async (reportUser) => {
+    if (!reportUser) return
+    try {
+        const response = await axios.get(`http://localhost:3000/users/${reportUser}`)
+        user.value = response.data
+        reputationColor.value = computeReputationColor(user.value?.reputation || 0)
+    } catch (e) {
+        console.error(e)
+    }
+}, { immediate: true })
+
 const moveToReport = () => {
     positionStore.setFlyMainMap(true)
     positionStore.move(props.report.coordinates)
@@ -70,10 +98,6 @@ function roundNumber(num: number, decimals: number): number {
 function computeReputationColor(reputation: number | undefined): string {
     return "primary-600"
 }
-
-const userReputation = ref<number | undefined>(props.report.user == authStore.get()?.username ? undefined : 0)
-const reputationColor = ref<string>(computeReputationColor(userReputation.value))
-
 </script>
 
 <template>
@@ -96,12 +120,18 @@ const reputationColor = ref<string>(computeReputationColor(userReputation.value)
             
                 <!-- upvote -->
                 <div class="basis-[20%] flex justify-center">
-                    <SimpleButton class="!p-0 size-7 flex items-center justify-center">
+                    <!-- button if not upvoted yet -->
+                    <SimpleButton v-if="!props.report.upvotes?.includes(authStore.get()?.username)" @click="upvote" class="!p-0 size-7 flex items-center justify-center">
                         <!--img src="@/assets/icons/arrow_up.svg" alt="up arrow" class="up-arrow-img" /-->
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-4 h-4">
                             <path d="M12 2l-10 10h6v10h8v-10h6z"/>
                         </svg>
                     </SimpleButton>
+
+                    <!-- only svg if already upvoted -->
+                    <svg v-if="props.report.upvotes?.includes(authStore.get()?.username)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-primary-600 w-4 h-4">
+                        <path d="M12 2l-10 10h6v10h8v-10h6z"/>
+                    </svg>
                 </div>
             </div>
 
@@ -111,7 +141,7 @@ const reputationColor = ref<string>(computeReputationColor(userReputation.value)
             <!-- username -->
             <p v-if="props.report.user != authStore.get()?.username" class="text-black/60">
                 {{ props.report.user }}
-                <span class="ps-1 text-black/40 before:content-['\('] after:content-['\)']">{{ userReputation }}</span>
+                <span class="ps-1 text-black/40 before:content-['\('] after:content-['\)']">{{ user?.reputation || 0 }}</span>
             </p>
 
             <div class="flex flex-col">

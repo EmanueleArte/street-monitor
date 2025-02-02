@@ -3,3 +3,8 @@ export enum ReportStatus {
     SOLVING = "solving",
     CLOSED = "closed"
 }
+
+export enum OperationResults {
+    SUCCESS = "Operation completed successfully",
+    FAILURE = "Operation failed"
+}
