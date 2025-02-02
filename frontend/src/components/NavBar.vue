@@ -140,3 +140,9 @@ function openProfilePage() {
 
 
 </template>
+
+<style scoped lang="scss">
+.z-100 {
+  z-index: 100;
+}
+</style>

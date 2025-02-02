@@ -55,5 +55,9 @@ export const useAuthStore = defineStore('auth', () => {
         return user && username === user.username
     }
 
-    return {login, logout, register, get, isLoggedIn}
+    function isAdmin(): boolean {
+        return user && user.admin === true
+    }
+
+    return {login, logout, register, get, isLoggedIn, isAdmin}
 })

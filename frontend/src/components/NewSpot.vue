@@ -9,6 +9,8 @@ import type { IReport } from "@models/reportModel.ts"
 import type { IFavoriteSpot } from "@models/favoriteSpotModel.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
+import DialogWrapper from "@/components/utils/DialogWrapper.vue"
+import { OperationResults } from "@/lib/vars.ts"
 
 const emit = defineEmits(["cancel"])
 
@@ -17,19 +19,46 @@ const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])
 const zoom: number = 12
 const label = ref<string>("")
 
+const results = ref<{ success: boolean, title: string, content: string }[]>([])
+
+function addResult(success: boolean, title: string, content: string): void {
+  results.value.push({ success, title, content })
+}
+
 const saveSpot = () => {
   const newSpot: IFavoriteSpot = {
     label: label.value !== "" ? label.value : "Favorite spot",
     coordinates: latLng.value,
   } as IFavoriteSpot
   axios.post<IReport>(`http://localhost:3000/users/${useAuthStore().get()?.username}/favorites`, newSpot)
-      .catch((e) => console.error(e))
-  emit("cancel")
+      .then(() => {
+        addResult(true, OperationResults.SUCCESS, "Favorite spot added successfully")
+      })
+      .catch((e) => {
+        console.error(e)
+        addResult(false, OperationResults.FAILURE, "An error occurred while adding favorite spot")
+      })
 }
 </script>
 
 <template>
   <div class="p-4 pb-20 space-y-2">
+    <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="() => {
+      if (dialog.success) {
+        emit('cancel')
+      }
+      results.splice(0, 1)
+    }">
+      <template v-slot:title>
+        <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
+          {{ dialog.title }}
+        </div>
+      </template>
+      <template v-slot:content>
+        {{ dialog.content }}
+      </template>
+    </DialogWrapper>
+
     <h1 class="text-2xl">Insert a new favorite spot</h1>
 
     <section class="pt-1">

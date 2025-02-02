@@ -1,8 +1,8 @@
 <script setup lang="ts">
-// border-primary-600 shadow-primary-600/60
-// border-red-600 shadow-red-600/60
-// border-amber-600 shadow-amber-600/60
-// border-emerald-600 shadow-emerald-600/60
+// border-primary-600
+// border-red-600
+// border-amber-600
+// border-emerald-600
 import { useAuthStore } from '@/stores/auth.store';
 import type { IReport } from '@models/reportModel';
 import { onMounted, ref, watch, type PropType } from 'vue';
@@ -33,7 +33,7 @@ Altrimenti, notifica il proprietario del report
 const changeStatus = async () => {
     if (props.report.status === 'closed') return
 
-    if (authStore.isLoggedIn(props.report.user)) {
+    if (authStore.isLoggedIn(props.report.user) || authStore.isAdmin()) {
         try {
             props.report.status = props.report.status === 'open' ? 'solving' : 'closed'
             if (props.report.status === 'closed') {
@@ -102,8 +102,8 @@ function computeReputationColor(reputation: number | undefined): string {
 
 <template>
     <article
-        class="h-fit aspect-3/2 flex flex-row rounded-md border-2 bg-surface-default shadow-md my-2 overflow-hidden"
-        :class="`border-${reputationColor} shadow-${reputationColor}/60`"    
+        class="h-fit aspect-3/2 flex flex-row rounded-md border-2 bg-surface-default my-2 overflow-hidden"
+        :class="`border-${reputationColor}`"    
     >
         <section class="flex-shrink-0">
             <img

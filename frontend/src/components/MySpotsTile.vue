@@ -9,19 +9,28 @@ const mySpots = ref<IFavoriteSpot[]>([])
 const authStore = useAuthStore()
 
 const listMySpots = async () => {
-    try {
-        const response = await axios.get(`http://localhost:3000/users/${authStore.get()?.username}/favorites`)
-        mySpots.value = response.data
-    } catch (e) {
-        console.error(e)
-    }
+  try {
+    const response = await axios.get(`http://localhost:3000/users/${authStore.get()?.username}/favorites`)
+    mySpots.value = response.data
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 onMounted(listMySpots)
 </script>
 
 <template>
-    <ul class="
+
+  <!-- <div class="p-4">
+    <h1 class="text-2xl">My favorite spots:</h1>
+
+    <div class="flex flex-wrap max-h-[100%] overflow-y-auto mt-2 pb-4">
+      <SpotCard @updateTiles="listMySpots" v-for="spot in mySpots" :spot="spot" />
+      <p v-if="mySpots.length == 0" class="text-center w-full mt-6">You don't have any favorite spots.</p>
+    </div>
+  </div> -->
+  <ul class="
     grid grid-cols-2 gap-2 content-start relative pe-0.5
     max-h-[100%] overflow-y-scroll
     md:flex md:overflow-y-hidden md:overflow-x-auto
@@ -36,12 +45,14 @@ onMounted(listMySpots)
 <style>
 /* Hide scrollbar for Chrome, Safari and Opera */
 ul::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
 ul {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 </style>
