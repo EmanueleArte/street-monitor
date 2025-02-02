@@ -46,7 +46,7 @@ const handleTransitionCompleted = () => {
         </svg>
       </FloatingRoundButton>
       <Tile class="bottom-0 h-[85vh] overflow-auto md:h-[80vh]">
-        <Tabs :tabs="contents" :toggleTabList="() => {}">
+        <Tabs :tabs="contents" :toggleTabList="() => {}" topDivClasses="!pt-6">
           <TabPanel>
             <NewReport @cancel="toggleTile"/>
           </TabPanel>

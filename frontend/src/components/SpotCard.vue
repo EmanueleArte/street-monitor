@@ -33,7 +33,7 @@ const moveToSpot = () => {
 </script>
 
 <template>
-    <article class="w-[calc(50%-1rem)] p-3 m-2 rounded-lg bg-surface-component shadow-xl">
+    <article class="w-[calc(50%-1rem)] p-3 m-2 rounded-lg bg-surface-component shadow-lg">
         <div class="flex items-center justify-center mb-1 w-full">
             <p class="basis-[80%]">{{ spot.label }}</p>
             <SimpleButton @click="deleteSpot" class="!bg-surface-component border-none !rounded-lg basis-[20%] !p-0 flex justify-center items-center">

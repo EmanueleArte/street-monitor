@@ -15,7 +15,7 @@ const emit = defineEmits(["onCompleted"])
   }
 
   &-enter-from, &-leave-to {
-    transform: translateY(100%);
+    transform: translateY(110%);
   }
 }
 </style>
