@@ -73,7 +73,7 @@ onMounted(fetchReportTypes)
 
 <template>
   <section class="p-4 mt-10 pt-7  h-full md:m-0 md:pt-4">
-    <DialogWrapper v-for="dialog in results" :key="dialog.content">
+    <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="results.splice(0, 1)">
       <template v-slot:title>
         <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
           {{ dialog.title }}
@@ -146,7 +146,15 @@ onMounted(fetchReportTypes)
                    @input="updatedReportType.new = $event.target.value"
                    class="w-full"/>
         <div class="flex justify-end">
-          <SimpleButton @click="updateReportType" class="mt-1 border border-primary-600 hover:border-primary-700">Update
+          <SimpleButton
+              @click="() => {
+                if (updatedReportType.new !== '') {
+                  updateReportType()
+                } else {
+                  addResult(false, 'Report type could not be updated', OperationResults.FAILURE)
+                  }
+              }"
+              class="mt-1 border border-primary-600 hover:border-primary-700">Update
           </SimpleButton>
         </div>
       </div>

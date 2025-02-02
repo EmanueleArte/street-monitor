@@ -13,6 +13,8 @@ import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
+import DialogWrapper from "@/components/utils/DialogWrapper.vue"
+import { OperationResults } from "@/lib/vars.ts"
 
 const emit = defineEmits(["cancel"])
 
@@ -49,6 +51,12 @@ const saveDescription = (e: Event) => {
   description.value = target.value
 }
 
+const results = ref<{ success: boolean, title: string, content: string }[]>([])
+
+function addResult(success: boolean, title: string, content: string): void {
+  results.value.push({ success, title, content })
+}
+
 const publishReport = async () => {
   const newReport: IReport = {
     type: selectedReportType.value?.name,
@@ -61,9 +69,14 @@ const publishReport = async () => {
   if (image.value) {
     newReport.picture = await blobToBase64(image.value)
   }
-  emit("cancel")
   axios.post<IReport>(`http://localhost:3000/reports`, newReport)
-      .catch((e) => console.error(e))
+      .then(() => {
+        addResult(true, OperationResults.SUCCESS, "Report successfully published")
+      })
+      .catch((e) => {
+        console.error(e)
+        addResult(false, OperationResults.FAILURE, "An error occurred while publishing the report")
+      })
 }
 
 onMounted(fetchReportTypes)
@@ -71,6 +84,22 @@ onMounted(fetchReportTypes)
 
 <template>
   <div class="p-4 pb-20 space-y-2">
+    <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="() => {
+      if (dialog.success) {
+        emit('cancel')
+      }
+      results.splice(0, 1)
+    }">
+      <template v-slot:title>
+        <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
+          {{ dialog.title }}
+        </div>
+      </template>
+      <template v-slot:content>
+        {{ dialog.content }}
+      </template>
+    </DialogWrapper>
+
     <h1 class="text-2xl">Insert a new report</h1>
 
     <Listbox v-model="selectedReportType" class="z-10">
@@ -164,7 +193,8 @@ onMounted(fetchReportTypes)
                 class="w-full h-24 rounded-lg p-2 mt-0.5 border bg-surface-component border duration-300 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 sm:text-sm"></textarea>
     </section>
 
-    <section class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
+    <section
+        class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
       <SimpleButton
           :outline=true
           screenReaderLabel="Cancel new report creation"
