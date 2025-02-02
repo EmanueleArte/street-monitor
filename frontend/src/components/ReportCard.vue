@@ -33,7 +33,7 @@ Altrimenti, notifica il proprietario del report
 const changeStatus = async () => {
     if (props.report.status === 'closed') return
 
-    if (authStore.isLoggedIn(props.report.user)) {
+    if (authStore.isLoggedIn(props.report.user) || authStore.isAdmin()) {
         try {
             props.report.status = props.report.status === 'open' ? 'solving' : 'closed'
             if (props.report.status === 'closed') {
