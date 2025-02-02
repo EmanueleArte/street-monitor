@@ -128,7 +128,7 @@ onUnmounted(stopWatchingPosition)
         layer-type="base"
         name="OpenStreetMap"
     ></LTileLayer>
-    <LControl position="bottomleft">
+    <LControl v-if="!latLng" position="bottomleft">
       <FloatingRoundButton class="fixed top-52 z-50" @click="recenterToPosition"
                            screenReaderLabel="Center to current position">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="1.5"
