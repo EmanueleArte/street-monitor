@@ -11,7 +11,7 @@
 <style scoped lang="scss">
 .slide-right {
   &-enter-active, &-leave-active {
-    transition: transform 0.5s;
+    transition: transform 0.4s;
   }
 
   &-enter-from, &-leave-to {

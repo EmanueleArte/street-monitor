@@ -59,7 +59,7 @@ function openProfilePage() {
 
 <template>
   <nav
-      class="bg-primary-600 md:bg-transparent fixed top-0 right-0 left-0 z-10 shadow-md shadow-black/40 md:shadow-none text-light">
+      class="bg-primary-600 md:bg-transparent fixed top-0 right-0 left-0 z-100 shadow-sm shadow-black/40 md:shadow-none text-light">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 md:mx-0 md:max-w-none md:px-4">
       <div class="relative flex h-12 md:items-center md:justify-end md:h-16">
         <!-- Left part | Website name -->
@@ -135,3 +135,9 @@ function openProfilePage() {
 
 
 </template>
+
+<style scoped lang="scss">
+.z-100 {
+  z-index: 100;
+}
+</style>

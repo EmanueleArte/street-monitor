@@ -72,7 +72,7 @@ onMounted(fetchReportTypes)
 </script>
 
 <template>
-  <section class="p-4 mt-10 pt-7  h-full md:m-0 md:pt-4">
+  <section class="h-screen w-screen fixed top-12 bg-surface-default z-50 p-4 pt-7 md:relative md:h-full md:w-full md:top-0 md:m-0 md:pt-4">
     <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="results.splice(0, 1)">
       <template v-slot:title>
         <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
