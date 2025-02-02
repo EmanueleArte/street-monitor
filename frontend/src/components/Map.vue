@@ -10,6 +10,7 @@ import { usePositionStore } from "@/stores/position.store.ts"
 import { coordsEquals } from "@/lib/mapUtility.ts"
 import { useReportStore } from "@/stores/report.store"
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
+import MapSpotsManager from "@/components/MapSpotsManager.vue"
 
 const reportStore = useReportStore()
 
@@ -151,6 +152,7 @@ onUnmounted(stopWatchingPosition)
         :color="circleColor"
     />
     <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius" :main="main"/>
+    <MapSpotsManager/>
   </LMap>
 </template>
 
