@@ -59,7 +59,7 @@ onMounted(() => {
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
       </FloatingRoundButton>
-      <Tile class="bottom-0 h-[85vh] overflow-auto md:h-[80vh]">
+      <Tile class="new-report-tile bottom-0 h-[85vh] overflow-auto md:h-[80vh]">
         <Tabs :tabs="contents" :toggleTabList="() => {}" topDivClasses="!pt-6">
           <TabPanel>
             <NewReport @cancel="toggleTile"/>
