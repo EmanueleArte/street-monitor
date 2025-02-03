@@ -54,7 +54,7 @@ const updateCarosel = (report: IReport) => {
 <template>
     <section
         v-if="currentReport"
-        class="z-10 absolute bottom-2 left-0 flex w-full md:w-1/3 items-end content-center justify-center overflow-x-hidden md:w-lg md:gap-1 md:rounded-none md:border-0">
+        class="z-10 absolute bottom-2 left-0 flex w-full md:content-center justify-center md:justify-start overflow-x-hidden md:w-96 md:gap-1 md:rounded-none md:border-0 md:left-1/4">
         
         <ReportCard
             v-if="previousReport"
@@ -63,7 +63,7 @@ const updateCarosel = (report: IReport) => {
             @click="previousReportHandler"
             class="scale-95 shrink-0 md:hidden" />
 
-        <ReportCard :report="currentReport" class="shrink-0 basis-4/5" />
+        <ReportCard :report="currentReport" class="shrink-0 basis-4/5 md:basis-auto" />
 
         <ReportCard
             v-if="nextReport"

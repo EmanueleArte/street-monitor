@@ -102,10 +102,10 @@ function computeReputationColor(reputation: number | undefined): string {
 
 <template>
     <article
-        class="h-fit aspect-3/2 flex flex-row rounded-md border-2 bg-surface-default my-2 overflow-hidden"
+        class="h-fit aspect-3/2 w-full md:shrink-0 flex flex-row rounded-md border-2 md:w-4/5 bg-surface-default my-2 overflow-hidden"
         :class="`border-${reputationColor}`"    
     >
-        <section class="flex-shrink-0">
+        <section class="shrink-0">
             <img
                 :src="report.picture ? `http://localhost:3000/${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
                 alt="report image"
@@ -115,7 +115,7 @@ function computeReputationColor(reputation: number | undefined): string {
 
         <section class="max-h-40 overflow-y-auto px-3 py-2 text-sm flex flex-col gap-2">
             <!-- title and upvote button in current report and other user report and not in closed reports -->
-            <div v-if="!previousOrNext && authStore.get()?.username != report.user && report.status != 'closed'" class="flex flex-row items-center">
+            <div v-if="!previousOrNext && !authStore.isLoggedIn(report.user) && report.status != 'closed'" class="flex flex-row items-center">
                 <h2 class="text-base font-medium capitalize basis-[80%]">{{ reportTypeTextConverter(report.type) }}</h2>
             
                 <!-- upvote -->
@@ -136,7 +136,7 @@ function computeReputationColor(reputation: number | undefined): string {
             </div>
 
             <!-- only title if previous or next report or current user reports or closed reports -->
-            <h2 v-if="previousOrNext || authStore.get()?.username == report.user || report.status == 'closed'" class="text-base font-medium capitalize">{{ reportTypeTextConverter(report.type) }}</h2>
+            <h2 v-if="previousOrNext || authStore.isLoggedIn(report.user) || report.status == 'closed'" class="text-base font-medium capitalize">{{ reportTypeTextConverter(report.type) }}</h2>
                 
             <!-- username -->
             <p v-if="props.report.user != authStore.get()?.username" class="text-black/60">
