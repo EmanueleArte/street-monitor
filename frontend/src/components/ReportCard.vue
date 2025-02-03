@@ -107,13 +107,13 @@ function computeReputationColor(reputation: number | undefined): string {
     >
         <section class="shrink-0">
             <img
-                :src="report.picture ? `http://localhost:3000/${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
+                :src="report.picture ? `${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
                 alt="report image"
                 class="h-40"
             />
         </section>
 
-        <section class="max-h-40 overflow-y-auto px-3 py-2 text-sm flex flex-col gap-2">
+        <section class="max-h-40 overflow-y-auto px-3 py-2 text-sm flex flex-col gap-2 w-full">
             <!-- title and upvote button in current report and other user report and not in closed reports -->
             <div v-if="!previousOrNext && !authStore.isLoggedIn(report.user) && report.status != 'closed'" class="flex flex-row items-center">
                 <h2 class="text-base font-medium capitalize basis-[80%]">{{ reportTypeTextConverter(report.type) }}</h2>
