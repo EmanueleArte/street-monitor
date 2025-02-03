@@ -69,6 +69,5 @@ onMounted(listMyReports)
 </template>
 
 <style scoped lang="scss">
-@use "../style/vars" as *;
 
 </style>

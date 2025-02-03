@@ -82,8 +82,6 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@use "../style/vars" as *;
-
 p.inset-shadow {
     box-shadow: inset 0px 0px 2px 3px rgba(0, 0, 0, 0.1)
 }

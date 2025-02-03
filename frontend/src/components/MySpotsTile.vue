@@ -30,13 +30,13 @@ onMounted(listMySpots)
       <p v-if="mySpots.length == 0" class="text-center w-full mt-6">You don't have any favorite spots.</p>
     </div>
   </div> -->
-  <div class="p-4">
-    <h1 class="text-2xl mb-2">My favorite spots:</h1>
-    <ul class="
+  <div class="h-full p-4 md:h-fit md:p-0">
+    <h1 class="text-2xl mb-2 md:hidden">My favorite spots:</h1>
+    <ul class="pb-10
     grid grid-cols-2 gap-2 content-start relative pe-0.5
     max-h-[100%] overflow-y-scroll
-    md:flex md:overflow-y-hidden md:overflow-x-auto">
-      <li v-for="spot in mySpots" class="flex flex-col justify-center">
+    md:flex md:max-w-[60vw] md:overflow-y-hidden md:overflow-x-auto">
+      <li v-for="spot in mySpots" class="flex flex-col justify-top">
         <SpotCard @updateTiles="listMySpots" :spot="spot"/>
       </li>
     </ul>
