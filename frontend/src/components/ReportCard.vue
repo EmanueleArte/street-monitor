@@ -107,7 +107,7 @@ function computeReputationColor(reputation: number | undefined): string {
     >
         <section class="shrink-0">
             <img
-                :src="report.picture ? `http://localhost:3000/${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
+                :src="report.picture ? `${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
                 alt="report image"
                 class="h-40"
             />
