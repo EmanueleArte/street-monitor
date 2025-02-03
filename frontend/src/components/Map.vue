@@ -9,8 +9,8 @@ import CenterPin from "@/components/pins/CenterPin.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { coordsEquals } from "@/lib/mapUtility.ts"
 import { useReportStore } from "@/stores/report.store"
-import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
 import RecenterMapButton from "./buttons/RecenterMapButton.vue"
+import MapSpotsManager from "@/components/MapSpotsManager.vue"
 
 const reportStore = useReportStore()
 const isMobile = ref<boolean>(window.innerWidth < 768)
@@ -60,7 +60,10 @@ const moveToPosition = (pos: [number, number]) => {
 
 const setMapCenter = () => {
   if (map.value) {
-    map.value.leafletObject.setView(center.value, props.zoom)
+    map.value.leafletObject.flyTo(center.value, props.zoom, {
+      animate: true,
+      duration: 1
+    })
   }
 }
 
@@ -135,6 +138,7 @@ onUnmounted(stopWatchingPosition)
         :color="circleColor"
     />
     <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius" :main="main"/>
+    <MapSpotsManager/>
   </LMap>
 </template>
 

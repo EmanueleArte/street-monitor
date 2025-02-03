@@ -50,7 +50,7 @@ const reportsList = computed(() => {
   return props.main ? useMapStore().filteredReports : reports.value.filter((report) => report.status !== ReportStatus.CLOSED)
 })
 
-const throttledGetNearReports = throttle(getNearReports, 100)
+const throttledGetNearReports = throttle(getNearReports, 500)
 
 onMounted(getNearReports)
 watch(() => [props.lat, props.lng, props.radius], throttledGetNearReports)

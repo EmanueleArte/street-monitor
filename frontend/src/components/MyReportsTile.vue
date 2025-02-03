@@ -48,21 +48,23 @@ onMounted(listMyReports)
 </script>
 
 <template>
-  <h2 class="text-xl mb-1">My reports:</h2>
-  <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="`h-full`" :tabPanelsClasses="`h-full`">
-    <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
-      <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()"/>
-      <p v-if="myOpenReports.length == 0" class="text-center w-full">You don't have open reports.</p>
-    </TabPanel>
-    <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
-      <ReportCard v-for="report in mySolvingReports" :report="report" @updateTiles="listMyReports()"/>
-      <p v-if="mySolvingReports.length == 0" class="text-center w-full">You don't have solving reports.</p>
-    </TabPanel>
-    <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
-      <ReportCard v-for="report in myClosedReports" :report="report" @updateTiles="listMyReports()"/>
-      <p v-if="myClosedReports.length == 0" class="text-center w-full">You don't have closed reports.</p>
-    </TabPanel>
-  </Tabs>
+  <div class="p-4 h-full">
+    <h2 class="text-2xl">My reports:</h2>
+    <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="`h-full`" :tabPanelsClasses="`h-full`">
+      <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
+        <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()"/>
+        <p v-if="myOpenReports.length == 0" class="text-center w-full">You don't have open reports.</p>
+      </TabPanel>
+      <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
+        <ReportCard v-for="report in mySolvingReports" :report="report" @updateTiles="listMyReports()"/>
+        <p v-if="mySolvingReports.length == 0" class="text-center w-full">You don't have solving reports.</p>
+      </TabPanel>
+      <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
+        <ReportCard v-for="report in myClosedReports" :report="report" @updateTiles="listMyReports()"/>
+        <p v-if="myClosedReports.length == 0" class="text-center w-full">You don't have closed reports.</p>
+      </TabPanel>
+    </Tabs>
+  </div>
 </template>
 
 <style scoped lang="scss">

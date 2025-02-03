@@ -38,7 +38,7 @@ onUpdated(checkIfShowMyReports)
                 d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
       </FloatingRoundButton>
-      <Tile class="h-full flex flex-col z-10 p-2 pb-0 outline outline-emerald-600">
+      <Tile class="h-full flex flex-col z-10 p-2 pb-0">
         <MyReportsTile/>
       </Tile>
     </div>
