@@ -102,7 +102,7 @@ function computeReputationColor(reputation: number | undefined): string {
 
 <template>
     <article
-        class="h-fit aspect-3/2 w-full md:shrink-0 flex flex-row rounded-md border-2 md:w-4/5 bg-surface-default my-2 overflow-hidden"
+        class="h-fit aspect-3/2 w-full md:shrink-0 flex flex-row rounded-md border-2 bg-surface-default my-2 overflow-hidden"
         :class="`border-${reputationColor}`"    
     >
         <section class="shrink-0">

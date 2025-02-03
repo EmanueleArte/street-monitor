@@ -72,7 +72,7 @@ const updateCarosel = (report: IReport) => {
             @click="previousReportHandler"
             class="scale-95 shrink-0 md:hidden" />
 
-        <ReportCard :report="currentReport" class="shrink-0 basis-4/5 md:basis-auto" />
+        <ReportCard :report="currentReport" class="shrink-0 basis-4/5 md:basis-auto md:w-4/5" />
 
         <ReportCard
             v-if="nextReport"
