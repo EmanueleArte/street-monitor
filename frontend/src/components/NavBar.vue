@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { onBeforeUnmount, onMounted, ref } from "vue"
 import NavButton from "./NavButton.vue"
 import Scale from "@/components/transitions/Scale.vue"
 import MySpotsTile from "./MySpotsTile.vue"
@@ -11,6 +11,7 @@ const emit = defineEmits<{
 }>()
 
 enum Panels {
+  HOME = 'home',
   ADMIN = 'admin',
   NOTIFICATIONS = 'notifications',
   PROFILE = 'profile'
@@ -23,11 +24,11 @@ function openAdminPage() {
     emit('change', Panels.ADMIN)
   } else {
     emit('open', Panels.ADMIN)
-    if (openPanel.value === Panels.ADMIN) {
-      openPanel.value = null
-    } else {
-      openPanel.value = Panels.ADMIN
-    }
+  }
+  if (openPanel.value === Panels.ADMIN) {
+    closePanels()
+  } else {
+    openPanel.value = Panels.ADMIN
   }
 }
 
@@ -36,12 +37,13 @@ function openNotificationsPage() {
     emit('change', Panels.NOTIFICATIONS)
   } else {
     emit('open', Panels.NOTIFICATIONS)
-    if (openPanel.value === Panels.NOTIFICATIONS) {
-      openPanel.value = null
-    } else {
-      openPanel.value = Panels.NOTIFICATIONS
-    }
   }
+  if (openPanel.value === Panels.NOTIFICATIONS) {
+    closePanels()
+  } else {
+    openPanel.value = Panels.NOTIFICATIONS
+  }
+
 }
 
 function openProfilePage() {
@@ -49,27 +51,55 @@ function openProfilePage() {
     emit('change', Panels.PROFILE)
   } else {
     emit('open', Panels.PROFILE)
-    if (openPanel.value === Panels.PROFILE) {
-      openPanel.value = null
-    } else {
-      openPanel.value = Panels.PROFILE
+  }
+  if (openPanel.value === Panels.PROFILE) {
+    closePanels()
+  } else {
+    openPanel.value = Panels.PROFILE
+  }
+}
+
+function closePanels() {
+  if (window.innerWidth <= 768) { // md
+    emit('change', Panels.HOME)
+  } else {
+    emit('open', Panels.HOME)
+  }
+  openPanel.value = null
+}
+
+const navbar = ref<HTMLElement | null>(null)
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (navbar.value) {
+    if (!event.composedPath().includes(navbar.value)) {
+      closePanels()
     }
   }
 }
 
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <template>
-  <nav class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-50 shadow-md shadow-black/40 md:shadow-none text-light">
+  <nav
+      ref="navbar"
+      class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-50 shadow-md shadow-black/40 md:shadow-none text-light">
     <div class="mx-auto max-w-7xl px-2 md:mx-0 md:max-w-none md:px-0">
       <div class="relative flex h-12 md:content-center p-3 md:justify-between md:h-16">
         <!-- Left part | Website name -->
-        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden" @click="$emit('change', 'home')">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden" @click="closePanels">
           StreetMonitor
         </div>
-        
+
         <div class="hidden md:flex gap-2 content-start w-4/5">
-          <MySpotsTile />
+          <MySpotsTile/>
         </div>
 
         <!-- Central part | Website logo -->
@@ -79,7 +109,7 @@ function openProfilePage() {
           </div>
         </div> -->
 
-        <!-- Right part | Notifications + profile -->
+        <!-- Right part | Admin + Notifications + profile -->
         <div class="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0 md:gap-3">
           <!-- Admin panel -->
           <NavButton v-if="useAuthStore().get().admin" @click="openAdminPage" screen-reader-label="view admin panel">
