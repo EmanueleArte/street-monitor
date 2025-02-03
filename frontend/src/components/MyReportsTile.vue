@@ -49,7 +49,7 @@ onMounted(listMyReports)
 
 <template>
   <div class="p-4 md:p-0 h-full">
-    <h2 class="text-2xl">My reports:</h2>
+    <h2 class="text-2xl md:text-base after:content-[':'] md:after:content-['']">My reports</h2>
     <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="`h-full`" :tabPanelsClasses="`h-full`">
       <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] mt-1">
         <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()"/>

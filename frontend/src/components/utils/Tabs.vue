@@ -10,7 +10,7 @@ defineProps<{
 </script>
 
 <template>
-  <div :class="[topDivClasses, 'w-full pt-4 px-4']">
+  <div :class="[topDivClasses, 'w-full pt-4 md:pt-1']">
     <TabGroup>
       <TabList v-if="Object.keys(tabs).length > 0" class="flex space-x-1 rounded-2xl bg-primary-100 p-1">
         <Tab
