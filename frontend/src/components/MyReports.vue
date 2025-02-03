@@ -26,7 +26,7 @@ onUpdated(checkIfShowMyReports)
 </script>
 
 <template>
-  <BottomButton class="left-4 md:hidden" @click="toggleReportsVisibility" :text="'My Reports'" />
+  <BottomButton class="left-2 md:hidden" @click="toggleReportsVisibility" :text="'My Reports'" />
   <SlideFromBottom>
     <div v-if="showReportTile" class="container fixed bottom-0 z-20 h-[60%]">
       <FloatingRoundButton

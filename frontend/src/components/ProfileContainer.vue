@@ -39,7 +39,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen w-screen fixed top-12 pt-7 bg-surface-default z-50 md:relative md:h-full md:w-full md:top-0 md:p-4">
+  <div class="h-screen w-screen fixed top-12 pt-7 bg-surface-default z-10 md:relative md:h-full md:w-full md:top-0 md:p-4">
     <h1 class="ml-2 md:mt-0 text-xl">Welcome {{ authStore.get()?.username }}</h1>
     <section class="mx-2 mt-3 shadow-lg p-3 rounded-lg">
         <div class="flex flex-col md:flex-row">
@@ -82,8 +82,6 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@use "../style/vars" as *;
-
 p.inset-shadow {
     box-shadow: inset 0px 0px 2px 3px rgba(0, 0, 0, 0.1)
 }

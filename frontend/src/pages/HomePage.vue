@@ -40,8 +40,7 @@ const homeContainerShow = (what: string): void => {
 
 <template>
   <NavBar @change="changePage" @open="openPage"/>
-  <HomeContainer/>
-<!--  v-if="currentPage === 'home'" :whatToShow="whatToShow"/>&ndash;&gt;-->
+  <HomeContainer v-if="currentPage === 'home'" :whatToShow="whatToShow"/>
   <SlideFromTop>
     <NotificationsContainer v-if="currentPage === 'notifications'"/>
     <ProfileContainer v-if="currentPage === 'profile'" @showMyReports="homeContainerShow('myReports')" @showMySpots="homeContainerShow('mySpots')"/>

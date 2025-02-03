@@ -6,13 +6,13 @@ import ReportFilter from './ReportFilter.vue';
 
 <template>
     <section class="flex md:absolute top-0 h-full w-1/4 z-20 md:p-3">
-        <aside class="hidden p-3 md:flex md:flex-col z-10 h-full w-full bg-surface-default overflow-hidden rounded-lg shadow gap-y-2">
+        <aside class="hidden p-4 md:flex md:flex-col z-10 h-full w-full bg-surface-default overflow-hidden rounded-lg shadow-lg gap-y-2">
             <h1 class="text-2xl text-primary-600 font-medium">StreetMonitor</h1>
             <section>
                 <h2>Map filters</h2>
                 <ReportFilter />
             </section>
-            <section class="ml-1 mt-1 hidden">
+            <section class="ml-1 mt-1 hidden md:block">
                 <MyReportsTile />
             </section>
         </aside>

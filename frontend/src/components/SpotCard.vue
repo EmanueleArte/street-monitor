@@ -46,7 +46,7 @@ function handleLeave() {
 </script>
 
 <template>
-    <article class="p-3 m-2 rounded-lg bg-surface-component md:hidden border border-primary-600">
+    <article class="p-3 m-2 rounded-lg bg-surface-component shadow-lg md:hidden ">
     <!-- <article class="w-[calc(50%-1rem)] p-3 m-2 rounded-lg bg-surface-component shadow-lg"> -->
         <div class="flex items-center justify-center mb-1 w-full">
             <p class="basis-[80%]">{{ spot.label }}</p>

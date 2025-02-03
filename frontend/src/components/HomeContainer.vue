@@ -2,9 +2,7 @@
 import Map from "@/components/Map.vue"
 import MyReports from "@/components/MyReports.vue"
 import MySpots from "@/components/MySpots.vue"
-import { useReportStore } from "@/stores/report.store";
 import ReportCarosel from "./ReportCarosel.vue";
-import ReportFilter from "@/components/ReportFilter.vue"
 import NewReportTile from "./NewReportTile.vue"
 import { onMounted, ref } from "vue"
 import LeftAside from "@/components/LeftAside.vue"
