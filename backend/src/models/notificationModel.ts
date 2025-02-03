@@ -2,6 +2,7 @@ import mongoose, { Document, Schema, Model } from 'mongoose'
 import { INotificationType, notificationTypeSchema } from './notificationTypeModel'
 import { favoriteSpotSchema, IFavoriteSpot } from './favoriteSpotModel'
 import type { IReport } from './reportModel'
+import { IUser } from './userModel'
 
 export interface INotification extends Document {
     content: String,

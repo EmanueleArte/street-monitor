@@ -8,7 +8,7 @@ export const state = reactive<{
 })
 
 const URL: string = "http://localhost:3000/"
-const socket = io(URL)
+export const socket = io(URL)
 
 socket.on("connect", () => {
     state.connected = true
