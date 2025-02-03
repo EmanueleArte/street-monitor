@@ -9,6 +9,7 @@ import axios from "axios"
 import type { IReportType } from "@models/reportTypeModel.ts"
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
+import { useReportStore } from "@/stores/report.store"
 
 const show = ref<boolean>(true)
 const observer = ref<MutationObserver | null>(null)
@@ -36,6 +37,7 @@ statusToShow[ReportStatus.CLOSED] = false
 
 watch(statusToShow, () => {
   useMapStore().filterReports(statusToShow)
+  useReportStore().setReports(useMapStore().filteredReports)
 })
 
 const allTypes: string = "all"

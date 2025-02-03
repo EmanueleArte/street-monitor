@@ -22,11 +22,11 @@ watch(() => reportStore.getReport(), (newReport: IReport | undefined) => {
 
 watch(() => reportStore.getReports(), (newReports: IReport[], oldReports: IReport[]) => {
     if (JSON.stringify(newReports) === JSON.stringify(oldReports)) return
-
+    
     const _currentReport: IReport | undefined = reportStore.getReport()
+    console.log(_currentReport)
     if (_currentReport) {
-
-        if (_currentReport !== currentReport.value) {
+        if (_currentReport !== currentReport.value || !newReports.includes(_currentReport)) {
             currentReport.value = undefined
         } else {
             updateCarosel(_currentReport)
@@ -35,12 +35,19 @@ watch(() => reportStore.getReports(), (newReports: IReport[], oldReports: IRepor
 })
 
 const previousReportHandler = () => {
-    if (!previousReport.value) return
+    console.log(previousReport.value)
+    if (!previousReport.value) {
+        currentReport.value = undefined
+        return
+    }
     reportStore.setReport(previousReport.value)
 }
 
 const nextReportHandler = () => {
-    if (!nextReport.value) return
+    if (!nextReport.value) {
+        currentReport.value = undefined
+        return
+    }
     reportStore.setReport(nextReport.value)
 }
 
