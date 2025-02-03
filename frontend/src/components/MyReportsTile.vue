@@ -48,9 +48,9 @@ onMounted(listMyReports)
 </script>
 
 <template>
-  <div class="p-4 md:p-0 h-full">
-    <h2 class="text-2xl">My reports:</h2>
-    <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="`md:px-0 h-full`" :tabPanelsClasses="`h-full`">
+  <div class="p-4 pb-0 md:p-0 h-full">
+    <h2 class="text-2xl md:text-xl">My reports:</h2>
+    <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="`h-full !px-0`" :tabPanelsClasses="`h-full px-1`">
       <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] md:max-h-[60vh] mt-1">
         <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()"/>
         <p v-if="myOpenReports.length == 0" class="text-center w-full">You don't have open reports.</p>
