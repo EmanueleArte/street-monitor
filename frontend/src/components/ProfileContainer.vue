@@ -74,8 +74,8 @@ onMounted(() => {
         </div>
     </section>
     <section class="md:hidden">
-        <SimpleButton @click="showMyReports" class="ml-4 mt-4 shadow-xl">My reports</SimpleButton>
-        <SimpleButton @click="showMySpots" class="ml-4 mt-4 shadow-xl">My spots</SimpleButton>
+        <SimpleButton @click="showMyReports" class="nav-close ml-4 mt-4 shadow-xl">My reports</SimpleButton>
+        <SimpleButton @click="showMySpots" class="nav-close ml-4 mt-4 shadow-xl">My spots</SimpleButton>
     </section>
     <SimpleButton @click="logout" class="ml-4 mt-4 shadow-xl" :outline="true">Logout</SimpleButton>
   </div>
