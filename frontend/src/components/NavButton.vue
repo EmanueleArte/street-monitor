@@ -5,7 +5,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <button type="button"  class="
+  <button type="button"  class="nav-button
   relative rounded-full p-1 
   hover:text-white 
   md:bg-surface-default md:shadow md:w-10 md:aspect-square md:p-auto md:text-black

@@ -2,7 +2,7 @@
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
 import Tile from "@/components/Tile.vue"
 import NewReport from "@/components/NewReport.vue"
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
 import Tabs from "@/components/utils/Tabs.vue"
 import { TabPanel } from "@headlessui/vue"
@@ -28,6 +28,16 @@ const toggleTile = (toggledTile: string | undefined) => {
 const handleTransitionCompleted = () => {
   transitionCompleted.value = true
 }
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (showTile.value && activeTile.value && (event.target as Element).closest(".nav-button")) {
+    toggleTile(undefined)
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside)
+})
 </script>
 
 <template>
@@ -110,7 +120,7 @@ const handleTransitionCompleted = () => {
             </svg>
           </FloatingRoundButton>
 
-          <Tile class="bottom-0 h-[85vh] overflow-auto md:h-[80vh]">
+          <Tile class="bottom-0 h-[85vh] overflow-auto md:h-[70vh]">
             <Tabs :tabs="{}" :toggleTabList="() => {}">
               <TabPanel>
                 <NewSpot @cancel="toggleTile"/>
