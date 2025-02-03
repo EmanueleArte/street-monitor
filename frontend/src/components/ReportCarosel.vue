@@ -24,9 +24,11 @@ watch(() => reportStore.getReports(), (newReports: IReport[], oldReports: IRepor
     if (JSON.stringify(newReports) === JSON.stringify(oldReports)) return
     
     const _currentReport: IReport | undefined = reportStore.getReport()
-    console.log(_currentReport)
     if (_currentReport) {
-        if (_currentReport !== currentReport.value || !newReports.includes(_currentReport)) {
+        if (
+            _currentReport !== currentReport.value ||
+            !newReports.map(report => JSON.stringify(report)).includes(JSON.stringify(_currentReport)) // perform "includes" operation on array of objects
+        ) {
             currentReport.value = undefined
         } else {
             updateCarosel(_currentReport)
