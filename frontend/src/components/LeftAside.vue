@@ -12,7 +12,7 @@ import ReportFilter from './ReportFilter.vue';
                 <h2>Map filters</h2>
                 <ReportFilter />
             </section>
-            <section class="ml-1 mt-1 hidden">
+            <section class="ml-1 mt-1 hidden md:block">
                 <MyReportsTile />
             </section>
         </aside>
