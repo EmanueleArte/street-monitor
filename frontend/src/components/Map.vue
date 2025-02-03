@@ -12,6 +12,8 @@ import { useReportStore } from "@/stores/report.store"
 import RecenterMapButton from "./buttons/RecenterMapButton.vue"
 import MapSpotsManager from "@/components/MapSpotsManager.vue"
 
+import {state} from '@/socket'
+
 const reportStore = useReportStore()
 const isMobile = ref<boolean>(window.innerWidth < 768)
 const props = defineProps<{
