@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue"
+import { onMounted, ref } from "vue"
 import NavButton from "./NavButton.vue"
 import Scale from "@/components/transitions/Scale.vue"
 import MySpotsTile from "./MySpotsTile.vue"
@@ -71,7 +71,7 @@ function closePanels() {
 const navbar = ref<HTMLElement | null>(null)
 
 const handleClickOutside = (event: MouseEvent) => {
-  if (navbar.value) {
+  if (navbar.value && openPanel.value) {
     if (!event.composedPath().includes(navbar.value)) {
       closePanels()
     }
@@ -80,10 +80,6 @@ const handleClickOutside = (event: MouseEvent) => {
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside)
 })
 </script>
 
