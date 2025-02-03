@@ -59,12 +59,14 @@ const moveToPosition = (pos: [number, number]) => {
 }
 
 const setMapCenter = () => {
-  if (map.value) {
-    map.value.leafletObject.flyTo(center.value, props.zoom, {
-      animate: true,
-      duration: 1
-    })
-  }
+  watch(() => props.zoom, (zoom) => {
+      if (map.value) {
+      map.value.leafletObject.flyTo(center.value, zoom, {
+        animate: true,
+        duration: 1
+      })
+    }
+  })
 }
 
 const onMapReady = () => {
