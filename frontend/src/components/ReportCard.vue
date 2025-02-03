@@ -216,8 +216,6 @@ function computeReputationColor(reputation: number | undefined): string {
 </template>
 
 <style scoped lang="scss">
-@use "@/style/vars.scss" as *;
-
 .up-arrow-img {
     filter: invert(1);
 }

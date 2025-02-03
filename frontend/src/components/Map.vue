@@ -127,8 +127,8 @@ onUnmounted(stopWatchingPosition)
         layer-type="base"
         name="OpenStreetMap"
     ></LTileLayer>
-    <LControl :position="isMobile ? 'bottomleft' : 'bottomright'">
-      <RecenterMapButton :forMainMap="props.main" :class="{'md:bottom-20': props.main}" />
+    <LControl v-if="!latLng" :position="isMobile ? 'bottomleft' : 'bottomright'">
+      <RecenterMapButton :forMainMap="props.main" :class="{'md:bottom-16': props.main}" />
     </LControl>
     <LMarker :lat-lng="usePositionStore().position" :options="{ alt: 'Current position' }"/>
     <CenterPin v-if="!coordsEquals(center, usePositionStore().position)" :center="center"/>

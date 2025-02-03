@@ -11,7 +11,7 @@ const readNotifications = notifications?.filter(n => n.read)
 </script>
 
 <template>
-    <section class="h-screen w-screen fixed top-12 bg-surface-default z-50 p-4 pt-7 md:relative md:h-full md:w-full md:top-0 md:m-0 md:pt-0">
+    <section class="h-screen w-screen fixed top-12 bg-surface-default z-10 p-4 pt-7 md:relative md:h-full md:w-full md:top-0 md:m-0 md:pt-0">
         <h1 v-if="notifications?.length > 0" class="text-2xl md:hidden">Notifications</h1>
 
 
