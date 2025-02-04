@@ -32,9 +32,9 @@ const listMyReports = async () => {
           break
       }
     }
-    myOpenReports.value.sort((a, b) => new Date(a.open_datetime).getTime() - new Date(b.open_datetime).getTime())
-    mySolvingReports.value.sort((a, b) => new Date(a.open_datetime).getTime() - new Date(b.open_datetime).getTime())
-    myClosedReports.value.sort((a, b) => new Date(a.open_datetime).getTime() - new Date(b.open_datetime).getTime())
+    myOpenReports.value.sort((a, b) => new Date(b.open_datetime).getTime() - new Date(a.open_datetime).getTime())
+    mySolvingReports.value.sort((a, b) => new Date(b.open_datetime).getTime() - new Date(a.open_datetime).getTime())
+    myClosedReports.value.sort((a, b) => new Date(b.open_datetime).getTime() - new Date(a.open_datetime).getTime())
   } catch (e) {
     console.error(e)
   }

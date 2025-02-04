@@ -54,11 +54,15 @@ const changeStatus = async () => {
 
 const upvote = async () => {
     try {
-        props.report.upvotes?.push(authStore.get()?.username)
-        await axios.put(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
-        if (user.value) {
-            user.value.reputation += 1
-            await axios.put(`http://localhost:3000/users/${props.report.user}`, user.value)
+        const response = await axios.get(`http://localhost:3000/users/${props.report.user}`)
+        if (response.status === 200) {
+            user.value = response.data
+            props.report.upvotes?.push(authStore.get()?.username)
+            await axios.put(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
+            if (user.value) {
+                user.value.reputation += 1
+                await axios.put(`http://localhost:3000/users/${props.report.user}`, user.value)
+            }
         }
     } catch (e) {
         console.error(e)
@@ -69,8 +73,10 @@ watch(() => props.report.user, async (reportUser) => {
     if (!reportUser) return
     try {
         const response = await axios.get(`http://localhost:3000/users/${reportUser}`)
-        user.value = response.data
-        reputationColor.value = computeReputationColor(user.value?.reputation || 0)
+        if(response.status === 200){
+            user.value = response.data
+            reputationColor.value = computeReputationColor(user.value?.reputation || 0)
+        }
     } catch (e) {
         console.error(e)
     }
