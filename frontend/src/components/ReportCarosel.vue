@@ -94,7 +94,7 @@ const setCurrentSlide = (index: number) => {
         </Slide>
       </Carousel>
 
-      <div class="hidden flex-row justify-center items-center gap-x-2 md:flex">
+      <div class="hidden flex-row justify-center items-center gap-x-2 md:flex md:ml-3">
         <NavButton screen-reader-label="previous report" @click="previousReportHandler" class="hidden md:block">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-7 m-auto">
             <path fill-rule="evenodd"
