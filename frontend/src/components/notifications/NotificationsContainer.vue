@@ -42,9 +42,6 @@ console.log('random notification', unreadNotifications.value[0])
             <h2 class="hidden">Unread notifications</h2>
             <ul class="gap-1 inline-grid mt-2">
                 <li v-for="notification in unreadNotifications">
-                    <p>JSON
-                        {{ JSON.stringify(notification.report.id) }}
-                    </p>
                     <Notification
                         :read="false"
                         :date="new Date(notification.send_datetime)"
