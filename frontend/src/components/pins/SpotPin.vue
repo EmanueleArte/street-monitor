@@ -3,6 +3,7 @@ import Pin from "@/components/pins/Pin.vue"
 import { computed } from "vue"
 import { formatUnderscoredString } from "@/lib/stringUtility.ts"
 import type { IFavoriteSpot } from "@models/favoriteSpotModel.ts"
+import { LPopup } from "@vue-leaflet/vue-leaflet"
 
 const props = defineProps<{
   spot: IFavoriteSpot
@@ -27,9 +28,10 @@ const iconPath = computed(() => "../src/assets/icons/spot_pin.png")
       :lng="props.spot.coordinates[1]"
       :iconUrl="iconPath"
       :iconSize="iconSize"
-      :alt="`Favorite spot: ${formatUnderscoredString(props.spot.label)}`"
-      @click="clickHandler"
-  />
+      :alt="`Favorite spot: ${props.spot.label}`"
+  >
+    <LPopup class="cursor-pointer hover:text-primary-700 duration-300" :options="{ offset: [0, -30] }" @click="clickHandler">{{props.spot.label}}</LPopup>
+  </Pin>
 </template>
 
 <style scoped lang="scss">
