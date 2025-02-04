@@ -73,8 +73,10 @@ watch(() => props.report.user, async (reportUser) => {
     if (!reportUser) return
     try {
         const response = await axios.get(`http://localhost:3000/users/${reportUser}`)
-        user.value = response.data
-        reputationColor.value = computeReputationColor(user.value?.reputation || 0)
+        if(response.status === 200){
+            user.value = response.data
+            reputationColor.value = computeReputationColor(user.value?.reputation || 0)
+        }
     } catch (e) {
         console.error(e)
     }
