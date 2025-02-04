@@ -84,7 +84,7 @@ onMounted(() => {
       </SlideFromBottom>
       <SlideFromBottom @on-completed="handleTransitionCompleted">
         <div v-if="showTile && activeTile == 'reports'"
-             class="container fixed bottom-0 z-10 md:max-w-[50vw] md:right-4">
+             class="container fixed bottom-0 z-10 md:max-w-[40vw] md:right-4">
           <FloatingRoundButton class="absolute -top-[4.5rem] right-4" screenReaderLabel="Close tile"
                                @click="toggleTile">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -93,7 +93,7 @@ onMounted(() => {
             </svg>
           </FloatingRoundButton>
 
-          <Tile class="bottom-0 h-[85vh] overflow-auto md:h-[80vh]">
+          <Tile class="bottom-0 overflow-auto md:h-[80vh] md:w-[40vw]">
             <Tabs :tabs="{}" :toggleTabList="() => {}">
               <TabPanel>
                 <NewReport @cancel="toggleTile"/>
@@ -111,7 +111,7 @@ onMounted(() => {
         </SimpleButton>
       </SlideFromBottom>
       <SlideFromBottom @on-completed="handleTransitionCompleted">
-        <div v-if="showTile && activeTile == 'spots'" class="container fixed bottom-0 z-10 md:max-w-[50vw] md:right-4">
+        <div v-if="showTile && activeTile == 'spots'" class="container fixed bottom-0 z-10 md:max-w-[40vw] md:right-4">
           <FloatingRoundButton class="absolute -top-[4.5rem] right-4" screenReaderLabel="Close tile"
                                @click="toggleTile">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -120,7 +120,7 @@ onMounted(() => {
             </svg>
           </FloatingRoundButton>
 
-          <Tile class="bottom-0 h-[85vh] overflow-auto md:h-[70vh]">
+          <Tile class="bottom-0 overflow-auto md:h-[70vh] md:w-[40vw]">
             <Tabs :tabs="{}" :toggleTabList="() => {}">
               <TabPanel>
                 <NewSpot @cancel="toggleTile"/>
