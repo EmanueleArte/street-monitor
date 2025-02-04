@@ -4,6 +4,8 @@ import NavButton from "./NavButton.vue"
 import Scale from "@/components/transitions/Scale.vue"
 import MySpotsTile from "./MySpotsTile.vue"
 import { useAuthStore } from "@/stores/auth.store"
+import axios from "axios"
+import type { INotification } from "@models/notificationModel"
 
 const emit = defineEmits<{
   (e: 'change', page: string): void,
@@ -40,6 +42,19 @@ function openNotificationsPage() {
   }
   if (openPanel.value === Panels.NOTIFICATIONS) {
     closePanels()
+    // set notifications as read
+    useAuthStore().get().notifications?.filter(n => !n.read).forEach(n => {
+      axios.delete(`http://localhost:3000/users/${useAuthStore().get().username}/notifications/${n._id}`)
+        .then(res => {
+          const updatedNotificationsIds: string[] = res.data.map((n: INotification) => n._id)
+          useAuthStore().get().notifications?.forEach((n: INotification) => {
+              if (updatedNotificationsIds.includes(n._id as string)) {
+                n.read = true
+              }
+            })
+          })
+        .catch(err => console.log(err))
+    })
   } else {
     openPanel.value = Panels.NOTIFICATIONS
   }

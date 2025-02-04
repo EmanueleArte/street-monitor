@@ -10,7 +10,7 @@ import { ref } from 'vue';
 const props = defineProps<{
     date: Date,
     read: boolean,
-    report?: IReport,
+    report?: string,
     favoriteSpot?: IFavoriteSpot
 }>()
 

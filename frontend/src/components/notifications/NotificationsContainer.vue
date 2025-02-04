@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import type { INotification } from '@models/notificationModel'
 import Notification from './Notification.vue'
 import { useAuthStore } from '@/stores/auth.store'
 
 const authStore = useAuthStore()
-const notifications = authStore.get()?.notifications || []
+const notifications = authStore.get()
+    ?.notifications
+    ?.sort((n1: INotification, n2: INotification) => new Date(n2.send_datetime).getTime() - new Date(n1.send_datetime).getTime())
+    || []
 
-const unreadNotifications = notifications?.filter(n => !n.read)
-const readNotifications = notifications?.filter(n => n.read)
+const unreadNotifications: INotification[] = notifications?.filter((n: INotification) => !n.read)
+const readNotifications: INotification[] = notifications?.filter((n: INotification) => n.read)
 
 </script>
 
@@ -28,10 +32,11 @@ const readNotifications = notifications?.filter(n => n.read)
             <h2 class="hidden">Unread notifications</h2>
             <ul class="gap-1 inline-grid mt-2">
                 <li v-for="notification in unreadNotifications">
+                    <!-- TODO: Report vuole un oggetto report, non l'id -->
                     <Notification
                         :read="false"
                         :date="new Date(notification.send_datetime)"
-                        :report="notification.report"
+                        :report="notification.report._id.toString()" 
                         :favorite-spot="notification.favorite_spot"
                     >
                         {{ notification.content }}
