@@ -60,7 +60,7 @@ onMounted(() => {
         </svg>
       </FloatingRoundButton>
       <Tile class="new-report-tile bottom-0 h-[85vh] overflow-auto md:h-[80vh]">
-        <Tabs :tabs="contents" :toggleTabList="() => {}" topDivClasses="!pt-6">
+        <Tabs :tabs="contents" :toggleTabList="() => {}" topDivClasses="!pt-6 px-4">
           <TabPanel>
             <NewReport @cancel="toggleTile"/>
           </TabPanel>

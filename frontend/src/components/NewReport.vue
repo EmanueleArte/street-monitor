@@ -84,7 +84,7 @@ onMounted(fetchReportTypes)
 </script>
 
 <template>
-  <div class="p-4 pb-20 space-y-2">
+  <div class="p-4 pb-20 space-y-2 md:px-6">
     <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="() => {
       if (dialog.success) {
         emit('cancel')
