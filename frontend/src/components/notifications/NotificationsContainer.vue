@@ -2,6 +2,7 @@
 import type { INotification } from '@models/notificationModel'
 import Notification from './Notification.vue'
 import { useAuthStore } from '@/stores/auth.store'
+import { ref, watch } from 'vue'
 
 const authStore = useAuthStore()
 const notifications = authStore.get()
@@ -9,8 +10,17 @@ const notifications = authStore.get()
     ?.sort((n1: INotification, n2: INotification) => new Date(n2.send_datetime).getTime() - new Date(n1.send_datetime).getTime())
     || []
 
-const unreadNotifications: INotification[] = notifications?.filter((n: INotification) => !n.read)
-const readNotifications: INotification[] = notifications?.filter((n: INotification) => n.read)
+const unreadNotifications = ref<INotification[]>(notifications?.filter((n: INotification) => !n.read))
+const readNotifications = ref<INotification[]>(notifications?.filter((n: INotification) => n.read))
+
+// watch(() => authStore.get().notifications, (newNotifications: INotification[] | undefined) => {
+//     console.log('new notifications', newNotifications)
+//     if (!newNotifications) return
+//     unreadNotifications.value = newNotifications?.filter((n: INotification) => !n.read)
+//     readNotifications.value = newNotifications?.filter((n: INotification) => n.read)
+// })
+
+console.log('random notification', unreadNotifications.value[0])
 
 </script>
 
@@ -32,11 +42,13 @@ const readNotifications: INotification[] = notifications?.filter((n: INotificati
             <h2 class="hidden">Unread notifications</h2>
             <ul class="gap-1 inline-grid mt-2">
                 <li v-for="notification in unreadNotifications">
-                    <!-- TODO: Report vuole un oggetto report, non l'id -->
+                    <p>JSON
+                        {{ JSON.stringify(notification.report.id) }}
+                    </p>
                     <Notification
                         :read="false"
                         :date="new Date(notification.send_datetime)"
-                        :report="notification.report._id.toString()" 
+                        :report="notification.report"
                         :favorite-spot="notification.favorite_spot"
                     >
                         {{ notification.content }}

@@ -1,14 +1,17 @@
-import type { INotification } from "@models/notificationModel"
+import { IFavoriteSpot } from "@/models/favoriteSpotModel"
+import { INotificationType } from "@/models/notificationTypeModel"
 import { NotificationContents, NotificationTypes } from "./vars"
-import type { INotificationType } from "@models/notificationTypeModel"
-import axios, { type AxiosResponse } from "axios"
-import type { IFavoriteSpot } from "@models/favoriteSpotModel"
+import notificationModel, { INotification } from '../models/notificationModel'
+import axios from "axios"
+import { IReport } from "@/models/reportModel"
+import mongoose from "mongoose"
+
 
 class Notification {
     private readonly date: Date
     private content: string | undefined
     private type: INotificationType | undefined
-    private report: string | undefined
+    private report: mongoose.Types.ObjectId | undefined
     private spot: IFavoriteSpot | undefined
     private username: string | undefined
 
@@ -27,6 +30,7 @@ class Notification {
 
         this.type = this.types.filter(t => t.name == type)[0]
         
+
         if (type == NotificationTypes.NEW_REPORT_GPS) {
             this.content = NotificationContents.NEW_REPORT_GPS
         } else if (type == NotificationTypes.NEW_REPORT_SPOT) {
@@ -34,6 +38,7 @@ class Notification {
         } else {
             this.content = NotificationContents.REPORT_UPDATE
         }
+
         return this
     }
 
@@ -43,7 +48,7 @@ class Notification {
     }
 
     forReport(reportId: string): Notification {
-        this.report = reportId
+        this.report = new mongoose.Types.ObjectId(reportId)
         return this
     }
 
@@ -52,10 +57,17 @@ class Notification {
         return this
     }
 
+    build(): INotification {
+        const body = this.parseToPostBody()
+        const notification: INotification = new notificationModel({
+            ...body
+        })
+        return notification
+    }
+
     parseToPostBody() {
         if (this.type == undefined ||
-            this.content == undefined ||
-            this.username == undefined) {
+            this.content == undefined) {
             return undefined
         }
 
@@ -63,7 +75,7 @@ class Notification {
             return undefined
         }
 
-        if (this.type.name == NotificationTypes.NEW_REPORT_SPOT && !this.report || !this.spot) {
+        if (this.type.name == NotificationTypes.NEW_REPORT_SPOT && (!this.report || !this.spot)) {
             return undefined
         }
 
@@ -86,21 +98,3 @@ export async function createNotification(): Promise<Notification> {
     await notification.getNotificationTypes()
     return notification
 }
-
-// class ReportUpdateNotification extends Notification {
-//     content: string = NotificationContents.REPORT_UPDATE
-//     type: string = "report_update"
-
-//     constructor(private _type: INotificationType) {
-//         super()
-        
-//         const notificationType: AxiosResponse<INotificationType> =
-//             await axios.get<INotificationType>('http://localhost:3000/notification-types/' + this.type)
-//     }
-
-// }
-
-// class ReportNearSpotNotification extends Notification {
-//     content: string = "asfd"
-// }
-

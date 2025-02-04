@@ -12,7 +12,7 @@ const listMySpots = async () => {
   try {
     mySpots.value = (await axios.get(`http://localhost:3000/users/${useAuthStore().get()?.username}/favorites`)).data
   } catch (e) {
-    console.error(e)
+    // console.error(e)
   }
 }
 

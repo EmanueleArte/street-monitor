@@ -1,5 +1,7 @@
 import { reactive } from "vue"
 import io from "socket.io-client"
+import { useAuthStore } from "./stores/auth.store"
+import type { INotification } from "@models/notificationModel"
 
 export const state = reactive<{
     connected: boolean,
@@ -17,4 +19,12 @@ socket.on("connect", () => {
 
 socket.on("disconnect", () => {
     state.connected = false
+})
+
+socket.on('notify', (ids: string[], notification: INotification) => {
+    console.log('notify event', socket.id)
+    if (socket.id && ids.includes(socket.id)) {
+        console.log('new notification for me :)', notification)
+        useAuthStore().get().notifications?.push(notification)
+    }
 })

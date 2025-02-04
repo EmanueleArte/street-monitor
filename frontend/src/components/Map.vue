@@ -11,6 +11,11 @@ import { coordsEquals } from "@/lib/mapUtility.ts"
 import { useReportStore } from "@/stores/report.store"
 import RecenterMapButton from "./buttons/RecenterMapButton.vue"
 import MapSpotsManager from "@/components/MapSpotsManager.vue"
+import { RADIUS } from "@/lib/vars"
+import { socket } from "@/socket"
+import { useAuthStore } from "@/stores/auth.store"
+
+const DEFAULT_COORDS: [number, number] = [44.494887, 11.3426163]
 
 const reportStore = useReportStore()
 const isMobile = ref<boolean>(window.innerWidth < 768)
@@ -25,8 +30,8 @@ const emit = defineEmits(["update:latLng"])
 const circleColor = "blue"
 
 const centerToPosition = ref<boolean>(true)
-const center = ref<[number, number]>(props.latLng ? props.latLng : [44.494887, 11.3426163])
-const radius = ref<number>(5) // km
+const center = ref<[number, number]>(props.latLng ? props.latLng : DEFAULT_COORDS)
+const radius = ref<number>(RADIUS) // km
 const watchId = ref<number | null>(null)
 const options = {
   enableHighAccuracy: true,
@@ -86,6 +91,12 @@ const onMapMoved = throttle((e: LeafletEvent) => {
 }, 10)
 
 const updatePosition = (gps: GeolocationPosition) => {
+  console.log('update position')
+  socket.emit('update-user', {
+    id: socket.id,
+    username: useAuthStore().get().username,
+    gps: [gps.coords.latitude, gps.coords.longitude]
+  })
   usePositionStore().set([gps.coords.latitude, gps.coords.longitude])
   if (centerToPosition.value && props.usePosition) {
     center.value = usePositionStore().position

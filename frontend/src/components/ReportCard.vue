@@ -44,7 +44,7 @@ const changeStatus = async () => {
                 emit("updateTiles")
             }
         } catch (e) {
-            console.error(e);
+            // console.error(e)
         }
     } else {
         // send notification
@@ -61,7 +61,7 @@ const upvote = async () => {
             await axios.put(`http://localhost:3000/users/${props.report.user}`, user.value)
         }
     } catch (e) {
-        console.error(e)
+        // console.error(e)
     }
 }
 
@@ -72,7 +72,7 @@ watch(() => props.report.user, async (reportUser) => {
         user.value = response.data
         reputationColor.value = computeReputationColor(user.value?.reputation || 0)
     } catch (e) {
-        console.error(e)
+        // console.error(e)
     }
 }, { immediate: true })
 

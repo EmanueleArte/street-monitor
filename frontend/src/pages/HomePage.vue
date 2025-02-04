@@ -18,6 +18,8 @@ if (JSON.stringify(authStore.get()) === "{}") {
   authStore.logout()
 }
 
+
+
 const currentPage = ref<string>("home")
 const asidePage = ref<string | undefined>("")
 const whatToShow = ref<string>("")

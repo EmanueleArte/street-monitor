@@ -8,7 +8,7 @@ export interface INotification extends Document {
     content: String,
     type: INotificationType,
     send_datetime: Date,
-    report: IReport,
+    report: mongoose.Types.ObjectId,
     favorite_spot: IFavoriteSpot,
     read: Boolean
 }

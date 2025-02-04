@@ -36,9 +36,9 @@ const getNearReports = async () => {
             reports.value = []
             reportStore.setReports([])
           }
-          console.error(e.response.data)
+          // console.error(e.response.data)
         } else {
-          console.error(e)
+          // console.error(e)
         }
       })
 }

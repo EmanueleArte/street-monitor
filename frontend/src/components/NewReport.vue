@@ -15,12 +15,13 @@ import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
 import RecenterMapButton from "./buttons/RecenterMapButton.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
-import { NotificationContents, NotificationTypes, OperationResults } from "@/lib/vars.ts"
+import { OperationResults, RADIUS } from "@/lib/vars.ts"
 
 import userModel, { type IUser } from "@models/userModel"
 import type { IFavoriteSpot } from "@models/favoriteSpotModel"
 import type { INotificationType } from "@models/notificationTypeModel"
-import { createNotification } from "@/lib/notificationUtility"
+import { createNotification } from "../../../backend/src/lib/notificationUtility"
+import { socket } from "@/socket"
 
 
 const emit = defineEmits(["cancel"])
@@ -81,72 +82,47 @@ const publishReport = async () => {
       addResult(true, OperationResults.SUCCESS, "Report successfully published")
 
       // send notifications to each user which has a favorite spot near (radius) to the published report
-      const radius: number = 5
       const [lat, long]: [number, number] = reportPost.data.coordinates
-      const url: string = `http://localhost:3000/users/favorites/${lat}&${long}&${radius}`
-      axios.get<IUser[]>(url)
-        .then(res => {
-          res.data
-            .filter((user: IUser) => !useAuthStore().isLoggedIn(user.username))
-            .forEach(async (user: IUser) => {
+      const url: string = `http://localhost:3000/users/favorites/${lat}&${long}&${RADIUS}`
+      // axios.get<IUser[]>(url)
+      //   .then(res => {
+      //     res.data
+      //       .filter((user: IUser) => !useAuthStore().isLoggedIn(user.username))
+      //       .forEach(async (user: IUser) => {
+      //         const notificationUrl: string = `http://localhost:3000/users/${user.username}/notifications/`
+      //         user.favorite_spots
+      //           ?.filter((spot: IFavoriteSpot) => haversineDistance(spot, [lat, long]) <= RADIUS)
+      //           .forEach(async (spot: IFavoriteSpot) => {
+      //             const postBody = (await createNotification())
+      //               .ofType(NotificationTypes.NEW_REPORT_SPOT)
+      //               ?.toUser(user.username)
+      //               .forReport(reportPost.data._id.toString())
+      //               .nearTo(spot)
+      //               .parseToPostBody()
 
-              // const notification: Notification = createNotification()
-              //   .ofType('report_update')
-              //   .toUser(user.username)
-              //   .forReport(reportPost.data._id)
-              //   .forSpot(spot)
-              //   .parseToPostBody()
+      //             axios.post(notificationUrl, postBody, {
+      //               headers: {
+      //                 'Content-Type': 'application/json',
+      //               }
+      //             })
+      //               .then(res =>
+      //                 console.log(res)
+      //               )
+      //               .catch(err => console.error(err))
+      //           })
+      //       })
+      //   })
+      //   .catch(err => console.error(err))
+      socket.emit('new-report-spot')
 
-              const notificationUrl: string = `http://localhost:3000/users/${user.username}/notifications/`
-              // const notificationType: AxiosResponse<INotificationType> =
-              //   await axios.get<INotificationType>('http://localhost:3000/notification-types/new_report_spot')
-              user.favorite_spots
-                ?.filter((spot: IFavoriteSpot) => haversineDistance(spot, [lat, long]) <= radius)
-                .forEach(async (spot: IFavoriteSpot) => {
-                  const postBody = (await createNotification())
-                    .ofType(NotificationTypes.NEW_REPORT_SPOT)
-                    ?.toUser(user.username)
-                    .forReport(reportPost.data._id.toString())
-                    .nearTo(spot)
-                    .parseToPostBody()
-
-                  console.log(postBody)
-
-                  axios.post(notificationUrl, postBody, {
-                    headers: {
-                      'Content-Type': 'application/json',
-                    }
-                  })
-                    .then(res => console.log('notification added', res))
-                    .catch(err => console.error(err))
-                })
-            })
-        })
-        .catch(err => console.error(err))
+      // send notifications to each user near to the published report
+      socket.emit('new-report', reportPost.data, RADIUS)
 
     })
     .catch((e) => {
       console.error(e)
       addResult(false, OperationResults.FAILURE, "An error occurred while publishing the report")
     })
-}
-
-function haversineDistance(spot: IFavoriteSpot, center: [number, number]) {
-  const [lat1, lon1]: [number, number] = spot.coordinates
-  const [lat2, lon2]: [number, number] = center
-
-  const R: number = 6371 // Raggio della Terra in km
-  const toRad = (deg: number) => (deg * Math.PI) / 180
-
-  const dLat: number = toRad(lat2 - lat1)
-  const dLon: number = toRad(lon2 - lon1)
-
-  const a: number = Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon / 2) ** 2;
-
-  const c: number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // Distanza in km
 }
 
 onMounted(fetchReportTypes)

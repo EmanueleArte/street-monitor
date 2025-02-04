@@ -53,7 +53,7 @@ function openNotificationsPage() {
               }
             })
           })
-        .catch(err => console.log(err))
+        .catch(err => {}) //console.log(err)
     })
   } else {
     openPanel.value = Panels.NOTIFICATIONS
