@@ -6,6 +6,10 @@ import axios from "axios"
 import SpotPin from "@/components/pins/SpotPin.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 
+const props = defineProps<{
+  main?: boolean
+}>()
+
 const mySpots = ref<IFavoriteSpot[]>([])
 
 const listMySpots = async () => {
@@ -21,8 +25,10 @@ onMounted(listMySpots)
 
 <template>
   <SpotPin v-for="spot in mySpots" :spot="spot" @click="() => {
-    usePositionStore().setFlyMainMap(true)
-    usePositionStore().move(spot.coordinates)
+    if (main) {
+      usePositionStore().setFlyMainMap(true)
+      usePositionStore().move(spot.coordinates)
+    }
   }"/>
 </template>
 
