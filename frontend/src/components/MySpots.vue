@@ -4,16 +4,18 @@ import Tile from "@/components/Tile.vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
 import MySpotsTile from "@/components/MySpotsTile.vue"
-import { onUpdated, ref } from "vue"
-
-const showSpotsTile = ref<boolean>(false)
+import { onMounted, onUpdated, ref } from "vue"
 
 const props = defineProps({
   showMySpots: { type: Boolean }
 })
+const emit = defineEmits(["update:showMySpots"])
+
+const showSpotsTile = ref<boolean>(false)
 
 const toggleSpotsVisibility = () => {
   showSpotsTile.value = !showSpotsTile.value
+  emit("update:showMySpots", showSpotsTile.value)
 }
 
 const checkIfShowMySpots = () => {
@@ -23,6 +25,16 @@ const checkIfShowMySpots = () => {
 }
 
 onUpdated(checkIfShowMySpots)
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (showSpotsTile.value && (event.target as Element).closest(".nav-button")) {
+    toggleSpotsVisibility()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside)
+})
 </script>
 
 <template>

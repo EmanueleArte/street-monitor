@@ -19,7 +19,7 @@ const observeTile = () => {
   observer.value = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.type === "childList") {
-        const element = document.querySelector<HTMLElement>(".tile")
+        const element = document.querySelector<HTMLElement>(".new-report-tile")
         show.value = !element;
       }
     })

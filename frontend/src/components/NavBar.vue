@@ -72,14 +72,14 @@ const navbar = ref<HTMLElement | null>(null)
 
 const handleClickOutside = (event: MouseEvent) => {
   if (navbar.value && openPanel.value) {
-    if (!event.composedPath().includes(navbar.value)) {
+    if ((!event.composedPath().includes(navbar.value) && !(event.target as Element).closest(".nav-aside")) || (event.target as Element).closest(".nav-close")) {
       closePanels()
     }
   }
 }
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
+  document.addEventListener("click", handleClickOutside)
 })
 </script>
 

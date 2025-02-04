@@ -4,18 +4,18 @@ import MyReports from "@/components/MyReports.vue"
 import MySpots from "@/components/MySpots.vue"
 import ReportCarosel from "./ReportCarosel.vue";
 import NewReportTile from "./NewReportTile.vue"
-import { onMounted, ref } from "vue"
+import { onMounted, ref, watch } from "vue"
 import LeftAside from "@/components/LeftAside.vue"
 import { useAuthStore } from "@/stores/auth.store";
 import ReportFilterContainer from "./ReportFilterContainer.vue";
 
-const showMyReports = ref<boolean>(false)
-const showMySpots = ref<boolean>(false)
-const authStore = useAuthStore()
-
 const props = defineProps({
   whatToShow: { type: String, required: false }
 })
+
+const showMyReports = ref<boolean>(false)
+const showMySpots = ref<boolean>(false)
+const authStore = useAuthStore()
 
 const checkLogin = (): void => {
   if (!authStore.get()) {
@@ -34,10 +34,9 @@ const checkShow = (): void => {
   }
 }
 
-onMounted(() => {
-  checkLogin()
-  checkShow()
-})
+watch(() => props.whatToShow, checkShow)
+
+onMounted(checkLogin)
 </script>
 
 <template>
@@ -45,8 +44,8 @@ onMounted(() => {
     <Map class="z-0" :zoom="12" :usePosition=true :main=true></Map>
     <ReportFilterContainer class="md:hidden"/>
     <NewReportTile />
-    <MyReports :showMyReports="showMyReports"/>
-    <MySpots :showMySpots="showMySpots"/>
+    <MyReports v-model:showMyReports="showMyReports"/>
+    <MySpots v-model:showMySpots="showMySpots"/>
 
     <ReportCarosel />
     <LeftAside />

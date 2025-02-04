@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import { onUpdated, ref } from "vue"
+import { onMounted, onUpdated, ref } from "vue"
 import MyReportsTile from "@/components/MyReportsTile.vue"
 import Tile from "@/components/Tile.vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
 import BottomButton from "./buttons/BottomButton.vue"
 
-const showReportTile = ref<boolean>(false)
-
 const props = defineProps({
   showMyReports: { type: Boolean }
 })
+const emit = defineEmits(["update:showMyReports"])
+
+const showReportTile = ref<boolean>(false)
 
 const toggleReportsVisibility = () => {
   showReportTile.value = !showReportTile.value
+  emit("update:showMyReports", showReportTile.value)
 }
 
 const checkIfShowMyReports = () => {
@@ -23,6 +25,16 @@ const checkIfShowMyReports = () => {
 }
 
 onUpdated(checkIfShowMyReports)
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (showReportTile.value && (event.target as Element).closest(".nav-button")) {
+    toggleReportsVisibility()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside)
+})
 </script>
 
 <template>
