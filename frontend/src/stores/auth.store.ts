@@ -6,7 +6,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useAuthStore = defineStore('auth', () => {
-    let user: IUser = JSON.parse(localStorage.getItem('user') || "{}")
+    let user: IUser = JSON.parse(sessionStorage.getItem('user') || "{}")
     const backendUrl = "http://localhost:3000/users/"
 
     function get() {
@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
                         }
                         
                         user = res.data
-                        localStorage.setItem('user', JSON.stringify(res.data))
+                        sessionStorage.setItem('user', JSON.stringify(res.data))
                         router.push('/')
                         return user
                     })
@@ -32,7 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     function logout() {
         user = JSON.parse("{}")
-        localStorage.setItem('user', "{}")
+        sessionStorage.setItem('user', "{}")
         router.push("/signup")
     }
 
