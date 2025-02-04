@@ -140,7 +140,7 @@ onUnmounted(stopWatchingPosition)
         :color="circleColor"
     />
     <NearMapReportManager :lat="center[0]" :lng="center[1]" :radius="radius" :main="main"/>
-    <MapSpotsManager/>
+    <MapSpotsManager :main="main"/>
   </LMap>
 </template>
 
