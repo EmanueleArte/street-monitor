@@ -6,7 +6,7 @@
 import { useAuthStore } from '@/stores/auth.store';
 import type { IReport } from '@models/reportModel';
 import { onMounted, ref, watch, type PropType } from 'vue';
-import { formatDate } from '@/lib/stringUtility';
+import { formatDate, formatUnderscoredString } from '@/lib/stringUtility';
 import { Popover, PopoverButton } from '@headlessui/vue';
 import PopoverPanelWrapper from './utils/PopoverPanelWrapper.vue';
 import SimpleButton from './buttons/SimpleButton.vue';
@@ -96,10 +96,6 @@ const moveToReport = () => {
     positionStore.move(props.report.coordinates)
 }
 
-const reportTypeTextConverter = (t: string): string => {
-    return t.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-}
-
 const coordinatesConverter = (coordinates: [number, number]): string => {
     const roundedCoords: number[] = coordinates.map(coord => roundNumber(coord, 6))
     return roundedCoords.toString().replace(',', ', ')
@@ -111,7 +107,15 @@ function roundNumber(num: number, decimals: number): number {
 }
 
 function computeReputationColor(reputation: number | undefined): string {
-    return "surface-default"
+    //if (reputation === undefined || reputation < 10){
+        return "surface-default"
+    /*} else if (reputation < 100) {
+        return "green-100"
+    } else if (reputation < 500) {
+        return "green-400"
+    } else {
+        return "green-800"
+    }*/
 }
 </script>
 
@@ -130,7 +134,7 @@ function computeReputationColor(reputation: number | undefined): string {
         <section class="max-h-40 overflow-y-auto px-3 py-2 text-sm flex flex-col gap-2 w-full">
             <!-- title and upvote button in current report and other user report and not in closed reports -->
             <div v-if="!previousOrNext && !authStore.isLoggedIn(report.user) && report.status != 'closed'" class="flex flex-row">
-                <h2 class="text-base font-medium capitalize basis-[80%]">{{ reportTypeTextConverter(report.type) }}</h2>
+                <h2 class="text-base font-medium capitalize basis-[80%]">{{ formatUnderscoredString(report.type) }}</h2>
             
                 <!-- upvote -->
                 <div class="basis-[20%] flex justify-center">
@@ -151,7 +155,7 @@ function computeReputationColor(reputation: number | undefined): string {
             </div>
 
             <!-- only title if previous or next report or current user reports or closed reports -->
-            <h2 v-if="previousOrNext || authStore.isLoggedIn(report.user) || report.status == 'closed'" class="text-base font-medium capitalize">{{ reportTypeTextConverter(report.type) }}</h2>
+            <h2 v-if="previousOrNext || authStore.isLoggedIn(report.user) || report.status == 'closed'" class="text-base font-medium capitalize">{{ formatUnderscoredString(report.type) }}</h2>
                 
             <!-- username -->
             <p v-if="props.report.user != authStore.get()?.username" class="text-black/60">
