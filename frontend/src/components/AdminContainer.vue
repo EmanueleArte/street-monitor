@@ -35,11 +35,11 @@ const addReportType = () => {
       .then((res) => {
         fetchReportTypes()
         newReportType.value = ""
-        addResult(true, "Report type added successfully", OperationResults.SUCCESS)
+        addResult(true, OperationResults.SUCCESS, "Report type added successfully")
       })
       .catch((e) => {
         console.error(e)
-        addResult(false, "Report type could not be added", OperationResults.FAILURE)
+        addResult(false, OperationResults.FAILURE, "Report type could not be added")
       })
 }
 

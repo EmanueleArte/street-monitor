@@ -13,6 +13,8 @@ import SimpleButton from './buttons/SimpleButton.vue';
 import axios from 'axios';
 import { usePositionStore } from '@/stores/position.store';
 import type { IUser } from '@models/userModel';
+import DialogWrapper from "@/components/utils/DialogWrapper.vue"
+import { OperationResults } from "@/lib/vars.ts"
 
 const emit = defineEmits(["updateTiles"])
 const authStore = useAuthStore()
@@ -25,6 +27,12 @@ const props = defineProps({
     report: { type: Object as PropType<IReport>, required: true },
     previousOrNext: { type: Boolean, required: false }
 })
+
+const results = ref<{ success: boolean, title: string, content: string }[]>([])
+
+function addResult(success: boolean, title: string, content: string): void {
+  results.value.push({ success, title, content })
+}
 
 /*
 Se l'utente che preme il <button> è lo stesso della segnalazione, cambia stato direttamente.
@@ -44,11 +52,12 @@ const changeStatus = async () => {
                 emit("updateTiles")
             }
         } catch (e) {
-            console.error(e);
+            console.error(e)
+          addResult(false, OperationResults.FAILURE, "Failed to change the status of the report")
         }
     } else {
-        // send notification
-        console.log(`sending notification to ${props.report.user}...`)
+        // TODO: send notification
+        addResult(true, OperationResults.SUCCESS, `Notification of status change sent to ${props.report.user}`)
     }
 }
 
@@ -163,6 +172,17 @@ function computeReputationColor(reputation: number | undefined): string {
                             {{ coordinatesConverter(props.report.coordinates) }}
                         </p>
                     </div>
+
+                  <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="results.splice(0, 1)">
+                    <template v-slot:title>
+                      <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
+                        {{ dialog.title }}
+                      </div>
+                    </template>
+                    <template v-slot:content>
+                      {{ dialog.content }}
+                    </template>
+                  </DialogWrapper>
                     <SimpleButton
                         v-if="report.status!='closed'"
                         :report="report"
