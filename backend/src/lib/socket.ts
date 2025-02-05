@@ -9,7 +9,7 @@ import { IFavoriteSpot } from '@/models/favoriteSpotModel'
 
 interface IConnectedUser {
     id: string,
-    username?: string,
+    user?: IUser,
     gps?: [number, number]
 }
 
@@ -45,39 +45,8 @@ export function onConnection(socket: Socket, io: Server) {
         // get favorite spots
         axios.get<IUser[]>(`http://localhost:3000/users/favorites/${lat}&${long}&${radius}`)
             .then(users => users.data.filter((user: IUser) => user.username != currentUser))
-            .then(users => users.forEach(user => sendNotificationToUser(user, NotificationTypes.NEW_REPORT_SPOT, report)))
+            .then(users => users.forEach(user => sendNotificationToUser(user, NotificationTypes.NEW_REPORT_SPOT, report, radius)))
             .catch()
-
-        // axios.get<IUser[]>(url)
-        //   .then(res => {
-        //     res.data
-        //       .filter((user: IUser) => !useAuthStore().isLoggedIn(user.username))
-        //       .forEach(async (user: IUser) => {
-        //         const notificationUrl: string = `http://localhost:3000/users/${user.username}/notifications/`
-        //         user.favorite_spots
-        //           ?.filter((spot: IFavoriteSpot) => haversineDistance(spot, [lat, long]) <= RADIUS)
-        //           .forEach(async (spot: IFavoriteSpot) => {
-        //             const postBody = (await createNotification())
-        //               .ofType(NotificationTypes.NEW_REPORT_SPOT)
-        //               ?.toUser(user.username)
-        //               .forReport(reportPost.data._id.toString())
-        //               .nearTo(spot)
-        //               .parseToPostBody()
-
-        //             axios.post(notificationUrl, postBody, {
-        //               headers: {
-        //                 'Content-Type': 'application/json',
-        //               }
-        //             })
-        //               .then(res => {
-        //                 console.log(res)
-        //                 socket.emit('new-report-spot')
-        //             })
-        //               .catch(err => console.error(err))
-        //           })
-        //       })
-        //   })
-        //   .catch(err => console.error(err))
     })
 
     // notify each user within a radius value to the report
@@ -88,17 +57,12 @@ export function onConnection(socket: Socket, io: Server) {
             .filter((user: IConnectedUser) => user.id != socket.id)
             .map((user: IConnectedUser) => user.id)
 
-        console.log('users', connectedUsers)
-        console.log('ids', notifiyIds)
+        notifiyIds
+            .map(id => connectedUsers.find(user => user.id == id).user)
+            .forEach(user => sendNotificationToUser(user, NotificationTypes.NEW_REPORT_GPS, report))
 
-        // get ids of active users, using spots
-        const notification: INotification | undefined = (await createNotification())
-            .ofType(NotificationTypes.NEW_REPORT_GPS)
-            ?.forReport(report._id.toString())
-            .build()
-
-        console.log('emitting notification', notification)
-        io.emit('notify', notifiyIds, notification)
+        // console.log('emitting notification', notification)
+        // io.emit('notify', notifiyIds, notification)
     })
 }
 
@@ -108,71 +72,42 @@ export function onConnection(socket: Socket, io: Server) {
  * @param notificationType of the notification
  * @param report to which the notification is relative to
  */
-function sendNotificationToUser(user: IUser, notificationType: NotificationTypes, report: IReport) {
-    console.log('ready to send notification for type', notificationType)
-    const promises: Promise<AxiosResponse>[] = []
-
-    switch (notificationType) {
-        case NotificationTypes.NEW_REPORT_SPOT: {
-            sendReportNearSpotNotification(user, report, 5).then(res => console.log(res))
-            break
-        }
-
-        case NotificationTypes.NEW_REPORT_SPOT: {
-            promises.push(sendReportNearGpsNotification(user, report))
-            break
-        }
-
-        case NotificationTypes.REPORT_UPDATE: {
-            promises.push(sendReportUpdateNotification(user, report))
-            break
-        }
-    }
-    Promise.all(promises).then(res => console.log('done'))
-}
-
-async function sendReportNearSpotNotification(user: IUser, report: IReport, radius: number): Promise<AxiosResponse[]> {
-    const spots: IFavoriteSpot[] = user.favorite_spots
-        .filter((spot: IFavoriteSpot) => haversineDistance(spot.coordinates, report.coordinates) < radius)
-    const postBodies = await Promise.all(spots.map(async (spot: IFavoriteSpot) =>
-        (await createNotification())
-            .ofType(NotificationTypes.NEW_REPORT_SPOT)
-            .toUser(user.username)
-            .forReport(report._id.toString())
-            .nearTo(spot)
-            .build()))
-    const promises: Promise<AxiosResponse<INotification, any>>[] = postBodies.map(body => {
-        return axios.post<INotification>(
-            `http://localhost:3000/users/${user.username}/notifications/`,
-            body,
-            { headers: { 'Content-Type': 'application/json' } }
+async function sendNotificationToUser(user: IUser, notificationType: NotificationTypes, report: IReport, radius?: number) {
+    if (notificationType == NotificationTypes.NEW_REPORT_SPOT) {
+        if (!radius) throw new Error('missing radius argument')
+        const spots: IFavoriteSpot[] = user.favorite_spots.filter(_ => haversineDistance(_.coordinates, report.coordinates) < radius)
+        const postRequestBodies = await Promise.all(spots.map(async (spot: IFavoriteSpot) =>
+            (await createNotification())
+                .ofType(NotificationTypes.NEW_REPORT_SPOT)
+                .toUser(user.username)
+                .forReport(report._id.toString())
+                .nearTo(spot)
+                .build()))
+        return Promise.all(
+            postRequestBodies.map(body => {
+                return axios.post<INotification>(
+                    `http://localhost:3000/users/${user.username}/notifications/`,
+                    body,
+                    { headers: { 'Content-Type': 'application/json' } }
+                )
+            })
         )
-    })
+    }
 
-    return Promise.all(promises)
-    // return Promise.resolve<AxiosResponse>(promises[0])
+    const notification = (await createNotification())
+        .ofType(notificationType)
+        .toUser(user.username)
+        .forReport(report._id.toString())
+        .build()
 
+    console.log('new notification of type', notificationType)
+    console.log(notification)
 
-    // return user.favorite_spots
-    //     .filter((spot: IFavoriteSpot) => haversineDistance(spot.coordinates, report.coordinates))
-    //     .map(async (spot: IFavoriteSpot) => {
-    //         return (await createNotification())
-    //             .ofType(NotificationTypes.NEW_REPORT_SPOT)
-    //             .toUser(user.username)
-    //             .forReport(report._id.toString())
-    //             .nearTo(spot)
-    //             .parseToPostBody()
-    //     })
-    //     .map(notificationBody => {
-    //         console.log('body ==>', notificationBody)
-    //         return Promise.reject<AxiosResponse>()
-    //         // axios.post(
-    //         //     `http://localhost:3000/users/${user.username}/notifications/`,
-    //         //     notificationBody,
-    //         //     { headers: { 'Content-Type': 'application/json' } }
-    //         // )
-    //     }
-    //     )
+    return axios.post(
+        `http://localhost:3000/users/${user.username}/notifications/`,
+        notification,
+        { headers: { 'Content-Type': 'application/json' } }
+    )
 }
 
 async function sendReportNearGpsNotification(user: IUser, report: IReport): Promise<AxiosResponse> {

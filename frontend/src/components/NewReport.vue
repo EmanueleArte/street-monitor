@@ -87,7 +87,7 @@ const publishReport = async () => {
       socket.emit('new-report-spot', reportPost.data, RADIUS)
 
       // send notifications to each user near to the published report
-      // socket.emit('new-report', reportPost.data, RADIUS)
+      socket.emit('new-report', reportPost.data, RADIUS)
 
     })
     .catch((e) => {

@@ -94,7 +94,7 @@ const updatePosition = (gps: GeolocationPosition) => {
   console.log('update position')
   socket.emit('update-user', {
     id: socket.id,
-    username: useAuthStore().get().username,
+    user: useAuthStore().get(),
     gps: [gps.coords.latitude, gps.coords.longitude]
   })
   usePositionStore().set([gps.coords.latitude, gps.coords.longitude])
