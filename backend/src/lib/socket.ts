@@ -40,12 +40,22 @@ export function onConnection(socket: Socket, io: Server) {
     // notify each user that has a spot within a radius value to the report
     socket.on('new-report-spot', (report: IReport, radius: number) => {
         const [lat, long]: [number, number] = report.coordinates
-        const currentUser: string = "" // TODO: pass the current user
+        const currentUser: string = connectedUsers
+            .find((user: IConnectedUser) => user.id == socket.id)
+            .user
+            .username
 
         // get favorite spots
         axios.get<IUser[]>(`http://localhost:3000/users/favorites/${lat}&${long}&${radius}`)
             .then(users => users.data.filter((user: IUser) => user.username != currentUser))
-            .then(users => users.forEach(user => sendNotificationToUser(user, NotificationTypes.NEW_REPORT_SPOT, report, radius)))
+            .then(users => {
+                users.forEach(user => sendNotificationToUser(user, NotificationTypes.NEW_REPORT_SPOT, report, radius))
+
+                const notifiyIds: string[] = connectedUsers
+                    .filter((user: IConnectedUser) => users.map(_ => _.username).includes(user.user?.username))
+                    .map((user: IConnectedUser) => user.id)
+                io.emit('notify', notifiyIds)
+            })
             .catch()
     })
 
@@ -61,8 +71,7 @@ export function onConnection(socket: Socket, io: Server) {
             .map(id => connectedUsers.find(user => user.id == id).user)
             .forEach(user => sendNotificationToUser(user, NotificationTypes.NEW_REPORT_GPS, report))
 
-        // console.log('emitting notification', notification)
-        // io.emit('notify', notifiyIds, notification)
+        io.emit('notify', notifiyIds)
     })
 }
 

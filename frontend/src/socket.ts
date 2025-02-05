@@ -21,10 +21,10 @@ socket.on("disconnect", () => {
     state.connected = false
 })
 
-socket.on('notify', (ids: string[], notification: INotification) => {
-    console.log('notify event', socket.id)
+socket.on('notify', (ids: string[]) => {
+    console.log('notify event', socket.id, ids)
     if (socket.id && ids.includes(socket.id)) {
-        console.log('new notification for me :)', notification)
-        useAuthStore().get().notifications?.push(notification)
+        console.log('new notification for me :)')
+        // useAuthStore().get().notifications?.push(notification)
     }
 })
