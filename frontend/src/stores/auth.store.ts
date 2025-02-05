@@ -1,5 +1,6 @@
 import hashPassword, { verifyPassword } from "@/lib/passwordManager";
 import { router } from "@/router";
+import type { INotification } from "@models/notificationModel";
 import type { IUser } from "@models/userModel";
 import axios from "axios";
 import { defineStore } from "pinia";
@@ -7,10 +8,17 @@ import { ref } from "vue";
 
 export const useAuthStore = defineStore('auth', () => {
     let user: IUser = JSON.parse(sessionStorage.getItem('user') || "{}")
+    const userNotifications = ref<INotification[]>(user.notifications ?? [])
     const backendUrl = "http://localhost:3000/users/"
 
     function get() {
         return user
+    }
+
+    function setNotifications(notifications: INotification[]) {
+        user.notifications = notifications
+        sessionStorage.setItem('user', JSON.stringify(user))
+        userNotifications.value = notifications
     }
 
     function login(username: string, password: string) {
@@ -59,5 +67,5 @@ export const useAuthStore = defineStore('auth', () => {
         return user && user.admin === true
     }
 
-    return {login, logout, register, get, isLoggedIn, isAdmin}
+    return {login, logout, register, get, isLoggedIn, isAdmin, setNotifications, notifications: userNotifications}
 })

@@ -91,7 +91,6 @@ const onMapMoved = throttle((e: LeafletEvent) => {
 }, 10)
 
 const updatePosition = (gps: GeolocationPosition) => {
-  console.log('update position')
   socket.emit('update-user', {
     id: socket.id,
     user: useAuthStore().get(),
@@ -105,6 +104,7 @@ const updatePosition = (gps: GeolocationPosition) => {
 
 const handleError = (error: GeolocationPositionError) => {
   console.error("Error getting location: ", error)
+  usePositionStore().position = DEFAULT_COORDS
 }
 
 const startWatchingPosition = () => {

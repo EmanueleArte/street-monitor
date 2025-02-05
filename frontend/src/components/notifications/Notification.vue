@@ -14,9 +14,6 @@ const props = defineProps<{
     favoriteSpot?: IFavoriteSpot
 }>()
 
-console.log('report', props.report)
-
-
 const readOpacity: number = 75
 
 const positionStore = usePositionStore()

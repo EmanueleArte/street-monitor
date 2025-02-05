@@ -40,10 +40,16 @@ export function onConnection(socket: Socket, io: Server) {
     // notify each user that has a spot within a radius value to the report
     socket.on('new-report-spot', (report: IReport, radius: number) => {
         const [lat, long]: [number, number] = report.coordinates
-        const currentUser: string = connectedUsers
+        const currentUser: string | undefined = connectedUsers
             .find((user: IConnectedUser) => user.id == socket.id)
             .user
-            .username
+            ?.username
+
+        if (currentUser == undefined) {
+            console.error('user is undefined')
+            console.log(connectedUsers)
+            return
+        }
 
         // get favorite spots
         axios.get<IUser[]>(`http://localhost:3000/users/favorites/${lat}&${long}&${radius}`)
@@ -54,9 +60,10 @@ export function onConnection(socket: Socket, io: Server) {
                 const notifiyIds: string[] = connectedUsers
                     .filter((user: IConnectedUser) => users.map(_ => _.username).includes(user.user?.username))
                     .map((user: IConnectedUser) => user.id)
-                io.emit('notify', notifiyIds)
+
+                emitNotify(io, notifiyIds)
             })
-            .catch()
+            .catch(err => console.log('user doesnt have spot in the area'))
     })
 
     // notify each user within a radius value to the report
@@ -71,8 +78,23 @@ export function onConnection(socket: Socket, io: Server) {
             .map(id => connectedUsers.find(user => user.id == id).user)
             .forEach(user => sendNotificationToUser(user, NotificationTypes.NEW_REPORT_GPS, report))
 
-        io.emit('notify', notifiyIds)
+        emitNotify(io, notifiyIds)
     })
+}
+
+/**
+ * Emits a notify event if there are some ids
+ * @param io socket.io server
+ * @param ids array with the ids to notify
+ * @returns `true` if the events is triggered, `false` otherwise
+ */
+function emitNotify(io: Server, ids: string[]): boolean {
+    if (ids.length > 0) {
+        io.emit('notify', ids)
+        return true
+    }
+
+    return false
 }
 
 /**
@@ -92,7 +114,7 @@ async function sendNotificationToUser(user: IUser, notificationType: Notificatio
                 .forReport(report._id.toString())
                 .nearTo(spot)
                 .build()))
-        return Promise.all(
+        Promise.all(
             postRequestBodies.map(body => {
                 return axios.post<INotification>(
                     `http://localhost:3000/users/${user.username}/notifications/`,
@@ -101,6 +123,8 @@ async function sendNotificationToUser(user: IUser, notificationType: Notificatio
                 )
             })
         )
+            .then(res => console.log('notification sent successfully'))
+            .catch(err => console.error('error in notification sends'))
     }
 
     const notification = (await createNotification())
@@ -112,11 +136,13 @@ async function sendNotificationToUser(user: IUser, notificationType: Notificatio
     console.log('new notification of type', notificationType)
     console.log(notification)
 
-    return axios.post(
+    axios.post(
         `http://localhost:3000/users/${user.username}/notifications/`,
         notification,
         { headers: { 'Content-Type': 'application/json' } }
     )
+        .then(res => console.log('notification sent successfully'))
+        .catch(err => console.error('error in notification sends'))
 }
 
 async function sendReportNearGpsNotification(user: IUser, report: IReport): Promise<AxiosResponse> {
