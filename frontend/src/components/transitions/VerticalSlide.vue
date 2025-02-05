@@ -7,8 +7,9 @@ defineProps<{
 <template>
   <transition name="vertical-slide" mode="out-in"
               :enter-from-class="direction ? 'vertical-slide-enter-from-regular' : 'vertical-slide-enter-from-reverse'"
-              :leave-to-class="direction ? 'vertical-slide-leave-to-regular' : 'vertical-slide-leave-to-reverse'">
-    <slot></slot>
+              :leave-to-class="direction ? 'vertical-slide-leave-to-regular' : 'vertical-slide-leave-to-reverse'"
+  >
+    <slot/>
   </transition>
 </template>
 

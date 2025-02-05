@@ -4,7 +4,7 @@ const emit = defineEmits(["onCompleted"])
 
 <template>
   <transition name="slide-top" mode="out-in" @afterLeave="emit('onCompleted')">
-    <slot></slot>
+    <slot/>
   </transition>
 </template>
 
