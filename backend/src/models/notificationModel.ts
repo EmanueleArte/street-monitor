@@ -1,15 +1,15 @@
-import mongoose, { Document, Schema, Model } from 'mongoose'
-import { INotificationType, notificationTypeSchema } from './notificationTypeModel'
+import mongoose, { Schema, Model } from 'mongoose'
+import { INotificationType } from './notificationTypeModel'
 import { favoriteSpotSchema, IFavoriteSpot } from './favoriteSpotModel'
 import type { IReport } from './reportModel'
 
-export interface INotification extends Document {
-    content: String,
+export interface INotification {
+    content: string,
     type: INotificationType,
     send_datetime: Date,
     report: IReport,
     favorite_spot: IFavoriteSpot,
-    read: Boolean
+    read: boolean
 }
 
 export const notificationSchema: Schema<INotification> = new Schema<INotification>({

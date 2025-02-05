@@ -1,6 +1,6 @@
-import mongoose, { Document, Schema, Model, ObjectId } from 'mongoose'
+import mongoose, { Schema, Model } from 'mongoose'
 
-export interface IReportType extends Document {
+export interface IReportType {
     name: string,
 }
 
