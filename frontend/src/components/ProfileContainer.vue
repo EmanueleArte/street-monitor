@@ -8,7 +8,10 @@ import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 const authStore = useAuthStore()
 const reportsNumber = ref<number>(0)
 
-const emits = defineEmits(["showMyReports", "showMySpots"])
+const emits = defineEmits<{
+  (e: "showMyReports"): void,
+  (e: "showMySpots"): void
+}>()
 
 const showMyReports = () => {
   emits("showMyReports")

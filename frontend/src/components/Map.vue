@@ -20,7 +20,9 @@ const props = defineProps<{
   latLng?: [number, number],
   main?: boolean
 }>()
-const emit = defineEmits(["update:latLng"])
+const emit = defineEmits<{
+  (e: "update:latLng", latLng: [number, number]): void
+}>()
 
 const circleColor = "blue"
 

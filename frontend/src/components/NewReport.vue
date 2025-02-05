@@ -16,7 +16,9 @@ import FormInput from "@/components/inputs/FormInput.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults } from "@/lib/vars.ts"
 
-const emit = defineEmits(["cancel"])
+const emit = defineEmits<{
+  (e: "cancel"): void
+}>()
 
 const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)

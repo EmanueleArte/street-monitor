@@ -10,7 +10,9 @@ const props = defineProps({
   spot: { type: Object as PropType<IFavoriteSpot>, required: true }
 })
 
-const emits = defineEmits(["updateTiles"])
+const emit = defineEmits<{
+  (e: "updateTiles"): void
+}>()
 
 const positionStore = usePositionStore()
 const authStore = useAuthStore()
@@ -19,7 +21,7 @@ const deleteSpot = async () => {
   try {
     const response = await axios.delete(`http://localhost:3000/users/${authStore.get()?.username}/favorites/${props.spot._id}`)
     if (response.status === 200) {
-      emits("updateTiles")
+      emit("updateTiles")
     }
   } catch (e) {
     console.error(e)

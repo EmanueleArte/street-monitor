@@ -12,7 +12,9 @@ import FormInput from "@/components/inputs/FormInput.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults } from "@/lib/vars.ts"
 
-const emit = defineEmits(["cancel"])
+const emit = defineEmits<{
+  (e: "cancel"): void
+}>()
 
 const posCopy = { ...usePositionStore().position }
 const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])

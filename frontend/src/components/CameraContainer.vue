@@ -9,7 +9,9 @@ defineProps<{
   resolution: { width: number, height: number }
   snapshot?: Blob | null
 }>()
-const emit = defineEmits(["update:snapshot"])
+const emit = defineEmits<{
+  (e: "update:snapshot", snapshot: Blob | null | undefined): void
+}>()
 
 const cameraRef = ref<InstanceType<typeof Camera>>()
 const cameraOpen = ref<boolean>(false)

@@ -9,7 +9,9 @@ import { onMounted, onUpdated, ref } from "vue"
 const props = defineProps({
   showMySpots: { type: Boolean }
 })
-const emit = defineEmits(["update:showMySpots"])
+const emit = defineEmits<{
+  (e: "update:showMySpots", showMySpots: boolean): void
+}>()
 
 const showSpotsTile = ref<boolean>(false)
 

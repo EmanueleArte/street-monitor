@@ -12,7 +12,10 @@ import type { IUser } from "@models/userModel"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults } from "@/lib/vars.ts"
 
-const emit = defineEmits(["updateTiles"])
+const emit = defineEmits<{
+  (e: "updateTiles"): void
+}>()
+
 const authStore = useAuthStore()
 const positionStore = usePositionStore()
 const user = ref<IUser>()

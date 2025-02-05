@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const emit = defineEmits(["onCompleted"])
+const emit = defineEmits<{
+  (e: "onCompleted"): void
+}>()
 </script>
 
 <template>

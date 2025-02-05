@@ -8,7 +8,9 @@ import {
   DialogTitle,
 } from "@headlessui/vue"
 
-const emit = defineEmits(["closeOperation"])
+const emit = defineEmits<{
+  (e: "closeOperation"): void
+}>()
 
 const isOpen = ref<boolean>(true)
 

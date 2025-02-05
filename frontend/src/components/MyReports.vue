@@ -9,7 +9,9 @@ import BottomButton from "./buttons/BottomButton.vue"
 const props = defineProps({
   showMyReports: { type: Boolean }
 })
-const emit = defineEmits(["update:showMyReports"])
+const emit = defineEmits<{
+  (e: "update:showMyReports", showMyReports: boolean): void
+}>()
 
 const showReportTile = ref<boolean>(false)
 
