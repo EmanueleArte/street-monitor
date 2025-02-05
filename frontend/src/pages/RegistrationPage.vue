@@ -10,49 +10,51 @@ const REGISTRATION_PARAGRAPH_TEXT: string = "Already registered?"
 const REGISTRATION_LINK_TEXT: string = "Sign in now"
 
 const signupPage = ref({
-    isLoaded: false,
-    paragraphText: LOGIN_PARAGRAPH_TEXT,
-    linkText: LOGIN_LINK_TEXT
+  isLoaded: false,
+  paragraphText: LOGIN_PARAGRAPH_TEXT,
+  linkText: LOGIN_LINK_TEXT
 })
 
 const switchPage = () => {
-    signupPage.value.isLoaded = !signupPage.value.isLoaded
-    signupPage.value.paragraphText = signupPage.value.isLoaded ? REGISTRATION_PARAGRAPH_TEXT : LOGIN_PARAGRAPH_TEXT
-    signupPage.value.linkText = signupPage.value.isLoaded ? REGISTRATION_LINK_TEXT : LOGIN_LINK_TEXT
+  signupPage.value.isLoaded = !signupPage.value.isLoaded
+  signupPage.value.paragraphText = signupPage.value.isLoaded ? REGISTRATION_PARAGRAPH_TEXT : LOGIN_PARAGRAPH_TEXT
+  signupPage.value.linkText = signupPage.value.isLoaded ? REGISTRATION_LINK_TEXT : LOGIN_LINK_TEXT
 }
 </script>
 
 <template>
 
-<!-- background -->
-<div id="background" class="md:grid grid-cols-12 min-h-screen">
+  <!-- background -->
+  <div id="background" class="md:grid grid-cols-12 min-h-screen">
 
-  <!-- login/registration container -->
-  <div class="col-start-2 col-span-4 h-full md:flex md:flex-col md:flex-wrap md:p-10 px-0">
+    <!-- login/registration container -->
+    <div class="col-start-2 col-span-4 h-full md:flex md:flex-col md:flex-wrap md:p-10 px-0">
 
-    <!-- login/registration inner container -->
-    <div class="flex flex-col w-full h-full bg-surface-default md:rounded-2xl md:px-10 md:py-5 shadow-lg shadow-black/30">
-      <header class="text-l text-primary-600 font-bold p-4">StreetMonitor</header>
+      <!-- login/registration inner container -->
+      <div
+          class="flex flex-col w-full h-full bg-surface-default md:rounded-2xl md:px-10 md:py-5 shadow-lg shadow-black/30"
+      >
+        <header class="text-l text-primary-600 font-bold p-4">StreetMonitor</header>
 
-      <section class="flex flex-col grow justify-start gap-10 px-5 pt-20">
-        <Fade>
-          <RegistrationContainer v-if="signupPage.isLoaded" />
-          <LoginContainer v-else />
-        </Fade>
-      </section>
+        <section class="flex flex-col grow justify-start gap-10 px-5 pt-20">
+          <Fade>
+            <RegistrationContainer v-if="signupPage.isLoaded"/>
+            <LoginContainer v-else/>
+          </Fade>
+        </section>
 
-      
-      <footer class="flex justify-center gap-2 py-2">
-        <span>{{ signupPage.paragraphText }}</span>
-        <a
-          href="http://localhost:5173/signup"
-          @click.prevent="switchPage"
-          class="text-primary-600 visited:text-primary-700"
-        >{{ signupPage.linkText }}</a>
-      </footer>
+        <footer class="flex justify-center gap-2 py-2">
+          <span>{{ signupPage.paragraphText }}</span>
+          <a href="http://localhost:5173/signup"
+             @click.prevent="switchPage"
+             class="text-primary-600 visited:text-primary-700"
+          >
+            {{ signupPage.linkText }}
+          </a>
+        </footer>
+      </div>
     </div>
   </div>
-</div>
 
 </template>
 

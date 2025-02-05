@@ -9,7 +9,6 @@ import SlideFromRight from "@/components/transitions/SlideFromRight.vue"
 
 import { useAuthStore } from "@/stores/auth.store"
 import AdminContainer from "@/components/AdminContainer.vue"
-import PopoverPanelWrapper from "@/components/utils/PopoverPanelWrapper.vue"
 import SlideFromTop from "@/components/transitions/SlideFromTop.vue"
 
 const authStore = useAuthStore()
@@ -43,7 +42,8 @@ const homeContainerShow = (what: string): void => {
   <HomeContainer :whatToShow="whatToShow"/>
   <SlideFromTop>
     <NotificationsContainer v-if="currentPage === 'notifications'"/>
-    <ProfileContainer v-if="currentPage === 'profile'" @showMyReports="homeContainerShow('myReports')" @showMySpots="homeContainerShow('mySpots')"/>
+    <ProfileContainer v-if="currentPage === 'profile'" @showMyReports="homeContainerShow('myReports')"
+                      @showMySpots="homeContainerShow('mySpots')"/>
     <AdminContainer v-if="currentPage === 'admin'"/>
   </SlideFromTop>
 
