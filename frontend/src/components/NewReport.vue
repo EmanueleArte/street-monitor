@@ -83,40 +83,11 @@ const publishReport = async () => {
 
       // send notifications to each user which has a favorite spot near (radius) to the published report
       const [lat, long]: [number, number] = reportPost.data.coordinates
-      const url: string = `http://localhost:3000/users/favorites/${lat}&${long}&${RADIUS}`
-      // axios.get<IUser[]>(url)
-      //   .then(res => {
-      //     res.data
-      //       .filter((user: IUser) => !useAuthStore().isLoggedIn(user.username))
-      //       .forEach(async (user: IUser) => {
-      //         const notificationUrl: string = `http://localhost:3000/users/${user.username}/notifications/`
-      //         user.favorite_spots
-      //           ?.filter((spot: IFavoriteSpot) => haversineDistance(spot, [lat, long]) <= RADIUS)
-      //           .forEach(async (spot: IFavoriteSpot) => {
-      //             const postBody = (await createNotification())
-      //               .ofType(NotificationTypes.NEW_REPORT_SPOT)
-      //               ?.toUser(user.username)
-      //               .forReport(reportPost.data._id.toString())
-      //               .nearTo(spot)
-      //               .parseToPostBody()
-
-      //             axios.post(notificationUrl, postBody, {
-      //               headers: {
-      //                 'Content-Type': 'application/json',
-      //               }
-      //             })
-      //               .then(res =>
-      //                 console.log(res)
-      //               )
-      //               .catch(err => console.error(err))
-      //           })
-      //       })
-      //   })
-      //   .catch(err => console.error(err))
-      socket.emit('new-report-spot')
+      
+      socket.emit('new-report-spot', reportPost.data, RADIUS)
 
       // send notifications to each user near to the published report
-      socket.emit('new-report', reportPost.data, RADIUS)
+      // socket.emit('new-report', reportPost.data, RADIUS)
 
     })
     .catch((e) => {

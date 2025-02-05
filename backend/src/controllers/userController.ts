@@ -59,6 +59,9 @@ export const addNotification = (req: Request, res: Response) => {
     const notification: INotification = new notificationModel(req.body)
     const validationError = notification.validateSync()
 
+    console.log('== NOTIFICATION =====================')
+    console.log(notification)
+
     if (validationError) {
         res.status(400).send(validationError.message)
         return
