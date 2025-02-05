@@ -70,5 +70,4 @@ const togglePasswordVisibility = () => {
       </button>
     </div>
   </div>
-
 </template>

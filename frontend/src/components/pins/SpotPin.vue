@@ -30,10 +30,10 @@ const iconPath = computed(() => "../src/assets/icons/spot_pin.png")
       :iconSize="iconSize"
       :alt="`Favorite spot: ${props.spot.label}`"
   >
-    <LPopup class="cursor-pointer hover:text-primary-700 duration-300" :options="{ offset: [0, -30] }" @click="clickHandler">{{props.spot.label}}</LPopup>
+    <LPopup class="cursor-pointer hover:text-primary-700 duration-300" :options="{ offset: [0, -30] }"
+            @click="clickHandler"
+    >
+      {{ props.spot.label }}
+    </LPopup>
   </Pin>
 </template>
-
-<style scoped lang="scss">
-
-</style>
