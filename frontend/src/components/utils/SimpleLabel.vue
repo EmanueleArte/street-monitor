@@ -6,10 +6,6 @@ defineProps<{
 
 <template>
   <label :for="attachTo" class="ml-1 text-sm text-gray-700">
-    <slot></slot>
+    <slot/>
   </label>
 </template>
-
-<style scoped lang="scss">
-
-</style>
