@@ -3,17 +3,17 @@ import { ref } from "vue"
 import type { IReport } from "@models/reportModel.ts"
 import { ReportStatus } from "@/lib/vars.ts"
 
-export const useMapStore = defineStore('map', () => {
+export const useMapStore = defineStore("map", () => {
     const reports = ref<IReport[]>([])
     const filteredReports = ref<IReport[]>([])
     const currentFilter = ref<Record<string, boolean | string>>({})
 
-    function setReports(data: IReport[]) {
+    function setReports(data: IReport[]): void {
         reports.value = data
         filterReports(currentFilter.value)
     }
 
-    function filterReports(filter: Record<string, boolean | string>) {
+    function filterReports(filter: Record<string, boolean | string>): void {
         Object.keys(filter).forEach(key => {
             if (!filter[key]) {
                 delete currentFilter.value[key]
