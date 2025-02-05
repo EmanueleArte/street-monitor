@@ -86,7 +86,7 @@ onMounted(() => {
 <template>
   <nav
       ref="navbar"
-      class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-50 shadow-md shadow-black/40 md:shadow-none text-light"
+      class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-20 shadow-md shadow-black/40 md:shadow-none text-light"
   >
     <div class="mx-auto max-w-7xl px-2 md:mx-0 md:max-w-none md:px-0">
       <div class="relative flex h-12 md:content-center p-3 md:justify-between md:h-16">

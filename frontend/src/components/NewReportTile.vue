@@ -52,7 +52,7 @@ onMounted(() => {
       </svg>
     </FloatingRoundButton>
   </SlideFromBottom>
-  <SlideFromBottom @onCompleted="handleTransitionCompleted">
+  <SlideFromBottom @onCompleted="handleTransitionCompleted" class="z-30">
     <div v-if="showTile" class="container fixed bottom-0 z-10 md:hidden md:max-w-[50vw] md:right-4">
       <FloatingRoundButton class="absolute -top-[4.5rem] right-2" screenReaderLabel="Close tile" @click="toggleTile">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -74,7 +74,7 @@ onMounted(() => {
   </SlideFromBottom>
 
   <!-- Desktop version -->
-  <ul class="hidden md:absolute md:z-10 md:bottom-3 md:right-3 md:flex md:gap-2 flex-row-reverse">
+  <ul class="hidden md:absolute md:z-30 md:bottom-3 md:right-3 md:flex md:gap-2 flex-row-reverse">
     <li>
       <SlideFromBottom>
         <SimpleButton v-if="!showTile && transitionCompleted" screenReaderLabel="Open new report tile"
