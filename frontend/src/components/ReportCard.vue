@@ -81,20 +81,19 @@ watch(() => props.report.user, async (reportUser) => {
     const response = await axios.get(`http://localhost:3000/users/${reportUser}`)
     if (response.status === 200) {
       user.value = response.data
-      reputationColor.value = computeReputationColor(user.value?.reputation || 0)
     }
   } catch (e) {
     console.error(e)
   }
-    if (!reportUser) return
-    try {
-        const response = await axios.get(`http://localhost:3000/users/${reportUser}`)
-        if(response.status === 200){
-            user.value = response.data
-        }
-    } catch (e) {
-        console.error(e)
+  if (!reportUser) return
+  try {
+    const response = await axios.get(`http://localhost:3000/users/${reportUser}`)
+    if (response.status === 200) {
+      user.value = response.data
     }
+  } catch (e) {
+    console.error(e)
+  }
 }, { immediate: true })
 
 const moveToReport = () => {
@@ -114,21 +113,23 @@ function roundNumber(num: number, decimals: number): number {
 </script>
 
 <template>
-    <li>
-        <article
-            class="h-fit border-surface-default aspect-3/2 w-full md:shrink-0 flex flex-row shadow-md rounded-lg border-2 bg-surface-default my-2 overflow-hidden">
-            <section class="max-w-[40%] shrink-0">
-                <img
-                    :src="report.picture ? `${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
-                    alt="report image"
-                    class="w-full h-40 object-cover"
-                />
-            </section>
+  <li>
+    <article
+        class="h-fit border-surface-default aspect-3/2 w-full md:shrink-0 flex flex-row shadow-md rounded-lg border-2 bg-surface-default my-2 overflow-hidden"
+    >
+      <section class="max-w-[40%] shrink-0">
+        <img
+            :src="report.picture ? `${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
+            alt="report image"
+            class="w-full h-40 object-cover"
+        />
+      </section>
 
       <section class="max-h-40 overflow-y-auto px-3 py-2 text-sm flex flex-col gap-2 w-full">
         <!-- title and upvote button in current report and other user report and not in closed reports -->
         <div v-if="!previousOrNext && !authStore.isLoggedIn(report.user) && report.status != 'closed'"
-             class="flex flex-row">
+             class="flex flex-row"
+        >
           <h2 class="text-base font-medium capitalize basis-[80%]">{{ formatUnderscoredString(report.type) }}</h2>
 
           <!-- upvote -->
@@ -149,7 +150,6 @@ function roundNumber(num: number, decimals: number): number {
               <path d="M12 2l-10 10h6v10h8v-10h6z"/>
             </svg>
           </div>
-
         </div>
 
         <!-- only title if previous or next report or current user reports or closed reports -->

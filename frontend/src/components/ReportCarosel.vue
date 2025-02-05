@@ -104,21 +104,23 @@ const setCurrentSlide = (index: number) => {
           </svg>
         </NavButton>
 
-        <ReportCard
-            v-if="previousReport"
-            :report="previousReport"
-            :previousOrNext="true"
-            @click="previousReportHandler"
-            class="scale-95 shrink-0 md:hidden"/>
+        <ul>
+          <ReportCard
+              v-if="previousReport"
+              :report="previousReport"
+              :previousOrNext="true"
+              @click="previousReportHandler"
+              class="scale-95 shrink-0 md:hidden"/>
 
-        <ReportCard :report="currentReport" class="shrink-0 basis-4/5 md:basis-auto md:w-80"/>
+          <ReportCard :report="currentReport" class="shrink-0 basis-4/5 md:basis-auto md:w-80"/>
 
-        <ReportCard
-            v-if="nextReport"
-            :report="nextReport"
-            :previousOrNext="true"
-            @click="nextReportHandler"
-            class="scale-95 shrink-0 md:hidden"/>
+          <ReportCard
+              v-if="nextReport"
+              :report="nextReport"
+              :previousOrNext="true"
+              @click="nextReportHandler"
+              class="scale-95 shrink-0 md:hidden"/>
+        </ul>
 
         <NavButton screen-reader-label="next report" @click="nextReportHandler" class="hidden md:block">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-7 m-auto">
