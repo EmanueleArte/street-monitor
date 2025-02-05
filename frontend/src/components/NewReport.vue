@@ -17,7 +17,7 @@ import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults } from "@/lib/vars.ts"
 
 const emit = defineEmits<{
-  (e: "cancel"): void
+  (e: "cancel", option: any): void
 }>()
 
 const reportTypes = ref<IReportType[]>([])
@@ -89,7 +89,7 @@ onMounted(fetchReportTypes)
     <DialogWrapper v-for="dialog in results" :key="dialog.content"
                    @closeOperation="() => {
                       if (dialog.success) {
-                        emit('cancel')
+                        emit('cancel', undefined)
                       }
                       results.splice(0, 1)
                     }"
@@ -192,7 +192,7 @@ onMounted(fetchReportTypes)
         cropped.</p>
       <div v-if="image" class="mt-2 md:flex md:place-items-center md:flex-col">
         <SimpleLabel attachTo="preview" class="md:mr-auto">Preview</SimpleLabel>
-        <img v-if="image" :src="previewUrl" alt="Image preview" id="preview" class="w-full rounded-xl md:w-60 md:h-80"/>
+        <img :src="previewUrl" alt="Image preview" id="preview" class="w-full rounded-xl md:w-60 md:h-80"/>
       </div>
     </section>
 
@@ -207,7 +207,7 @@ onMounted(fetchReportTypes)
       <SimpleButton
           :outline=true
           screenReaderLabel="Cancel new report creation"
-          @click="emit('cancel')"
+          @click="emit('cancel', undefined)"
       >
         Cancel
       </SimpleButton>

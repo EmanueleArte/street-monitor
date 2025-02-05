@@ -13,7 +13,7 @@ import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults } from "@/lib/vars.ts"
 
 const emit = defineEmits<{
-  (e: "cancel"): void
+  (e: "cancel", option: any): void
 }>()
 
 const posCopy = { ...usePositionStore().position }
@@ -48,7 +48,7 @@ const saveSpot = () => {
     <DialogWrapper v-for="dialog in results" :key="dialog.content"
                    @closeOperation="() => {
                      if (dialog.success) {
-                       emit('cancel')
+                       emit('cancel', undefined)
                      }
                      results.splice(0, 1)
                    }"
@@ -100,7 +100,7 @@ const saveSpot = () => {
       <SimpleButton
           :outline=true
           screenReaderLabel="Cancel favorite spot creation"
-          @click="emit('cancel')"
+          @click="emit('cancel', undefined)"
       >
         Cancel
       </SimpleButton>
