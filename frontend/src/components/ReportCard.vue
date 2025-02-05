@@ -120,126 +120,128 @@ function computeReputationColor(reputation: number | undefined): string {
 </script>
 
 <template>
-    <article
-        class="h-fit aspect-3/2 w-full md:shrink-0 flex flex-row shadow-md rounded-lg border-2 bg-surface-default my-2 overflow-hidden"
-        :class="`border-${reputationColor}`">
-        <section class="max-w-[40%] shrink-0">
-            <img
-                :src="report.picture ? `${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
-                alt="report image"
-                class="w-full h-40 object-cover"
-            />
-        </section>
+    <li>
+        <article
+            class="h-fit aspect-3/2 w-full md:shrink-0 flex flex-row shadow-md rounded-lg border-2 bg-surface-default my-2 overflow-hidden"
+            :class="`border-${reputationColor}`">
+            <section class="max-w-[40%] shrink-0">
+                <img
+                    :src="report.picture ? `${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
+                    alt="report image"
+                    class="w-full h-40 object-cover"
+                />
+            </section>
 
-        <section class="max-h-40 overflow-y-auto px-3 py-2 text-sm flex flex-col gap-2 w-full">
-            <!-- title and upvote button in current report and other user report and not in closed reports -->
-            <div v-if="!previousOrNext && !authStore.isLoggedIn(report.user) && report.status != 'closed'" class="flex flex-row">
-                <h2 class="text-base font-medium capitalize basis-[80%]">{{ formatUnderscoredString(report.type) }}</h2>
-            
-                <!-- upvote -->
-                <div class="basis-[20%] flex justify-center">
-                    <!-- button if not upvoted yet -->
-                    <SimpleButton v-if="!props.report.upvotes?.includes(authStore.get()?.username)" @click="upvote" class="!p-0 size-7 flex items-center justify-center">
-                        <!--img src="@/assets/icons/arrow_up.svg" alt="up arrow" class="up-arrow-img" /-->
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-4 h-4">
+            <section class="max-h-40 overflow-y-auto px-3 py-2 text-sm flex flex-col gap-2 w-full">
+                <!-- title and upvote button in current report and other user report and not in closed reports -->
+                <div v-if="!previousOrNext && !authStore.isLoggedIn(report.user) && report.status != 'closed'" class="flex flex-row">
+                    <h2 class="text-base font-medium capitalize basis-[80%]">{{ formatUnderscoredString(report.type) }}</h2>
+                
+                    <!-- upvote -->
+                    <div class="basis-[20%] flex justify-center">
+                        <!-- button if not upvoted yet -->
+                        <SimpleButton v-if="!props.report.upvotes?.includes(authStore.get()?.username)" @click="upvote" class="!p-0 size-7 flex items-center justify-center">
+                            <!--img src="@/assets/icons/arrow_up.svg" alt="up arrow" class="up-arrow-img" /-->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-4 h-4">
+                                <path d="M12 2l-10 10h6v10h8v-10h6z"/>
+                            </svg>
+                        </SimpleButton>
+
+                        <!-- only svg if already upvoted -->
+                        <svg v-if="props.report.upvotes?.includes(authStore.get()?.username)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-primary-600 w-4 h-4 mt-2 mb-1">
                             <path d="M12 2l-10 10h6v10h8v-10h6z"/>
                         </svg>
-                    </SimpleButton>
-
-                    <!-- only svg if already upvoted -->
-                    <svg v-if="props.report.upvotes?.includes(authStore.get()?.username)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-primary-600 w-4 h-4 mt-2 mb-1">
-                        <path d="M12 2l-10 10h6v10h8v-10h6z"/>
-                    </svg>
-                </div>
-
-            </div>
-
-            <!-- only title if previous or next report or current user reports or closed reports -->
-            <h2 v-if="previousOrNext || authStore.isLoggedIn(report.user) || report.status == 'closed'" class="text-base font-medium capitalize">{{ formatUnderscoredString(report.type) }}</h2>
-                
-            <!-- username -->
-            <p v-if="props.report.user != authStore.get()?.username" class="text-black/60">
-                {{ props.report.user }}
-                <span class="ps-1 text-black/40 before:content-['\('] after:content-['\)']">{{ user?.reputation || 0 }}</span>
-            </p>
-
-            <div class="flex flex-col">
-                <div class="grid grid-cols-3 grid-rows-3 text-xs">
-                    <!-- coords -->
-                    <div
-                        :class="props.report.close_datetime ? 'col-span-3' : 'col-span-2 row-span-2'"
-                        class="w-full text-slate-600 flex gap-2 lowercase">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 my-auto">
-                            <path fill-rule="evenodd" d="m7.539 14.841.003.003.002.002a.755.755 0 0 0 .912 0l.002-.002.003-.003.012-.009a5.57 5.57 0 0 0 .19-.153 15.588 15.588 0 0 0 2.046-2.082c1.101-1.362 2.291-3.342 2.291-5.597A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082 8.916 8.916 0 0 0 .189.153l.012.01ZM8 8.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clip-rule="evenodd" />
-                        </svg>
-                        <p @click="moveToReport" class="w-3/4 cursor-pointer text-primary-600 my-auto hover:text-primary-700 duration-300">
-                            {{ coordinatesConverter(props.report.coordinates) }}
-                        </p>
                     </div>
 
-                  <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="results.splice(0, 1)">
-                    <template v-slot:title>
-                      <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
-                        {{ dialog.title }}
-                      </div>
-                    </template>
-                    <template v-slot:content>
-                      {{ dialog.content }}
-                    </template>
-                  </DialogWrapper>
-                    <SimpleButton
-                        v-if="report.status!='closed'"
-                        :report="report"
-                        @click="changeStatus"
-                        :outline="true"
-                        size="small"
-                        class="my-auto text-xs py-2 font-medium md:py-1 row-span-2"
-                    >
-                        {{ props.report.status === 'open' ? 'Resolve' : 'Close' }}
-                    </SimpleButton>
-                    <!-- dates -->
-                    <div class="flex gap-x-3 flex-wrap text-slate-600" :class="props.report.close_datetime ? 'col-span-3 mt-0.5' : 'col-span-2'">
-                        <!-- open -->
-                        <Popover class="relative inline-grid">
-                            <PopoverButton>
-                                <div class="flex gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 ml-0.5">
-                                        <path fill-rule="evenodd" d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z" clip-rule="evenodd" />
-                                    </svg>
-                                    <p>{{ formatDate(new Date(report.open_datetime)) }}</p>
-                                </div>
-                            </PopoverButton>
-                            
-                            <PopoverPanelWrapper>
-                                Open date of the report
-                            </PopoverPanelWrapper>
-                        </Popover>
-
-                        <!-- close -->
-                        <Popover class="relative inline-grid">
-                            <PopoverButton>
-                                <div v-if="report.close_datetime" class="flex gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="my-auto size-5 ml-0.5">
-                                    <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
-                                    </svg>
-                                    <p>{{ formatDate(new Date(report.close_datetime)) }}</p>
-                                </div>
-                            </PopoverButton>
-
-                            <PopoverPanelWrapper>
-                                Close date of the report
-                            </PopoverPanelWrapper>
-                        </Popover>
-                    </div>
                 </div>
 
-                <p v-if="report.description" class="max-h-14 mt-2 max-w-[50vw] overflow-auto rounded-sm bg-slate-200 px-2 py-1 text-slate-800">
-                    {{ report.description }}
+                <!-- only title if previous or next report or current user reports or closed reports -->
+                <h2 v-if="previousOrNext || authStore.isLoggedIn(report.user) || report.status == 'closed'" class="text-base font-medium capitalize">{{ formatUnderscoredString(report.type) }}</h2>
+                    
+                <!-- username -->
+                <p v-if="props.report.user != authStore.get()?.username" class="text-black/60">
+                    {{ props.report.user }}
+                    <span class="ps-1 text-black/40 before:content-['\('] after:content-['\)']">{{ user?.reputation || 0 }}</span>
                 </p>
-            </div>
 
-        </section>
-    </article>
+                <div class="flex flex-col">
+                    <div class="grid grid-cols-3 grid-rows-3 text-xs">
+                        <!-- coords -->
+                        <div
+                            :class="props.report.close_datetime ? 'col-span-3' : 'col-span-2 row-span-2'"
+                            class="w-full text-slate-600 flex gap-2 lowercase">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5 my-auto">
+                                <path fill-rule="evenodd" d="m7.539 14.841.003.003.002.002a.755.755 0 0 0 .912 0l.002-.002.003-.003.012-.009a5.57 5.57 0 0 0 .19-.153 15.588 15.588 0 0 0 2.046-2.082c1.101-1.362 2.291-3.342 2.291-5.597A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082 8.916 8.916 0 0 0 .189.153l.012.01ZM8 8.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clip-rule="evenodd" />
+                            </svg>
+                            <p @click="moveToReport" class="w-3/4 cursor-pointer text-primary-600 my-auto hover:text-primary-700 duration-300">
+                                {{ coordinatesConverter(props.report.coordinates) }}
+                            </p>
+                        </div>
+
+                    <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="results.splice(0, 1)">
+                        <template v-slot:title>
+                        <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
+                            {{ dialog.title }}
+                        </div>
+                        </template>
+                        <template v-slot:content>
+                        {{ dialog.content }}
+                        </template>
+                    </DialogWrapper>
+                        <SimpleButton
+                            v-if="report.status!='closed'"
+                            :report="report"
+                            @click="changeStatus"
+                            :outline="true"
+                            size="small"
+                            class="my-auto text-xs py-2 font-medium md:py-1 row-span-2"
+                        >
+                            {{ props.report.status === 'open' ? 'Resolve' : 'Close' }}
+                        </SimpleButton>
+                        <!-- dates -->
+                        <div class="flex gap-x-3 flex-wrap text-slate-600" :class="props.report.close_datetime ? 'col-span-3 mt-0.5' : 'col-span-2'">
+                            <!-- open -->
+                            <Popover class="relative inline-grid">
+                                <PopoverButton>
+                                    <div class="flex gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 ml-0.5">
+                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z" clip-rule="evenodd" />
+                                        </svg>
+                                        <p>{{ formatDate(new Date(report.open_datetime)) }}</p>
+                                    </div>
+                                </PopoverButton>
+                                
+                                <PopoverPanelWrapper>
+                                    Open date of the report
+                                </PopoverPanelWrapper>
+                            </Popover>
+
+                            <!-- close -->
+                            <Popover class="relative inline-grid">
+                                <PopoverButton>
+                                    <div v-if="report.close_datetime" class="flex gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="my-auto size-5 ml-0.5">
+                                        <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+                                        </svg>
+                                        <p>{{ formatDate(new Date(report.close_datetime)) }}</p>
+                                    </div>
+                                </PopoverButton>
+
+                                <PopoverPanelWrapper>
+                                    Close date of the report
+                                </PopoverPanelWrapper>
+                            </Popover>
+                        </div>
+                    </div>
+
+                    <p v-if="report.description" class="max-h-14 mt-2 max-w-[50vw] overflow-auto rounded-sm bg-slate-200 px-2 py-1 text-slate-800">
+                        {{ report.description }}
+                    </p>
+                </div>
+
+            </section>
+        </article>
+    </li>
 </template>
 
 <style scoped lang="scss">
