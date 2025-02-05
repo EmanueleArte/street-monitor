@@ -2,10 +2,8 @@
 import { ref } from "vue"
 import FormInput from "../components/inputs/FormInput.vue"
 import FormFieldset from "./inputs/FormFieldset.vue"
-import * as yup from 'yup'
-import {useAuthStore} from '@/stores/auth.store'
-import { AxiosError } from "axios"
-import { extend } from "lodash"
+import * as yup from "yup"
+import {useAuthStore} from "@/stores/auth.store"
 import SimpleButton from "./buttons/SimpleButton.vue"
 
 const authStore = useAuthStore()
@@ -18,10 +16,10 @@ const passwordRules: string[] = [
 
 yup.setLocale({
     mixed: {
-        required: 'required field',
+        required: "required field",
     },
     string: {
-        min: 'must be at least ${min} characters'
+        min: "must be at least ${min} characters"
     }
 })
 
@@ -39,9 +37,9 @@ const schema = yup.object().shape({
     password: yup.string()
         .required()
         .min(6)
-        .matches(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/, 'match'),
+        .matches(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/, "match"),
     passwordConfirmation: yup.string()
-        .oneOf([yup.ref('password'), undefined], 'Passwords must match')
+        .oneOf([yup.ref("password"), undefined], "Passwords must match")
 
 })
 
@@ -72,7 +70,7 @@ const validationErrors = ref<IRegistrationForm>({
     passwordConfirmation: ""
 })
 
-const registrationError = ref<string>('')
+const registrationError = ref<string>("")
 
 interface IErrorObject {
     message: string,
@@ -101,19 +99,19 @@ const signup = () => {
 
             if (e.status && e.status == 500) {
                 console.error(e)
-                registrationError.value = 'Internal server error. Retry later...'
+                registrationError.value = "Internal server error. Retry later..."
                 return
             }
             if (e.status && e.status == 409) {
                 const {username, email} = e.response.data
-                const errorObject: IErrorObject = new ErrorObject('')
+                const errorObject: IErrorObject = new ErrorObject("")
                 if (username) {
-                    errorObject.message = 'username already present'
-                    temporaryValidationErrors['username'] = errorObject.serialize()
+                    errorObject.message = "username already present"
+                    temporaryValidationErrors["username"] = errorObject.serialize()
                 }
                 if (email) {
-                    errorObject.message = 'email already used'
-                    temporaryValidationErrors['email'] = errorObject.serialize()
+                    errorObject.message = "email already used"
+                    temporaryValidationErrors["email"] = errorObject.serialize()
                 }
             } else {
                 const yupError: yup.ValidationError = e as yup.ValidationError
@@ -121,8 +119,8 @@ const signup = () => {
                     if (err.path && !temporaryValidationErrors[err.path]) {
                         const errorObject = new ErrorObject(err.message)
 
-                        if (err.path == 'password' && err.message.includes('match')) {
-                            errorObject.message = 'invalid format'
+                        if (err.path == "password" && err.message.includes("match")) {
+                            errorObject.message = "invalid format"
                             errorObject.body = JSON.stringify(passwordRules)
                         }
                         temporaryValidationErrors[err.path] = errorObject.serialize()
@@ -137,12 +135,12 @@ const signup = () => {
 
 const updateValue = (inputName: string, newValue: string) => {
     if (
-        inputName != 'name' &&
-        inputName != 'surname' &&
-        inputName != 'username' &&
-        inputName != 'email' &&
-        inputName != 'password' &&
-        inputName != 'passwordConfirmation') return
+        inputName != "name" &&
+        inputName != "surname" &&
+        inputName != "username" &&
+        inputName != "email" &&
+        inputName != "password" &&
+        inputName != "passwordConfirmation") return
     form.value[inputName] = newValue
 }
 </script>

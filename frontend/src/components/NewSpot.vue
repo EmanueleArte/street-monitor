@@ -43,12 +43,14 @@ const saveSpot = () => {
 
 <template>
   <div class="p-4 pb-20 space-y-2 md:px-6">
-    <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="() => {
-      if (dialog.success) {
-        emit('cancel')
-      }
-      results.splice(0, 1)
-    }">
+    <DialogWrapper v-for="dialog in results" :key="dialog.content"
+                   @closeOperation="() => {
+                     if (dialog.success) {
+                       emit('cancel')
+                     }
+                     results.splice(0, 1)
+                   }"
+    >
       <template v-slot:title>
         <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
           {{ dialog.title }}
@@ -72,7 +74,7 @@ const saveSpot = () => {
       <div class="w-full h-64 mb-8">
         <SimpleLabel attachTo="position">Position</SimpleLabel>
         <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
-             v-model:latLng="latLng"></Map>
+             v-model:latLng="latLng"/>
       </div>
 
       <div class="flex flex-row w-full">
@@ -96,14 +98,11 @@ const saveSpot = () => {
       <SimpleButton
           :outline=true
           screenReaderLabel="Cancel favorite spot creation"
-          @click="emit('cancel')">
+          @click="emit('cancel')"
+      >
         Cancel
       </SimpleButton>
       <SimpleButton screenReaderLabel="Submit favorite spot creation" @click="saveSpot">Submit</SimpleButton>
     </section>
   </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>

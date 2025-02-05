@@ -32,7 +32,7 @@ function addResult(success: boolean, title: string, content: string): void {
 
 const addReportType = () => {
   axios.post<IReportType>(`http://localhost:3000/report-types`, { name: formatToUnderscored(newReportType.value) })
-      .then((res) => {
+      .then(() => {
         fetchReportTypes()
         newReportType.value = ""
         addResult(true, OperationResults.SUCCESS, "Report type added successfully")
@@ -45,7 +45,7 @@ const addReportType = () => {
 
 const updateReportType = () => {
   axios.put<IReportType>(`http://localhost:3000/report-types/update/${updatedReportType.value.old?.name}`, { name: formatToUnderscored(updatedReportType.value.new) })
-      .then((res) => {
+      .then(() => {
         fetchReportTypes()
         updatedReportType.value.new = ""
         addResult(true, "Report type updated successfully", OperationResults.SUCCESS)
@@ -58,7 +58,7 @@ const updateReportType = () => {
 
 const deleteReportType = () => {
   axios.delete<IReportType>(`http://localhost:3000/report-types/delete/${deletedReportType.value?.name}`)
-      .then((res) => {
+      .then(() => {
         fetchReportTypes()
         addResult(true, "Report type deleted successfully", OperationResults.SUCCESS)
       })
@@ -72,7 +72,9 @@ onMounted(fetchReportTypes)
 </script>
 
 <template>
-  <section class="nav-aside h-screen w-screen fixed top-12 bg-surface-default z-10 p-4 pt-7 md:relative md:h-full md:w-full md:top-0 md:m-0 md:pt-4">
+  <section
+      class="nav-aside h-screen w-screen fixed top-12 bg-surface-default z-10 p-4 pt-7 md:relative md:h-full md:w-full md:top-0 md:m-0 md:pt-4"
+  >
     <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="results.splice(0, 1)">
       <template v-slot:title>
         <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
@@ -93,7 +95,8 @@ onMounted(fetchReportTypes)
           <FormInput label="new report type" fieldName="new-report-type" :modelValue="newReportType"
                      @input="newReportType = $event.target.value"
                      class="w-full mr-2"/>
-          <SimpleButton @click="addReportType" class="border border-primary-600 hover:border-primary-700">Add
+          <SimpleButton @click="addReportType" class="border border-primary-600 hover:border-primary-700">
+            Add
           </SimpleButton>
         </div>
       </div>
@@ -107,35 +110,39 @@ onMounted(fetchReportTypes)
                 id="report-type"
                 class="relative w-full cursor-pointer rounded-xl text-light bg-primary-600 mt-0.5 py-2 pl-3 pr-10 text-left
             focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75
-            focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 hover:bg-primary-700 duration-300">
-          <span class="block truncate">
-            {{ formatUnderscoredString(updatedReportType.old?.name) }}
-          </span>
+            focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 hover:bg-primary-700 duration-300"
+            >
+              <span class="block truncate">
+                {{ formatUnderscoredString(updatedReportType.old?.name) }}
+              </span>
               <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="white" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"/>
-            </svg>
-          </span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="white" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"/>
+                </svg>
+              </span>
             </ListboxButton>
 
             <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100"
-                        leave-to-class="opacity-0">
+                        leave-to-class="opacity-0"
+            >
               <ListboxOptions
-                  class="absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-light py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                  class="absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-light py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              >
                 <ListboxOption v-slot="{ active, selected }" v-for="reportType in reportTypes" :key="reportType.name"
-                               :value="reportType">
+                               :value="reportType"
+                >
                   <li :class="[active ? 'bg-primary-100' : 'text-gray-800', 'relative cursor-pointer select-none py-2 pl-10 pr-4',]">
-                <span :class="[selected ? 'font-medium' : 'font-normal','block truncate',]">
-                  {{ formatUnderscoredString(reportType?.name) }}
-                </span>
+                    <span :class="[selected ? 'font-medium' : 'font-normal','block truncate',]">
+                      {{ formatUnderscoredString(reportType?.name) }}
+                    </span>
                     <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-primary-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                       stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                  </svg>
-                </span>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                           stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                      </svg>
+                    </span>
                   </li>
                 </ListboxOption>
               </ListboxOptions>
@@ -154,7 +161,9 @@ onMounted(fetchReportTypes)
                   addResult(false, 'Report type could not be updated', OperationResults.FAILURE)
                   }
               }"
-              class="mt-1 border border-primary-600 hover:border-primary-700">Update
+              class="mt-1 border border-primary-600 hover:border-primary-700"
+          >
+            Update
           </SimpleButton>
         </div>
       </div>
@@ -215,7 +224,3 @@ onMounted(fetchReportTypes)
     </section>
   </section>
 </template>
-
-<style scoped lang="scss">
-
-</style>

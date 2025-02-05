@@ -64,7 +64,3 @@ watch(() => [props.lat, props.lng, props.radius], throttledGetNearReports)
     }
   }"/>
 </template>
-
-<style scoped lang="scss">
-
-</style>

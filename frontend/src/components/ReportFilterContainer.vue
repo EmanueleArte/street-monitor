@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref, watch } from "vue"
 import SlideFromTop from "@/components/transitions/SlideFromTop.vue"
-import Checkbox from "@/components/inputs/Checkbox.vue"
 import { ReportStatus } from "@/lib/vars.ts"
-import { formatUnderscoredString } from "@/lib/stringUtility.ts"
 import { useMapStore } from "@/stores/map.store.ts"
 import axios from "axios"
 import type { IReportType } from "@models/reportTypeModel.ts"
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue"
-import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import ReportFilter from "./ReportFilter.vue"
-
 
 const show = ref<boolean>(true)
 const observer = ref<MutationObserver | null>(null)
@@ -20,7 +15,7 @@ const observeTile = () => {
     mutations.forEach((mutation) => {
       if (mutation.type === "childList") {
         const element = document.querySelector<HTMLElement>(".new-report-tile")
-        show.value = !element;
+        show.value = !element
       }
     })
   })
@@ -29,10 +24,10 @@ const observeTile = () => {
 }
 
 const statusToShow = reactive<Record<ReportStatus, boolean>>(
-  Object.values(ReportStatus).reduce((acc, status) => {
-    acc[status] = true
-    return acc
-  }, {} as Record<ReportStatus, boolean>)
+    Object.values(ReportStatus).reduce((acc, status) => {
+      acc[status] = true
+      return acc
+    }, {} as Record<ReportStatus, boolean>)
 )
 statusToShow[ReportStatus.CLOSED] = false
 
@@ -46,17 +41,17 @@ const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)
 const getReportTypes = () => {
   axios.get<IReportType[]>("http://localhost:3000/report-types")
-    .then((res) => {
-      reportTypes.value = res.data
-      reportTypes.value.unshift({ name: allTypes } as IReportType)
-      selectedReportType.value = reportTypes.value[0]
-      Object.values(reportTypes.value).forEach((type) => {
-        typesToShow[type.name] = true
+      .then((res) => {
+        reportTypes.value = res.data
+        reportTypes.value.unshift({ name: allTypes } as IReportType)
+        selectedReportType.value = reportTypes.value[0]
+        Object.values(reportTypes.value).forEach((type) => {
+          typesToShow[type.name] = true
+        })
       })
-    })
-    .catch((e) => {
-      console.error(e)
-    })
+      .catch((e) => {
+        console.error(e)
+      })
 }
 
 const selectReportType = (type: IReportType) => {
@@ -88,10 +83,8 @@ onUnmounted(() => {
   <SlideFromTop>
     <div v-if="show" class="absolute w-screen top-10 px-2 py-4">
       <div class="w-full bg-surface-default shadow-lg rounded-xl p-4 pt-3">
-        <ReportFilter />
+        <ReportFilter/>
       </div>
     </div>
   </SlideFromTop>
 </template>
-
-<style scoped lang="scss"></style>

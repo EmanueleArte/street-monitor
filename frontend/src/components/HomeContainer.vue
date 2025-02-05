@@ -2,12 +2,12 @@
 import Map from "@/components/Map.vue"
 import MyReports from "@/components/MyReports.vue"
 import MySpots from "@/components/MySpots.vue"
-import ReportCarosel from "./ReportCarosel.vue";
+import ReportCarosel from "./ReportCarosel.vue"
 import NewReportTile from "./NewReportTile.vue"
 import { onMounted, ref, watch } from "vue"
 import LeftAside from "@/components/LeftAside.vue"
-import { useAuthStore } from "@/stores/auth.store";
-import ReportFilterContainer from "./ReportFilterContainer.vue";
+import { useAuthStore } from "@/stores/auth.store"
+import ReportFilterContainer from "./ReportFilterContainer.vue"
 
 const props = defineProps({
   whatToShow: { type: String, required: false }
@@ -25,10 +25,10 @@ const checkLogin = (): void => {
 
 const checkShow = (): void => {
   switch (props.whatToShow) {
-    case 'myReports':
+    case "myReports":
       showMyReports.value = true
       break
-    case 'mySpots':
+    case "mySpots":
       showMySpots.value = true
       break
   }
@@ -43,15 +43,11 @@ onMounted(checkLogin)
   <div class="homeContainer w-screen h-screen">
     <Map class="z-0" :zoom="12" :usePosition=true :main=true></Map>
     <ReportFilterContainer class="md:hidden"/>
-    <NewReportTile />
+    <NewReportTile/>
     <MyReports v-model:showMyReports="showMyReports"/>
     <MySpots v-model:showMySpots="showMySpots"/>
 
-    <ReportCarosel />
-    <LeftAside />
+    <ReportCarosel/>
+    <LeftAside/>
   </div>
 </template>
-
-<style lang="scss">
-
-</style>

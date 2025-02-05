@@ -60,7 +60,7 @@ const moveToPosition = (pos: [number, number]) => {
 
 const setMapCenter = () => {
   watch(() => props.zoom, (zoom) => {
-      if (map.value) {
+    if (map.value) {
       map.value.leafletObject.flyTo(center.value, zoom, {
         animate: true,
         duration: 1
@@ -123,14 +123,15 @@ onUnmounted(stopWatchingPosition)
 <template>
   <LMap ref="map" :zoom="zoom" :center="center" :useGlobalLeaflet="false"
         :options="{ zoomControl: false, attributionControl: false }" @ready="onMapReady" @drag="onMapMoved"
-        @click="unsetReport">
+        @click="unsetReport"
+  >
     <LTileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         layer-type="base"
         name="OpenStreetMap"
-    ></LTileLayer>
+    />
     <LControl v-if="!latLng" :position="isMobile ? 'bottomleft' : 'bottomright'">
-      <RecenterMapButton :forMainMap="props.main" :class="{'md:bottom-16': props.main}" />
+      <RecenterMapButton :forMainMap="props.main" :class="{'md:bottom-16': props.main}"/>
     </LControl>
     <LMarker :lat-lng="usePositionStore().position" :options="{ alt: 'Current position' }"/>
     <CenterPin v-if="!coordsEquals(center, usePositionStore().position)" :center="center"/>
@@ -143,7 +144,3 @@ onUnmounted(stopWatchingPosition)
     <MapSpotsManager :main="main"/>
   </LMap>
 </template>
-
-<style scoped lang="scss">
-
-</style>

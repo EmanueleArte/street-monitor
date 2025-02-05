@@ -6,7 +6,7 @@ import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
 
 defineProps<{
-  resolution: { width: number; height: number }
+  resolution: { width: number, height: number }
   snapshot?: Blob | null
 }>()
 const emit = defineEmits(["update:snapshot"])
@@ -59,7 +59,3 @@ const takeSnapshot = async () => {
     </div>
   </SlideFromBottom>
 </template>
-
-<style scoped lang="scss">
-
-</style>

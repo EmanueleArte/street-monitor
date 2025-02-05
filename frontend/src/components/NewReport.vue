@@ -10,10 +10,9 @@ import { blobToBase64, formatUnderscoredString } from "@/lib/stringUtility.ts"
 import CameraContainer from "@/components/CameraContainer.vue"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
-import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
+import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
-import RecenterMapButton from "./buttons/RecenterMapButton.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults } from "@/lib/vars.ts"
 
@@ -85,12 +84,14 @@ onMounted(fetchReportTypes)
 
 <template>
   <div class="p-4 pb-20 space-y-2 md:px-6">
-    <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="() => {
-      if (dialog.success) {
-        emit('cancel')
-      }
-      results.splice(0, 1)
-    }">
+    <DialogWrapper v-for="dialog in results" :key="dialog.content"
+                   @closeOperation="() => {
+                      if (dialog.success) {
+                        emit('cancel')
+                      }
+                      results.splice(0, 1)
+                    }"
+    >
       <template v-slot:title>
         <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
           {{ dialog.title }}
@@ -110,7 +111,8 @@ onMounted(fetchReportTypes)
             id="report-type"
             class="relative w-full cursor-pointer rounded-xl text-light bg-primary-600 mt-0.5 py-2 pl-3 pr-10 text-left
             focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75
-            focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 hover:bg-primary-700 duration-300">
+            focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 hover:bg-primary-700 duration-300"
+        >
           <span class="block truncate">
             {{ formatUnderscoredString(selectedReportType?.name) }}
           </span>
@@ -124,11 +126,14 @@ onMounted(fetchReportTypes)
         </ListboxButton>
 
         <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100"
-                    leave-to-class="opacity-0">
+                    leave-to-class="opacity-0"
+        >
           <ListboxOptions
-              class="absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-light py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+              class="absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-light py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+          >
             <ListboxOption v-slot="{ active, selected }" v-for="reportType in reportTypes" :key="reportType.name"
-                           :value="reportType">
+                           :value="reportType"
+            >
               <li :class="[active ? 'bg-primary-100' : 'text-gray-800', 'relative cursor-pointer select-none py-2 pl-10 pr-4',]">
                 <span :class="[selected ? 'font-medium' : 'font-normal','block truncate',]">
                   {{ formatUnderscoredString(reportType?.name) }}
@@ -150,7 +155,7 @@ onMounted(fetchReportTypes)
       <div class="w-full h-64 mb-8 relative">
         <SimpleLabel attachTo="position">Position</SimpleLabel>
         <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
-             v-model:latLng="latLng"></Map>
+             v-model:latLng="latLng"/>
       </div>
 
       <div class="flex flex-row w-full">
@@ -174,7 +179,8 @@ onMounted(fetchReportTypes)
       <div id="picture" class="flex flex-row mt-0.5">
         <CameraContainer :resolution="{ width: 960, height: 1280 }" v-model:snapshot="image"/>
         <label for="img-input" class="flex items-center cursor-pointer ml-2 rounded-xl px-4 duration-300 bg-surface-default text-primary-600 border
-               border-primary-600 hover:bg-primary-100 hover:border-primary-700">
+               border-primary-600 hover:bg-primary-100 hover:border-primary-700"
+        >
           Upload image
         </label>
         <input type="file" id="img-input" accept="image/x-png,image/jpeg,image/jpg" @change="uploadFile"
@@ -199,14 +205,11 @@ onMounted(fetchReportTypes)
       <SimpleButton
           :outline=true
           screenReaderLabel="Cancel new report creation"
-          @click="emit('cancel')">
+          @click="emit('cancel')"
+      >
         Cancel
       </SimpleButton>
       <SimpleButton screenReaderLabel="Submit new report" @click="publishReport">Submit</SimpleButton>
     </section>
   </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>

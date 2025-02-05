@@ -6,7 +6,7 @@ import axios from "axios"
 import SpotPin from "@/components/pins/SpotPin.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 
-const props = defineProps<{
+defineProps<{
   main?: boolean
 }>()
 
@@ -31,7 +31,3 @@ onMounted(listMySpots)
     }
   }"/>
 </template>
-
-<style scoped lang="scss">
-
-</style>

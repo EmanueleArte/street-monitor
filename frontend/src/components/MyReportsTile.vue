@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { IReport } from "@models/reportModel";
-import axios from "axios";
+import type { IReport } from "@models/reportModel"
+import axios from "axios"
 import { onMounted, ref } from "vue"
-import ReportCard from "./ReportCard.vue";
-import { TabPanel } from '@headlessui/vue';
+import ReportCard from "./ReportCard.vue"
+import { TabPanel } from "@headlessui/vue"
 import Tabs from "@/components/utils/Tabs.vue"
 import { ReportStatus } from "@/lib/vars.ts"
-import { useAuthStore } from "@/stores/auth.store";
+import { useAuthStore } from "@/stores/auth.store"
 
 const myOpenReports = ref<IReport[]>([])
 const mySolvingReports = ref<IReport[]>([])
@@ -50,7 +50,9 @@ onMounted(listMyReports)
 <template>
   <div class="p-4 pb-0 md:p-0 h-full">
     <h2 class="text-2xl md:text-base after:content-[':'] md:after:content-['']">My reports</h2>
-    <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="`h-full !px-0`" :tabPanelsClasses="`h-full px-1`">
+    <Tabs :tabs="ReportStatus" :toggleTabList="toggleTabList" :topDivClasses="`h-full !px-0`"
+          :tabPanelsClasses="`h-full px-1`"
+    >
       <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] md:max-h-full mt-1 px-1">
         <ol>
           <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()"/>
@@ -72,7 +74,3 @@ onMounted(listMyReports)
     </Tabs>
   </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>
