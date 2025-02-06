@@ -3,7 +3,8 @@ import io from "socket.io-client"
 import { useAuthStore } from "./stores/auth.store"
 import type { INotification } from "@models/notificationModel"
 import axios from "axios"
-
+import { SocketEvents } from "./socket"
+export { SocketEvents } from '../../backend/src/lib/socket'
 
 export const state = reactive<{
     connected: boolean,
@@ -23,7 +24,7 @@ socket.on("disconnect", () => {
     state.connected = false
 })
 
-socket.on('notify', (ids: string[]) => {
+socket.on(SocketEvents.NOTIFY, (ids: string[]) => {
     const authStore = useAuthStore()
     if (socket.id && ids.includes(socket.id)) {
         console.log('new notification for me :)')

@@ -22,8 +22,10 @@ enum Panels {
 
 const { notifications } = storeToRefs(useAuthStore())
 const newNotifications = ref<boolean>(notifications.value.filter((notification: INotification) => !notification.read).length > 0)
-watch(notifications, (newValue) => {
-  newNotifications.value = true
+console.log(notifications.value.filter((notification: INotification) => !notification.read))
+watch(notifications, (newValue, oldValue) => {
+  console.log('navbar update')
+  newNotifications.value = newValue.length > oldValue.length//notifications.value.filter((notification: INotification) => !notification.read).length > 0
 })
 
 const openPanel = ref<Panels | null>(null)
@@ -151,24 +153,24 @@ onMounted(() => {
           <!-- Notifications -->
           <NavButton @click="openNotificationsPage" screen-reader-label="view notifications">
             <Scale>
+              <!-- Cross -->
+              <svg v-if="openPanel === Panels.NOTIFICATIONS" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                class="size-6 md:m-auto">
+                <path fill-rule="evenodd"
+                  d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                  clip-rule="evenodd" />
+              </svg>
               <!-- Silent bell -->
-              <svg v-if="openPanel !== Panels.NOTIFICATIONS && !newNotifications" class="size-6 md:m-auto" fill="none" viewBox="0 0 24 24"
+              <svg v-else-if="!newNotifications" class="size-6 md:m-auto" fill="none" viewBox="0 0 24 24"
                 stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
               </svg>
               <!-- Sound bell -->
-              <svg v-if="openPanel !== Panels.NOTIFICATIONS && newNotifications" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6 md:m-auto">
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
-              </svg>
-              <!-- Cross -->
-              <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                class="size-6 md:m-auto">
-                <path fill-rule="evenodd"
-                  d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-                  clip-rule="evenodd" />
               </svg>
             </Scale>
           </NavButton>

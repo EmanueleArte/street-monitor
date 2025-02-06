@@ -12,7 +12,7 @@ import { useReportStore } from "@/stores/report.store"
 import RecenterMapButton from "./buttons/RecenterMapButton.vue"
 import MapSpotsManager from "@/components/MapSpotsManager.vue"
 import { RADIUS } from "@/lib/vars"
-import { socket } from "@/socket"
+import { socket, SocketEvents } from "@/socket"
 import { useAuthStore } from "@/stores/auth.store"
 
 const DEFAULT_COORDS: [number, number] = [44.494887, 11.3426163]
@@ -91,7 +91,7 @@ const onMapMoved = throttle((e: LeafletEvent) => {
 }, 10)
 
 const updatePosition = (gps: GeolocationPosition) => {
-  socket.emit('update-user', {
+  socket.emit(SocketEvents.UPDATE_USER, {
     id: socket.id,
     user: useAuthStore().get(),
     gps: [gps.coords.latitude, gps.coords.longitude]

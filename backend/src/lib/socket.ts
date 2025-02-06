@@ -13,6 +13,13 @@ interface IConnectedUser {
     gps?: [number, number]
 }
 
+export enum SocketEvents {
+    NEW_REPORT_SPOT = 'new-report-spot',
+    NEW_REPORT_GPS = 'new-report-gps',
+    UPDATE_USER = 'update-user',
+    NOTIFY = 'notify'
+}
+
 let connectedUsers: IConnectedUser[] = []
 
 export function onConnection(socket: Socket, io: Server) {
@@ -30,7 +37,7 @@ export function onConnection(socket: Socket, io: Server) {
         console.log('total connected users', connectedUsers.length)
     })
 
-    socket.on('update-user', (user) => {
+    socket.on(SocketEvents.UPDATE_USER, (user) => {
         connectedUsers = connectedUsers.map(u => {
             if (u.id == socket.id) return { id: socket.id, ...user }
             return u
@@ -38,7 +45,7 @@ export function onConnection(socket: Socket, io: Server) {
     })
 
     // notify each user that has a spot within a radius value to the report
-    socket.on('new-report-spot', (report: IReport, radius: number) => {
+    socket.on(SocketEvents.NEW_REPORT_SPOT, (report: IReport, radius: number) => {
         const [lat, long]: [number, number] = report.coordinates
         const currentUser: string | undefined = connectedUsers
             .find((user: IConnectedUser) => user.id == socket.id)
@@ -67,7 +74,7 @@ export function onConnection(socket: Socket, io: Server) {
     })
 
     // notify each user within a radius value to the report
-    socket.on('new-report', async (report: IReport, radius: number) => {
+    socket.on(SocketEvents.NEW_REPORT_GPS, async (report: IReport, radius: number) => {
         // get ids of active users, using gps
         const notifiyIds: string[] = connectedUsers
             .filter((user: IConnectedUser) => user.gps && haversineDistance(user.gps, report.coordinates) <= radius)
@@ -90,7 +97,7 @@ export function onConnection(socket: Socket, io: Server) {
  */
 function emitNotify(io: Server, ids: string[]): boolean {
     if (ids.length > 0) {
-        io.emit('notify', ids)
+        io.emit(SocketEvents.NOTIFY, ids)
         return true
     }
 
@@ -143,34 +150,6 @@ async function sendNotificationToUser(user: IUser, notificationType: Notificatio
     )
         .then(res => console.log('notification sent successfully'))
         .catch(err => console.error('error in notification sends'))
-}
-
-async function sendReportNearGpsNotification(user: IUser, report: IReport): Promise<AxiosResponse> {
-    const notification = (await createNotification())
-        .ofType(NotificationTypes.NEW_REPORT_GPS)
-        .toUser(user.username)
-        .forReport(report._id.toString())
-        .build()
-
-    return axios.post(
-        `http://localhost:3000/users/${user.username}/notifications/`,
-        notification,
-        { headers: { 'Content-Type': 'application/json' } }
-    )
-}
-
-async function sendReportUpdateNotification(user: IUser, report: IReport): Promise<AxiosResponse> {
-    const notification = (await createNotification())
-        .ofType(NotificationTypes.REPORT_UPDATE)
-        .toUser(user.username)
-        .forReport(report._id.toString())
-        .build()
-
-    return axios.post(
-        `http://localhost:3000/users/${user.username}/notifications/`,
-        notification,
-        { headers: { 'Content-Type': 'application/json' } }
-    )
 }
 
 /**

@@ -13,15 +13,9 @@ import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
-import RecenterMapButton from "./buttons/RecenterMapButton.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults, RADIUS } from "@/lib/vars.ts"
-
-import userModel, { type IUser } from "@models/userModel"
-import type { IFavoriteSpot } from "@models/favoriteSpotModel"
-import type { INotificationType } from "@models/notificationTypeModel"
-import { createNotification } from "../../../backend/src/lib/notificationUtility"
-import { socket } from "@/socket"
+import { socket, SocketEvents } from "@/socket"
 
 
 const emit = defineEmits(["cancel"])
@@ -84,10 +78,10 @@ const publishReport = async () => {
       // send notifications to each user which has a favorite spot near (radius) to the published report
       const [lat, long]: [number, number] = reportPost.data.coordinates
       
-      socket.emit('new-report-spot', reportPost.data, RADIUS)
+      socket.emit(SocketEvents.NEW_REPORT_SPOT, reportPost.data, RADIUS)
 
       // send notifications to each user near to the published report
-      socket.emit('new-report', reportPost.data, RADIUS)
+      socket.emit(SocketEvents.NEW_REPORT_GPS, reportPost.data, RADIUS)
 
     })
     .catch((e) => {
