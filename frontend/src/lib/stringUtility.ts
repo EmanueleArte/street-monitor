@@ -46,6 +46,7 @@ export function formatDate(date: Date): string {
 
     if (time < HOUR_IN_MS) {
         const minutes = Math.floor(time / MINUTE_IN_MS)
+        if (minutes == 0) return "Less then a minute ago"
         return `${minutes} ${minutes == 1 ? "minute" : "minutes"} ago`
     }
     if (time < DAY_IN_MS) {

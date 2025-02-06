@@ -1,7 +1,9 @@
 <script setup lang="ts">
-// text-black/75 text-slate-500/75
+// text-black/60 text-slate-500/60
+// text-primary-600/60
 import { formatDate } from '@/lib/stringUtility';
 import { usePositionStore } from '@/stores/position.store';
+import { useReportStore } from '@/stores/report.store';
 import type { IFavoriteSpot } from '@models/favoriteSpotModel';
 import type { IReport } from '@models/reportModel';
 import axios from 'axios';
@@ -14,18 +16,23 @@ const props = defineProps<{
     favoriteSpot?: IFavoriteSpot
 }>()
 
-const readOpacity: number = 75
+const readOpacity: number = 60
 
 const positionStore = usePositionStore()
 
-function goToPosition() {
+function goToReport() {
     axios.get<IReport>("http://localhost:3000/reports/by-id/" + props.report)
         .then(report => {
-            console.log("current position", positionStore.position)
-            console.log("move to", report.data.coordinates)
+            positionStore.setFlyMainMap(true)
             positionStore.move(report.data.coordinates)
-            // positionStore.
+            useReportStore().setReport(report.data)
         })
+}
+
+function goToSpot() {
+    if (!props.favoriteSpot) return
+    positionStore.setFlyMainMap(true)
+    positionStore.move(props.favoriteSpot?.coordinates)
 }
 
 
@@ -47,8 +54,8 @@ function goToPosition() {
             <slot />
         </div>
         <div class="ms-11 flex gap-4 text-xs leading-tight" :class="`text-primary-600${props.read ? `/${readOpacity}` : ''}`">
-            <button v-if="props.report" @click="goToPosition()">Go to report</button>
-            <a v-if="props.favoriteSpot" href="">Go to favorite spot</a>
+            <button v-if="props.report" @click="goToReport">Go to report</button>
+            <button v-if="props.favoriteSpot" @click="goToSpot">Go to favorite spot</button>
         </div>
     </div>
 </template>

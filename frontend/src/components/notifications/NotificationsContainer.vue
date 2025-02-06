@@ -55,7 +55,8 @@ function getNotifications(notifications: INotification[], read: boolean): INotif
 
             <ul class="gap-1 inline-grid mt-2">
                 <li v-for="notification in readNotifications">
-                    <Notification :read="true" :date="new Date(notification.send_datetime)">
+                    <Notification :read="true" :date="new Date(notification.send_datetime)"
+                        :report="notification.report" :favorite-spot="notification.favorite_spot">
                         {{ notification.content }}
                     </Notification>
                 </li>
