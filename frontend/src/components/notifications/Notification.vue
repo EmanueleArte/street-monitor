@@ -1,6 +1,6 @@
 <script setup lang="ts">
-// text-black/60 text-slate-500/60
-// text-primary-600/60
+// text-black/65 text-slate-500/65
+// text-primary-600/65
 import { formatDate } from '@/lib/stringUtility';
 import { usePositionStore } from '@/stores/position.store';
 import { useReportStore } from '@/stores/report.store';
@@ -16,7 +16,7 @@ const props = defineProps<{
     favoriteSpot?: IFavoriteSpot
 }>()
 
-const readOpacity: number = 60
+const readOpacity: number = 65
 
 const positionStore = usePositionStore()
 

@@ -3,26 +3,29 @@ import { INotificationType } from "@/models/notificationTypeModel"
 import { NotificationContents, NotificationTypes } from "./vars"
 import notificationModel, { INotification } from '../models/notificationModel'
 import axios from "axios"
-import { IReport } from "@/models/reportModel"
 import mongoose from "mongoose"
 
 
 class Notification {
-    private readonly date: Date
-    private content: string | undefined
-    private type: INotificationType | undefined
+    private date: Date
+    private content: string
+    private type: INotificationType
     private report: mongoose.Types.ObjectId | undefined
     private spot: IFavoriteSpot | undefined
     private username: string | undefined
 
     private types: INotificationType[] = []
 
-    constructor() {
-        this.date = new Date()
-    }
+    constructor() {}
 
     async getNotificationTypes() {
         this.types = (await axios.get<INotificationType[]>('http://localhost:3000/notification-types/')).data
+    }
+
+    inDate(date?: Date): Notification {
+        if (!date) this.date = new Date()
+        else this.date = date
+        return this
     }
 
     ofType(type: NotificationTypes): Notification | undefined {
@@ -66,23 +69,24 @@ class Notification {
     }
 
     parseToPostBody() {
+        console.log(1)
         if (this.type == undefined ||
             this.content == undefined) {
             return undefined
         }
-
+        console.log(2)
         if (this.type.name == NotificationTypes.NEW_REPORT_GPS && !this.report) {
             return undefined
         }
-
+        console.log(3)
         if (this.type.name == NotificationTypes.NEW_REPORT_SPOT && (!this.report || !this.spot)) {
             return undefined
         }
-
+        console.log(4)
         if (this.type.name == NotificationTypes.REPORT_UPDATE && !this.report) {
             return undefined
         }
-
+        console.log(5)
         return {
             content: this.content,
             type: this.type._id,
@@ -94,7 +98,7 @@ class Notification {
 }
 
 export async function createNotification(): Promise<Notification> {
-    const notification: Notification = new Notification()
+    const notification: Notification = new Notification().inDate()
     await notification.getNotificationTypes()
     return notification
 }

@@ -32,7 +32,9 @@ socket.on(SocketEvents.NOTIFY, (ids: string[]) => {
         axios.get<INotification[]>(`http://localhost:3000/users/${authStore.get().username}/notifications`)
             .then(res => {
                 authStore.setNotifications(res.data)
-                console.log('update notifications array from socket.ts')
+
+                const len: number = res.data.length
+                console.log('update notifications array from socket.ts', authStore.notifications[len-1])
             })
 
         // useAuthStore().get().notifications?.push(notification)
