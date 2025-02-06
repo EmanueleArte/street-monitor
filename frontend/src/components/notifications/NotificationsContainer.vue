@@ -53,11 +53,14 @@ function getNotifications(notifications: INotification[], read: boolean): INotif
         </section>
 
         <section v-if="readNotifications.length > 0">
-            <h2 class="relative flex items-center">
+            <h2 v-if="unreadNotifications.length > 0" class="relative flex items-center">
                 <div class="flex-grow border-t border-black/70"></div>
-                <span class="mx-4 flex-shrink text-black/70 font-medium text-md">Read notifications</span>
+                <span class="mx-4 flex-shrink text-black/70 font-medium text-md"> casdfRead notifications</span>
                 <div class="flex-grow border-t border-black/70"></div>
             </h2>
+            <p v-else>
+                Solo notifiche già lette
+            </p>
             <ul class="gap-1 inline-grid mt-2">
                 <li v-for="notification in readNotifications">
                     <Notification :read="true" :date="new Date(notification.send_datetime)">
