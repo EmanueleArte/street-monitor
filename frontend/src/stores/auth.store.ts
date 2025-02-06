@@ -1,5 +1,6 @@
 import hashPassword, { verifyPassword } from "@/lib/passwordManager";
 import { router } from "@/router";
+import type { IFavoriteSpot } from "@models/favoriteSpotModel";
 import type { INotification } from "@models/notificationModel";
 import type { IUser } from "@models/userModel";
 import axios from "axios";
@@ -9,6 +10,7 @@ import { ref } from "vue";
 export const useAuthStore = defineStore('auth', () => {
     let user: IUser = JSON.parse(sessionStorage.getItem('user') || "{}")
     const userNotifications = ref<INotification[]>(user.notifications ?? [])
+    const userFavoriteSpots = ref<IFavoriteSpot[]>(user.favorite_spots ?? [])
     const backendUrl = "http://localhost:3000/users/"
 
     function get() {
@@ -19,6 +21,12 @@ export const useAuthStore = defineStore('auth', () => {
         user.notifications = notifications
         sessionStorage.setItem('user', JSON.stringify(user))
         userNotifications.value = notifications
+    }
+
+    function setFavoriteSpots(spots: IFavoriteSpot[]) {
+        user.favorite_spots = spots
+        sessionStorage.setItem('user', JSON.stringify(user))
+        userFavoriteSpots.value = spots
     }
 
     function login(username: string, password: string) {
@@ -67,5 +75,5 @@ export const useAuthStore = defineStore('auth', () => {
         return user && user.admin === true
     }
 
-    return {login, logout, register, get, isLoggedIn, isAdmin, setNotifications, notifications: userNotifications}
+    return {login, logout, register, get, isLoggedIn, isAdmin, setNotifications, setFavoriteSpots, notifications: userNotifications, favorite_spots: userFavoriteSpots}
 })
