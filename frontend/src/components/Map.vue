@@ -105,6 +105,10 @@ const updatePosition = (gps: GeolocationPosition) => {
 const handleError = (error: GeolocationPositionError) => {
   console.error("Error getting location: ", error)
   usePositionStore().position = DEFAULT_COORDS
+  socket.emit(SocketEvents.UPDATE_USER, {
+    id: socket.id,
+    user: useAuthStore().get(),
+  })
 }
 
 const startWatchingPosition = () => {
