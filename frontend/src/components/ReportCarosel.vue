@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useReportStore } from '@/stores/report.store'
-import ReportCard from './ReportCard.vue'
-import type { IReport } from '@models/reportModel'
-import { ref, watch } from 'vue'
-import NavButton from './NavButton.vue'
-import 'vue3-carousel/carousel.css'
-import { Carousel, Slide } from 'vue3-carousel'
+import { useReportStore } from "@/stores/report.store"
+import ReportCard from "./ReportCard.vue"
+import type { IReport } from "@models/reportModel"
+import { ref, watch } from "vue"
+import NavButton from "./NavButton.vue"
+import "vue3-carousel/carousel.css"
+import { Carousel, Slide } from "vue3-carousel"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
 
 const reportStore = useReportStore()
@@ -85,7 +85,8 @@ const setCurrentSlide = (index: number) => {
     <section
         v-if="currentReport"
         class="z-10 absolute bottom-2 left-0 flex w-full md:content-center justify-center md:justify-start
-        overflow-x-hidden md:w-fit md:gap-1 md:rounded-none md:border-0 md:left-1/4">
+        overflow-x-hidden md:w-fit md:gap-1 md:rounded-none md:border-0 md:left-1/4"
+    >
 
       <Carousel ref="reportCarousel" v-bind="carouselConfig" v-model="currentSlide" class="w-screen md:hidden">
         <Slide v-for="(slide, index) in reportStore.getReports()" :key="slide._id"
@@ -94,7 +95,7 @@ const setCurrentSlide = (index: number) => {
         </Slide>
       </Carousel>
 
-      <div class="hidden flex-row justify-center items-center gap-x-2 md:flex">
+      <div class="hidden flex-row justify-center items-center gap-x-2 md:flex md:ml-3">
         <NavButton screen-reader-label="previous report" @click="previousReportHandler" class="hidden md:block">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-7 m-auto">
             <path fill-rule="evenodd"
@@ -103,21 +104,23 @@ const setCurrentSlide = (index: number) => {
           </svg>
         </NavButton>
 
-        <ReportCard
-            v-if="previousReport"
-            :report="previousReport"
-            :previousOrNext="true"
-            @click="previousReportHandler"
-            class="scale-95 shrink-0 md:hidden"/>
+        <ul>
+          <ReportCard
+              v-if="previousReport"
+              :report="previousReport"
+              :previousOrNext="true"
+              @click="previousReportHandler"
+              class="scale-95 shrink-0 md:hidden"/>
 
-        <ReportCard :report="currentReport" class="shrink-0 basis-4/5 md:basis-auto md:w-80"/>
+          <ReportCard :report="currentReport" class="shrink-0 basis-4/5 md:basis-auto md:w-80"/>
 
-        <ReportCard
-            v-if="nextReport"
-            :report="nextReport"
-            :previousOrNext="true"
-            @click="nextReportHandler"
-            class="scale-95 shrink-0 md:hidden"/>
+          <ReportCard
+              v-if="nextReport"
+              :report="nextReport"
+              :previousOrNext="true"
+              @click="nextReportHandler"
+              class="scale-95 shrink-0 md:hidden"/>
+        </ul>
 
         <NavButton screen-reader-label="next report" @click="nextReportHandler" class="hidden md:block">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-7 m-auto">
@@ -130,42 +133,43 @@ const setCurrentSlide = (index: number) => {
 
     </section>
   </SlideFromBottom>
-
 </template>
 
 <style scoped lang="scss">
-.carousel__slide--sliding {
-  transition: opacity var(--carousel-transition),
-  transform var(--carousel-transition);
-}
+.carousel {
+  &__slide--sliding {
+    transition: opacity var(--carousel-transition),
+    transform var(--carousel-transition);
+  }
 
-.carousel.is-dragging .carousel__slide {
-  transition: opacity var(--carousel-transition),
-  transform var(--carousel-transition);
-}
+  &.is-dragging .carousel__slide {
+    transition: opacity var(--carousel-transition),
+    transform var(--carousel-transition);
+  }
 
-.carousel__slide {
-  opacity: var(--carousel-opacity-inactive);
-  transform: translateX(10px) rotateY(-12deg) scale(0.95);
-}
+  &__slide {
+    opacity: var(--carousel-opacity-inactive);
+    transform: translateX(10px) rotateY(-12deg) scale(0.95);
+  }
 
-.carousel__slide--prev {
-  opacity: var(--carousel-opacity-near);
-  transform: rotateY(-10deg) scale(0.95);
-}
+  &__slide--prev {
+    opacity: var(--carousel-opacity-near);
+    transform: rotateY(-10deg) scale(0.95);
+  }
 
-.carousel__slide--active {
-  opacity: var(--carousel-opacity-active);
-  transform: rotateY(0) scale(1);
-}
+  &__slide--active {
+    opacity: var(--carousel-opacity-active);
+    transform: rotateY(0) scale(1);
+  }
 
-.carousel__slide--next {
-  opacity: var(--carousel-opacity-near);
-  transform: rotateY(10deg) scale(0.95);
-}
+  &__slide--next {
+    opacity: var(--carousel-opacity-near);
+    transform: rotateY(10deg) scale(0.95);
+  }
 
-.carousel__slide--next ~ .carousel__slide {
-  opacity: var(--carousel-opacity-inactive);
-  transform: translateX(-10px) rotateY(12deg) scale(0.95);
+  &__slide--next ~ .carousel__slide {
+    opacity: var(--carousel-opacity-inactive);
+    transform: translateX(-10px) rotateY(12deg) scale(0.95);
+  }
 }
 </style>

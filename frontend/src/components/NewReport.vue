@@ -10,7 +10,7 @@ import { blobToBase64, formatUnderscoredString } from "@/lib/stringUtility.ts"
 import CameraContainer from "@/components/CameraContainer.vue"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
-import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts";
+import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
@@ -18,7 +18,9 @@ import { OperationResults, RADIUS } from "@/lib/vars.ts"
 import { socket, SocketEvents } from "@/socket"
 
 
-const emit = defineEmits(["cancel"])
+const emit = defineEmits<{
+  (e: "cancel", option: any): void
+}>()
 
 const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)
@@ -77,7 +79,7 @@ const publishReport = async () => {
 
       // send notifications to each user which has a favorite spot near (radius) to the published report
       const [lat, long]: [number, number] = reportPost.data.coordinates
-      
+
       socket.emit(SocketEvents.NEW_REPORT_SPOT, reportPost.data, RADIUS)
 
       // send notifications to each user near to the published report
@@ -94,10 +96,10 @@ onMounted(fetchReportTypes)
 </script>
 
 <template>
-  <div class="p-4 pb-20 space-y-2">
+  <div class="p-4 pb-20 space-y-2 md:px-6">
     <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="() => {
       if (dialog.success) {
-        emit('cancel')
+        emit('cancel', undefined)
       }
       results.splice(0, 1)
     }">
@@ -158,8 +160,7 @@ onMounted(fetchReportTypes)
     <section>
       <div class="w-full h-64 mb-8 relative">
         <SimpleLabel attachTo="position">Position</SimpleLabel>
-        <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
-          v-model:latLng="latLng"></Map>
+        <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false v-model:latLng="latLng" />
       </div>
 
       <div class="flex flex-row w-full">
@@ -205,13 +206,11 @@ onMounted(fetchReportTypes)
     </section>
 
     <section
-      class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
-      <SimpleButton :outline=true screenReaderLabel="Cancel new report creation" @click="emit('cancel')">
+      class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[40vw] md:right-4">
+      <SimpleButton :outline=true screenReaderLabel="Cancel new report creation" @click="emit('cancel', undefined)">
         Cancel
       </SimpleButton>
       <SimpleButton screenReaderLabel="Submit new report" @click="publishReport">Submit</SimpleButton>
     </section>
   </div>
 </template>
-
-<style scoped lang="scss"></style>

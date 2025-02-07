@@ -1,8 +1,8 @@
-import type { IReport } from "@models/reportModel";
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import type { IReport } from "@models/reportModel"
+import { defineStore } from "pinia"
+import { ref } from "vue"
 
-export const useReportStore = defineStore('report', () => {
+export const useReportStore = defineStore("report", () => {
     const _currentReport = ref<IReport>()
     const _reports = ref<IReport[]>([])
 
@@ -10,7 +10,7 @@ export const useReportStore = defineStore('report', () => {
         return _currentReport.value
     }
 
-    function setReport(report: IReport | undefined) {
+    function setReport(report: IReport | undefined): void {
         _currentReport.value = report
     }
 
@@ -18,7 +18,7 @@ export const useReportStore = defineStore('report', () => {
         return _reports.value
     }
 
-    function setReports(reports: IReport[]) {
+    function setReports(reports: IReport[]): void {
         _reports.value = reports
     }
 
@@ -42,5 +42,5 @@ export const useReportStore = defineStore('report', () => {
         return _reports.value.map(r => JSON.stringify(r)).indexOf(JSON.stringify(report))
     }
 
-    return {getReport, setReport, getReports, setReports, getPreviousReport, getNextReport}
+    return { getReport, setReport, getReports, setReports, getPreviousReport, getNextReport }
 })

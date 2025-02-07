@@ -24,7 +24,7 @@ export const base64ToBlob = (base64: string): Blob => {
         buffer[i] = byteString.charCodeAt(i)
     }
 
-    return new Blob([buffer], { type: mimeType });
+    return new Blob([buffer], { type: mimeType })
 }
 
 export const blobToBase64 = (blob: Blob): Promise<string> => {

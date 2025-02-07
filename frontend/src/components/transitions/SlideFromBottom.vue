@@ -1,10 +1,12 @@
 <script setup lang="ts">
-const emit = defineEmits(["onCompleted"])
+const emit = defineEmits<{
+  (e: "onCompleted"): void
+}>()
 </script>
 
 <template>
   <transition name="slide-bottom" mode="out-in" @afterLeave="emit('onCompleted')">
-    <slot></slot>
+    <slot/>
   </transition>
 </template>
 

@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <transition name="scale" mode="out-in">
     <slot/>

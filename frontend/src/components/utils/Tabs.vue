@@ -36,12 +36,8 @@ defineProps<{
       </TabList>
 
       <TabPanels :class="[tabPanelsClasses, 'mt-2']">
-        <slot></slot>
+        <slot/>
       </TabPanels>
     </TabGroup>
   </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>

@@ -1,10 +1,6 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <transition name="slide-right" mode="out-in">
-    <slot></slot>
+    <slot/>
   </transition>
 </template>
 

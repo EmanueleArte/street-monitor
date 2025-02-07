@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', () => {
     const userFavoriteSpots = ref<IFavoriteSpot[]>(user.favorite_spots ?? [])
     const backendUrl = "http://localhost:3000/users/"
 
-    function get() {
+    function get(): IUser {
         return user
     }
 
@@ -33,26 +33,26 @@ export const useAuthStore = defineStore('auth', () => {
         return axios
             .get<IUser>(backendUrl + username.trim())
             .then(res => verifyPassword(password, res.data.password)
-                    .then(match => {
-                        if (!match) {
-                            return Promise.reject('passwords don\'t match')
-                        }
-                        
-                        user = res.data
-                        sessionStorage.setItem('user', JSON.stringify(res.data))
-                        router.push('/')
-                        return user
-                    })
+                .then(match => {
+                    if (!match) {
+                        return Promise.reject('passwords don\'t match')
+                    }
+
+                    user = res.data
+                    sessionStorage.setItem('user', JSON.stringify(res.data))
+                    router.push('/')
+                    return user
+                })
             )
     }
 
-    function logout() {
+    function logout(): void {
         user = JSON.parse("{}")
         sessionStorage.setItem('user', "{}")
         router.push("/signup")
     }
 
-    async function register(values: any) {
+    async function register(values: any): Promise<IUser> {
         const hash: string = await hashPassword(values.password)
         return axios
             .post(backendUrl, {
@@ -61,7 +61,7 @@ export const useAuthStore = defineStore('auth', () => {
                 reputation: 0,
             }, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 }
             })
             .then(() => login(values.username, values.password))
@@ -75,5 +75,5 @@ export const useAuthStore = defineStore('auth', () => {
         return user && user.admin === true
     }
 
-    return {login, logout, register, get, isLoggedIn, isAdmin, setNotifications, setFavoriteSpots, notifications: userNotifications, favorite_spots: userFavoriteSpots}
+    return { login, logout, register, get, isLoggedIn, isAdmin, setNotifications, setFavoriteSpots, notifications: userNotifications, favorite_spots: userFavoriteSpots }
 })

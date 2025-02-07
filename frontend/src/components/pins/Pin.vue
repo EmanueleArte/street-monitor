@@ -18,11 +18,7 @@ const dynamicAnchor: [number, number] = [props.iconSize / 2, props.iconSize * 1.
     <LIcon
         :icon-size="dynamicSize"
         :icon-anchor="dynamicAnchor"
-        :icon-url="iconUrl">
-    </LIcon>
+        :icon-url="iconUrl"/>
+    <slot/>
   </LMarker>
 </template>
-
-<style scoped lang="scss">
-
-</style>

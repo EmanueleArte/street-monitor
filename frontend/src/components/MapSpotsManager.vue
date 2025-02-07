@@ -5,6 +5,10 @@ import { useAuthStore } from "@/stores/auth.store.ts"
 import axios from "axios"
 import SpotPin from "@/components/pins/SpotPin.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
+
+defineProps<{
+  main?: boolean
+}>()
 import { storeToRefs } from "pinia"
 
 const { favorite_spots } = storeToRefs(useAuthStore())
@@ -22,11 +26,9 @@ onMounted(listMySpots)
 
 <template>
   <SpotPin v-for="spot in favorite_spots" :spot="spot" @click="() => {
-    usePositionStore().setFlyMainMap(true)
-    usePositionStore().move(spot.coordinates)
+    if (main) {
+      usePositionStore().setFlyMainMap(true)
+      usePositionStore().move(spot.coordinates)
+    }
   }"/>
 </template>
-
-<style scoped lang="scss">
-
-</style>

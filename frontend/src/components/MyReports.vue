@@ -9,7 +9,9 @@ import BottomButton from "./buttons/BottomButton.vue"
 const props = defineProps({
   showMyReports: { type: Boolean }
 })
-const emit = defineEmits(["update:showMyReports"])
+const emit = defineEmits<{
+  (e: "update:showMyReports", showMyReports: boolean): void
+}>()
 
 const showReportTile = ref<boolean>(false)
 
@@ -38,7 +40,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <BottomButton class="left-2 md:hidden" @click="toggleReportsVisibility" :text="'My Reports'" />
+  <BottomButton class="left-2 md:hidden" @click="toggleReportsVisibility" text="My Reports"/>
   <SlideFromBottom>
     <div v-if="showReportTile" class="container fixed bottom-0 z-20 h-[60%]">
       <FloatingRoundButton
@@ -50,7 +52,8 @@ onMounted(() => {
                 d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
       </FloatingRoundButton>
-      <Tile class="h-full flex flex-col z-10 p-2 pb-0">
+
+      <Tile class="h-full flex flex-col z-10 pb-0">
         <MyReportsTile/>
       </Tile>
     </div>

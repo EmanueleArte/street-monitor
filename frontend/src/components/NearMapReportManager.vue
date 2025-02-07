@@ -46,6 +46,7 @@ const getNearReports = async () => {
 function updateCurrentReport(report: IReport) {
   reportStore.setReport(report)
 }
+
 const reportsList = computed(() => {
   return props.main ? useMapStore().filteredReports : reports.value.filter((report) => report.status !== ReportStatus.CLOSED)
 })
@@ -57,9 +58,9 @@ watch(() => [props.lat, props.lng, props.radius], throttledGetNearReports)
 </script>
 
 <template>
-  <ReportPin v-for="report in reportsList.values()" :report="report" @click="() => updateCurrentReport(report)"/>
+  <ReportPin v-for="report in reportsList.values()" :report="report" @click="() => {
+    if (main) {
+      updateCurrentReport(report)
+    }
+  }"/>
 </template>
-
-<style scoped lang="scss">
-
-</style>

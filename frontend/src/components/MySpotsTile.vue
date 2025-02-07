@@ -37,16 +37,15 @@ onMounted(listMySpots)
 </template>
 
 <style>
-/* Hide scrollbar for Chrome, Safari and Opera */
-ul::-webkit-scrollbar {
-  display: none;
-}
-
 /* Hide scrollbar for IE, Edge and Firefox */
 ul {
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>

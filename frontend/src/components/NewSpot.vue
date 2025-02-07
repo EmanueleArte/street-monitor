@@ -12,7 +12,9 @@ import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults } from "@/lib/vars.ts"
 import type { IUser } from "@models/userModel"
 
-const emit = defineEmits(["cancel"])
+const emit = defineEmits<{
+  (e: "cancel", option: any): void
+}>()
 
 const posCopy = { ...usePositionStore().position }
 const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])
@@ -43,13 +45,15 @@ const saveSpot = () => {
 </script>
 
 <template>
-  <div class="p-4 pb-20 space-y-2">
-    <DialogWrapper v-for="dialog in results" :key="dialog.content" @closeOperation="() => {
-      if (dialog.success) {
-        emit('cancel')
-      }
-      results.splice(0, 1)
-    }">
+  <div class="p-4 pb-20 space-y-2 md:px-6">
+    <DialogWrapper v-for="dialog in results" :key="dialog.content"
+                   @closeOperation="() => {
+                     if (dialog.success) {
+                       emit('cancel', undefined)
+                     }
+                     results.splice(0, 1)
+                   }"
+    >
       <template v-slot:title>
         <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
           {{ dialog.title }}
@@ -73,7 +77,7 @@ const saveSpot = () => {
       <div class="w-full h-64 mb-8">
         <SimpleLabel attachTo="position">Position</SimpleLabel>
         <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
-             v-model:latLng="latLng"></Map>
+             v-model:latLng="latLng"/>
       </div>
 
       <div class="flex flex-row w-full">
@@ -93,18 +97,15 @@ const saveSpot = () => {
     </section>
 
     <section
-        class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[50vw] md:right-4">
+        class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[40vw] md:right-4">
       <SimpleButton
           :outline=true
           screenReaderLabel="Cancel favorite spot creation"
-          @click="emit('cancel')">
+          @click="emit('cancel', undefined)"
+      >
         Cancel
       </SimpleButton>
       <SimpleButton screenReaderLabel="Submit favorite spot creation" @click="saveSpot">Submit</SimpleButton>
     </section>
   </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>

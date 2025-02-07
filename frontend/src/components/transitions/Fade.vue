@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <transition name="fade" mode="out-in">
     <slot/>

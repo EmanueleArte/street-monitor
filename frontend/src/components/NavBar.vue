@@ -9,15 +9,15 @@ import type { INotification } from "@models/notificationModel"
 import { storeToRefs } from "pinia"
 
 const emit = defineEmits<{
-  (e: 'change', page: string): void,
-  (e: 'open', page: string): void
+  (e: "change", page: string): void,
+  (e: "open", page: string): void
 }>()
 
 enum Panels {
-  HOME = 'home',
-  ADMIN = 'admin',
-  NOTIFICATIONS = 'notifications',
-  PROFILE = 'profile'
+  HOME = "home",
+  ADMIN = "admin",
+  NOTIFICATIONS = "notifications",
+  PROFILE = "profile"
 }
 
 const windowWidth = ref<number>(window.innerWidth)
@@ -34,7 +34,7 @@ function openAdminPage() {
   if (windowWidth.value <= 768) { // md
     emit('change', Panels.ADMIN)
   } else {
-    emit('open', Panels.ADMIN)
+    emit("open", Panels.ADMIN)
   }
   if (openPanel.value === Panels.ADMIN) {
     closePanels()
@@ -48,7 +48,7 @@ function openNotificationsPage() {
   if (windowWidth.value <= 768) { // md
     emit('change', Panels.NOTIFICATIONS)
   } else {
-    emit('open', Panels.NOTIFICATIONS)
+    emit("open", Panels.NOTIFICATIONS)
   }
   if (openPanel.value === Panels.NOTIFICATIONS) {
     closePanels()
@@ -80,7 +80,7 @@ function openProfilePage() {
   if (windowWidth.value <= 768) { // md
     emit('change', Panels.PROFILE)
   } else {
-    emit('open', Panels.PROFILE)
+    emit("open", Panels.PROFILE)
   }
   if (openPanel.value === Panels.PROFILE) {
     closePanels()
@@ -98,7 +98,7 @@ function closePanels() {
   if (windowWidth.value <= 768) { // md
     emit('change', Panels.HOME)
   } else {
-    emit('open', Panels.HOME)
+    emit("open", Panels.HOME)
   }
   openPanel.value = null
 }
@@ -121,8 +121,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <nav ref="navbar"
-    class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-50 shadow-md shadow-black/40 md:shadow-none text-light">
+  <nav
+      ref="navbar"
+      class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-20 shadow-md shadow-black/40 md:shadow-none text-light"
+  >
     <div class="mx-auto max-w-7xl px-2 md:mx-0 md:max-w-none md:px-0">
       <div class="relative flex h-12 md:content-center p-3 md:justify-between md:h-16">
         <!-- Left part | Website name -->
@@ -133,13 +135,6 @@ onMounted(() => {
         <div class="hidden md:flex gap-2 content-start w-4/5">
           <MySpotsTile />
         </div>
-
-        <!-- Central part | Website logo -->
-        <!-- <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-          <div class="flex shrink-0 items-center">
-            <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
-          </div>
-        </div> -->
 
         <!-- Right part | Admin + Notifications + profile -->
         <div class="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0 md:gap-3">
@@ -203,18 +198,8 @@ onMounted(() => {
               </svg>
             </Scale>
           </NavButton>
-          <!-- <img class="size-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> -->
-
         </div>
       </div>
     </div>
   </nav>
-
-
 </template>
-
-<style scoped lang="scss">
-.z-100 {
-  z-index: 100;
-}
-</style>
