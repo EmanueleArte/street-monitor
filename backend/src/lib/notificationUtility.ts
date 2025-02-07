@@ -99,7 +99,7 @@ class Notification {
         }
 
         if (this.type.name == NotificationTypes.REPORT_UPDATE) {
-            this.content = `${this.reviewer} ${this.content} to ${this.reportStatus}`
+            this.content = `@${this.reviewer} ${this.content} to ${this.reportStatus}`
         }
 
         return {
