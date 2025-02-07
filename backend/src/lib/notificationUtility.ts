@@ -5,7 +5,6 @@ import notificationModel, { INotification } from '../models/notificationModel'
 import axios from "axios"
 import mongoose from "mongoose"
 
-
 class Notification {
     private date: Date
     private content: string

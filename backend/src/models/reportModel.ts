@@ -1,4 +1,5 @@
 import mongoose, { Schema, Model } from 'mongoose'
+import type { IUser } from "@/models/userModel";
 
 export interface IReport {
     _id: mongoose.Types.ObjectId,
