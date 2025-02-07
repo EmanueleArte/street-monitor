@@ -1,6 +1,8 @@
 import mongoose, { Schema, Model } from 'mongoose'
-import { IFavoriteSpot, favoriteSpotSchema } from './favoriteSpotModel'
-import { INotification, notificationSchema } from './notificationModel'
+import type { IFavoriteSpot } from './favoriteSpotModel'
+import { favoriteSpotSchema } from './favoriteSpotModel'
+import type { INotification } from './notificationModel'
+import { notificationSchema } from './notificationModel'
 
 export interface IUser {
     name: string
