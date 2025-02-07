@@ -4,15 +4,15 @@ import type { IUser } from '@/models/userModel'
 
 export interface IReport {
     _id: mongoose.Types.ObjectId,
-    type: IReportType,
-    user: IUser,
+    type: string,
+    user: string,
     coordinates: [number, number],
     open_datetime: Date,
     status: string,
     close_datetime?: Date,
     description?: string,
     picture?: string,
-    upvotes?: IUser[]
+    upvotes?: string[]
 }
 
 const reportSchema: Schema<IReport> = new Schema<IReport>({
