@@ -5,10 +5,20 @@
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "outDir": "./dist",
+    "target": "es6",
+    "module": "es2020",
+    "allowUnreachableCode": true,
+    "moduleResolution": "Bundler",
 
     "paths": {
       "@/*": ["./src/*"],
       "@models/*": ["../backend/src/models/*"]
     }
-  }
+  },
+  "references": [
+    {
+      "path": "../backend/tsconfig.app.json"
+    }
+  ]
 }
