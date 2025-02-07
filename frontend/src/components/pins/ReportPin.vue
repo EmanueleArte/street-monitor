@@ -18,7 +18,7 @@ function clickHandler() {
   emit('click')
 }
 
-const iconPath = computed(() => "../src/assets/icons/" + props.report.status + "/" + props.report.type + "_pin.png")
+const iconPath = computed(() => "./icons/" + props.report.status + "/" + props.report.type + "_pin.png")
 </script>
 
 <template>

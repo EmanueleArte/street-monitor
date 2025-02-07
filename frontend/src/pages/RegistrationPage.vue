@@ -25,7 +25,7 @@ const switchPage = () => {
 <template>
 
   <!-- background -->
-  <div id="background" class="md:grid grid-cols-12 min-h-screen bg-[url('./assets/img/map-wallpaper.jpg')]">
+  <div id="background" class="md:grid grid-cols-12 min-h-screen bg-[url('./img/map-wallpaper.jpg')]">
 
     <!-- login/registration container -->
     <div class="col-start-2 col-span-4 h-full md:flex md:flex-col md:flex-wrap md:p-10 px-0">
