@@ -56,7 +56,8 @@ export const updateUser = (req: Request, res: Response) => {
 
 // Notifications
 export const addNotification = (req: Request, res: Response) => {
-    const notification: INotification = new notificationModel(req.body)
+    const notificationData: INotification = new notificationModel(req.body)
+    const notification = new notificationModel(notificationData)
     const validationError = notification.validateSync()
 
     if (validationError) {

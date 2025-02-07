@@ -2,9 +2,13 @@
   "name": "backend",
   "version": "0.0.0",
   "private": true,
+  "main": "index.ts",
   "scripts": {
     "dev": "tsx watch .",
-    "start": "tsx ."
+    "start": "tsx .",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
+    "start-dist": "node dist/."
   },
   "license": "ISC",
   "dependencies": {
