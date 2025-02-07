@@ -25,7 +25,7 @@ const switchPage = () => {
 <template>
 
   <!-- background -->
-  <div id="background" class="md:grid grid-cols-12 min-h-screen">
+  <div id="background" class="md:grid grid-cols-12 min-h-screen bg-[url('./assets/img/map-wallpaper.jpg')]">
 
     <!-- login/registration container -->
     <div class="col-start-2 col-span-4 h-full md:flex md:flex-col md:flex-wrap md:p-10 px-0">
@@ -59,6 +59,9 @@ const switchPage = () => {
 <style lang="scss" scoped>
 // temporary
 div#background {
-  background-image: linear-gradient(to left top, #8bc34a, #00b87f, #00a4b5, #0089d0, #1565c0);
+  // background-image: linear-gradient(to left top, #8bc34a, #00b87f, #00a4b5, #0089d0, #1565c0);
+  // background-image: url('../assets/img/map-wallpaper.jpg')
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>
