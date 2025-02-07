@@ -11,6 +11,7 @@ import { usePositionStore } from "@/stores/position.store"
 import type { IUser } from "@models/userModel"
 import { OperationResults, ReportStatus } from "@/lib/vars.ts"
 import { socket, SocketEvents } from "@/socket"
+import { useReportStore } from "@/stores/report.store"
 
 // Values set only for the project presentation.
 // In a real scenario higher values are suggested.
@@ -23,10 +24,6 @@ const props = defineProps({
   report: { type: Object as PropType<IReport>, required: true },
   previousOrNext: { type: Boolean, required: false }
 })
-
-const emit = defineEmits<{
-  (e: "updateTiles"): void
-}>()
 
 const authStore = useAuthStore()
 const positionStore = usePositionStore()
@@ -69,7 +66,7 @@ const changeStatus = async () => {
     axios.put<IUser>(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
       .then(res => {
         if (res.status !== 200) return
-        emit('updateTiles')
+        useReportStore().setReportBuffer([props.report, props.report.status])
       })
       .catch(err => addResult(false, OperationResults.FAILURE, 'Failed to change the status of the report'))
 
@@ -80,7 +77,6 @@ const changeStatus = async () => {
   axios.put<IUser>(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
     .then(res => {
       if (res.status !== 200) return
-      emit('updateTiles')
       socket.emit(SocketEvents.REPORT_UPDATE, props.report, props.report.user, authStore.get(), getNewReportStatus(props.report.status))
       addResult(true, OperationResults.SUCCESS, `Notification of status change sent to ${props.report.user}`)
     })

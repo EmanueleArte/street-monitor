@@ -14,7 +14,7 @@ import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
-import { OperationResults, RADIUS } from "@/lib/vars.ts"
+import { OperationResults, RADIUS, ReportStatus } from "@/lib/vars.ts"
 import { socket, SocketEvents } from "@/socket"
 import { useReportStore } from "@/stores/report.store"
 
@@ -79,7 +79,7 @@ const publishReport = async () => {
       addResult(true, OperationResults.SUCCESS, "Report successfully published")
 
       //add the new report to the reportBuffer
-      useReportStore().setReportBuffer(reportPost.data)
+      useReportStore().setReportBuffer([reportPost.data, ReportStatus.OPEN])
 
       // send notifications to each user which has a favorite spot near (radius) to the published report
       const [lat, long]: [number, number] = reportPost.data.coordinates
