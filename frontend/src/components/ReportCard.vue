@@ -9,9 +9,15 @@ import SimpleButton from "./buttons/SimpleButton.vue"
 import axios from "axios"
 import { usePositionStore } from "@/stores/position.store"
 import type { IUser } from "@models/userModel"
-import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults, ReportStatus } from "@/lib/vars.ts"
 import { socket, SocketEvents } from "@/socket"
+
+// Values set only for the project presentation.
+// In a real scenario higher values are suggested.
+enum ReputationThreashold {
+  LOW = 2,
+  HIGH = 5
+}
 
 const props = defineProps({
   report: { type: Object as PropType<IReport>, required: true },
@@ -27,11 +33,17 @@ const positionStore = usePositionStore()
 const user = ref<IUser>()
 const isOwnerLoggedIn = ref<boolean>(authStore.isLoggedIn(props.report.user))
 const results = ref<{ success: boolean, title: string, content: string }[]>([])
-const reputationColor = ref<string>(computeReputationColor(user.value?.reputation))
+const reputationColor = ref<string>(computeReputationColor(user.value))
 
-function computeReputationColor(reputation: number | undefined): string {
-  if (!reputation) return "primary-600"
-  return "primary-600"
+// border-primary-600
+// border-red-500
+// border-amber-500
+// border-emerald-600
+function computeReputationColor(user: IUser | undefined): string {
+  if (!user || !user.reputation || authStore.isLoggedIn(user.username)) return "primary-600"
+  if (user.reputation < ReputationThreashold.LOW) return "red-500"
+  if (user.reputation < ReputationThreashold.HIGH) return "amber-500"
+  return "emerald-600"
 }
 
 
@@ -97,7 +109,8 @@ watch(() => props.report.user, async (reportUser) => {
   try {
     const response = await axios.get(`http://localhost:3000/users/${reportUser}`)
     user.value = response.data
-    reputationColor.value = computeReputationColor(user.value?.reputation || 0)
+    console.log('asdf')
+    reputationColor.value = computeReputationColor(user.value)
   } catch (e) {
     console.error(e)
   }
@@ -132,7 +145,8 @@ function roundNumber(num: number, decimals: number): number {
 <template>
   <li>
     <article
-      class="h-fit border-surface-default aspect-3/2 w-full md:shrink-0 flex flex-row shadow-md rounded-lg border-2 bg-surface-default my-2 overflow-hidden">
+      class="h-fit aspect-3/2 w-full md:shrink-0 flex flex-row shadow-md rounded-lg border-2 bg-surface-default my-2 overflow-hidden"
+      :class="'border-' + reputationColor">
       <section class="max-w-[40%] shrink-0">
         <img :src="report.picture ? `${report.picture}` : 'http://localhost:3000/not-found-report-picture.jpg'"
           alt="report image" class="w-full h-40 object-cover" />
