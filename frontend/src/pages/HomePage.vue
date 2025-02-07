@@ -18,8 +18,6 @@ if (JSON.stringify(authStore.get()) === "{}") {
   authStore.logout()
 }
 
-
-
 const currentPage = ref<string>("home")
 const asidePage = ref<string | undefined>("")
 const whatToShow = ref<string>("")
@@ -44,7 +42,7 @@ const homeContainerShow = (what: string): void => {
   <NavBar @change="changePage" @open="openPage"/>
   <HomeContainer :whatToShow="whatToShow"/>
   <SlideFromTop>
-    <NotificationsContainer v-if="currentPage === 'notifications'"/>
+    <NotificationsContainer v-if="currentPage === 'notifications'" @change="changePage"/>
     <ProfileContainer v-if="currentPage === 'profile'" @showMyReports="homeContainerShow('myReports')" @showMySpots="homeContainerShow('mySpots')"/>
     <AdminContainer v-if="currentPage === 'admin'"/>
   </SlideFromTop>

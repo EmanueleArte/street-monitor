@@ -17,6 +17,11 @@ const props = defineProps<{
     favoriteSpot?: IFavoriteSpot
 }>()
 
+const emit = defineEmits<{
+    (e: 'change', page: string): void,
+}>()
+
+
 const readOpacity: number = 65
 
 const positionStore = usePositionStore()
@@ -27,6 +32,7 @@ function goToReport() {
             positionStore.setFlyMainMap(true)
             positionStore.move(report.data.coordinates)
             useReportStore().setReport(report.data)
+            emitChange()
         })
 }
 
@@ -34,12 +40,14 @@ function goToSpot() {
     if (!props.favoriteSpot) return
     positionStore.setFlyMainMap(true)
     positionStore.move(props.favoriteSpot?.coordinates)
+    emitChange()
 }
 
-// function approveStatusChange() {
-//     axios.post(`http://localhost:3000/reports/by-id/${props.report}`, { status: props.reportStatus }, { headers: { 'Content-Type': 'application/json' } })
-//         .then(res => console.log('report status updated'))
-// }
+function emitChange() {
+    if (window.innerWidth <= 768) { // md
+        emit('change', 'home')
+    }
+}
 
 </script>
 
@@ -63,21 +71,10 @@ function goToSpot() {
 
             <slot />
         </div>
-        <div class="ms-11 flex text-xs leading-tight justify-between"
+        <div class="ms-11 flex text-xs leading-tight gap-x-4"
             :class="`text-primary-600${props.read ? `/${readOpacity}` : ''}`">
-            <div class="flex gap-4">
-                <button v-if="props.report" @click="goToReport">Go to report</button>
-                <button v-if="props.favoriteSpot" @click="goToSpot">Go to favorite spot</button>
-            </div>
-
-            <!-- <div v-if="props.reportStatus" class="flex gap-x-2">
-                <SimpleButton :outline=true>
-                    Decline
-                </SimpleButton>
-                <SimpleButton @click="approveStatusChange">
-                    Approve
-                </SimpleButton>
-            </div> -->
+            <button v-if="props.report" @click="goToReport">Go to report</button>
+            <button v-if="props.favoriteSpot" @click="goToSpot">Go to favorite spot</button>
         </div>
     </div>
 </template>

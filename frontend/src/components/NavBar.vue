@@ -20,18 +20,18 @@ enum Panels {
   PROFILE = 'profile'
 }
 
+const windowWidth = ref<number>(window.innerWidth)
+
 const { notifications } = storeToRefs(useAuthStore())
 const newNotifications = ref<boolean>(notifications.value.filter((notification: INotification) => !notification.read).length > 0)
-console.log(notifications.value.filter((notification: INotification) => !notification.read))
 watch(notifications, (newValue, oldValue) => {
-  console.log('navbar update')
   newNotifications.value = newValue.length > oldValue.length//notifications.value.filter((notification: INotification) => !notification.read).length > 0
 })
 
 const openPanel = ref<Panels | null>(null)
 
 function openAdminPage() {
-  if (window.innerWidth <= 768) { // md
+  if (windowWidth.value <= 768) { // md
     emit('change', Panels.ADMIN)
   } else {
     emit('open', Panels.ADMIN)
@@ -45,7 +45,7 @@ function openAdminPage() {
 
 function openNotificationsPage() {
   newNotifications.value = false
-  if (window.innerWidth <= 768) { // md
+  if (windowWidth.value <= 768) { // md
     emit('change', Panels.NOTIFICATIONS)
   } else {
     emit('open', Panels.NOTIFICATIONS)
@@ -71,10 +71,13 @@ function openNotificationsPage() {
     openPanel.value = Panels.NOTIFICATIONS
   }
 
+  console.log('openNotificationPage', openPanel.value)
+
+
 }
 
 function openProfilePage() {
-  if (window.innerWidth <= 768) { // md
+  if (windowWidth.value <= 768) { // md
     emit('change', Panels.PROFILE)
   } else {
     emit('open', Panels.PROFILE)
@@ -84,10 +87,15 @@ function openProfilePage() {
   } else {
     openPanel.value = Panels.PROFILE
   }
+  console.log('openProfilePage', openPanel.value)
 }
 
+watch(openPanel, (val) => {
+  console.log('[WATCH] openPanel:', val)
+})
+
 function closePanels() {
-  if (window.innerWidth <= 768) { // md
+  if (windowWidth.value <= 768) { // md
     emit('change', Panels.HOME)
   } else {
     emit('open', Panels.HOME)
@@ -107,7 +115,9 @@ const handleClickOutside = (event: MouseEvent) => {
 
 onMounted(() => {
   document.addEventListener("click", handleClickOutside)
+  window.addEventListener('resize', () => windowWidth.value = window.innerWidth)
 })
+
 </script>
 
 <template>
@@ -154,8 +164,8 @@ onMounted(() => {
           <NavButton @click="openNotificationsPage" screen-reader-label="view notifications">
             <Scale>
               <!-- Cross -->
-              <svg v-if="openPanel === Panels.NOTIFICATIONS" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                class="size-6 md:m-auto">
+              <svg v-if="openPanel === Panels.NOTIFICATIONS" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24" fill="currentColor" class="size-6 md:m-auto">
                 <path fill-rule="evenodd"
                   d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
                   clip-rule="evenodd" />
@@ -178,16 +188,18 @@ onMounted(() => {
           <!-- Profile -->
           <NavButton @click="openProfilePage" screen-reader-label="open user menu">
             <Scale>
-              <svg v-if="openPanel !== Panels.PROFILE" class="size-6 md:m-auto" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                class="size-6 md:m-auto">
+              <!-- Cross -->
+              <svg v-if="openPanel === Panels.PROFILE" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="currentColor" class="size-6 md:m-auto">
                 <path fill-rule="evenodd"
                   d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
                   clip-rule="evenodd" />
+              </svg>
+              <!-- Profile icon -->
+              <svg v-else class="size-6 md:m-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
               </svg>
             </Scale>
           </NavButton>

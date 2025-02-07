@@ -6,6 +6,8 @@ import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import NoNotificationsBanner from './NoNotificationsBanner.vue'
 
+const emit = defineEmits(['change']) // Register the emits
+
 const authStore = useAuthStore()
 const { notifications } = storeToRefs(authStore)
 
@@ -29,14 +31,14 @@ function getNotifications(notifications: INotification[], read: boolean): INotif
         class="nav-aside h-screen w-screen fixed top-12 bg-surface-default z-10 p-4 pt-7 pb-16 md:pb-4 md:relative md:h-full md:w-full md:top-0 md:m-0 md:pt-0 overflow-y-auto">
         <h1 v-if="notifications?.length && notifications?.length > 0" class="text-2xl md:hidden">Notifications</h1>
 
-        <NoNotificationsBanner v-else :full-screen="true"/>
+        <NoNotificationsBanner v-else :full-screen="true" />
 
         <section v-if="unreadNotifications.length > 0">
             <h2 class="hidden">Unread notifications</h2>
             <ul class="gap-1 inline-grid mt-2">
                 <li v-for="notification in unreadNotifications">
                     <Notification :read="false" :date="new Date(notification.send_datetime)"
-                        :report="notification.report" :favorite-spot="notification.favorite_spot">
+                        :report="notification.report" :favorite-spot="notification.favorite_spot" @change="(page) => emit('change', page)">
                         {{ notification.content }}
                     </Notification>
                 </li>
@@ -55,7 +57,7 @@ function getNotifications(notifications: INotification[], read: boolean): INotif
             <ul class="gap-1 inline-grid mt-2">
                 <li v-for="notification in readNotifications">
                     <Notification :read="true" :date="new Date(notification.send_datetime)"
-                        :report="notification.report" :favorite-spot="notification.favorite_spot">
+                        :report="notification.report" :favorite-spot="notification.favorite_spot" @change="(page) => emit('change', page)">
                         {{ notification.content }}
                     </Notification>
                 </li>
