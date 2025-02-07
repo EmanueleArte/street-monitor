@@ -1,6 +1,7 @@
 import mongoose, { Schema, Model } from 'mongoose'
-import { INotificationType } from './notificationTypeModel'
-import { favoriteSpotSchema, IFavoriteSpot } from './favoriteSpotModel'
+import type { INotificationType } from './notificationTypeModel'
+import type { IFavoriteSpot } from './favoriteSpotModel'
+import { favoriteSpotSchema } from './favoriteSpotModel'
 import type { IReport } from './reportModel'
 import { IUser } from './userModel'
 
