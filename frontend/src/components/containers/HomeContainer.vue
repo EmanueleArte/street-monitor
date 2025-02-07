@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import Map from "@/components/Map.vue"
-import MyReports from "@/components/MyReports.vue"
-import MySpots from "@/components/MySpots.vue"
-import ReportCarosel from "./ReportCarosel.vue"
-import NewReportTile from "./NewReportTile.vue"
+import Map from "@/components/map/Map.vue"
+import MyReports from "@/components/reports/MyReports.vue"
+import MySpots from "@/components/spots/MySpots.vue"
+import ReportCarosel from "@/components/reports/ReportCarosel.vue"
+import NewReportTile from "@/components/reports/NewReportTile.vue"
 import { onMounted, ref, watch } from "vue"
-import LeftAside from "@/components/LeftAside.vue"
-import { useAuthStore } from "@/stores/auth.store"
+import LeftAside from "@/components/utils/LeftAside.vue"
+import { useAuthStore } from "@/stores/auth.store.ts"
 import ReportFilterContainer from "./ReportFilterContainer.vue"
 
 const props = defineProps({

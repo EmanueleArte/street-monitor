@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, onUpdated, ref } from "vue"
-import MyReportsTile from "@/components/MyReportsTile.vue"
-import Tile from "@/components/Tile.vue"
+import MyReportsTile from "@/components/reports/MyReportsTile.vue"
+import Tile from "@/components/utils/Tile.vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
-import BottomButton from "./buttons/BottomButton.vue"
+import BottomButton from "../buttons/BottomButton.vue"
 
 const props = defineProps({
   showMyReports: { type: Boolean }
@@ -61,5 +61,5 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@use "../style/transitions" as *;
+@use "../../style/transitions" as *;
 </style>

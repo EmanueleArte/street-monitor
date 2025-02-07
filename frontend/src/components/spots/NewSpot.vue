@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Map from "@/components/Map.vue"
+import Map from "@/components/map/Map.vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { ref } from "vue"
@@ -10,7 +10,7 @@ import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults } from "@/lib/vars.ts"
-import type { IUser } from "@models/userModel"
+import type { IUser } from "@models/userModel.ts"
 
 const emit = defineEmits<{
   (e: "cancel", option: any): void
@@ -97,7 +97,8 @@ const saveSpot = () => {
     </section>
 
     <section
-        class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[40vw] md:right-4">
+        class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[30vw] md:right-4"
+    >
       <SimpleButton
           :outline=true
           screenReaderLabel="Cancel favorite spot creation"

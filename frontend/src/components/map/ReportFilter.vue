@@ -8,7 +8,7 @@ import axios from "axios"
 import type { IReportType } from "@models/reportTypeModel.ts"
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
-import { useReportStore } from "@/stores/report.store"
+import { useReportStore } from "@/stores/report.store.ts"
 
 const show = ref<boolean>(true)
 const observer = ref<MutationObserver | null>(null)

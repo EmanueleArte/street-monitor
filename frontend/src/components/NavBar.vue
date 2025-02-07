@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue"
-import NavButton from "./NavButton.vue"
+import NavButton from "./buttons/NavButton.vue"
 import Scale from "@/components/transitions/Scale.vue"
-import MySpotsTile from "./MySpotsTile.vue"
+import MySpotsTile from "@/components/spots/MySpotsTile.vue"
 import { useAuthStore } from "@/stores/auth.store"
 import axios from "axios"
 import type { INotification } from "@models/notificationModel"

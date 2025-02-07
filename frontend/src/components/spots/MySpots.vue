@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import BottomButton from "@/components/buttons/BottomButton.vue"
-import Tile from "@/components/Tile.vue"
+import Tile from "@/components/utils/Tile.vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
-import MySpotsTile from "@/components/MySpotsTile.vue"
+import MySpotsTile from "@/components/spots/MySpotsTile.vue"
 import { onMounted, onUpdated, ref } from "vue"
 
 const props = defineProps({
@@ -61,5 +61,5 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@use "../style/transitions" as *;
+@use "../../style/transitions" as *;
 </style>

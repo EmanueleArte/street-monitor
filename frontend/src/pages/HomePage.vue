@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import HomeContainer from "@/components/HomeContainer.vue"
+import HomeContainer from "@/components/containers/HomeContainer.vue"
 import NavBar from "@/components/NavBar.vue"
 import NotificationsContainer from "@/components/notifications/NotificationsContainer.vue"
-import ProfileContainer from "@/components/ProfileContainer.vue"
-import Aside from "@/components/Aside.vue"
+import ProfileContainer from "@/components/containers/ProfileContainer.vue"
+import Aside from "@/components/utils/Aside.vue"
 import { ref } from "vue"
 import SlideFromRight from "@/components/transitions/SlideFromRight.vue"
 
 import { useAuthStore } from "@/stores/auth.store"
-import AdminContainer from "@/components/AdminContainer.vue"
+import AdminContainer from "@/components/containers/AdminContainer.vue"
 import SlideFromTop from "@/components/transitions/SlideFromTop.vue"
 
 const authStore = useAuthStore()

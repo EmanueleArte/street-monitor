@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useReportStore } from "@/stores/report.store"
+import { useReportStore } from "@/stores/report.store.ts"
 import ReportCard from "./ReportCard.vue"
-import type { IReport } from "@models/reportModel"
+import type { IReport } from "@models/reportModel.ts"
 import { ref, watch } from "vue"
-import NavButton from "./NavButton.vue"
+import NavButton from "../buttons/NavButton.vue"
 import "vue3-carousel/carousel.css"
 import { Carousel, Slide } from "vue3-carousel"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"

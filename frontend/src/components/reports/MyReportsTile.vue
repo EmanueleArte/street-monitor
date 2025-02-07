@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { IReport } from "@models/reportModel"
+import type { IReport } from "@models/reportModel.ts"
 import axios from "axios"
 import { onMounted, ref, watch } from "vue"
 import ReportCard from "./ReportCard.vue"
 import { TabPanel } from "@headlessui/vue"
 import Tabs from "@/components/utils/Tabs.vue"
 import { ReportStatus } from "@/lib/vars.ts"
-import { useAuthStore } from "@/stores/auth.store"
-import { useReportStore } from "@/stores/report.store"
+import { useAuthStore } from "@/stores/auth.store.ts"
+import { useReportStore } from "@/stores/report.store.ts"
 
 const myOpenReports = ref<IReport[]>([])
 const mySolvingReports = ref<IReport[]>([])

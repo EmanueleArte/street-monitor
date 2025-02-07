@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useAuthStore } from "@/stores/auth.store"
+import { useAuthStore } from "@/stores/auth.store.ts"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import { onMounted, ref } from "vue"
 import axios from "axios"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
-import type { IReport } from "@models/reportModel"
+import type { IReport } from "@models/reportModel.ts"
 
 const authStore = useAuthStore()
 const reportsNumber = ref<number>(0)

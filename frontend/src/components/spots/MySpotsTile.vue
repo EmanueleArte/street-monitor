@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { IFavoriteSpot } from '@models/favoriteSpotModel';
-import SpotCard from '@/components/SpotCard.vue';
+import type { IFavoriteSpot } from '@models/favoriteSpotModel.ts';
+import SpotCard from '@/components/spots/SpotCard.vue';
 import axios from 'axios';
 import { onMounted, ref, watch } from 'vue';
-import { useAuthStore } from '@/stores/auth.store';
+import { useAuthStore } from '@/stores/auth.store.ts';
 import { storeToRefs } from 'pinia';
 
 const authStore = useAuthStore()

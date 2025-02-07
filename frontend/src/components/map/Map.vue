@@ -4,16 +4,16 @@ import { LMap, LMarker, LTileLayer, LCircle, LControl } from "@vue-leaflet/vue-l
 import type { LeafletEvent } from "leaflet"
 import { ref, onUnmounted, onBeforeMount, watch } from "vue"
 import { throttle } from "lodash"
-import NearMapReportManager from "@/components/NearMapReportManager.vue"
+import NearMapReportManager from "@/components/map/NearMapReportManager.vue"
 import CenterPin from "@/components/pins/CenterPin.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { coordsEquals } from "@/lib/mapUtility.ts"
-import { useReportStore } from "@/stores/report.store"
-import RecenterMapButton from "./buttons/RecenterMapButton.vue"
-import MapSpotsManager from "@/components/MapSpotsManager.vue"
-import { RADIUS } from "@/lib/vars"
-import { socket, SocketEvents } from "@/socket"
-import { useAuthStore } from "@/stores/auth.store"
+import { useReportStore } from "@/stores/report.store.ts"
+import RecenterMapButton from "../buttons/RecenterMapButton.vue"
+import MapSpotsManager from "@/components/map/MapSpotsManager.vue"
+import { RADIUS } from "@/lib/vars.ts"
+import { socket, SocketEvents } from "@/socket.ts"
+import { useAuthStore } from "@/stores/auth.store.ts"
 
 const DEFAULT_COORDS: [number, number] = [44.494887, 11.3426163]
 

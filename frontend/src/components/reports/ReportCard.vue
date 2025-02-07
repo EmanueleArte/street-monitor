@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useAuthStore } from "@/stores/auth.store"
-import type { IReport } from "@models/reportModel"
+import { useAuthStore } from "@/stores/auth.store.ts"
+import type { IReport } from "@models/reportModel.ts"
 import { ref, watch, type PropType } from "vue"
-import { formatDate, formatUnderscoredString } from "@/lib/stringUtility"
+import { formatDate, formatUnderscoredString } from "@/lib/stringUtility.ts"
 import { Popover, PopoverButton } from "@headlessui/vue"
-import PopoverPanelWrapper from "./utils/PopoverPanelWrapper.vue"
-import SimpleButton from "./buttons/SimpleButton.vue"
+import PopoverPanelWrapper from "../utils/PopoverPanelWrapper.vue"
+import SimpleButton from "../buttons/SimpleButton.vue"
 import axios from "axios"
-import { usePositionStore } from "@/stores/position.store"
-import type { IUser } from "@models/userModel"
+import { usePositionStore } from "@/stores/position.store.ts"
+import type { IUser } from "@models/userModel.ts"
 import { OperationResults, ReportStatus } from "@/lib/vars.ts"
-import { socket, SocketEvents } from "@/socket"
-import { useReportStore } from "@/stores/report.store"
+import { socket, SocketEvents } from "@/socket.ts"
+import { useReportStore } from "@/stores/report.store.ts"
 
 // Values set only for the project presentation.
 // In a real scenario higher values are suggested.

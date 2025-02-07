@@ -4,10 +4,10 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headless
 import type { IReportType } from "@models/reportTypeModel.ts"
 import type { IReport } from "@models/reportModel.ts"
 import axios, { type AxiosResponse } from "axios"
-import Map from "@/components/Map.vue"
+import Map from "@/components/map/Map.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { blobToBase64, formatUnderscoredString } from "@/lib/stringUtility.ts"
-import CameraContainer from "@/components/CameraContainer.vue"
+import CameraContainer from "@/components/containers/CameraContainer.vue"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts"
@@ -15,8 +15,8 @@ import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults, RADIUS, ReportStatus } from "@/lib/vars.ts"
-import { socket, SocketEvents } from "@/socket"
-import { useReportStore } from "@/stores/report.store"
+import { socket, SocketEvents } from "@/socket.ts"
+import { useReportStore } from "@/stores/report.store.ts"
 
 
 const emit = defineEmits<{
@@ -210,7 +210,8 @@ onMounted(fetchReportTypes)
     </section>
 
     <section
-      class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[40vw] md:right-4">
+      class="w-full flex justify-end space-x-2 fixed bottom-0 right-0 px-4 py-3 bg-surface-default md:max-w-[30vw] md:right-4"
+    >
       <SimpleButton :outline=true screenReaderLabel="Cancel new report creation" @click="emit('cancel', undefined)">
         Cancel
       </SimpleButton>

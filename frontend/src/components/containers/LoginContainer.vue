@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import { useAuthStore } from "@/stores/auth.store"
-import FormInput from "./inputs/FormInput.vue"
-import FormFieldset from "./inputs/FormFieldset.vue"
-import SimpleButton from "./buttons/SimpleButton.vue"
+import { useAuthStore } from "@/stores/auth.store.ts"
+import FormInput from "../inputs/FormInput.vue"
+import FormFieldset from "../inputs/FormFieldset.vue"
+import SimpleButton from "../buttons/SimpleButton.vue"
 
 const authStore = useAuthStore()
 const loginError = ref<string>("")

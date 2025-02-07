@@ -5,7 +5,7 @@ import { ReportStatus } from "@/lib/vars.ts"
 import { useMapStore } from "@/stores/map.store.ts"
 import axios from "axios"
 import type { IReportType } from "@models/reportTypeModel.ts"
-import ReportFilter from "./ReportFilter.vue"
+import ReportFilter from "@/components/map/ReportFilter.vue"
 
 const show = ref<boolean>(true)
 const observer = ref<MutationObserver | null>(null)

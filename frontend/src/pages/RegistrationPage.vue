@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import RegistrationContainer from "@/components/RegistrationContainer.vue"
-import LoginContainer from "@/components/LoginContainer.vue"
+import RegistrationContainer from "@/components/containers/RegistrationContainer.vue"
+import LoginContainer from "@/components/containers/LoginContainer.vue"
 import Fade from "@/components/transitions/Fade.vue"
 
 const LOGIN_PARAGRAPH_TEXT: string = "Don't have an account?"

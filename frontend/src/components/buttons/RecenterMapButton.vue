@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePositionStore } from "@/stores/position.store"
 import FloatingRoundButton from "./FloatingRoundButton.vue"
-import NavButton from "../NavButton.vue"
+import NavButton from "./NavButton.vue"
 
 const props = defineProps<{
   forMainMap: boolean

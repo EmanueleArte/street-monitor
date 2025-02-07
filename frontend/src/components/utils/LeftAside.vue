@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import MyReportsTile from "./MyReportsTile.vue"
-import ReportFilter from "./ReportFilter.vue"
+import MyReportsTile from "@/components/reports/MyReportsTile.vue"
+import ReportFilter from "@/components/map/ReportFilter.vue"
 </script>
 
 <template>
-  <section class="flex md:absolute top-0 h-full w-[26%] z-20 md:p-3">
+  <section class="flex md:absolute top-0 h-full w-[25%] z-20 md:p-3">
     <aside
         class="hidden p-4 md:flex md:flex-col z-10 h-full w-full bg-surface-default overflow-hidden rounded-lg shadow-lg gap-y-2"
     >

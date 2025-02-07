@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import FormInfo from "../FormInfo.vue"
+import FormInfo from "../utils/FormInfo.vue"
 
 const DEFAULT_INPUT_TYPE: string = "text"
 
