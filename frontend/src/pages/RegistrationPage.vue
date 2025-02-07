@@ -31,7 +31,7 @@ const switchPage = () => {
   <div class="col-start-2 col-span-4 h-full md:flex md:flex-col md:flex-wrap md:p-10 px-0">
 
     <!-- login/registration inner container -->
-    <div class="flex flex-col w-full h-full bg-surface-default md:rounded-2xl md:px-10 md:py-5 shadow-lg shadow-black/30">
+    <div class="relative flex flex-col w-full h-screen md:h-full bg-surface-default md:rounded-2xl md:px-10 md:py-5 shadow-lg shadow-black/30">
       <header class="text-l text-primary-600 font-bold p-4">StreetMonitor</header>
 
       <section class="flex flex-col grow justify-start gap-10 px-5 pt-20">
