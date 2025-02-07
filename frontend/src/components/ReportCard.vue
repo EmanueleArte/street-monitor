@@ -25,13 +25,14 @@ const reputationColor = ref<string>(computeReputationColor(user.value?.reputatio
 
 const props = defineProps({
     report: { type: Object as PropType<IReport>, required: true },
-    previousOrNext: { type: Boolean, required: false }
-})
+        previousOrNext: { type: Boolean, required: false }
+    })
+
+const isOwnerLoggedIn = ref<boolean>(authStore.isLoggedIn(props.report.user))
 
 function getNewReportStatus(status: string): ReportStatus {
     return status === ReportStatus.OPEN ? ReportStatus.SOLVING : ReportStatus.CLOSED
 }
-
 /*
 Se l'utente che preme il <button> è lo stesso della segnalazione, cambia stato direttamente.
 Altrimenti, notifica il proprietario del report
@@ -45,6 +46,7 @@ const changeStatus = async () => {
             if (props.report.status === ReportStatus.CLOSED) {
                 props.report.close_datetime = new Date()
             }
+            props.report.pending_request = false
             const response = await axios.put(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
             if (response.status === 200) {
                 emit("updateTiles")
@@ -54,9 +56,13 @@ const changeStatus = async () => {
         }
     } else {
         // send notification
-        console.log(`sending notification to ${props.report.user}...`)
-        // set status button as "pending" (waiting to owner to accept the request)
-        socket.emit(SocketEvents.REPORT_UPDATE, props.report, props.report.user, authStore.get(), getNewReportStatus(props.report.status))
+        props.report.pending_request = true
+        axios.put(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report).then(res => {
+            if (res.status === 200) {
+                emit('updateTiles')
+                socket.emit(SocketEvents.REPORT_UPDATE, props.report, props.report.user, authStore.get(), getNewReportStatus(props.report.status))
+            }
+        })
     }
 }
 
@@ -165,7 +171,6 @@ function computeReputationColor(reputation: number | undefined): string {
                             {{ coordinatesConverter(props.report.coordinates) }}
                         </p>
                     </div>
-                    <!-- <ChangeStatusButton v-if="report.status!='closed'" :report="report" @changeStatus="changeStatus" /> -->
                     <SimpleButton
                         v-if="report.status!='closed'"
                         :report="report"
@@ -174,7 +179,7 @@ function computeReputationColor(reputation: number | undefined): string {
                         size="small"
                         :class="props.report.close_datetime ? 'row-span-2' : 'row-span-3'"
                         class="my-auto text-xs py-2 font-medium"
-        
+                        :disabled="report.pending_request && !isOwnerLoggedIn"
                     >
                         {{ props.report.status === 'open' ? 'Resolve' : 'Close' }}
                     </SimpleButton>

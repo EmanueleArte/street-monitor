@@ -12,7 +12,8 @@ export interface IReport extends Document {
     close_datetime?: Date,
     description?: string,
     picture?: string,
-    upvotes?: IUser[]
+    upvotes?: IUser[],
+    pending_request?: boolean,
 }
 
 const reportSchema: Schema<IReport> = new Schema<IReport>({
@@ -25,7 +26,8 @@ const reportSchema: Schema<IReport> = new Schema<IReport>({
     close_datetime: { type: Date, required: false },
     description: { type: String, required: false },
     picture: { type: String, required: false },
-    upvotes: { type: [String], required: false }
+    upvotes: { type: [String], required: false },
+    pending_request: { type: Boolean, required: false },
 })
 
 reportSchema.index({ coordinates: '2dsphere' })
