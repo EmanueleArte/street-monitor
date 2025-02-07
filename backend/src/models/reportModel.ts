@@ -11,7 +11,7 @@ export interface IReport {
     close_datetime?: Date,
     description?: string,
     picture?: string,
-    upvotes?: IUser[],
+    upvotes?: string[],
     pending_request?: boolean,
 }
 

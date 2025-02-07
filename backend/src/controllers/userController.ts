@@ -57,6 +57,7 @@ export const updateUser = (req: Request, res: Response) => {
 // Notifications
 export const addNotification = (req: Request, res: Response) => {
     const notificationData: INotification = new notificationModel(req.body)
+    notificationData._id = new mongoose.Types.ObjectId()
     const notification = new notificationModel(notificationData)
     const validationError = notification.validateSync()
 

@@ -56,9 +56,9 @@ function openNotificationsPage() {
     useAuthStore().notifications?.filter(n => !n.read).forEach(n => {
       axios.delete<INotification[]>(`http://localhost:3000/users/${useAuthStore().get().username}/notifications/${n._id}`)
         .then(res => {
-          const updatedNotificationsIds: string[] = res.data.map((n: INotification) => n._id)
+          const updatedNotificationsIds: string[] = res.data.map((n: INotification) => n._id.toString())
           const updatedNotifications: INotification[] = useAuthStore().notifications?.map((n: INotification) => {
-            if (updatedNotificationsIds.includes(n._id as string)) {
+            if (updatedNotificationsIds.includes(n._id.toString())) {
               n.read = true
             }
             return n

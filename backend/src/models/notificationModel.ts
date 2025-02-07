@@ -4,6 +4,7 @@ import type { IFavoriteSpot } from './favoriteSpotModel'
 import { favoriteSpotSchema } from './favoriteSpotModel'
 
 export interface INotification {
+    _id: mongoose.Types.ObjectId,
     content: string,
     type: INotificationType,
     send_datetime: Date,
@@ -13,6 +14,7 @@ export interface INotification {
 }
 
 export const notificationSchema: Schema<INotification> = new Schema<INotification>({
+    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
     content: { type: String, required: true },
     type: {
         type: mongoose.Schema.Types.ObjectId,
