@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import type { IReport } from "@models/reportModel"
 import axios from "axios"
-import { onMounted, ref } from "vue"
+import { onMounted, ref, watch } from "vue"
 import ReportCard from "./ReportCard.vue"
 import { TabPanel } from "@headlessui/vue"
 import Tabs from "@/components/utils/Tabs.vue"
 import { ReportStatus } from "@/lib/vars.ts"
 import { useAuthStore } from "@/stores/auth.store"
+import { useReportStore } from "@/stores/report.store"
 
 const myOpenReports = ref<IReport[]>([])
 const mySolvingReports = ref<IReport[]>([])
 const myClosedReports = ref<IReport[]>([])
 const status = ref<string>("open")
+const reportStore = useReportStore()
 
 const listMyReports = async () => {
   myOpenReports.value = []
@@ -21,13 +23,13 @@ const listMyReports = async () => {
     const data = (await axios.get("http://localhost:3000/reports/by-user/" + useAuthStore().get().username)).data
     for (const report of data) {
       switch (report.status) {
-        case "open":
+        case ReportStatus.OPEN:
           myOpenReports.value.push(report)
           break
-        case "solving":
+        case ReportStatus.SOLVING:
           mySolvingReports.value.push(report)
           break
-        case "closed":
+        case ReportStatus.CLOSED:
           myClosedReports.value.push(report)
           break
       }
@@ -39,6 +41,14 @@ const listMyReports = async () => {
     console.error(e)
   }
 }
+
+watch<IReport | undefined>(() => reportStore.getReportBuffer(), (newReport: IReport | undefined) => {
+  if (newReport) {
+    myOpenReports.value.push(newReport)
+    myOpenReports.value.sort((a, b) => new Date(b.open_datetime).getTime() - new Date(a.open_datetime).getTime())
+    reportStore.emptyReportBuffer()
+  }
+})
 
 const toggleTabList = (s: string) => {
   status.value = s

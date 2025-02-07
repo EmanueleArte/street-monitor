@@ -16,6 +16,7 @@ import FormInput from "@/components/inputs/FormInput.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults, RADIUS } from "@/lib/vars.ts"
 import { socket, SocketEvents } from "@/socket"
+import { useReportStore } from "@/stores/report.store"
 
 
 const emit = defineEmits<{
@@ -76,6 +77,9 @@ const publishReport = async () => {
   axios.post<IReport>(`http://localhost:3000/reports`, newReport)
     .then((reportPost) => {
       addResult(true, OperationResults.SUCCESS, "Report successfully published")
+
+      //add the new report to the reportBuffer
+      useReportStore().setReportBuffer(reportPost.data)
 
       // send notifications to each user which has a favorite spot near (radius) to the published report
       const [lat, long]: [number, number] = reportPost.data.coordinates
