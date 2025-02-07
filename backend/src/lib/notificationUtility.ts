@@ -13,6 +13,8 @@ class Notification {
     private report: mongoose.Types.ObjectId | undefined
     private spot: IFavoriteSpot | undefined
     private username: string | undefined
+    private reviewer: string | undefined
+    private reportStatus: string | undefined
 
     private types: INotificationType[] = []
 
@@ -50,6 +52,11 @@ class Notification {
         return this
     }
 
+    fromUser(reviewer: string): Notification {
+        this.reviewer = reviewer
+        return this
+    }
+
     forReport(reportId: string): Notification {
         this.report = new mongoose.Types.ObjectId(reportId)
         return this
@@ -57,6 +64,11 @@ class Notification {
 
     nearTo(spotSchema: IFavoriteSpot): Notification {
         this.spot = spotSchema
+        return this
+    }
+
+    toStatus(status: string): Notification {
+        this.reportStatus = status
         return this
     }
 
@@ -69,24 +81,27 @@ class Notification {
     }
 
     parseToPostBody() {
-        console.log(1)
         if (this.type == undefined ||
             this.content == undefined) {
             return undefined
         }
-        console.log(2)
+        
         if (this.type.name == NotificationTypes.NEW_REPORT_GPS && !this.report) {
             return undefined
         }
-        console.log(3)
+        
         if (this.type.name == NotificationTypes.NEW_REPORT_SPOT && (!this.report || !this.spot)) {
             return undefined
         }
-        console.log(4)
-        if (this.type.name == NotificationTypes.REPORT_UPDATE && !this.report) {
+        
+        if (this.type.name == NotificationTypes.REPORT_UPDATE && (!this.report || !this.reviewer)) {
             return undefined
         }
-        console.log(5)
+
+        if (this.type.name == NotificationTypes.REPORT_UPDATE) {
+            this.content = `${this.reviewer} ${this.content} to ${this.reportStatus}`
+        }
+
         return {
             content: this.content,
             type: this.type._id,

@@ -13,9 +13,16 @@ interface IConnectedUser {
     gps?: [number, number]
 }
 
+interface INotificationOption {
+    radius?: number,
+    reviewer?: IUser,
+    status?: string
+}
+
 export enum SocketEvents {
     NEW_REPORT_SPOT = 'new-report-spot',
     NEW_REPORT_GPS = 'new-report-gps',
+    REPORT_UPDATE = 'update-report',
     UPDATE_USER = 'update-user',
     NOTIFY = 'notify'
 }
@@ -61,16 +68,15 @@ export function onConnection(socket: Socket, io: Server) {
         axios.get<IUser[]>(`http://localhost:3000/users/favorites/${lat}&${long}&${radius}`)
             .then(users => users.data.filter((user: IUser) => user.username != currentUser))
             .then(async users => {
-
                 const notifiyIds: string[] = connectedUsers
                     .filter((user: IConnectedUser) => users.map(_ => _.username).includes(user.user?.username))
                     .map((user: IConnectedUser) => user.id)
                 const notifyUsers: IUser[] = notifiyIds.map(id => connectedUsers.find(user => user.id == id).user)
 
-                await sendNotifications(notifyUsers, NotificationTypes.NEW_REPORT_SPOT, report, radius)
-                emitNotify(io, notifiyIds)
+                sendNotifications(notifyUsers, NotificationTypes.NEW_REPORT_SPOT, report, { radius })
+                    .then(() => emitNotify(io, notifiyIds))
             })
-            .catch(err => console.log('user doesnt have spot in the area'))
+            .catch(err => console.log('user doesn\'t have spot in the area'))
     })
 
     // notify each user within a radius value to the report
@@ -82,8 +88,22 @@ export function onConnection(socket: Socket, io: Server) {
             .map((user: IConnectedUser) => user.id)
         const notifyUsers: IUser[] = notifiyIds.map(id => connectedUsers.find(user => user.id == id).user)
 
-        await sendNotifications(notifyUsers, NotificationTypes.NEW_REPORT_GPS, report)
-        emitNotify(io, notifiyIds)
+        sendNotifications(notifyUsers, NotificationTypes.NEW_REPORT_GPS, report)
+            .then(() => emitNotify(io, notifiyIds))
+    })
+
+    socket.on(SocketEvents.REPORT_UPDATE, async (report: IReport, owner: string, reviewer: IUser, newStatus: string) => {
+        const notifyId: string = connectedUsers
+            .filter((user: IConnectedUser) => user.user)
+            .find((user: IConnectedUser) => user.user.username == owner)
+            .id
+
+        axios.get<IUser>('http://localhost:3000/users/' + owner)
+            .then((user: AxiosResponse<IUser>) =>
+                sendNotifications([user.data], NotificationTypes.REPORT_UPDATE, report, { reviewer, status: newStatus })
+            )
+            .then(() => emitNotify(io, [notifyId]))
+            .catch(err => console.log(err))
     })
 }
 
@@ -109,12 +129,9 @@ function emitNotify(io: Server, ids: string[]): boolean {
  * @param report to which the notification refers
  * @param radius of search area (optional)
  */
-async function sendNotifications(users: IUser[], type: NotificationTypes, report: IReport, radius?: number) {
-    console.log(type)
-    const promises = users.map(async (user: IUser) => await sendNotification(user, type, report, radius))
+async function sendNotifications(users: IUser[], type: NotificationTypes, report: IReport, options?: INotificationOption) {
+    const promises = users.map(async (user: IUser) => await sendNotification(user, type, report, options))
     await Promise.all(promises)
-
-    console.log('promises resolved')
 }
 
 /**
@@ -123,20 +140,17 @@ async function sendNotifications(users: IUser[], type: NotificationTypes, report
  * @param type of the notification
  * @param report to which the notification is relative to
  */
-async function sendNotification(user: IUser, type: NotificationTypes, report: IReport, radius?: number): Promise<AxiosResponse[]> {
+async function sendNotification(user: IUser, type: NotificationTypes, report: IReport, options?: INotificationOption): Promise<AxiosResponse[]> {
     if (type == NotificationTypes.NEW_REPORT_SPOT) {
-        if (!radius) throw new Error('missing radius argument')
-        const spots: IFavoriteSpot[] = user.favorite_spots.filter(_ => haversineDistance(_.coordinates, report.coordinates) < radius)
-        console.log(user.username, spots.length, user.favorite_spots.map(spot => spot.coordinates), report.coordinates, radius)
+        if (!options.radius) throw new Error('missing radius argument')
+        const spots: IFavoriteSpot[] = user.favorite_spots.filter(_ => haversineDistance(_.coordinates, report.coordinates) < options.radius)
         const postRequestBodies = await Promise.all(spots.map(async (spot: IFavoriteSpot) =>
             (await createNotification())
                 .ofType(NotificationTypes.NEW_REPORT_SPOT)
-                .toUser(user.username)
                 .forReport(report._id.toString())
                 .nearTo(spot)
                 .build()))
 
-        console.log('request body', postRequestBodies)
         return Promise.all(
             postRequestBodies.map(body => {
                 return axios.post<INotification>(
@@ -148,15 +162,17 @@ async function sendNotification(user: IUser, type: NotificationTypes, report: IR
         )
     }
 
-    const notification = (await createNotification())
+    let notification = (await createNotification())
         .ofType(type)
-        .toUser(user.username)
         .forReport(report._id.toString())
-        .build()
+
+    if (type == NotificationTypes.REPORT_UPDATE) {
+        notification = notification.fromUser(options.reviewer.username).toStatus(options.status)
+    }
 
     return Promise.all([axios.post<INotification>(
         `http://localhost:3000/users/${user.username}/notifications/`,
-        notification,
+        notification.build(),
         { headers: { 'Content-Type': 'application/json' } }
     )])
 }

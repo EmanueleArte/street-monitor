@@ -13,6 +13,8 @@ import SimpleButton from './buttons/SimpleButton.vue';
 import axios from 'axios';
 import { usePositionStore } from '@/stores/position.store';
 import type { IUser } from '@models/userModel';
+import { socket, SocketEvents } from '@/socket';
+import { ReportStatus } from '@/lib/vars';
 
 const emit = defineEmits(["updateTiles"])
 const authStore = useAuthStore()
@@ -26,17 +28,21 @@ const props = defineProps({
     previousOrNext: { type: Boolean, required: false }
 })
 
+function getNewReportStatus(status: string): ReportStatus {
+    return status === ReportStatus.OPEN ? ReportStatus.SOLVING : ReportStatus.CLOSED
+}
+
 /*
 Se l'utente che preme il <button> è lo stesso della segnalazione, cambia stato direttamente.
 Altrimenti, notifica il proprietario del report
 */
 const changeStatus = async () => {
-    if (props.report.status === 'closed') return
+    if (props.report.status === ReportStatus.CLOSED) return
 
     if (authStore.isLoggedIn(props.report.user) || authStore.isAdmin()) {
         try {
-            props.report.status = props.report.status === 'open' ? 'solving' : 'closed'
-            if (props.report.status === 'closed') {
+            props.report.status = getNewReportStatus(props.report.status)
+            if (props.report.status === ReportStatus.CLOSED) {
                 props.report.close_datetime = new Date()
             }
             const response = await axios.put(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
@@ -49,6 +55,8 @@ const changeStatus = async () => {
     } else {
         // send notification
         console.log(`sending notification to ${props.report.user}...`)
+        // set status button as "pending" (waiting to owner to accept the request)
+        socket.emit(SocketEvents.REPORT_UPDATE, props.report, props.report.user, authStore.get(), getNewReportStatus(props.report.status))
     }
 }
 

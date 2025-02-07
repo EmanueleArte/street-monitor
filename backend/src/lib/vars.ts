@@ -1,7 +1,7 @@
 export enum NotificationContents {
     NEW_REPORT_SPOT = "A new report near one of your favorite spots has been created",
     NEW_REPORT_GPS = "A new report near you has been created",
-    REPORT_UPDATE = "One of your reports has an update"
+    REPORT_UPDATE = "wants to change the status of one of your reports"
 }
 
 export enum NotificationTypes {
