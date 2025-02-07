@@ -73,7 +73,7 @@ function emitChange() {
         </div>
         <div class="ms-11 flex text-xs leading-tight gap-x-4"
             :class="`text-primary-600${props.read ? `/${readOpacity}` : ''}`">
-            <button v-if="props.report" @click="goToReport">Go to report</button>
+            <button v-if="props.report" @click="goToReport" class="nav-close">Go to report</button>
             <button v-if="props.favoriteSpot" @click="goToSpot">Go to favorite spot</button>
         </div>
     </div>
