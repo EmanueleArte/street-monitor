@@ -44,10 +44,27 @@ const listMyReports = async () => {
     })
 }
 
-watch<IReport | undefined>(() => reportStore.getReportBuffer(), (newReport: IReport | undefined) => {
-  if (newReport) {
-    myOpenReports.value.push(newReport)
-    myOpenReports.value.sort((a, b) => new Date(b.open_datetime).getTime() - new Date(a.open_datetime).getTime())
+watch<[IReport, string] | undefined>(() => reportStore.getReportBuffer(), (report: [IReport, string] | undefined) => {
+  if (report) {
+    switch(report[1]){
+      case ReportStatus.OPEN:{
+        myOpenReports.value.push(report[0])
+        myOpenReports.value.sort((a, b) => new Date(b.open_datetime).getTime() - new Date(a.open_datetime).getTime())
+        break
+      }
+      case ReportStatus.SOLVING: {
+        mySolvingReports.value.push(report[0])
+        mySolvingReports.value.sort((a, b) => new Date(b.open_datetime).getTime() - new Date(a.open_datetime).getTime())
+        myOpenReports.value = myOpenReports.value.filter(r => r._id != report[0]._id)
+        break
+      }
+      case ReportStatus.CLOSED: {
+        myClosedReports.value.push(report[0])
+        myClosedReports.value.sort((a, b) => new Date(b.open_datetime).getTime() - new Date(a.open_datetime).getTime())
+        mySolvingReports.value = mySolvingReports.value.filter(r => r._id != report[0]._id)
+        break
+      }
+    }
     reportStore.emptyReportBuffer()
   }
 })
@@ -66,19 +83,19 @@ onMounted(listMyReports)
       :tabPanelsClasses="`h-full px-1`">
       <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] md:max-h-full mt-1 px-1">
         <ol>
-          <ReportCard v-for="report in myOpenReports" :report="report" @updateTiles="listMyReports()" />
+          <ReportCard v-for="report in myOpenReports" :report="report" />
         </ol>
         <p v-if="myOpenReports.length == 0" class="text-center w-full mt-10">You don't have open reports.</p>
       </TabPanel>
       <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] md:max-h-full mt-1 px-1">
         <ol>
-          <ReportCard v-for="report in mySolvingReports" :report="report" @updateTiles="listMyReports()" />
+          <ReportCard v-for="report in mySolvingReports" :report="report" />
         </ol>
         <p v-if="mySolvingReports.length == 0" class="text-center w-full mt-10">You don't have solving reports.</p>
       </TabPanel>
       <TabPanel class="overflow-y-auto max-h-[calc(100%-5.25rem)] md:max-h-full mt-1 px-1">
         <ol>
-          <ReportCard v-for="report in myClosedReports" :report="report" @updateTiles="listMyReports()" />
+          <ReportCard v-for="report in myClosedReports" :report="report" />
         </ol>
         <p v-if="myClosedReports.length == 0" class="text-center w-full mt-10">You don't have closed reports.</p>
       </TabPanel>

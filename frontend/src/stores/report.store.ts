@@ -5,7 +5,7 @@ import { ref } from "vue"
 export const useReportStore = defineStore("report", () => {
     const _currentReport = ref<IReport>()
     const _reports = ref<IReport[]>([])
-    const _reportBuffer = ref<IReport | undefined>(undefined)
+    const _reportBuffer = ref<[IReport, string] | undefined>(undefined)
 
     function getReport(): IReport | undefined {
         return _currentReport.value
@@ -43,11 +43,11 @@ export const useReportStore = defineStore("report", () => {
         return _reports.value.map(r => JSON.stringify(r)).indexOf(JSON.stringify(report))
     }
     
-    function getReportBuffer(): IReport | undefined {
+    function getReportBuffer(): [IReport, string] | undefined {
         return _reportBuffer.value
     }
 
-    function setReportBuffer(report: IReport): void {
+    function setReportBuffer(report: [IReport, string]): void {
         _reportBuffer.value = report
     }
 
