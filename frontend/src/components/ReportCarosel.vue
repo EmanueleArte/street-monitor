@@ -40,7 +40,6 @@ watch(() => reportStore.getReports(), (newReports: IReport[], oldReports: IRepor
 })
 
 const previousReportHandler = () => {
-  console.log(previousReport.value)
   if (!previousReport.value) {
     currentReport.value = undefined
     return

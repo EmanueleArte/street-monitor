@@ -8,3 +8,5 @@ export enum OperationResults {
     SUCCESS = "Operation completed successfully",
     FAILURE = "Operation failed"
 }
+
+export const RADIUS: number = 5

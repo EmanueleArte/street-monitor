@@ -3,12 +3,13 @@ import type { INotificationType } from './notificationTypeModel'
 import type { IFavoriteSpot } from './favoriteSpotModel'
 import { favoriteSpotSchema } from './favoriteSpotModel'
 import type { IReport } from './reportModel'
+import { IUser } from './userModel'
 
 export interface INotification {
     content: string,
     type: INotificationType,
     send_datetime: Date,
-    report: IReport,
+    report: mongoose.Types.ObjectId,
     favorite_spot: IFavoriteSpot,
     read: boolean
 }

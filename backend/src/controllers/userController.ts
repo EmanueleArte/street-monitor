@@ -166,3 +166,36 @@ export const deleteFavoriteSpot = (req: Request, res: Response) => {
             res.status(500).send(err)
         })
 }
+
+export const getUsersWithSpotNearNewReport = (req: Request, res: Response) => {
+    const latitude = parseFloat(req.params.latitude)
+    const longitude = parseFloat(req.params.longitude)
+    const radius = parseFloat(req.params.radius)
+
+    console.log({
+        lat: latitude,
+        lon: longitude,
+        rad: radius
+    })
+
+    userModel.find({
+        favorite_spots: {
+            $elemMatch: {
+                coordinates: {
+                    $geoWithin: {
+                        $centerSphere: [[latitude, longitude], radius / 6378.1],
+                    }
+                }
+            }
+        }
+    }).then((users: IUser[]) => {
+            if (!users || users.length === 0) {
+                return res.status(404).send('No users found')
+            }
+            
+            res.json(users)
+        })
+        .catch((err: Error) => {
+            res.status(500).send(err)
+        })
+}

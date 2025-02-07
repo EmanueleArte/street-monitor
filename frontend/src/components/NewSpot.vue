@@ -5,12 +5,12 @@ import { usePositionStore } from "@/stores/position.store.ts"
 import { ref } from "vue"
 import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import axios from "axios"
-import type { IReport } from "@models/reportModel.ts"
 import type { IFavoriteSpot } from "@models/favoriteSpotModel.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
 import { OperationResults } from "@/lib/vars.ts"
+import type { IUser } from "@models/userModel"
 
 const emit = defineEmits<{
   (e: "cancel", option: any): void
@@ -32,9 +32,10 @@ const saveSpot = () => {
     label: label.value !== "" ? label.value : "Favorite spot",
     coordinates: latLng.value,
   } as IFavoriteSpot
-  axios.post<IReport>(`http://localhost:3000/users/${useAuthStore().get()?.username}/favorites`, newSpot)
-      .then(() => {
+  axios.post<IUser>(`http://localhost:3000/users/${useAuthStore().get()?.username}/favorites`, newSpot)
+      .then((user) => {
         addResult(true, OperationResults.SUCCESS, "Favorite spot added successfully")
+        useAuthStore().setFavoriteSpots(user.data.favorite_spots ?? [])
       })
       .catch((e) => {
         console.error(e)

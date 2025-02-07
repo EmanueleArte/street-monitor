@@ -20,8 +20,8 @@ function convertSizeToPadding(size: string | undefined): string {
 
 <template>
   <button
-      class="rounded-lg py-2 duration-300"
-      :class="[buttonStyle, buttonSize]"
+    class="rounded-lg py-2 duration-300 disabled:cursor-not-allowed disabled:opacity-75"
+    :class="[buttonStyle, buttonSize]"
   >
     <span class="sr-only">{{ screenReaderLabel }}</span>
     <slot></slot>

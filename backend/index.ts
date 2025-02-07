@@ -6,6 +6,8 @@ import userRoutes from './src/routes/userRoutes'
 import notificationTypeRoutes from './src/routes/notificationTypeRoutes'
 import reportTypeRoutes from './src/routes/reportTypeRoutes'
 import reportRoutes from './src/routes/reportRoutes'
+import { Server } from 'socket.io'
+import { onConnection } from './src/lib/socket'
 
 mongoose.connect('mongodb://localhost:27017/dbStreetMonitor')
 
@@ -21,6 +23,16 @@ app.use('/report-types', reportTypeRoutes)
 app.use('/notification-types', notificationTypeRoutes)
 app.use('/reports', reportRoutes)
 
-app.listen(3000, () => {
+const server = app.listen(3000, () => {
     console.log('Server listening on port 3000')
 })
+
+const io: Server = new Server(server, {
+    cors: {
+        origin: "http://localhost:5173"
+    }
+})
+
+io.on('connection', (socket) => onConnection(socket, io))
+
+

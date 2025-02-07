@@ -38,24 +38,24 @@ const homeContainerShow = (what: string): void => {
 </script>
 
 <template>
-  <NavBar @change="changePage" @open="openPage"/>
-  <HomeContainer :whatToShow="whatToShow"/>
+  <NavBar @change="changePage" @open="openPage" />
+  <HomeContainer :whatToShow="whatToShow" />
   <SlideFromTop>
-    <NotificationsContainer v-if="currentPage === 'notifications'"/>
+    <NotificationsContainer v-if="currentPage === 'notifications'" @change="changePage" />
     <ProfileContainer v-if="currentPage === 'profile'" @showMyReports="homeContainerShow('myReports')"
-                      @showMySpots="homeContainerShow('mySpots')"/>
-    <AdminContainer v-if="currentPage === 'admin'"/>
+      @showMySpots="homeContainerShow('mySpots')" />
+    <AdminContainer v-if="currentPage === 'admin'" />
   </SlideFromTop>
 
   <SlideFromRight>
     <Aside v-if="asidePage && asidePage === 'notifications'">
-      <NotificationsContainer/>
+      <NotificationsContainer />
     </Aside>
     <Aside v-if="asidePage && asidePage === 'profile'">
-      <ProfileContainer/>
+      <ProfileContainer />
     </Aside>
     <Aside v-if="asidePage && asidePage === 'admin'">
-      <AdminContainer/>
+      <AdminContainer />
     </Aside>
   </SlideFromRight>
 </template>

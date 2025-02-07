@@ -24,4 +24,9 @@ router.route('/:id/favorites')
 router.route('/:id/favorites/:fid')
     .delete(controller.deleteFavoriteSpot)
 
+// get all the users that have a favorite spot in the area defined by the
+// center (latitiude, longitude) with a radius of "radius"
+router.route('/favorites/:latitude&:longitude&:radius')
+    .get(controller.getUsersWithSpotNearNewReport)
+
 export default router
