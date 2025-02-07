@@ -4,6 +4,7 @@ import SimpleButton from "@/components/buttons/SimpleButton.vue"
 import { onMounted, ref } from "vue"
 import axios from "axios"
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
+import type { IReport } from "@models/reportModel"
 
 const authStore = useAuthStore()
 const reportsNumber = ref<number>(0)
@@ -26,12 +27,8 @@ const logout = () => {
 }
 
 const countReports = async () => {
-  try {
-    const data = (await axios.get(`http://localhost:3000/reports/by-user/${authStore.get()?.username}`)).data
-    reportsNumber.value = data.length
-  } catch (e) {
-    console.error(e)
-  }
+  axios.get<IReport[]>(`http://localhost:3000/reports/by-user/${authStore.get()?.username}`)
+    .then(res => reportsNumber.value = res.data.length)
 }
 
 onMounted(() => {
@@ -43,10 +40,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-      class="nav-aside h-screen w-screen fixed top-12 p-8 pt-7 bg-surface-default z-10
-      md:relative md:h-full md:w-full md:top-0"
-  >
+  <div class="nav-aside h-screen w-screen fixed top-12 p-8 pt-7 bg-surface-default z-10
+      md:relative md:h-full md:w-full md:top-0">
     <h1 class="md:mt-0 text-xl">Welcome, {{ authStore.get()?.username }}</h1>
 
     <section class="w-full mt-3">

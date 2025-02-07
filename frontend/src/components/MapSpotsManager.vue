@@ -14,11 +14,9 @@ import { storeToRefs } from "pinia"
 const { favorite_spots } = storeToRefs(useAuthStore())
 
 const listMySpots = async () => {
-  try {
-    favorite_spots.value = (await axios.get(`http://localhost:3000/users/${useAuthStore().get()?.username}/favorites`)).data
-  } catch (e) {
-    // console.error(e)
-  }
+  axios.get<IFavoriteSpot[]>(`http://localhost:3000/users/${useAuthStore().get()?.username}/favorites`)
+    .then(res => favorite_spots.value = res.data)
+    .catch(err => console.error(err))
 }
 
 onMounted(listMySpots)
@@ -30,5 +28,5 @@ onMounted(listMySpots)
       usePositionStore().setFlyMainMap(true)
       usePositionStore().move(spot.coordinates)
     }
-  }"/>
+  }" />
 </template>
