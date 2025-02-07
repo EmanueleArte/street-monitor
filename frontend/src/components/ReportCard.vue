@@ -60,70 +60,59 @@ const changeStatus = async () => {
   if (props.report.status === ReportStatus.CLOSED) return
 
   if (authStore.isLoggedIn(props.report.user) || authStore.isAdmin()) {
-    try {
-      props.report.status = getNewReportStatus(props.report.status)
-      if (props.report.status === ReportStatus.CLOSED) {
-        props.report.close_datetime = new Date()
-      }
-      props.report.pending_request = false
-      const response = await axios.put(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
-      if (response.status === 200) {
-        emit("updateTiles")
-      }
-    } catch (e) {
-      // console.error(e)
-      addResult(false, OperationResults.FAILURE, "Failed to change the status of the report")
+    props.report.status = getNewReportStatus(props.report.status)
+    if (props.report.status === ReportStatus.CLOSED) {
+      props.report.close_datetime = new Date()
     }
-  } else {
-    // send notification
-    props.report.pending_request = true
-    axios.put(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report).then(res => {
-      if (res.status === 200) {
+    props.report.pending_request = false
+
+    axios.put<IUser>(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
+      .then(res => {
+        if (res.status !== 200) return
         emit('updateTiles')
-        socket.emit(SocketEvents.REPORT_UPDATE, props.report, props.report.user, authStore.get(), getNewReportStatus(props.report.status))
-        addResult(true, OperationResults.SUCCESS, `Notification of status change sent to ${props.report.user}`)
-      }
-    })
+      })
+      .catch(err => addResult(false, OperationResults.FAILURE, 'Failed to change the status of the report'))
+
+    return
   }
+
+  props.report.pending_request = true
+  axios.put<IUser>(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
+    .then(res => {
+      if (res.status !== 200) return
+      emit('updateTiles')
+      socket.emit(SocketEvents.REPORT_UPDATE, props.report, props.report.user, authStore.get(), getNewReportStatus(props.report.status))
+      addResult(true, OperationResults.SUCCESS, `Notification of status change sent to ${props.report.user}`)
+    })
+    .catch(err => addResult(false, OperationResults.FAILURE, 'Failed to change the status of the report'))
 }
 
 const upvote = async () => {
-  try {
-    const response = await axios.get(`http://localhost:3000/users/${props.report.user}`)
-    if (response.status === 200) {
-      user.value = response.data
+  axios.get<IUser>(`http://localhost:3000/users/${props.report.user}`)
+    .then(res => {
+      if (res.status !== 200) return
+      user.value = res.data
       props.report.upvotes?.push(authStore.get()?.username)
-      await axios.put(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
-      if (user.value) {
-        user.value.reputation += 1
-        await axios.put(`http://localhost:3000/users/${props.report.user}`, user.value)
-      }
-    }
-  } catch (e) {
-    console.error(e)
-  }
+      axios.put<IUser>(`http://localhost:3000/reports/by-id/${props.report._id}`, props.report)
+    })
+    .then(res => {
+      if (!user.value) return
+      user.value.reputation = user.value.reputation + 1
+      axios.put<IUser>(`http://localhost:3000/users/${props.report.user}`, user.value)
+    })
+    .catch(err => console.error(err))
 }
 
 watch(() => props.report.user, async (reportUser) => {
   if (!reportUser) return
-  try {
-    const response = await axios.get(`http://localhost:3000/users/${reportUser}`)
-    user.value = response.data
-    console.log('asdf')
-    reputationColor.value = computeReputationColor(user.value)
-  } catch (e) {
-    console.error(e)
-  }
 
-  if (!reportUser) return
-  try {
-    const response = await axios.get(`http://localhost:3000/users/${reportUser}`)
-    if (response.status === 200) {
+  axios.get<IUser>(`http://localhost:3000/users/${reportUser}`)
+    .then(response => {
+      if (response.status !== 200) return
       user.value = response.data
-    }
-  } catch (e) {
-    console.error(e)
-  }
+      reputationColor.value = computeReputationColor(user.value)
+    })
+    .catch(err => console.error(err))
 }, { immediate: true })
 
 const moveToReport = () => {

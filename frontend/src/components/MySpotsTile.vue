@@ -10,12 +10,9 @@ const authStore = useAuthStore()
 const { favorite_spots } = storeToRefs(authStore)
 
 const listMySpots = async () => {
-  try {
-    const response = await axios.get(`http://localhost:3000/users/${authStore.get()?.username}/favorites`)
-    favorite_spots.value = response.data
-  } catch (e) {
-    console.error(e)
-  }
+  axios.get<IFavoriteSpot[]>(`http://localhost:3000/users/${authStore.get()?.username}/favorites`)
+    .then(res => favorite_spots.value = res.data)
+    .catch(err => console.error(err))
 }
 
 onMounted(listMySpots)
@@ -29,10 +26,11 @@ onMounted(listMySpots)
     max-h-[100%] overflow-y-scroll
     md:flex md:max-w-[60vw] md:overflow-y-hidden md:overflow-x-auto">
       <li v-for="spot in favorite_spots" class="flex flex-col justify-top">
-        <SpotCard @updateTiles="listMySpots" :spot="spot"/>
+        <SpotCard @updateTiles="listMySpots" :spot="spot" />
       </li>
     </ul>
-    <p v-if="favorite_spots.length == 0" class="text-center w-full mt-6 md:hidden">You don't have any favorite spots.</p>
+    <p v-if="favorite_spots.length == 0" class="text-center w-full mt-6 md:hidden">You don't have any favorite spots.
+    </p>
   </div>
 </template>
 

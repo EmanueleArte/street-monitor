@@ -54,7 +54,7 @@ function openNotificationsPage() {
     closePanels()
     // set notifications as read
     useAuthStore().notifications?.filter(n => !n.read).forEach(n => {
-      axios.delete(`http://localhost:3000/users/${useAuthStore().get().username}/notifications/${n._id}`)
+      axios.delete<INotification[]>(`http://localhost:3000/users/${useAuthStore().get().username}/notifications/${n._id}`)
         .then(res => {
           const updatedNotificationsIds: string[] = res.data.map((n: INotification) => n._id)
           const updatedNotifications: INotification[] = useAuthStore().notifications?.map((n: INotification) => {
@@ -65,7 +65,7 @@ function openNotificationsPage() {
           })
           useAuthStore().setNotifications(updatedNotifications)
         })
-        .catch(err => { }) //console.log(err)
+        .catch(err => console.log(err))
     })
   } else {
     openPanel.value = Panels.NOTIFICATIONS
@@ -121,10 +121,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <nav
-      ref="navbar"
-      class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-20 shadow-md shadow-black/40 md:shadow-none text-light"
-  >
+  <nav ref="navbar"
+    class="bg-primary-600 md:bg-transparent w-full md:w-3/4 fixed top-0 md:right-0 md:left-auto left-0 z-20 shadow-md shadow-black/40 md:shadow-none text-light">
     <div class="mx-auto max-w-7xl px-2 md:mx-0 md:max-w-none md:px-0">
       <div class="relative flex h-12 md:content-center p-3 md:justify-between md:h-16">
         <!-- Left part | Website name -->
@@ -159,8 +157,8 @@ onMounted(() => {
           <NavButton @click="openNotificationsPage" screen-reader-label="view notifications">
             <Scale>
               <!-- Cross -->
-              <svg v-if="openPanel === Panels.NOTIFICATIONS" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24" fill="currentColor" class="size-6 md:m-auto">
+              <svg v-if="openPanel === Panels.NOTIFICATIONS" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="currentColor" class="size-6 md:m-auto">
                 <path fill-rule="evenodd"
                   d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
                   clip-rule="evenodd" />
