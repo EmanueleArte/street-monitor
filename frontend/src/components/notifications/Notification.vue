@@ -77,7 +77,7 @@ function emitChange() {
          :class="`text-primary-600${props.read ? `/${readOpacity}` : ''}`"
     >
       <button v-if="props.reportId" @click="goToReport" class="nav-close">Go to report</button>
-      <button v-if="props.favoriteSpot" @click="goToSpot">Go to favorite spot</button>
+      <button v-if="props.favoriteSpot" @click="goToSpot" class="nav-close">Go to favorite spot</button>
     </div>
   </div>
 </template>
