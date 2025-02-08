@@ -93,6 +93,7 @@ export const listNotifications = (req: Request, res: Response) => {
 }
 
 export const deleteNotification = (req: Request, res: Response) => {
+    console.log(`looking for ${req.params.id} for notification ${req.params.nid}`)
     userModel.findOneAndUpdate(
         {
             username: req.params.id,

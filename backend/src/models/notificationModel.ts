@@ -1,5 +1,5 @@
 import mongoose, { Schema, Model } from 'mongoose'
-import type { INotificationType } from './notificationTypeModel'
+import { notificationTypeSchema, type INotificationType } from './notificationTypeModel'
 import type { IFavoriteSpot } from './favoriteSpotModel'
 import { favoriteSpotSchema } from './favoriteSpotModel'
 
@@ -14,11 +14,9 @@ export interface INotification {
 }
 
 export const notificationSchema: Schema<INotification> = new Schema<INotification>({
-    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
     content: { type: String, required: true },
     type: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'NotificationType',
+        type: notificationTypeSchema,
         required: true,
     },
     send_datetime: { type: Date, required: true },

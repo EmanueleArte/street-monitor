@@ -188,6 +188,8 @@ async function sendNotification(user: IUser, type: NotificationTypes, report: IR
         notification = notification.fromUser(options.reviewer.username).toStatus(options.status)
     }
 
+    console.log(notification.build())
+
     return Promise.all([axios.post<IUser>(
         `http://localhost:3000/users/${user.username}/notifications/`,
         notification.build(),
