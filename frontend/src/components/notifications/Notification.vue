@@ -5,6 +5,7 @@ import { useReportStore } from "@/stores/report.store"
 import type { IFavoriteSpot } from "@models/favoriteSpotModel"
 import type { IReport } from "@models/reportModel"
 import axios from "axios"
+import { WIDTH_MD } from "@/lib/vars.ts"
 
 const props = defineProps<{
   date: Date,
@@ -42,7 +43,7 @@ function goToSpot() {
 }
 
 function emitChange() {
-  if (window.innerWidth <= 768) { // md
+  if (window.innerWidth <= WIDTH_MD) { // md
     emit("change", "home")
   }
 }

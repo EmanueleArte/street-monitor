@@ -10,3 +10,4 @@ export enum OperationResults {
 }
 
 export const RADIUS: number = 5
+export const WIDTH_MD: number = 768

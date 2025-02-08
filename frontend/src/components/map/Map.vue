@@ -14,11 +14,12 @@ import MapSpotsManager from "@/components/map/MapSpotsManager.vue"
 import { RADIUS } from "@/lib/vars.ts"
 import { socket, SocketEvents } from "@/socket.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
+import { WIDTH_MD } from "@/lib/vars.ts"
 
 const DEFAULT_COORDS: [number, number] = [44.494887, 11.3426163]
 
 const reportStore = useReportStore()
-const isMobile = ref<boolean>(window.innerWidth < 768)
+const isMobile = ref<boolean>(window.innerWidth <= WIDTH_MD)
 const props = defineProps<{
   zoom: number,
   usePosition: boolean,

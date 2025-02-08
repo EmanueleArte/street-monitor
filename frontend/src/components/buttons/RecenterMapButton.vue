@@ -15,7 +15,7 @@ const recenterToPosition = () => {
 
 <template>
   <div class="fixed bottom-[6.5rem] left-2 md:absolute md:bottom-0 md:right-3 md:left-auto z-20">
-    <FloatingRoundButton screen-reader-label="recenter map to initial position" class="md:hidden"
+    <FloatingRoundButton screenReaderLabel="recenter map to initial position" class="md:hidden"
                          @click="recenterToPosition"
     >
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="1.5"

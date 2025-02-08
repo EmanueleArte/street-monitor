@@ -45,7 +45,9 @@ onMounted(() => {
     <div v-if="showSpotsTile" class="container fixed bottom-0 z-20 h-[45%]">
       <FloatingRoundButton
           class="absolute -top-20 left-4"
-          @click="toggleSpotsVisibility">
+          @click="toggleSpotsVisibility"
+          screenReaderLabel="Close my spots"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
              class="rotating size-8 rotate-45 stroke-light">
           <path stroke-linecap="round" stroke-linejoin="round"

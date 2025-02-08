@@ -8,6 +8,7 @@ import { onMounted, ref, watch } from "vue"
 import LeftAside from "@/components/utils/LeftAside.vue"
 import { useAuthStore } from "@/stores/auth.store.ts"
 import ReportFilterContainer from "./ReportFilterContainer.vue"
+import { WIDTH_MD } from "@/lib/vars.ts"
 
 const props = defineProps({
   whatToShow: { type: String, required: false }
@@ -16,6 +17,7 @@ const props = defineProps({
 const showMyReports = ref<boolean>(false)
 const showMySpots = ref<boolean>(false)
 const authStore = useAuthStore()
+const isMobile = window.innerWidth <= WIDTH_MD
 
 const checkLogin = (): void => {
   if (!authStore.get()) {
@@ -42,7 +44,7 @@ onMounted(checkLogin)
 <template>
   <div class="homeContainer w-screen h-screen">
     <Map class="z-0" :zoom="12" :usePosition=true :main=true />
-    <ReportFilterContainer class="md:hidden"/>
+    <ReportFilterContainer v-if="isMobile" class="md:hidden"/>
     <NewReportTile/>
     <MyReports v-model:showMyReports="showMyReports"/>
     <MySpots v-model:showMySpots="showMySpots"/>

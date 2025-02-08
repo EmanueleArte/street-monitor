@@ -26,7 +26,7 @@ defineProps<{
                'focus:outline-none focus:ring-2 duration-200',
               selected
                 ? 'bg-primary-600 text-light shadow'
-                : 'text-primary-600 hover:bg-primary-600/[0.08] hover:text-primary-700',
+                : 'text-primary-700 hover:bg-primary-600/[0.08] hover:text-primary-700',
             ]"
               @click="toggleTabList(tab)"
           >
