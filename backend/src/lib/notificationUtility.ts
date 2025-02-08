@@ -95,8 +95,7 @@ class Notification {
         }
 
         if (this.type.name == NotificationTypes.REPORT_UPDATE) {
-            this.content = `@${this.reviewer} ${this.content} to ${this.reportStatus}`
-            console.log(this.content)
+            this.content = `<em>@${this.reviewer}</em> ${this.content} to <em>${this.reportStatus}</em>`
         }
 
         return {

@@ -42,7 +42,7 @@ function getNotifications(notifications: INotification[], read: boolean): INotif
           <Notification :read="false" :date="new Date(notification.send_datetime)"
                         :report-id="notification.report.toString()" :favorite-spot="notification.favorite_spot"
                         @change="(page) => emit('change', page)">
-            {{ notification.content }}
+            <p v-html="notification.content"></p>
           </Notification>
         </li>
       </ul>
@@ -62,7 +62,7 @@ function getNotifications(notifications: INotification[], read: boolean): INotif
           <Notification :read="true" :date="new Date(notification.send_datetime)"
                         :report-id="notification.report.toString()" :favorite-spot="notification.favorite_spot"
                         @change="(page) => emit('change', page)">
-            {{ notification.content }}
+                        <p v-html="notification.content"></p>
           </Notification>
         </li>
       </ul>

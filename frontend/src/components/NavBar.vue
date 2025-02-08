@@ -54,7 +54,6 @@ function openNotificationsPage() {
     closePanels()
     // set notifications as read
     useAuthStore().notifications?.filter(n => !n.read).forEach(n => {
-      console.log(n)
       axios.delete<INotification[]>(`http://localhost:3000/users/${useAuthStore().get().username}/notifications/${n._id}`)
         .then(res => {
           const updatedNotificationsIds: string[] = res.data.map((n: INotification) => n._id.toString())
