@@ -16,7 +16,7 @@ const contents = {
   NEW_REPORT: "New report",
   NEW_SPOT: "New spot"
 }
-const isMobile = computed(() => window.innerWidth <= 768)
+const isMobile: boolean = window.innerWidth <= 768
 
 const toggleTile = (toggledTile: string | undefined): void => {
   showTile.value = !showTile.value

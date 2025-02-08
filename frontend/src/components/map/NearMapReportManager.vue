@@ -47,7 +47,7 @@ function updateCurrentReport(report: IReport) {
   reportStore.setReport(report)
 }
 
-const reportsList = computed(() => {
+const reportsList = computed<IReport[]>(() => {
   return props.main ? useMapStore().filteredReports : reports.value.filter((report) => report.status !== ReportStatus.CLOSED)
 })
 

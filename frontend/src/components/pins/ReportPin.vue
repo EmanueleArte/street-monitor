@@ -3,6 +3,7 @@ import type { IReport } from "@models/reportModel.ts"
 import Pin from "@/components/pins/Pin.vue"
 import { computed } from "vue"
 import { formatUnderscoredString } from "@/lib/stringUtility.ts"
+import { string } from "yup";
 
 const props = defineProps<{
   report: IReport
@@ -18,7 +19,7 @@ function clickHandler() {
   emit('click')
 }
 
-const iconPath = computed(() => "./icons/" + props.report.status + "/" + props.report.type + "_pin.png")
+const iconPath = computed<string>(() => "./icons/" + props.report.status + "/" + props.report.type + "_pin.png")
 </script>
 
 <template>

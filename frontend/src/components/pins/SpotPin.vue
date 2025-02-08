@@ -19,7 +19,7 @@ function clickHandler() {
   emit('click')
 }
 
-const iconPath = computed(() => "./icons/spot_pin.png")
+const iconPath: string = "./icons/spot_pin.png"
 </script>
 
 <template>
