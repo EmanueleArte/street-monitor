@@ -31,10 +31,7 @@ class Notification {
 
     ofType(type: NotificationTypes): Notification | undefined {
         if (!this.types || this.types.length == 0) return undefined
-
         this.type = this.types.filter(t => t.name == type)[0]
-        
-
         if (type == NotificationTypes.NEW_REPORT_GPS) {
             this.content = NotificationContents.NEW_REPORT_GPS
         } else if (type == NotificationTypes.NEW_REPORT_SPOT) {
@@ -99,6 +96,7 @@ class Notification {
 
         if (this.type.name == NotificationTypes.REPORT_UPDATE) {
             this.content = `@${this.reviewer} ${this.content} to ${this.reportStatus}`
+            console.log(this.content)
         }
 
         return {
