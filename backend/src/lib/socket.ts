@@ -3,7 +3,7 @@ import { INotification } from '../models/notificationModel'
 import { createNotification } from './notificationUtility'
 import { NotificationTypes } from './vars'
 import { Server, Socket } from 'socket.io'
-import axios, { Axios, AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { IUser } from '../models/userModel'
 import { IFavoriteSpot } from '@/models/favoriteSpotModel'
 
@@ -30,12 +30,10 @@ export enum SocketEvents {
 let connectedUsers: IConnectedUser[] = []
 
 export function onConnection(socket: Socket, io: Server) {
-    console.log('a user connected', socket.id)
     connectedUsers.push({ id: socket.id })
     console.log('total connected users', connectedUsers.length)
 
     socket.on('disconnect', () => {
-        console.log('user disconnected', socket.id)
         const userToDisconnect: IConnectedUser | undefined = connectedUsers.find(user => user.id == socket.id)
         if (!userToDisconnect) return
         const index: number = connectedUsers.indexOf(userToDisconnect)

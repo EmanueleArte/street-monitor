@@ -17,9 +17,6 @@ const emit = defineEmits<{
   (e: "change", page: string): void,
 }>()
 
-console.log(props)
-
-
 // text-slate-500/65
 // text-black/65
 // text-primary-600/65
@@ -71,7 +68,7 @@ function emitChange() {
         </svg>
       </div>
 
-      <slot/>
+      <slot />
     </div>
     <div class="ms-11 flex text-xs leading-tight gap-x-4"
          :class="`text-primary-600${props.read ? `/${readOpacity}` : ''}`"

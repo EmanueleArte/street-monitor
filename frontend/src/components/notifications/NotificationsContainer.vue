@@ -11,7 +11,7 @@ const emit = defineEmits<{
 }>()
 
 const authStore = useAuthStore()
-const {notifications} = storeToRefs(authStore)
+const { notifications } = storeToRefs(authStore)
 
 const unreadNotifications = ref<INotification[]>(getNotifications(notifications.value, false))
 const readNotifications = ref<INotification[]>(getNotifications(notifications.value, true))
@@ -19,29 +19,28 @@ const readNotifications = ref<INotification[]>(getNotifications(notifications.va
 watch(notifications, (newValue) => {
   unreadNotifications.value = getNotifications(newValue, false)
   readNotifications.value = getNotifications(newValue, true)
-}, {deep: true})
+}, { deep: true })
 
 function getNotifications(notifications: INotification[], read: boolean): INotification[] {
   return notifications
-      .filter(_ => (_.read == undefined && !read) || (_.read && read))
-      .sort((n1, n2) => new Date(n2.send_datetime).getTime() - new Date(n1.send_datetime).getTime())
+    .filter(_ => (_.read == undefined && !read) || (_.read && read))
+    .sort((n1, n2) => new Date(n2.send_datetime).getTime() - new Date(n1.send_datetime).getTime())
 }
 </script>
 
 <template>
   <section
-      class="nav-aside h-screen w-screen fixed top-12 bg-surface-default z-10 p-4 pt-7 pb-16 md:pb-4 md:relative md:h-full md:w-full md:top-0 md:m-0 md:pt-0 overflow-y-auto"
-  >
+    class="nav-aside h-screen w-screen fixed top-12 bg-surface-default z-10 p-4 pt-7 pb-16 md:pb-4 md:relative md:h-full md:w-full md:top-0 md:m-0 md:pt-0 overflow-y-auto">
     <h1 v-if="notifications?.length && notifications?.length > 0" class="text-2xl md:hidden">Notifications</h1>
-    <NoNotificationsBanner v-else :full-screen="true"/>
+    <NoNotificationsBanner v-else :full-screen="true" />
 
     <section v-if="unreadNotifications.length > 0" class="mb-2">
       <h2 class="hidden">Unread notifications</h2>
       <ul class="gap-1 inline-grid mt-2">
         <li v-for="notification in unreadNotifications">
           <Notification :read="false" :date="new Date(notification.send_datetime)"
-                        :report-id="notification.report.toString()" :favorite-spot="notification.favorite_spot"
-                        @change="(page) => emit('change', page)">
+            :report-id="notification.report.toString()" :favorite-spot="notification.favorite_spot"
+            @change="(page) => emit('change', page)">
             <p v-html="notification.content"></p>
           </Notification>
         </li>
@@ -49,7 +48,7 @@ function getNotifications(notifications: INotification[], read: boolean): INotif
     </section>
 
     <section v-if="readNotifications.length > 0">
-      <NoNotificationsBanner v-if="unreadNotifications.length == 0" :fullScreen="false"/>
+      <NoNotificationsBanner v-if="unreadNotifications.length == 0" :fullScreen="false" />
 
       <h2 class="relative flex items-center">
         <div class="flex-grow border-t border-black/70"></div>
@@ -60,9 +59,9 @@ function getNotifications(notifications: INotification[], read: boolean): INotif
       <ul class="gap-1 inline-grid">
         <li v-for="notification in readNotifications">
           <Notification :read="true" :date="new Date(notification.send_datetime)"
-                        :report-id="notification.report.toString()" :favorite-spot="notification.favorite_spot"
-                        @change="(page) => emit('change', page)">
-                        <p v-html="notification.content"></p>
+            :report-id="notification.report.toString()" :favorite-spot="notification.favorite_spot"
+            @change="(page) => emit('change', page)">
+            <p v-html="notification.content"></p>
           </Notification>
         </li>
       </ul>

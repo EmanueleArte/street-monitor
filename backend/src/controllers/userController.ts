@@ -93,7 +93,6 @@ export const listNotifications = (req: Request, res: Response) => {
 }
 
 export const deleteNotification = (req: Request, res: Response) => {
-    console.log(`looking for ${req.params.id} for notification ${req.params.nid}`)
     userModel.findOneAndUpdate(
         {
             username: req.params.id,
@@ -173,12 +172,6 @@ export const getUsersWithSpotNearNewReport = (req: Request, res: Response) => {
     const latitude = parseFloat(req.params.latitude)
     const longitude = parseFloat(req.params.longitude)
     const radius = parseFloat(req.params.radius)
-
-    console.log({
-        lat: latitude,
-        lon: longitude,
-        rad: radius
-    })
 
     userModel.find({
         favorite_spots: {
