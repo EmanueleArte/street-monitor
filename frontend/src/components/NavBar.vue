@@ -70,10 +70,6 @@ function openNotificationsPage() {
   } else {
     openPanel.value = Panels.NOTIFICATIONS
   }
-
-  console.log('openNotificationPage', openPanel.value)
-
-
 }
 
 function openProfilePage() {
@@ -87,12 +83,7 @@ function openProfilePage() {
   } else {
     openPanel.value = Panels.PROFILE
   }
-  console.log('openProfilePage', openPanel.value)
 }
-
-watch(openPanel, (val) => {
-  console.log('[WATCH] openPanel:', val)
-})
 
 function closePanels() {
   if (windowWidth.value <= 768) { // md

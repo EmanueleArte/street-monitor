@@ -24,19 +24,9 @@ socket.on("disconnect", () => {
     state.connected = false
 })
 
-socket.on(SocketEvents.NOTIFY, (ids: string[]) => {
+socket.on(SocketEvents.NOTIFY, (ids: string[], notifications: INotification[]) => {
     const authStore = useAuthStore()
     if (socket.id && ids.includes(socket.id)) {
-        console.log('new notification for me :)')
-        // update notifications array inside user
-        axios.get<INotification[]>(`http://localhost:3000/users/${authStore.get().username}/notifications`)
-            .then(res => {
-                authStore.setNotifications(res.data)
-
-                const len: number = res.data.length
-                console.log('update notifications array from socket.ts', authStore.notifications[len-1])
-            })
-
-        // useAuthStore().get().notifications?.push(notification)
+        authStore.setNotifications(notifications)
     }
 })

@@ -103,7 +103,7 @@ class Notification {
 
         return {
             content: this.content,
-            type: this.type._id,
+            type: this.type,
             send_datetime: this.date,
             report: this.report || undefined,
             favorite_spot: this.spot || undefined

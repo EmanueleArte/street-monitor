@@ -1,5 +1,6 @@
 import hashPassword, { verifyPassword } from "@/lib/passwordManager";
 import { router } from "@/router";
+import { socket, SocketEvents } from "@/socket";
 import type { IFavoriteSpot } from "@models/favoriteSpotModel";
 import type { INotification } from "@models/notificationModel";
 import type { IUser } from "@models/userModel";
@@ -40,6 +41,10 @@ export const useAuthStore = defineStore('auth', () => {
 
                     user = res.data
                     sessionStorage.setItem('user', JSON.stringify(res.data))
+                    socket.emit(SocketEvents.UPDATE_USER, {
+                        id: socket.id,
+                        user: user
+                    })
                     router.push('/')
                     return user
                 })

@@ -26,8 +26,6 @@ function getNotifications(notifications: INotification[], read: boolean): INotif
       .filter(_ => (_.read == undefined && !read) || (_.read && read))
       .sort((n1, n2) => new Date(n2.send_datetime).getTime() - new Date(n1.send_datetime).getTime())
 }
-
-console.log(readNotifications)
 </script>
 
 <template>
@@ -35,7 +33,6 @@ console.log(readNotifications)
       class="nav-aside h-screen w-screen fixed top-12 bg-surface-default z-10 p-4 pt-7 pb-16 md:pb-4 md:relative md:h-full md:w-full md:top-0 md:m-0 md:pt-0 overflow-y-auto"
   >
     <h1 v-if="notifications?.length && notifications?.length > 0" class="text-2xl md:hidden">Notifications</h1>
-
     <NoNotificationsBanner v-else :full-screen="true"/>
 
     <section v-if="unreadNotifications.length > 0">
@@ -43,7 +40,7 @@ console.log(readNotifications)
       <ul class="gap-1 inline-grid mt-2">
         <li v-for="notification in unreadNotifications">
           <Notification :read="false" :date="new Date(notification.send_datetime)"
-                        :report="notification.report" :favorite-spot="notification.favorite_spot"
+                        :report-id="notification.report.toString()" :favorite-spot="notification.favorite_spot"
                         @change="(page) => emit('change', page)">
             {{ notification.content }}
           </Notification>
@@ -63,7 +60,7 @@ console.log(readNotifications)
       <ul class="gap-1 inline-grid mt-2">
         <li v-for="notification in readNotifications">
           <Notification :read="true" :date="new Date(notification.send_datetime)"
-                        :report="notification.report" :favorite-spot="notification.favorite_spot"
+                        :report-id="notification.report.toString()" :favorite-spot="notification.favorite_spot"
                         @change="(page) => emit('change', page)">
             {{ notification.content }}
           </Notification>

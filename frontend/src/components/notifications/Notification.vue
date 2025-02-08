@@ -17,6 +17,8 @@ const emit = defineEmits<{
   (e: "change", page: string): void,
 }>()
 
+console.log(props)
+
 
 // text-slate-500/65
 // text-black/65
