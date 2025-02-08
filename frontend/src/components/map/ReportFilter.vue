@@ -10,6 +10,11 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headless
 import SimpleLabel from "@/components/utils/SimpleLabel.vue"
 import { useReportStore } from "@/stores/report.store.ts"
 
+defineProps<{
+  statusFilterId: string,
+  reportTypeFilterId: string
+}>()
+
 const show = ref<boolean>(true)
 const observer = ref<MutationObserver | null>(null)
 
@@ -85,8 +90,8 @@ onUnmounted(() => {
 
 <template>
   <div class="relative w-full">
-    <SimpleLabel attach-to="status-filter">Status filter</SimpleLabel>
-    <section id="status-filter" class="flex flex-row justify-between px-1">
+    <SimpleLabel :attachTo="statusFilterId">Status filter</SimpleLabel>
+    <section :id="statusFilterId" class="flex flex-row justify-between px-1">
       <Checkbox v-for="(value, key) in statusToShow" :checked="value"
                 @click="statusToShow[key] = !statusToShow[key]">
         {{ formatUnderscoredString(key) }}
@@ -95,9 +100,9 @@ onUnmounted(() => {
     <section>
       <Listbox v-model="selectedReportType" class="z-10">
         <div class="relative">
-          <SimpleLabel attachTo="report-type">Report type filter</SimpleLabel>
+          <SimpleLabel :attachTo="reportTypeFilterId">Report type filter</SimpleLabel>
           <ListboxButton
-              id="report-type"
+              :id="reportTypeFilterId"
               class="relative w-full cursor-pointer rounded-xl text-light bg-primary-600 py-2 pl-3 pr-10 text-left
                 focus:outline-none focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-white/75
                 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 hover:bg-primary-700 duration-300"

@@ -40,7 +40,7 @@ function goToSpot() {
 }
 
 function emitChange() {
-  if (window.innerWidth <= 768) { // md
+  if (window.innerWidth <= WIDTH_MD) { // md
     emit("change", "home")
   }
 }

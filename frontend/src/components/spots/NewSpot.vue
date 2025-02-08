@@ -75,8 +75,8 @@ const saveSpot = () => {
 
     <section>
       <div class="w-full h-64 mb-8">
-        <SimpleLabel attachTo="position">Position</SimpleLabel>
-        <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
+        <SimpleLabel>Position</SimpleLabel>
+        <Map ref="map" class="z-0 rounded-xl" :zoom="zoom" :use-position=false
              v-model:latLng="latLng"/>
       </div>
 

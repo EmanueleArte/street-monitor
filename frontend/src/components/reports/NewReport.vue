@@ -163,8 +163,8 @@ onMounted(fetchReportTypes)
 
     <section>
       <div class="w-full h-64 mb-8 relative">
-        <SimpleLabel attachTo="position">Position</SimpleLabel>
-        <Map ref="map" id="position" class="z-0 rounded-xl" :zoom="zoom" :use-position=false v-model:latLng="latLng" />
+        <SimpleLabel>Position</SimpleLabel>
+        <Map ref="map" class="z-0 rounded-xl" :zoom="zoom" :use-position=false v-model:latLng="latLng" />
       </div>
 
       <div class="flex flex-row w-full">
@@ -184,8 +184,8 @@ onMounted(fetchReportTypes)
     </section>
 
     <section>
-      <SimpleLabel attachTo="picture">Picture</SimpleLabel>
-      <div id="picture" class="flex flex-row mt-0.5">
+      <SimpleLabel>Picture</SimpleLabel>
+      <div class="flex flex-row mt-0.5">
         <CameraContainer :resolution="{ width: 960, height: 1280 }" v-model:snapshot="image" />
         <label for="img-input" class="flex items-center cursor-pointer ml-2 rounded-xl px-4 duration-300 bg-surface-default text-primary-600 border
                border-primary-600 hover:bg-primary-100 hover:border-primary-700">
@@ -197,7 +197,7 @@ onMounted(fetchReportTypes)
       <p class="mt-1 ml-1 text-xs text-gray-500">The image should be 3:4 format, if not it will be automatically
         cropped.</p>
       <div v-if="image" class="mt-2 md:flex md:place-items-center md:flex-col">
-        <SimpleLabel attachTo="preview" class="md:mr-auto">Preview</SimpleLabel>
+        <SimpleLabel class="md:mr-auto">Preview</SimpleLabel>
         <img v-if="image" :src="previewUrl" alt="Image preview" id="preview"
           class="w-full rounded-xl md:w-60 md:h-80" />
       </div>

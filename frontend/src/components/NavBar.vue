@@ -7,6 +7,7 @@ import { useAuthStore } from "@/stores/auth.store"
 import axios from "axios"
 import type { INotification } from "@models/notificationModel"
 import { storeToRefs } from "pinia"
+import { WIDTH_MD } from "@/lib/vars.ts"
 
 const emit = defineEmits<{
   (e: "change", page: string): void,
@@ -31,7 +32,7 @@ watch(notifications, (newValue, oldValue) => {
 const openPanel = ref<Panels | null>(null)
 
 function openAdminPage() {
-  if (windowWidth.value <= 768) { // md
+  if (windowWidth.value <= WIDTH_MD) { // md
     emit('change', Panels.ADMIN)
   } else {
     emit("open", Panels.ADMIN)
@@ -45,7 +46,7 @@ function openAdminPage() {
 
 function openNotificationsPage() {
   newNotifications.value = false
-  if (windowWidth.value <= 768) { // md
+  if (windowWidth.value <= WIDTH_MD) { // md
     emit('change', Panels.NOTIFICATIONS)
   } else {
     emit("open", Panels.NOTIFICATIONS)
@@ -77,7 +78,7 @@ function openNotificationsPage() {
 }
 
 function openProfilePage() {
-  if (windowWidth.value <= 768) { // md
+  if (windowWidth.value <= WIDTH_MD) { // md
     emit('change', Panels.PROFILE)
   } else {
     emit("open", Panels.PROFILE)
@@ -95,7 +96,7 @@ watch(openPanel, (val) => {
 })
 
 function closePanels() {
-  if (windowWidth.value <= 768) { // md
+  if (windowWidth.value <= WIDTH_MD) { // md
     emit('change', Panels.HOME)
   } else {
     emit("open", Panels.HOME)

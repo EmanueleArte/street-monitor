@@ -2,12 +2,13 @@
 import FloatingRoundButton from "@/components/buttons/FloatingRoundButton.vue"
 import Tile from "@/components/utils/Tile.vue"
 import NewReport from "@/components/reports/NewReport.vue"
-import { computed, onMounted, ref } from "vue"
+import { onMounted, ref } from "vue"
 import SlideFromBottom from "@/components/transitions/SlideFromBottom.vue"
 import Tabs from "@/components/utils/Tabs.vue"
 import { TabPanel } from "@headlessui/vue"
 import NewSpot from "@/components/spots/NewSpot.vue"
 import SimpleButton from "../buttons/SimpleButton.vue"
+import { WIDTH_MD } from "@/lib/vars.ts"
 
 const activeTile = ref<string>()
 const showTile = ref<boolean>(false)
@@ -16,7 +17,7 @@ const contents = {
   NEW_REPORT: "New report",
   NEW_SPOT: "New spot"
 }
-const isMobile: boolean = window.innerWidth <= 768
+const isMobile: boolean = window.innerWidth <= WIDTH_MD
 
 const toggleTile = (toggledTile: string | undefined): void => {
   showTile.value = !showTile.value

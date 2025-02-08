@@ -46,39 +46,39 @@ onMounted(() => {
 
     <section class="w-full mt-3">
       <div class="flex flex-col">
-        <SimpleLabel attachTo="username-field" class="text-xs">Username</SimpleLabel>
+        <SimpleLabel class="text-xs">Username</SimpleLabel>
         <p id="username-field" class="border w-full rounded-lg text-sm px-2 py-1 bg-surface-component mb-2">
           {{ authStore.get()?.username }}</p>
 
         <div class="w-full grid grid-cols-2 gap-4">
           <div class="">
-            <SimpleLabel attachTo="username-field" class="text-xs">Name</SimpleLabel>
+            <SimpleLabel class="text-xs">Name</SimpleLabel>
             <p id="name-field" class="border bg-surface-component rounded-lg text-sm px-2 py-1 mb-2">
               {{ authStore.get()?.name }}
             </p>
           </div>
           <div class="">
-            <SimpleLabel attachTo="username-field" class="text-xs">Surname</SimpleLabel>
+            <SimpleLabel class="text-xs">Surname</SimpleLabel>
             <p id="surname-field" class="border bg-surface-component rounded-lg text-sm px-2 py-1 mb-2">
               {{ authStore.get()?.surname }}
             </p>
           </div>
         </div>
 
-        <SimpleLabel attachTo="email-field" class="text-xs">Email</SimpleLabel>
+        <SimpleLabel class="text-xs">Email</SimpleLabel>
         <p id="email-field" class="border bg-surface-component w-full rounded-lg text-sm px-2 py-1 mb-2">
           {{ authStore.get()?.email }}
         </p>
 
         <div class="w-full grid grid-cols-2 gap-4">
           <div>
-            <SimpleLabel attachTo="reports-number" class="text-xs">Reports made</SimpleLabel>
+            <SimpleLabel class="text-xs">Reports made</SimpleLabel>
             <p id="reports-number" class="border bg-surface-component rounded-lg text-sm px-2 py-1">
               {{ reportsNumber }}
             </p>
           </div>
           <div>
-            <SimpleLabel attachTo="reputation" class="text-xs">Reputation</SimpleLabel>
+            <SimpleLabel class="text-xs">Reputation</SimpleLabel>
             <p id="reputation" class="border bg-surface-component rounded-lg text-sm px-2 py-1">
               {{ authStore.get()?.reputation }}
             </p>

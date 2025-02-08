@@ -83,7 +83,7 @@ onUnmounted(() => {
   <SlideFromTop>
     <div v-if="show" class="absolute w-screen top-10 px-2 py-4">
       <div class="w-full bg-surface-default shadow-lg rounded-xl p-4 pt-3">
-        <ReportFilter/>
+        <ReportFilter statusFilterId="status-filter-id-mobile" reportTypeFilterId="report-type-filter-id-mobile"/>
       </div>
     </div>
   </SlideFromTop>
