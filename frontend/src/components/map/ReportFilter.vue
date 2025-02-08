@@ -92,7 +92,7 @@ onUnmounted(() => {
   <div class="relative w-full">
     <SimpleLabel :attachTo="statusFilterId">Status filter</SimpleLabel>
     <section :id="statusFilterId" class="flex flex-row justify-between px-1">
-      <Checkbox v-for="(value, key) in statusToShow" :checked="value"
+      <Checkbox v-for="(value, key) in statusToShow" :id="key" :checked="value"
                 @click="statusToShow[key] = !statusToShow[key]">
         {{ formatUnderscoredString(key) }}
       </Checkbox>

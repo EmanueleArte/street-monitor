@@ -148,7 +148,6 @@ function roundNumber(num: number, decimals: number): number {
             <!-- button if not upvoted yet -->
             <SimpleButton v-if="!props.report.upvotes?.includes(authStore.get()?.username)" @click="upvote"
               class="!p-0 size-7 flex items-center justify-center">
-              <!--img src="@/assets/icons/arrow_up.svg" alt="up arrow" class="up-arrow-img" /-->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-4 h-4">
                 <path d="M12 2l-10 10h6v10h8v-10h6z" />
               </svg>
@@ -216,8 +215,8 @@ function roundNumber(num: number, decimals: number): number {
 
               <!-- close -->
               <Popover class="relative inline-grid">
-                <PopoverButton>
-                  <span v-if="report.close_datetime" class="flex gap-1">
+                <PopoverButton v-if="report.close_datetime">
+                  <span class="flex gap-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                       class="my-auto size-4">
                       <path

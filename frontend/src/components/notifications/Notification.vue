@@ -5,6 +5,7 @@ import { useReportStore } from "@/stores/report.store"
 import type { IFavoriteSpot } from "@models/favoriteSpotModel"
 import type { IReport } from "@models/reportModel"
 import axios from "axios"
+import { WIDTH_MD } from "@/lib/vars.ts"
 
 const props = defineProps<{
   date: Date,

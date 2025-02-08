@@ -44,7 +44,7 @@ onMounted(checkLogin)
 <template>
   <div class="homeContainer w-screen h-screen">
     <Map class="z-0" :zoom="12" :usePosition=true :main=true />
-    <ReportFilterContainer v-if="isMobile" statusFilterId="status-filter-id" reportTypeFilterId="report-type-filter-id" class="md:hidden"/>
+    <ReportFilterContainer v-if="isMobile" class="md:hidden"/>
     <NewReportTile/>
     <MyReports v-model:showMyReports="showMyReports"/>
     <MySpots v-model:showMySpots="showMySpots"/>
