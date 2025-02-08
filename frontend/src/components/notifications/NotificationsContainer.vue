@@ -26,6 +26,8 @@ function getNotifications(notifications: INotification[], read: boolean): INotif
       .filter(_ => (_.read == undefined && !read) || (_.read && read))
       .sort((n1, n2) => new Date(n2.send_datetime).getTime() - new Date(n1.send_datetime).getTime())
 }
+
+console.log(readNotifications)
 </script>
 
 <template>

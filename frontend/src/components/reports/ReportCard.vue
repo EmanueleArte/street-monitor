@@ -6,6 +6,7 @@ import { formatDate, formatUnderscoredString } from "@/lib/stringUtility.ts"
 import { Popover, PopoverButton } from "@headlessui/vue"
 import PopoverPanelWrapper from "../utils/PopoverPanelWrapper.vue"
 import SimpleButton from "../buttons/SimpleButton.vue"
+import DialogWrapper from "../utils/DialogWrapper.vue"
 import axios from "axios"
 import { usePositionStore } from "@/stores/position.store.ts"
 import type { IUser } from "@models/userModel.ts"
@@ -37,7 +38,7 @@ const reputationColor = ref<string>(computeReputationColor(user.value))
 // border-amber-500
 // border-emerald-600
 function computeReputationColor(user: IUser | undefined): string {
-  if (!user || !user.reputation || authStore.isLoggedIn(user.username)) return "primary-600"
+  if (!user || user.reputation === undefined || authStore.isLoggedIn(user.username)) return "primary-600"
   if (user.reputation < ReputationThreashold.LOW) return "red-500"
   if (user.reputation < ReputationThreashold.HIGH) return "amber-500"
   return "emerald-600"
@@ -128,7 +129,18 @@ function roundNumber(num: number, decimals: number): number {
 </script>
 
 <template>
+
   <li>
+    <DialogWrapper v-for="dialog in results" :key="dialog.content">
+      <template v-slot:title>
+        <div :class="[dialog.success ? 'text-green-600' : 'text-red-600']">
+          {{ dialog.title }}
+        </div>
+      </template>
+      <template v-slot:content>
+        {{ dialog.content }}
+      </template>
+    </DialogWrapper>
     <article
       class="h-fit aspect-3/2 w-full md:shrink-0 flex flex-row shadow-md rounded-lg border-2 bg-surface-default my-2 overflow-hidden"
       :class="'border-' + reputationColor">

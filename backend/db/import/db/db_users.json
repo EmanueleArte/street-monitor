@@ -7,6 +7,7 @@
     "email": "admin",
     "password": "$2a$10$ben2MQP1eQCVylRbFWvQn.acVI0HDB5egBLskCsjbb9Iosy7FgfJ2",
     "username": "admin",
+    "reputation": 1000,
     "admin": true,
     "__v": 0
 }

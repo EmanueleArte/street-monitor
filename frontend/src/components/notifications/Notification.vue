@@ -18,6 +18,9 @@ const emit = defineEmits<{
 }>()
 
 
+// text-slate-500/65
+// text-black/65
+// text-primary-600/65
 const readOpacity: number = 65
 
 const positionStore = usePositionStore()
