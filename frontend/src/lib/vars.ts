@@ -9,5 +9,6 @@ export enum OperationResults {
     FAILURE = "Operation failed"
 }
 
-export const RADIUS: number = 5
+export const RADIUS: number = 1
+export const ZOOM: number = 15
 export const WIDTH_MD: number = 768

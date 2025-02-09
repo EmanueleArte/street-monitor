@@ -9,7 +9,7 @@ import type { IFavoriteSpot } from "@models/favoriteSpotModel.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
-import { OperationResults } from "@/lib/vars.ts"
+import { OperationResults, ZOOM } from "@/lib/vars.ts"
 import type { IUser } from "@models/userModel.ts"
 
 const emit = defineEmits<{
@@ -18,7 +18,7 @@ const emit = defineEmits<{
 
 const posCopy = { ...usePositionStore().position }
 const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])
-const zoom: number = 12
+const zoom: number = ZOOM
 const label = ref<string>("")
 
 const results = ref<{ success: boolean, title: string, content: string }[]>([])

@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from "vue"
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue"
 import type { IReportType } from "@models/reportTypeModel.ts"
 import type { IReport } from "@models/reportModel.ts"
-import axios, { type AxiosResponse } from "axios"
+import axios from "axios"
 import Map from "@/components/map/Map.vue"
 import { usePositionStore } from "@/stores/position.store.ts"
 import { blobToBase64, formatUnderscoredString } from "@/lib/stringUtility.ts"
@@ -14,10 +14,9 @@ import { cropTo4by3, scaleToResolution } from "@/lib/imageUtility.ts"
 import { useAuthStore } from "@/stores/auth.store.ts"
 import FormInput from "@/components/inputs/FormInput.vue"
 import DialogWrapper from "@/components/utils/DialogWrapper.vue"
-import { OperationResults, RADIUS, ReportStatus } from "@/lib/vars.ts"
+import { OperationResults, RADIUS, ReportStatus, ZOOM } from "@/lib/vars.ts"
 import { socket, SocketEvents } from "@/socket.ts"
 import { useReportStore } from "@/stores/report.store.ts"
-
 
 const emit = defineEmits<{
   (e: "cancel", option: any): void
@@ -27,7 +26,7 @@ const reportTypes = ref<IReportType[]>([])
 const selectedReportType = ref<IReportType | null>(null)
 const posCopy = { ...usePositionStore().position }
 const latLng = ref<[number, number]>([posCopy[0], posCopy[1]])
-const zoom: number = 12
+const zoom: number = ZOOM
 
 const fetchReportTypes = () => {
   axios.get<IReportType[]>(`http://localhost:3000/report-types`)
