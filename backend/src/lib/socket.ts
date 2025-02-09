@@ -1,10 +1,10 @@
-import { IReport } from '../models/reportModel'
-import { INotification } from '../models/notificationModel'
+import { IReport } from '@/models/reportModel'
+import { INotification } from '@/models/notificationModel'
 import { createNotification } from './notificationUtility'
 import { NotificationTypes } from './vars'
 import { Server, Socket } from 'socket.io'
 import axios, { AxiosResponse } from 'axios'
-import { IUser } from '../models/userModel'
+import { IUser } from '@/models/userModel'
 import { IFavoriteSpot } from '@/models/favoriteSpotModel'
 
 interface IConnectedUser {
@@ -78,7 +78,7 @@ export function onConnection(socket: Socket, io: Server) {
                         })
                     })
             })
-            .catch(err => console.log('user doesn\'t have spot in the area'))
+            .catch(() => console.log('user doesn\'t have spot in the area'))
     })
 
     // notify each user within a radius value to the report
@@ -121,6 +121,7 @@ export function onConnection(socket: Socket, io: Server) {
  * Emits a notify event if there are some ids
  * @param io socket.io server
  * @param ids array with the ids to notify
+ * @param notifications array with the notifications to send
  * @returns `true` if the events is triggered, `false` otherwise
  */
 function emitNotify(io: Server, ids: string[], notifications: INotification[]): boolean {
@@ -137,7 +138,7 @@ function emitNotify(io: Server, ids: string[], notifications: INotification[]): 
  * @param users to send the notification to
  * @param type of the notification
  * @param report to which the notification refers
- * @param radius of search area (optional)
+ * @param options additional options for the notification
  */
 async function sendNotifications(
     users: IUser[],
@@ -155,6 +156,7 @@ async function sendNotifications(
  * @param user to send the notification
  * @param type of the notification
  * @param report to which the notification is relative to
+ * @param options additional options for the notification
  */
 async function sendNotification(user: IUser, type: NotificationTypes, report: IReport, options?: INotificationOption): Promise<AxiosResponse<IUser>[]> {
     if (type == NotificationTypes.NEW_REPORT_SPOT) {
