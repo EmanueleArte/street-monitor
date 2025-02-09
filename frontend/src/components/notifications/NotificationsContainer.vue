@@ -23,7 +23,7 @@ watch(notifications, (newValue) => {
 
 function getNotifications(notifications: INotification[], read: boolean): INotification[] {
   return notifications
-    .filter(_ => (_.read == undefined && !read) || (_.read && read))
+    .filter(_ => (_.read == undefined && !read) || (_.read == read))
     .sort((n1, n2) => new Date(n2.send_datetime).getTime() - new Date(n1.send_datetime).getTime())
 }
 </script>
