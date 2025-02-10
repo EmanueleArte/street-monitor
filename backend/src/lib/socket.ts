@@ -69,9 +69,8 @@ export function onConnection(socket: Socket, io: Server) {
                 const notifiyIds: string[] = connectedUsers
                     .filter((user: IConnectedUser) => users.map(_ => _.username).includes(user.user?.username))
                     .map((user: IConnectedUser) => user.id)
-                const notifyUsers: IUser[] = notifiyIds.map(id => connectedUsers.find(user => user.id == id).user)
 
-                sendNotifications(notifyUsers, NotificationTypes.NEW_REPORT_SPOT, report, { radius })
+                sendNotifications(users, NotificationTypes.NEW_REPORT_SPOT, report, { radius })
                     .then((res: AxiosResponse<IUser>[][]) => {
                         res.forEach((users: AxiosResponse<IUser>[]) => {
                             emitNotify(io, notifiyIds, users.map(_ => _.data.notifications).flat())
